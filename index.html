@@ -16,7 +16,7 @@
              :height="c.chartHeight + c.topMargin + 5"
              xmlns:dc="http://purl.org/dc/elements/1.1/">
             <rect fill="#FEFCFF" x="100" :y="c.topMargin" width="1100" :height="c.chartHeight"
-                  @click="selected.commit = false"/>
+                  @click="show = false"/>
             <g font-family="Verdana" font-size="16">
                 <text x="0" :y="c.topMargin + 8">All Test</text>
                 <text x="0" :y="c.chartHeight/2 + 5 + c.topMargin">Equal</text>
@@ -43,37 +43,45 @@
                         :r="commit.size * (c.chartHeight/600)"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
                         :fill="c.colors[authors.indexOf(commit.author)]" fill-opacity="0.5"
-                        @click="selected.commit = commit"/>
+                        @click="showSelected(commit)"/>
             </g>
             <foreignObject class="node" x="0" y="0" width="1200" :height="c.topMargin">
                 <body xmlns="http://www.w3.org/1999/xhtml">
-                <h2>{{timeSpan}} shown between {{from | date:'MM/dd/yy HH:mm'}} and {{to | date:'MM/dd/yy HH:mm'}}</h2>
+                <h2>{{timeSpan}} shown between {{from | date}} and {{to | date}}</h2>
                 <div>Show authors:
                     <label v-for="author, index in authors" :style="'color: ' + c.colors[index] ">
-                        <input type="checkbox" :value="author"> {{author}}
+                        <input type="checkbox" :value="author"
+                                               :checked="(selected.authors).indexOf(author) > -1"
+                                               @change="addOrRemoveAuthor(author)"
+                               name="authors"> {{author}}
                     </label>
                     <button @click="checkAllAuthors()" style="margin: 0 0 5px 5px">All authors</button>
-                    <button @click="selected.authors.splice(0,selected.authors.length)" style="margin: 0 0 5px 5px">None
+                    <button @click="selected.authors = []" style="margin: 0 0 5px 5px">None
                     </button>
                 </div>
                 </body>
             </foreignObject>
-            <g font-family="Verdana" font-size="16" v-if="selected.commit" @click="selected.commit = false">
-                <rect style="stroke:rgb(0,0,0);stroke-width:2" x="300" y="300" height="300" width="400" fill="white"
-                      opacity="0.7"/>
-                <text x="320" y="330">Selected Commit</text>
-                <!--<text x="320" y="380">Hash: {{selected.commit.hash}}</text>-->
-                <!--<text x="320" y="430">Author: {{selected.commit.author}}</text>-->
-                <!--<text x="320" y="480">Date/Time: {{selected.commit.ts | date:'yyyy-MM-dd HH:mm:ss Z'}}</text>-->
-                <!--<text x="320" y="530">Size: {{selected.commit.size}}</text>-->
-                <!--<text x="320" y="580">Test Percentage: {{selected.commit.testPercentage}}</text>-->
-            </g>
+            <template v-if="show">
+                <g font-family="Verdana" font-size="16" @click="show = false">
+                    <rect style="stroke:rgb(0,0,0);stroke-width:2" x="300" y="300" height="300" width="400" fill="white"
+                          opacity="0.7"/>
+                    <text x="320" y="330">Selected Commit</text>
+                    <text x="320" y="380">Hash: {{selected.commit.hash}}</text>
+                    <text x="320" y="430">Author: {{selected.commit.author}}</text>
+                    <text x="320" y="480">Date/Time: {{selected.commit.ts | date2}}</text>
+                    <text x="320" y="530">Size: {{selected.commit.size}}</text>
+                    <text x="320" y="580">Test Percentage: {{selected.commit.testPercentage}}</text>
+                </g>
+            </template>
+
         </svg>
     </div>
     <script>
         new Vue({
             el: '#app',
+
             data: {
+                show: false,
                 c: {
                     chartHeight: 680,
                     topMargin: 100,
@@ -115,15 +123,11 @@
                         size: 22,
                         author: "Mildred"
                     }
-                ],
-
+                ]
             },
             computed: {
                 authors: function() {
                     return _.uniq(_.pluck(this.commits, 'author'));
-                },
-                selected: function() {
-                    return {authors: this.authors.slice(0) }
                 },
                 from: function() {
                     return _.min(this.commits, "ts").ts;
@@ -137,10 +141,37 @@
             },
             methods: {
                 checkAllAuthors: function () {
-                    this.selected.authors = Object.assign({}, this.authors);
+                    this.selected.authors = _.uniq(_.pluck(this.commits, 'author'))
+                },
+                addOrRemoveAuthor: function (author) {
+                    if (this.selected.authors.indexOf(author) > -1) {
+                        this.selected.authors.splice(this.selected.authors.indexOf(author), 1);
+                    } else {
+                        this.selected.authors.push(author);
+                    }
+                },
+                showSelected: function(commit) {
+                    this.selected.commit = commit;
+                    this.show = true;
                 }
-            }
+            },
+            filters: {
+                date: function (val) {
+                    date = moment(val);
+                    return date.format('MM/DD/YY HH:mm')
+                },
+                date2: function (val) {
+                    date = moment(val);
+                    return date.format('YYYY-MM-DD HH:mm:ss Z')
+                }
+            },
+            created: function() {
+                this.selected =  {
+                    authors: _.uniq(_.pluck(this.commits, 'author'))
+                }
+            },
         });
+
     </script>
 </body>
 </html>
