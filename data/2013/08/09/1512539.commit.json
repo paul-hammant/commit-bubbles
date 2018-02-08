@@ -1,0 +1,12 @@
+{
+  "when": "2013-08-09T20:18:16-04:00", 
+  "who": "rajikak", 
+  "changes": [
+    {
+      "chunks": [], 
+      "to": "java/repository/conf/sample/synapse_sample_270.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_270.xml"
+    }
+  ], 
+  "id": "1512539"
+}

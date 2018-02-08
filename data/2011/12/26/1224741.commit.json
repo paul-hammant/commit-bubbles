@@ -1,0 +1,25 @@
+{
+  "when": "2011-12-26T10:39:39-05:00", 
+  "who": "hiranya", 
+  "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-939,6 +939,7", 
+          "lines": [
+            "             </plugin>\n", 
+            "             <plugin>\n", 
+            "                 <artifactId>maven-project-info-reports-plugin</artifactId>\n", 
+            "+\t\t<version>2.2</version>\n", 
+            "                 <configuration>\n", 
+            "                     <!-- These features are disabled since they cause \"mvn site\" to hang -->\n", 
+            "                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>\n"
+          ]
+        }
+      ], 
+      "to": "java/pom.xml", 
+      "from": "java/pom.xml"
+    }
+  ], 
+  "id": "1224741"
+}
