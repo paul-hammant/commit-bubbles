@@ -21,7 +21,7 @@
     <title>Commit Bubbles</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
 
 </head>
@@ -93,12 +93,16 @@
 
     </div>
     <script>
-        new Vue({
+        v = new Vue({
             el: '#app',
 
             data: {
                 selected: {},
                 show: false,
+                pageState: {
+                    year: 0,
+                    month: 0
+                },
                 c: {
                     chartHeight: 680,
                     topMargin: 100,
@@ -167,6 +171,14 @@
                         this.selected.authors.push(author);
                     }
                 },
+                nextPressed: function() {
+                    location.hash = v.$data.pageState.year + "/" + v.$data.pageState.month + 1;
+                    // needs to be smarter in month==13 scenario
+                },
+                prevPressed: function() {
+                    location.hash = v.$data.pageState.year + "/" + v.$data.pageState.month - 1;
+                    // needs to be smarter in month==0 scenario
+                },
                 showSelected: function(commit) {
                     this.show = false;
                     this.selected.commit = commit;
@@ -187,8 +199,39 @@
                 this.selected =  {
                     authors: _.uniq(_.pluck(this.commits, 'author'))
                 }
-            },
+            }
         });
+
+        function loadMainDoc() {
+            v.$http.get("/data/" + v.$data.pageState.year + "/" + v.$data.pageState.month + "/index.json").then(response => {
+                console.log("Got list of commits document for " + v.$data.pageState.year + "/" + v.$data.pageState.month);
+        }, response => {
+                console.log("No list of commits document for " + v.$data.pageState.year + "/" + v.$data.pageState.month);
+            });
+        }
+
+        function splitUpUrl() {
+            const hashString = location.hash.substr(1);
+            const splits = hashString.split("/");
+            console.log("lll:" + splits.length);
+            if (splits.length < 2) {
+                console.log("no y/m, assume 'now'");
+                v.$data.pageState.year = new Date().getFullYear();
+                v.$data.pageState.month = new Date().toISOString().substring(5, 7);
+            } else {
+                console.log("pull y/m from URL");
+                v.$data.pageState.year = splits[0];
+                v.$data.pageState.month = splits[1];
+            }
+        }
+
+        window.addEventListener('hashchange', function () {
+            splitUpUrl();
+            loadMainDoc();
+        });
+
+        splitUpUrl();
+        loadMainDoc();
 
     </script>
 </body>
