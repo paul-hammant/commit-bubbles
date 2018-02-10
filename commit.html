@@ -135,28 +135,30 @@
         <div class="page-header">
             <h1>Commit {{pageState.rev}}</h1>
         </div>
-        <div class="row">
-            <div class="col-xs-1">
-                <div style="text-align: right">Who:</div>
+        <div style="font-size: 120%">
+            <div class="row">
+                <div class="col-xs-1">
+                    <div style="text-align: right">Who:</div>
+                </div>
+                <div class="col-xs-11">
+                    <div class="bg-alt">{{commit.who}}</div>
+                </div>
             </div>
-            <div class="col-xs-11">
-                <div class="bg-alt">{{commit.who}}</div>
+            <div class="row">
+                <div class="col-xs-1">
+                    <div style="text-align: right">When:</div>
+                </div>
+                <div class="col-xs-11">
+                    <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1">
-                <div style="text-align: right">When:</div>
-            </div>
-            <div class="col-xs-11">
-                <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1">
-                <div style="text-align: right">Message:</div>
-            </div>
-            <div class="col-xs-11">
-                <div class="bg-alt" v-html="commit.message"></div>
+            <div class="row">
+                <div class="col-xs-1">
+                    <div style="text-align: right">Message:</div>
+                </div>
+                <div class="col-xs-11">
+                    <div class="bg-alt" v-html="commit.message"></div>
+                </div>
             </div>
         </div>
         <div v-for="(change, changeNum) in commit.changes">
@@ -165,14 +167,16 @@
                 <span style="color: gray; font-size: 75%">{{ change.open? "[-]" : "[+]" }}</span>
             </h2>
             <div style="border-left: 1px solid gainsboro;">
-                <h4 class="row" v-if="change.from !== change.to">
-                    <span style="text-align: right" class="col-xs-1">From:</span>
-                    <span class="col-xs-11 bg-alt">{{change.from}}</span>
-                </h4>
-                <h3 class="row">
-                    <span style="text-align: right" class="col-xs-1">To:</span>
-                    <span class="col-xs-11 bg-alt">{{change.to}}</span>
-                </h3>
+                <div style="font-size: 120%">
+                    <div class="row" v-if="change.from !== change.to">
+                        <span style="text-align: right" class="col-xs-1">From:</span>
+                        <span class="col-xs-11 bg-alt">{{change.from}}</span>
+                    </div>
+                    <div class="row">
+                        <span style="text-align: right" class="col-xs-1">To:</span>
+                        <span class="col-xs-11 bg-alt">{{change.to}}</span>
+                    </div>
+                </div>
                 <div v-if="change.open" v-for="(chunk, chunkNum) in change.chunks">
                     <div class="container">
                         <h3 @click="chunk.open = !chunk.open">
