@@ -123,20 +123,44 @@
             transition: opacity .15s;
         }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <div id="app">
-    <table style="border: 0; width: auto">
-        <tr><td style="text-align: right">Who:</td><td>{{commit.who}}</td></tr>
-        <tr v-tooltip="commit.when"><td style="text-align: right">When:</td><td>{{commit.whenLocal}}</td></tr>
-        <tr><td style="text-align: right">Message:</td><td v-html="commit.message" /></tr>
-    </table>
+<div class="container" >
+    <div class="page-header">
+        <h1>Commit {{pageState.rev}}</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-1">
+            <div style="text-align: right">Who:</div>
+        </div>
+        <div class="col-xs-15">
+            <div class="bg-alt">{{commit.who}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1">
+            <div style="text-align: right">When:</div>
+        </div>
+        <div class="col-xs-15">
+            <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1">
+            <div style="text-align: right">Message:</div>
+        </div>
+        <div class="col-xs-15">
+            <div class="bg-alt" v-html="commit.message"></div>
+        </div>
+    </div>
     <div style="padding-left: 30px" v-for="(change, changeNum) in commit.changes">
         <h2 @click="change.open = !change.open">
             Change number {{changeNum+1}}
             <span style="color: gray">{{ change.open? "[-]" : "[+]" }}</span>
         </h2>
-        <table style="border: 0; width: auto">
+        <table class="table">
             <tr><td style="text-align: right">From:</td><td>{{change.from}}</td></tr>
             <tr><td style="text-align: right">to:</td><td>{{change.to}}</td></tr>
         </table>
@@ -145,13 +169,16 @@
                 Chunk {{chunkNum+1}}
                 <span style="color: gray">{{ chunk.open? "[-]" : "[+]" }}</span>
             </h3>
-            <table v-if="chunk.open" style="border: 0; font-family:'Lucida Console', monospace">
+            <table v-if="chunk.open" class="table" style="font-family:'Lucida Console', monospace">
+                <thead>
                 <tr style="padding-left: 30px; width: 100%; background-color: gainsboro">
                     <td style="text-align: right">From</td>
                     <td style="text-align: right">To</td>
                     <td>Line</td>
                 </tr>
-                <tr style="padding-left: 30px; width: 100%" :style="{'background-color': line.col}"
+                </thead>
+                <tbody>
+                <tr :style="{'background-color': line.col}"
                     v-for="line in chunk.lines" track-by="$ix">
                     <td style="text-align: right">
                         {{line.fr}}
@@ -163,19 +190,22 @@
                         {{line.txt}}
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>
 
-    <h1>Debugging::::::</h1>
-    <pre>{{commit}}</pre>
+    <!--<h1>Debugging::::::</h1>-->
+    <!--<pre>{{commit}}</pre>-->
 
 </div>
-
+</div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://unpkg.com/v-tooltip"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 
 //    Vue.component('nl2br', Nl2br);
@@ -184,7 +214,8 @@
         el: '#app',
         data: {
             pageState: {
-                commitId: ""
+                path: "",
+                rev: 0
             },
             closed: [],
             commit: {}
@@ -196,8 +227,8 @@
     //const regex = new RegExp(lineRegex);
 
     function loadMainDoc() {
-        v.$http.get("/data/" + v.$data.pageState.commitId + ".commit.json").then(response => {
-            console.log("Got commit document for " + v.$data.pageState.commitId);
+        v.$http.get("/data/" + v.$data.pageState.path + ".commit.json").then(response => {
+            console.log("Got commit document for " + v.$data.pageState.path);
             response.body.whenLocal = moment.utc(response.body.when).local().format("L LT");
             for (let change of response.body.changes) {
                 change.open = true;
@@ -224,13 +255,14 @@
             }
             v.$data.commit = response.body;
         }, response => {
-            console.log("No commit document for " + v.$data.pageState.commitId);
+            console.log("No commit document for " + v.$data.pageState.path);
             v.$data.commit = {}
         });
     }
 
     function getCommitIdFromURL() {
-        v.$data.pageState.commitId = location.hash.substr(2);
+        v.$data.pageState.path = location.hash.substr(2);
+        v.$data.pageState.rev = location.hash.substr(2).split("/").slice(-1)[0];
     }
 
     window.addEventListener('hashchange', function () {
