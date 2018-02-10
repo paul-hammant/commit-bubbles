@@ -256,9 +256,9 @@
                     for (let line of chunk.lines) {
                         let lin = {};
                         if (line.startsWith("+")) {
-                            lin = {col: "darkseagreen", to: toLine++, fr: ""}
+                            lin = {col: "#ccffd7", to: toLine++, fr: ""}
                         } else if (line.startsWith("-")) {
-                            lin = {col: "lightcoral", to: "", fr: fromLine++}
+                            lin = {col: "#ffedef", to: "", fr: fromLine++}
                         } else {
                             lin = {col: "white", to: toLine++, fr: fromLine++}
                         }
