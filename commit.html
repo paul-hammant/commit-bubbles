@@ -2,6 +2,7 @@
 <html lang='en' class=''>
 <head>
     <meta charset='UTF-8'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
         table {
             width: 100%;
@@ -122,8 +123,11 @@
             opacity: 1;
             transition: opacity .15s;
         }
+
+        .table-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+            padding: 1px;
+        }
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <div id="app">
@@ -135,7 +139,7 @@
             <div class="col-xs-1">
                 <div style="text-align: right">Who:</div>
             </div>
-            <div class="col-xs-15">
+            <div class="col-xs-11">
                 <div class="bg-alt">{{commit.who}}</div>
             </div>
         </div>
@@ -143,7 +147,7 @@
             <div class="col-xs-1">
                 <div style="text-align: right">When:</div>
             </div>
-            <div class="col-xs-15">
+            <div class="col-xs-11">
                 <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
             </div>
         </div>
@@ -151,53 +155,65 @@
             <div class="col-xs-1">
                 <div style="text-align: right">Message:</div>
             </div>
-            <div class="col-xs-15">
+            <div class="col-xs-11">
                 <div class="bg-alt" v-html="commit.message"></div>
             </div>
         </div>
-        <div style="padding-left: 30px" v-for="(change, changeNum) in commit.changes">
+        <div v-for="(change, changeNum) in commit.changes">
             <h2 @click="change.open = !change.open">
                 Change number {{changeNum+1}}
-                <span style="color: gray">{{ change.open? "[-]" : "[+]" }}</span>
+                <span style="color: gray; font-size: 75%">{{ change.open? "[-]" : "[+]" }}</span>
             </h2>
-            <table class="table">
-                <tr>
-                    <td style="text-align: right">From:</td>
-                    <td>{{change.from}}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: right">to:</td>
-                    <td>{{change.to}}</td>
-                </tr>
-            </table>
-            <div v-if="change.open" style="padding-left: 30px" v-for="(chunk, chunkNum) in change.chunks">
-                <h3 @click="chunk.open = !chunk.open">
-                    Chunk {{chunkNum+1}}
-                    <span style="color: gray">{{ chunk.open? "[-]" : "[+]" }}</span>
-                </h3>
-                <table v-if="chunk.open" class="table" style="font-family:'Lucida Console', monospace">
-                    <thead>
-                    <tr style="padding-left: 30px; width: 100%; background-color: gainsboro">
-                        <td style="text-align: right">From</td>
-                        <td style="text-align: right">To</td>
-                        <td>Line</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr :style="{'background-color': line.col}"
-                        v-for="line in chunk.lines" track-by="$ix">
-                        <td style="text-align: right">
-                            {{line.fr}}
-                        </td>
-                        <td style="text-align: right">
-                            {{line.to}}
-                        </td>
-                        <td>
-                            {{line.txt}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div style="border-left: 1px solid gainsboro;">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <div style="text-align: right">From:</div>
+                    </div>
+                    <div class="col-xs-11">
+                        <div class="bg-alt">{{change.from}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <div style="text-align: right">To:</div>
+                    </div>
+                    <div class="col-xs-11">
+                        <div class="bg-alt">{{change.to}}</div>
+                    </div>
+                </div>
+                <div v-if="change.open" style="padding-left: 30px" v-for="(chunk, chunkNum) in change.chunks">
+                    <div class="container">
+                        <h3 @click="chunk.open = !chunk.open">
+                            Chunk {{chunkNum+1}}
+                            <span style="color: gray; font-size: 75%">{{ chunk.open? "[-]" : "[+]" }}</span>
+                        </h3>
+                        <table v-if="chunk.open" class="table table-condensed"
+                               style="font-family:'Lucida Console', monospace">
+
+                            <thead>
+                            <tr style="padding-left: 30px; width: 100%; background-color: gainsboro">
+                                <td style="text-align: right">From</td>
+                                <td style="text-align: right">To</td>
+                                <td>Line</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr style="padding: 1px" :style="{'background-color': line.col}"
+                                v-for="line in chunk.lines" track-by="$ix">
+                                <td style="text-align: right">
+                                    {{line.fr}}
+                                </td>
+                                <td style="text-align: right">
+                                    {{line.to}}
+                                </td>
+                                <td>
+                                    {{line.txt}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
