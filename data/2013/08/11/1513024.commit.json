@@ -1,26 +1,8 @@
 {
   "when": "2013-08-11T21:21:12-04:00", 
+  "message": "Supporting bind-address parameter in the pass through transport", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-162,7 +162,7", 
-          "lines": [
-            "         msgContext.setTo(new EndpointReference(uri));\n", 
-            "         msgContext.setProperty(PassThroughConstants.REST_URL_POSTFIX, uri);\n", 
-            " \n", 
-            "-\t\tif (\"GET\".equals(method) || \"DELETE\".equals(method)) {\n", 
-            "+\t\tif ((\"GET\".equals(method) || \"DELETE\".equals(method)) && httpGetRequestProcessor != null) {\n", 
-            " \t\t\tHttpResponse response = sourceConfiguration.getResponseFactory().newHttpResponse(\n", 
-            " \t\t                request.getVersion(), HttpStatus.SC_OK,\n", 
-            " \t\t                request.getConnection().getContext());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
-    }, 
     {
       "chunks": [
         {
@@ -135,6 +117,25 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/SourceConfiguration.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/SourceConfiguration.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-162,7 +162,7", 
+          "lines": [
+            "         msgContext.setTo(new EndpointReference(uri));\n", 
+            "         msgContext.setProperty(PassThroughConstants.REST_URL_POSTFIX, uri);\n", 
+            " \n", 
+            "-\t\tif (\"GET\".equals(method) || \"DELETE\".equals(method)) {\n", 
+            "+\t\tif ((\"GET\".equals(method) || \"DELETE\".equals(method)) && httpGetRequestProcessor != null) {\n", 
+            " \t\t\tHttpResponse response = sourceConfiguration.getResponseFactory().newHttpResponse(\n", 
+            " \t\t                request.getVersion(), HttpStatus.SC_OK,\n", 
+            " \t\t                request.getConnection().getContext());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
     }
   ], 
   "id": "1513024"

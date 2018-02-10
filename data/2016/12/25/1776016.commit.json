@@ -1,5 +1,6 @@
 {
   "when": "2016-12-25T11:57:39-05:00", 
+  "message": "Fix possible buffer corruption issue in Passthrough Transport", 
   "who": "isudana", 
   "changes": [
     {
@@ -284,6 +285,43 @@
     {
       "chunks": [
         {
+          "locn": "-150,10 +150,25", 
+          "lines": [
+            "      * @param conn connection to shutdownConnection\n", 
+            "      */\n", 
+            "     public void shutdownConnection(NHttpClientConnection conn) {\n", 
+            "+        shutdownConnection(conn, false);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    /**\n", 
+            "+     * This connection is no longer valid. So we need to shutdown connection.\n", 
+            "+     *\n", 
+            "+     * @param conn connection to shutdownConnection\n", 
+            "+     * @param isError whether an error is causing this shutdown of the connection.\n", 
+            "+     *                It is very important to set this flag correctly.\n", 
+            "+     *                When an error causing the shutdown of the connections we should not\n", 
+            "+     *                release associated writer buffer to the pool as it might lead into\n", 
+            "+     *                situations like same buffer is getting released to both source and target\n", 
+            "+     *                buffer factories\n", 
+            "+     */\n", 
+            "+    public void shutdownConnection(NHttpClientConnection conn, boolean isError) {\n", 
+            "         HostConnections pool = (HostConnections) conn.getContext().getAttribute(\n", 
+            "                 PassThroughConstants.CONNECTION_POOL);\n", 
+            " \n", 
+            "-        TargetContext.get(conn).reset();\n", 
+            "+        TargetContext.get(conn).reset(isError);\n", 
+            " \n", 
+            "         if (pool != null) {\n", 
+            "             pool.forget(conn);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-117,12 +117,27", 
           "lines": [
             "      * @param conn the connection that needs to be shut down\n", 
@@ -319,43 +357,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/SourceConnections.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/SourceConnections.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-150,10 +150,25", 
-          "lines": [
-            "      * @param conn connection to shutdownConnection\n", 
-            "      */\n", 
-            "     public void shutdownConnection(NHttpClientConnection conn) {\n", 
-            "+        shutdownConnection(conn, false);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    /**\n", 
-            "+     * This connection is no longer valid. So we need to shutdown connection.\n", 
-            "+     *\n", 
-            "+     * @param conn connection to shutdownConnection\n", 
-            "+     * @param isError whether an error is causing this shutdown of the connection.\n", 
-            "+     *                It is very important to set this flag correctly.\n", 
-            "+     *                When an error causing the shutdown of the connections we should not\n", 
-            "+     *                release associated writer buffer to the pool as it might lead into\n", 
-            "+     *                situations like same buffer is getting released to both source and target\n", 
-            "+     *                buffer factories\n", 
-            "+     */\n", 
-            "+    public void shutdownConnection(NHttpClientConnection conn, boolean isError) {\n", 
-            "         HostConnections pool = (HostConnections) conn.getContext().getAttribute(\n", 
-            "                 PassThroughConstants.CONNECTION_POOL);\n", 
-            " \n", 
-            "-        TargetContext.get(conn).reset();\n", 
-            "+        TargetContext.get(conn).reset(isError);\n", 
-            " \n", 
-            "         if (pool != null) {\n", 
-            "             pool.forget(conn);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java"
     }, 
     {
       "chunks": [

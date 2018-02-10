@@ -1,5 +1,6 @@
 {
   "when": "2013-07-15T16:00:52-04:00", 
+  "message": "Building the message when switching from HTTP/S to a different transport. Applying the patch for SYNAPSE-937 with some improvements.", 
   "who": "hiranya", 
   "changes": [
     {

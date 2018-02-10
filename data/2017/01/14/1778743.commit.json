@@ -1,5 +1,6 @@
 {
   "when": "2017-01-14T04:34:30-05:00", 
+  "message": "Prevent the build from attempting to access the dead Codehaus snapshot repository.", 
   "who": "veithen", 
   "changes": [
     {

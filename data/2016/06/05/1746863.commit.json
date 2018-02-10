@@ -1,26 +1,8 @@
 {
   "when": "2016-06-05T01:49:39-04:00", 
+  "message": "Fix for SYNAPSE-1003", 
   "who": "ravi", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-114,6 +114,8", 
-          "lines": [
-            " \n", 
-            "     public void destroy() {\n", 
-            "         future.cancel(true);\n", 
-            "+        suspensionCounts.clear();\n", 
-            "+        timeoutCounts.clear();\n", 
-            "     }\n", 
-            " \n", 
-            "     // --- endpoint control ---\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointView.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointView.java"
-    }, 
     {
       "chunks": [
         {
@@ -45,6 +27,25 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/AbstractEndpoint.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/AbstractEndpoint.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-114,6 +114,8", 
+          "lines": [
+            " \n", 
+            "     public void destroy() {\n", 
+            "         future.cancel(true);\n", 
+            "+        suspensionCounts.clear();\n", 
+            "+        timeoutCounts.clear();\n", 
+            "     }\n", 
+            " \n", 
+            "     // --- endpoint control ---\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointView.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointView.java"
     }
   ], 
   "id": "1746863"

@@ -1,5 +1,6 @@
 {
   "when": "2012-06-05T05:23:23-04:00", 
+  "message": "Life cycle support for Synapse API handlers", 
   "who": "hiranya", 
   "changes": [
     {

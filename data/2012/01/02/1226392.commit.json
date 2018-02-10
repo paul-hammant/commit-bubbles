@@ -1,45 +1,8 @@
 {
   "when": "2012-01-02T06:21:27-05:00", 
+  "message": "Fixing some maven warnings", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-54,7 +54,7", 
-          "lines": [
-            "                 <extensions>true</extensions>\r\n", 
-            "                 <configuration>\r\n", 
-            "                     <instructions>\r\n", 
-            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\r\n", 
-            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\r\n", 
-            "                         <Export-Package>\r\n", 
-            "                             org.apache.synapse.task.*,\r\n", 
-            "                         </Export-Package>\r\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/tasks/pom.xml", 
-      "from": "java/modules/tasks/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-136,7 +136,7", 
-          "lines": [
-            "                 <extensions>true</extensions>\n", 
-            "                 <configuration>\n", 
-            "                     <instructions>\n", 
-            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n", 
-            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n", 
-            "                         <Export-Package>\n", 
-            "                             org.apache.synapse,\n", 
-            "                             org.apache.synapse.aspects.*,\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/pom.xml", 
-      "from": "java/modules/core/pom.xml"
-    }, 
     {
       "chunks": [
         {
@@ -184,6 +147,25 @@
             "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n", 
             "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n", 
             "                         <Export-Package>\n", 
+            "                             org.apache.synapse.transport.vfs.*,\n", 
+            "                         </Export-Package>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/vfs/pom.xml", 
+      "from": "java/modules/transports/core/vfs/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-50,7 +50,7", 
+          "lines": [
+            "                 <extensions>true</extensions>\n", 
+            "                 <configuration>\n", 
+            "                     <instructions>\n", 
+            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n", 
+            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n", 
+            "                         <Export-Package>\n", 
             "                             org.apache.synapse.transport.nhttp.*,\n", 
             "                         </Export-Package>\n"
           ]
@@ -210,25 +192,6 @@
       ], 
       "to": "java/modules/transports/core/pipe/pom.xml", 
       "from": "java/modules/transports/core/pipe/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-50,7 +50,7", 
-          "lines": [
-            "                 <extensions>true</extensions>\n", 
-            "                 <configuration>\n", 
-            "                     <instructions>\n", 
-            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n", 
-            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n", 
-            "                         <Export-Package>\n", 
-            "                             org.apache.synapse.transport.vfs.*,\n", 
-            "                         </Export-Package>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/vfs/pom.xml", 
-      "from": "java/modules/transports/core/vfs/pom.xml"
     }, 
     {
       "chunks": [
@@ -266,6 +229,44 @@
       ], 
       "to": "java/modules/migrator/pom.xml", 
       "from": "java/modules/migrator/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-54,7 +54,7", 
+          "lines": [
+            "                 <extensions>true</extensions>\r\n", 
+            "                 <configuration>\r\n", 
+            "                     <instructions>\r\n", 
+            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\r\n", 
+            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\r\n", 
+            "                         <Export-Package>\r\n", 
+            "                             org.apache.synapse.task.*,\r\n", 
+            "                         </Export-Package>\r\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/tasks/pom.xml", 
+      "from": "java/modules/tasks/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-136,7 +136,7", 
+          "lines": [
+            "                 <extensions>true</extensions>\n", 
+            "                 <configuration>\n", 
+            "                     <instructions>\n", 
+            "-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n", 
+            "+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n", 
+            "                         <Export-Package>\n", 
+            "                             org.apache.synapse,\n", 
+            "                             org.apache.synapse.aspects.*,\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/pom.xml", 
+      "from": "java/modules/core/pom.xml"
     }, 
     {
       "chunks": [

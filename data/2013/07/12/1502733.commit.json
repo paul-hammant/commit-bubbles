@@ -1,26 +1,8 @@
 {
   "when": "2013-07-12T21:05:21-04:00", 
+  "message": "Fixing MTOM, SwA mediation and re-enabling sample51 integration test", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-177,7 +177,7", 
-          "lines": [
-            " \n", 
-            "         //Endpoint\n", 
-            "         sampleClassRepo.put(\"50\", Sample50.class);\n", 
-            "-        //sampleClassRepo.put(\"51\", Sample51.class);\n", 
-            "+        sampleClassRepo.put(\"51\", Sample51.class);\n", 
-            "         sampleClassRepo.put(\"52\", Sample52.class);\n", 
-            "         sampleClassRepo.put(\"53\", Sample53.class);\n", 
-            "         sampleClassRepo.put(\"54\", Sample54.class);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
-    }, 
     {
       "chunks": [
         {
@@ -99,6 +81,25 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-177,7 +177,7", 
+          "lines": [
+            " \n", 
+            "         //Endpoint\n", 
+            "         sampleClassRepo.put(\"50\", Sample50.class);\n", 
+            "-        //sampleClassRepo.put(\"51\", Sample51.class);\n", 
+            "+        sampleClassRepo.put(\"51\", Sample51.class);\n", 
+            "         sampleClassRepo.put(\"52\", Sample52.class);\n", 
+            "         sampleClassRepo.put(\"53\", Sample53.class);\n", 
+            "         sampleClassRepo.put(\"54\", Sample54.class);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
     }
   ], 
   "id": "1502733"

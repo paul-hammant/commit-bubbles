@@ -1,5 +1,6 @@
 {
   "when": "2013-11-23T16:36:05-05:00", 
+  "message": "* Fixed an old todo: we now require Java 1.6.\n* Use generics where appropriate (for Java 1.6).", 
   "who": "veithen", 
   "changes": [
     {

@@ -1,408 +1,287 @@
 {
   "when": "2013-08-07T14:46:50-04:00", 
+  "message": "Refactoring the OCSP/CRL implementation. Applying the patch from SYNAPSE-954 with some modifications", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-108,8 +108,9", 
+          "locn": "-20,7 +20,8", 
           "lines": [
-            "         String hostnameVerifierValue = hostnameVerifier != null ?\n", 
-            "                 hostnameVerifier.getValue().toString() : null;\n", 
-            "         Parameter revocationVerifierParam = transportOut.getParameter(\"CertificateRevocationVerifier\");\n", 
-            "-        return createSSLSetupHandler(hostnameVerifierValue,\n", 
-            "-                new CertificateVerificationConfig(revocationVerifierParam));\n", 
-            "+        CertificateVerificationConfig cvConfig = revocationVerifierParam != null ?\n", 
-            "+                new CertificateVerificationConfig(revocationVerifierParam) : null;\n", 
-            "+        return createSSLSetupHandler(hostnameVerifierValue, cvConfig);\n", 
-            "     }\n", 
             " \n", 
-            "     /**\n"
+            " import junit.framework.TestCase;\n", 
+            " import org.apache.synapse.transport.utils.sslcert.crl.CRLCache;\n", 
+            "-import org.apache.synapse.transport.utils.sslcert.crl.CRLVerifier;import org.bouncycastle.asn1.DERObjectIdentifier;\n", 
+            "+import org.apache.synapse.transport.utils.sslcert.crl.CRLVerifier;\n", 
+            "+import org.bouncycastle.asn1.DERObjectIdentifier;\n", 
+            " import org.bouncycastle.asn1.x509.*;\n", 
+            " import org.bouncycastle.x509.X509V2CRLGenerator;\n", 
+            " import org.bouncycastle.x509.X509V3CertificateGenerator;\n"
           ]
         }, 
         {
-          "locn": "-315,7 +316,7", 
+          "locn": "-37,12 +38,15", 
           "lines": [
-            "                     throw new SSLException(\"Host name verification failed for host : \" + address);\n", 
-            "                 }\n", 
+            " public class CRLVerifierTest extends TestCase {\n", 
             " \n", 
-            "-                if (cvConfig.isEnabled()) {\n", 
-            "+                if (cvConfig != null) {\n", 
-            "                     try {\n", 
-            "                         ocspCrl.verifyRevocationStatus(session.getPeerCertificateChain(),\n", 
-            "                                 cvConfig.getCacheSize(), cvConfig.getCacheDuration());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-37,18 +37,18", 
-          "lines": [
-            " public class RevocationVerificationManager {\n", 
-            " \n", 
-            "     private int cacheSize = Constants.CACHE_DEFAULT_ALLOCATED_SIZE;\n", 
-            "-    private int cacheDelayMins = Constants.CACHE_DEFAULT_DELAY_MINS;\n", 
-            "+    private int cacheDurationMins = Constants.CACHE_DEFAULT_DURATION_MINS;\n", 
-            "     private static final Log log = LogFactory.getLog(RevocationVerificationManager.class);\n", 
-            " \n", 
-            "-    public RevocationVerificationManager(Integer cacheAllocatedSize, Integer cacheDelayMins) {\n", 
-            "+    public RevocationVerificationManager(Integer cacheAllocatedSize, Integer cacheDurationMins) {\n", 
-            " \n", 
-            "         if (cacheAllocatedSize != null && cacheAllocatedSize > Constants.CACHE_MIN_ALLOCATED_SIZE\n", 
-            "                 && cacheAllocatedSize < Constants.CACHE_MAX_ALLOCATED_SIZE) {\n", 
-            "             this.cacheSize = cacheAllocatedSize;\n", 
-            "         }\n", 
-            "-        if (cacheDelayMins != null && cacheDelayMins > Constants.CACHE_MIN_DELAY_MINS\n", 
-            "-                && cacheDelayMins < Constants.CACHE_MAX_DELAY_MINS) {\n", 
-            "-            this.cacheDelayMins = cacheDelayMins;\n", 
-            "+        if (cacheDurationMins != null && cacheDurationMins > Constants.CACHE_MIN_DURATION_MINS\n", 
-            "+                && cacheDurationMins < Constants.CACHE_MAX_DURATION_MINS) {\n", 
-            "+            this.cacheDurationMins = cacheDurationMins;\n", 
-            "         }\n", 
-            "     }\n", 
-            " \n"
+            "     /**\n", 
+            "-     * To test CRLVerifier behaviour when a revoked certificate is given, a fake certificate will be created, signed\n", 
+            "-     * by a fake root certificate. To make our life easy, the CrlDistributionPoint extension will be extracted from\n", 
+            "-     * the real peer certificate in resources directory and copied to the fake certificate as a certificate extension.\n", 
+            "-     * So the criDistributionPointURL in the fake certificate will be the same as in the real certificate.\n", 
+            "-     * The created X509CRL object will be put to CRLCache against the criDistributionPointURL. Since the crl is in the\n", 
+            "-     * cache, there will NOT be a remote call to the CRL server at criDistributionPointURL.\n", 
+            "+     * To test CRLVerifier behaviour when a revoked certificate is given, a fake certificate will\n", 
+            "+     * be created, signed by a fake root certificate. To make our life easy,\n", 
+            "+     * the CrlDistributionPoint extension will be extracted from the real peer certificate in\n", 
+            "+     * resources directory and copied to the fake certificate as a certificate extension. So the\n", 
+            "+     * criDistributionPointURL in the fake certificate will be the same as in the real certificate.\n", 
+            "+     * The created X509CRL object will be put to CRLCache against the criDistributionPointURL.\n", 
+            "+     * Since the crl is in the cache, there will NOT be a remote call to the CRL server at\n", 
+            "+     * criDistributionPointURL.\n", 
+            "+     *\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "     public void testRevokedCertificate() throws Exception {\n"
           ]
         }, 
         {
-          "locn": "-68,9 +68,9", 
+          "locn": "-60,10 +64,12", 
           "lines": [
-            "         long start = System.currentTimeMillis();\n", 
+            "         KeyPair caKeyPair = utils.generateRSAKeyPair();\n", 
+            "         X509Certificate fakeCACert = utils.generateFakeRootCert(caKeyPair);\n", 
             " \n", 
-            "         OCSPCache ocspCache = OCSPCache.getCache();\n", 
-            "-        ocspCache.init(cacheSize, cacheDelayMins);\n", 
-            "+        ocspCache.init(cacheSize, cacheDurationMins);\n", 
-            "         CRLCache crlCache = CRLCache.getCache();\n", 
-            "-        crlCache.init(cacheSize, cacheDelayMins);\n", 
-            "+        crlCache.init(cacheSize, cacheDurationMins);\n", 
+            "-        //Create fake peer certificate signed by the fake CA private key. This will be a revoked certificate.\n", 
+            "+        //Create fake peer certificate signed by the fake CA private key. This will be a revoked\n", 
+            "+        // certificate.\n", 
+            "         KeyPair peerKeyPair = utils.generateRSAKeyPair();\n", 
+            "         BigInteger revokedSerialNumber = BigInteger.valueOf(111);\n", 
+            "-        X509Certificate fakeRevokedCertificate = generateFakePeerCert(revokedSerialNumber, peerKeyPair.getPublic(),\n", 
+            "+        X509Certificate fakeRevokedCertificate = generateFakePeerCert(revokedSerialNumber,\n", 
+            "+                peerKeyPair.getPublic(),\n", 
+            "                 caKeyPair.getPrivate(), fakeCACert, realPeerCertificate);\n", 
             " \n", 
-            "         RevocationVerifier[] verifiers = {new OCSPVerifier(ocspCache), new CRLVerifier(crlCache)};\n", 
-            " \n"
+            "         //Create a crl with fakeRevokedCertificate marked as revoked.\n"
           ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationManager.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationManager.java"
-    }, 
-    {
-      "chunks": [
+        }, 
         {
-          "locn": "-21,39 +21,29", 
+          "locn": "-73,15 +79,17", 
           "lines": [
+            "         cache.init(5, 5);\n", 
+            "         cache.setCacheValue(crlDistributionPointUrl, x509CRL);\n", 
             " \n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            " import org.apache.axis2.description.Parameter;\n", 
-            "-import org.apache.axis2.util.JavaUtils;\n", 
+            "-        CRLVerifier crlVerifier  = new CRLVerifier(cache);\n", 
+            "+        CRLVerifier crlVerifier = new CRLVerifier(cache);\n", 
+            "         RevocationStatus status = crlVerifier.checkRevocationStatus(fakeRevokedCertificate, null);\n", 
             " \n", 
-            " import javax.xml.namespace.QName;\n", 
-            " \n", 
-            " public class CertificateVerificationConfig {\n", 
-            " \n", 
-            "-    private boolean enabled;\n", 
-            "     private Integer cacheSize = Constants.CACHE_DEFAULT_ALLOCATED_SIZE;\n", 
-            "-    private Integer cacheDuration = Constants.CACHE_DEFAULT_DELAY_MINS;\n", 
-            "+    private Integer cacheDuration = Constants.CACHE_DEFAULT_DURATION_MINS;\n", 
-            " \n", 
-            "     public CertificateVerificationConfig(Parameter param) {\n", 
-            "         if (param == null) {\n", 
-            "-            return;\n", 
-            "+            throw new IllegalArgumentException(\"Parameter must not be null\");\n", 
-            "         }\n", 
-            "         OMElement element = param.getParameterElement();\n", 
-            "-        OMElement enabledElement = element.getFirstChildWithName(new QName(\"Enabled\"));\n", 
-            "-        if (enabledElement != null && JavaUtils.isTrueExplicitly(enabledElement.getText())) {\n", 
-            "-            enabled = true;\n", 
-            "-        }\n", 
-            "         OMElement sizeElement = element.getFirstChildWithName(new QName(\"CacheSize\"));\n", 
-            "         if (sizeElement != null) {\n", 
-            "             cacheSize = new Integer(sizeElement.getText());\n", 
-            "         }\n", 
-            "-        OMElement delayElement = element.getFirstChildWithName(new QName(\"CacheDelayMins\"));\n", 
-            "-        if (delayElement != null) {\n", 
-            "-            cacheSize = new Integer(delayElement.getText());\n", 
-            "+        OMElement durationElement = element.getFirstChildWithName(new QName(\"CacheDurationMins\"));\n", 
-            "+        if (durationElement != null) {\n", 
-            "+            cacheDuration = new Integer(durationElement.getText());\n", 
-            "         }\n", 
+            "-        //the fake crl we created will be checked if the fake certificate is revoked. So the status should be REVOKED.\n", 
+            "+        //the fake crl we created will be checked if the fake certificate is revoked. So the\n", 
+            "+        // status should be REVOKED.\n", 
+            "         assertTrue(status == RevocationStatus.REVOKED);\n", 
             "     }\n", 
             " \n", 
-            "-    public boolean isEnabled() {\n", 
-            "-        return enabled;\n", 
-            "-    }\n", 
-            "-\n", 
-            "     public Integer getCacheSize() {\n", 
-            "         return cacheSize;\n", 
+            "     /**\n", 
+            "      * This will use Reflection to call getCrlDistributionPoints() private method in CRLVerifier.\n", 
+            "+     *\n", 
+            "      * @param certificate is a certificate with a proper CRLDistributionPoints extension.\n", 
+            "      * @return the extracted cRLDistributionPointUrl.\n", 
+            "      * @throws Exception\n"
+          ]
+        }, 
+        {
+          "locn": "-91,24 +99,30", 
+          "lines": [
+            "         CRLVerifier crlVerifier = new CRLVerifier(null);\n", 
+            "         // use reflection since getCrlDistributionPoints() is private.\n", 
+            "         Class<? extends CRLVerifier> crlVerifierClass = crlVerifier.getClass();\n", 
+            "-        Method getCrlDistributionPoints = crlVerifierClass.getDeclaredMethod(\"getCrlDistributionPoints\", X509Certificate.class);\n", 
+            "+        Method getCrlDistributionPoints = crlVerifierClass.getDeclaredMethod\n", 
+            "+                (\"getCrlDistributionPoints\", X509Certificate.class);\n", 
+            "         getCrlDistributionPoints.setAccessible(true);\n", 
+            " \n", 
+            "         //getCrlDistributionPoints(..) returns a list of urls. Get the first one.\n", 
+            "-        List<String> distPoints = (List<String>) getCrlDistributionPoints.invoke(crlVerifier, certificate);\n", 
+            "+        List<String> distPoints = (List<String>) getCrlDistributionPoints.invoke(crlVerifier,\n", 
+            "+                certificate);\n", 
+            "         return distPoints.get(0);\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * Creates a fake CRL for the fake CA. The fake certificate with the given revokedSerialNumber will be marked\n", 
+            "+     * Creates a fake CRL for the fake CA. The fake certificate with the given\n", 
+            "+     * revokedSerialNumber will be marked\n", 
+            "      * as Revoked in the returned CRL.\n", 
+            "-     * @param caCert the fake CA certificate.\n", 
+            "-     * @param caPrivateKey private key of the fake CA.\n", 
+            "-     * @param revokedSerialNumber the serial number of the fake peer certificate made to be marked as revoked.\n", 
+            "+     *\n", 
+            "+     * @param caCert              the fake CA certificate.\n", 
+            "+     * @param caPrivateKey        private key of the fake CA.\n", 
+            "+     * @param revokedSerialNumber the serial number of the fake peer certificate made to be\n", 
+            "+     *                            marked as revoked.\n", 
+            "      * @return the created fake CRL\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "-    public static X509CRL createCRL(X509Certificate caCert, PrivateKey caPrivateKey, BigInteger revokedSerialNumber)\n", 
+            "+    public static X509CRL createCRL(X509Certificate caCert, PrivateKey caPrivateKey,\n", 
+            "+                                    BigInteger revokedSerialNumber)\n", 
+            "             throws Exception {\n", 
+            " \n", 
+            "         X509V2CRLGenerator crlGen = new X509V2CRLGenerator();\n"
+          ]
+        }, 
+        {
+          "locn": "-118,7 +132,8", 
+          "lines": [
+            "         crlGen.setNextUpdate(new Date(now.getTime() + TestConstants.NEXT_UPDATE_PERIOD));\n", 
+            "         crlGen.setSignatureAlgorithm(\"SHA256WithRSAEncryption\");\n", 
+            "         crlGen.addCRLEntry(revokedSerialNumber, now, CRLReason.privilegeWithdrawn);\n", 
+            "-        crlGen.addExtension(X509Extensions.AuthorityKeyIdentifier, false, new AuthorityKeyIdentifierStructure(caCert));\n", 
+            "+        crlGen.addExtension(X509Extensions.AuthorityKeyIdentifier, false,\n", 
+            "+                new AuthorityKeyIdentifierStructure(caCert));\n", 
+            "         crlGen.addExtension(X509Extensions.CRLNumber, false, new CRLNumber(BigInteger.valueOf(1)));\n", 
+            " \n", 
+            "         return crlGen.generateX509CRL(caPrivateKey, \"BC\");\n"
+          ]
+        }, 
+        {
+          "locn": "-125,12 +140,15", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     public X509Certificate generateFakePeerCert(BigInteger serialNumber, PublicKey entityKey,\n", 
+            "-                                                PrivateKey caKey, X509Certificate caCert, X509Certificate firstCertificate)\n", 
+            "+                                                PrivateKey caKey, X509Certificate caCert,\n", 
+            "+                                                X509Certificate firstCertificate)\n", 
+            "             throws Exception {\n", 
+            " \n", 
+            "         Utils utils = new Utils();\n", 
+            "-        X509V3CertificateGenerator certGen = utils.getUsableCertificateGenerator(caCert, entityKey, serialNumber);\n", 
+            "-        certGen.copyAndAddExtension(new DERObjectIdentifier(X509Extensions.CRLDistributionPoints.getId()), false, firstCertificate);\n", 
+            "+        X509V3CertificateGenerator certGen = utils.getUsableCertificateGenerator(caCert,\n", 
+            "+                entityKey, serialNumber);\n", 
+            "+        certGen.copyAndAddExtension(new DERObjectIdentifier(X509Extensions.CRLDistributionPoints\n", 
+            "+                .getId()), false, firstCertificate);\n", 
+            " \n", 
+            "         return certGen.generateX509Certificate(caKey, \"BC\");\n", 
             "     }\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/CertificateVerificationConfig.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/CertificateVerificationConfig.java"
+      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/CRLVerifierTest.java", 
+      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/CRLVerifierTest.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-24,9 +24,9", 
+          "locn": "-31,11 +31,13", 
           "lines": [
-            "     public static final int CACHE_MAX_ALLOCATED_SIZE = 10000;\n", 
-            "     public static final int CACHE_MIN_ALLOCATED_SIZE = 50;\n", 
-            "     public static final int CACHE_DEFAULT_ALLOCATED_SIZE = 50;\n", 
-            "-    public static final int CACHE_MAX_DELAY_MINS = 60 * 24;\n", 
-            "-    public static final int CACHE_MIN_DELAY_MINS = 1;\n", 
-            "-    public static final int CACHE_DEFAULT_DELAY_MINS = 15;\n", 
-            "+    public static final int CACHE_MAX_DURATION_MINS = 60 * 24;\n", 
-            "+    public static final int CACHE_MIN_DURATION_MINS = 1;\n", 
-            "+    public static final int CACHE_DEFAULT_DURATION_MINS = 15;\n", 
+            " public class RevocationVerificationTest extends TestCase {\n", 
             " \n", 
-            "     public static final String REVOCATION_MANAGER = \"org.apache.synapse.transport.utils.sslcert.\" +\n", 
-            "             \"RevocationVerificationManager\";\n"
+            "     /**\n", 
+            "-     * Tests CRL Path Validation with the use of a real certificate chain. The verification process will make\n", 
+            "-     * HTTP calls to remote CRL server URLs extracted from the certificates in the chain. Usually these certificates\n", 
+            "-     * will not be revoked. So the path validation must be successful to pass the test. In case they are revoked\n", 
+            "-     * or expired, new certificates should be added to the resources directory and Constants should be modified\n", 
+            "-     * accordingly. See the interface TestConstants for expiry dates of the certificates.\n", 
+            "+     * Tests CRL Path Validation with the use of a real certificate chain. The verification process\n", 
+            "+     * will make HTTP calls to remote CRL server URLs extracted from the certificates in the\n", 
+            "+     * chain. Usually these certificates will not be revoked. So the path validation must be\n", 
+            "+     * successful to pass the test. In case they are revoked or expired, new certificates should\n", 
+            "+     * be added to the resources directory and Constants should be modified accordingly. See the\n", 
+            "+     * interface TestConstants for expiry dates of the certificates.\n", 
+            "+     *\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "     public void testCRLPathValidation() throws Exception {\n"
+          ]
+        }, 
+        {
+          "locn": "-55,8 +57,9", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * Tests CRL path validation with fake certificates. The path validation should fail since they are fake and do not\n", 
+            "-     * contain proper information.\n", 
+            "+     * Tests CRL path validation with fake certificates. The path validation should fail since\n", 
+            "+     * they are fake and do not contain proper information.\n", 
+            "+     *\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "     public void testCRLPathValidationWithFakeCerts() throws Exception {\n"
+          ]
+        }, 
+        {
+          "locn": "-75,8 +78,10", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * Tests path validation with OCSP. The process makes remote HTTP requests to corresponding OCSP servers at the\n", 
+            "-     * certificate authorities. The path validation must be successful to pass the test.\n", 
+            "+     * Tests path validation with OCSP. The process makes remote HTTP requests to corresponding\n", 
+            "+     * OCSP servers at the certificate authorities. The path validation must be successful to\n", 
+            "+     * pass the test.\n", 
+            "+     *\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "     public void testOCSPPathValidation() throws Exception {\n"
+          ]
+        }, 
+        {
+          "locn": "-95,8 +100,10", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * Tests OCSP path validation with a chain of fake certificates. In order to pass the test, the path validation\n", 
+            "-     * should fail since the certificates are fake and do not contain right information.\n", 
+            "+     * Tests OCSP path validation with a chain of fake certificates. In order to pass the test,\n", 
+            "+     * the path validation should fail since the certificates are fake and do not contain right\n", 
+            "+     * information.\n", 
+            "+     *\n", 
+            "      * @throws Exception\n", 
+            "      */\n", 
+            "     public void testOCSPPathValidationWithFakeCerts() throws Exception {\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/Constants.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/Constants.java"
+      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationTest.java", 
+      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationTest.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-32,7 +32,7", 
+          "locn": "-26,14 +26,14", 
           "lines": [
-            " \n", 
-            " /**\n", 
-            "  * Cache Manager takes care of and maintains an LRU cache which implements ManageableCache Interface.\n", 
-            "- * Delay should be configured such that cacheManager is not too much involved with the cache,\n", 
-            "+ * Duration should be configured such that cacheManager is not too much involved with the cache,\n", 
-            "  * but manages it optimally.\n", 
-            "  */\n", 
-            " public class CacheManager {\n"
-          ]
-        }, 
-        {
-          "locn": "-45,7 +45,7", 
-          "lines": [
-            "     private ScheduledFuture scheduledFuture = null;\n", 
-            "     private ManageableCache cache;\n", 
-            "     private int cacheMaxSize;\n", 
-            "-    private int delay;\n", 
-            "+    private int duration;\n", 
-            "     private CacheManagingTask cacheManagingTask;\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }, 
-        {
-          "locn": "-55,23 +55,23", 
-          "lines": [
-            "      * @param cacheMaxSize Maximum size of the cache. If the cache exceeds this size, LRU values\n", 
-            "      *                     will be removed\n", 
-            "      */\n", 
-            "-    public CacheManager(ManageableCache cache, int cacheMaxSize, int delay) {\n", 
-            "+    public CacheManager(ManageableCache cache, int cacheMaxSize, int duration) {\n", 
-            "         scheduler = Executors.newSingleThreadScheduledExecutor();\n", 
-            "         this.cache = cache;\n", 
-            "         this.cacheMaxSize = cacheMaxSize;\n", 
-            "         this.cacheManagingTask = new CacheManagingTask();\n", 
-            "-        this.delay = delay;\n", 
-            "+        this.duration = duration;\n", 
-            "         start();\n", 
-            "     }\n", 
+            "     final static int NEXT_UPDATE_PERIOD = 1000000;\n", 
             " \n", 
             "     /**\n", 
-            "-     * To Start the CacheManager. Should be called only once per CacheManager so called in\n", 
-            "-     * constructor. CacheManager will run its scheduled task every \"delay\" number of minutes.\n", 
-            "+     * To Start the CacheManager. Should be called only once per CacheManager hence called in\n", 
-            "+     * constructor. CacheManager will run its scheduled task every \"duration\" number of minutes.\n", 
-            "      */\n", 
-            "     private boolean start() {\n", 
-            "         if (scheduledFuture == null || (scheduledFuture.isCancelled())) {\n", 
-            "             scheduledFuture = scheduler.scheduleWithFixedDelay(cacheManagingTask,\n", 
-            "-                    delay, delay, TimeUnit.MINUTES);\n", 
-            "+                    duration, duration, TimeUnit.MINUTES);\n", 
-            "             log.info(cache.getClass().getSimpleName()+\" Cache Manager Started\");\n", 
-            "             return true;\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-79,7 +79,7", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * To wake cacheManager up at will. If this method is called while its task is running, it\n", 
-            "+     * Used to wake cacheManager up at will. If this method is called while its task is running, it\n", 
-            "      * will run its task again soon after its done. CacheManagerTask will be rescheduled as before.\n", 
-            "      * @return true if successfully waken up. false otherwise.\n", 
-            "      */\n"
-          ]
-        }, 
-        {
-          "locn": "-89,7 +89,7", 
-          "lines": [
-            "                 scheduledFuture.cancel(DO_NOT_INTERRUPT_IF_RUNNING);\n", 
-            "             }\n", 
-            "             scheduledFuture = scheduler.scheduleWithFixedDelay(cacheManagingTask,\n", 
-            "-                    0, delay,TimeUnit.MINUTES);\n", 
-            "+                    0, duration,TimeUnit.MINUTES);\n", 
-            "             log.info(cache.getClass().getSimpleName()+\" Cache Manager Wakened Up.....\");\n", 
-            "             return true;\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-97,24 +97,24", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * Change the cacheManager delay (schedule period) to given value.\n", 
-            "-     * @param delay new delay to which the cacheManager schedule period should change.\n", 
-            "+     * Change the cacheManager duration (schedule period) to given value.\n", 
-            "+     * @param duration new duration to which the cacheManager schedule period should change.\n", 
-            "      * @return true if successfully changed. false otherwise.\n", 
-            "-     * @throws IllegalArgumentException if given delay is not between the allowed limit.\n", 
-            "+     * @throws IllegalArgumentException if given duration is not between the allowed limit.\n", 
-            "      */\n", 
-            "-    public boolean changeDelay(int delay) throws IllegalArgumentException {\n", 
-            "-        int min = Constants.CACHE_MIN_DELAY_MINS;\n", 
-            "-        int max = Constants.CACHE_MAX_DELAY_MINS;\n", 
-            "-        if (delay < min || delay > max) {\n", 
-            "-            throw new IllegalArgumentException(\"Delay time should should be between \" + min +\n", 
-            "+    public boolean changeDuration(int duration) throws IllegalArgumentException {\n", 
-            "+        int min = Constants.CACHE_MIN_DURATION_MINS;\n", 
-            "+        int max = Constants.CACHE_MAX_DURATION_MINS;\n", 
-            "+        if (duration < min || duration > max) {\n", 
-            "+            throw new IllegalArgumentException(\"Duration time should should be between \" + min +\n", 
-            "                     \" and \" + max + \" minutes\");\n", 
-            "         }\n", 
-            "-        this.delay = delay;\n", 
-            "+        this.duration = duration;\n", 
-            "         return wakeUpNow();\n", 
-            "     }\n", 
-            " \n", 
-            "-    public int getDelay(){\n", 
-            "-        return delay;\n", 
-            "+    public int getDuration(){\n", 
-            "+        return duration;\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
+            "-     * The certificates in the resources folder will contain the certificates in the certificate chain from\n", 
+            "-     * https://www.github.com\n", 
+            "-     * These certificates are chosen because the certificate issuers support both CRL and OCSP. Read the certificates for\n", 
+            "-     * more details.\n", 
+            "-     *\n", 
+            "-     * CAUTION: Replace the certificates if they expire or are marked as revoked by their issuers. At the moment they are\n", 
+            "-     * valid. The expiry dates of the certificates are as follows:\n", 
+            "-     *\n", 
+            "+     * The certificates in the resources folder will contain the certificates in the certificate\n", 
+            "+     * chain from https://www.github.com\n", 
+            "+     * These certificates are chosen because the certificate issuers support both CRL and OCSP.\n", 
+            "+     * Read the certificates for more details.\n", 
+            "+     * <p/>\n", 
+            "+     * CAUTION: Replace the certificates if they expire or are marked as revoked by their issuers.\n", 
+            "+     * At the moment they are valid. The expiry dates of the certificates are as follows:\n", 
+            "+     * <p/>\n", 
+            "      * github.com                    : 09/02/2015\n", 
+            "      * DigiCertHighAssuranceEVCA-1   : 11/10/2021\n", 
+            "      * DigiCertHighAssuranceEVRootCA : 11/10/2031\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-37,8 +37,8", 
-          "lines": [
-            "         return cacheManager.wakeUpNow();\n", 
-            "     }\n", 
-            " \n", 
-            "-    public boolean changeCacheManagerDelayMins(int delay){\n", 
-            "-        return cacheManager.changeDelay(delay);\n", 
-            "+    public boolean changeCacheManagerDurationMins(int duration){\n", 
-            "+        return cacheManager.changeDuration(duration);\n", 
-            "     }\n", 
-            " \n", 
-            "     public boolean isCacheManagerRunning() {\n"
-          ]
-        }, 
-        {
-          "locn": "-49,7 +49,7", 
-          "lines": [
-            "         return cache.getCacheSize();\n", 
-            "     }\n", 
-            " \n", 
-            "-    public int getCacheManagerDelayMins(){\n", 
-            "-        return cacheManager.getDelay();\n", 
-            "+    public int getCacheManagerDurationMins(){\n", 
-            "+        return cacheManager.getDuration();\n", 
-            "     }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-35,10 +35,10", 
-          "lines": [
-            " \n", 
-            "     /**\n", 
-            "      * Changes cacheManager task scheduled period.\n", 
-            "-     * @param delay Delay which cacheManager thread waits to start its task again.\n", 
-            "-     * @return true if successfully changed delay. False otherwise.\n", 
-            "+     * @param duration Duration which cacheManager thread waits to start its task again.\n", 
-            "+     * @return true if successfully changed duration. False otherwise.\n", 
-            "      */\n", 
-            "-    public boolean changeCacheManagerDelayMins(int delay);\n", 
-            "+    public boolean changeCacheManagerDurationMins(int duration);\n", 
-            " \n", 
-            "     /**\n", 
-            "      * @return true if CacheManager is running. False if its stopped.\n"
-          ]
-        }, 
-        {
-          "locn": "-51,7 +51,7", 
-          "lines": [
-            "     public int getCacheSize();\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * @return cacheManager delay in minutes.\n", 
-            "+     * @return cacheManager duration in minutes.\n", 
-            "      */\n", 
-            "-    public int getCacheManagerDelayMins();\n", 
-            "+    public int getCacheManagerDurationMins();\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheControllerMBean.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheControllerMBean.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-109,8 +109,9", 
-          "lines": [
-            "         String hostnameVerifierValue = hostnameVerifier != null ?\n", 
-            "                 hostnameVerifier.getValue().toString() : null;\n", 
-            "         Parameter revocationVerifierParam = transportOut.getParameter(\"CertificateRevocationVerifier\");\n", 
-            "-        return createSSLSetupHandler(hostnameVerifierValue,\n", 
-            "-                new CertificateVerificationConfig(revocationVerifierParam));\n", 
-            "+        CertificateVerificationConfig cvConfig = revocationVerifierParam != null ?\n", 
-            "+                new CertificateVerificationConfig(revocationVerifierParam) : null;\n", 
-            "+        return createSSLSetupHandler(hostnameVerifierValue, cvConfig);\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }, 
-        {
-          "locn": "-316,7 +317,7", 
-          "lines": [
-            "                     throw new SSLException(\"Host name verification failed for host : \" + address);\n", 
-            "                 }\n", 
-            " \n", 
-            "-                if (cvConfig.isEnabled()) {\n", 
-            "+                if (cvConfig != null) {\n", 
-            "                     //Do revocation verification of Certificates\n", 
-            "                     try {\n", 
-            "                         ocspCrl.verifyRevocationStatus(session.getPeerCertificateChain(),\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java"
+      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/TestConstants.java", 
+      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/TestConstants.java"
     }, 
     {
       "chunks": [
@@ -726,282 +605,404 @@
     {
       "chunks": [
         {
-          "locn": "-20,7 +20,8", 
+          "locn": "-109,8 +109,9", 
           "lines": [
-            " \n", 
-            " import junit.framework.TestCase;\n", 
-            " import org.apache.synapse.transport.utils.sslcert.crl.CRLCache;\n", 
-            "-import org.apache.synapse.transport.utils.sslcert.crl.CRLVerifier;import org.bouncycastle.asn1.DERObjectIdentifier;\n", 
-            "+import org.apache.synapse.transport.utils.sslcert.crl.CRLVerifier;\n", 
-            "+import org.bouncycastle.asn1.DERObjectIdentifier;\n", 
-            " import org.bouncycastle.asn1.x509.*;\n", 
-            " import org.bouncycastle.x509.X509V2CRLGenerator;\n", 
-            " import org.bouncycastle.x509.X509V3CertificateGenerator;\n"
-          ]
-        }, 
-        {
-          "locn": "-37,12 +38,15", 
-          "lines": [
-            " public class CRLVerifierTest extends TestCase {\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * To test CRLVerifier behaviour when a revoked certificate is given, a fake certificate will be created, signed\n", 
-            "-     * by a fake root certificate. To make our life easy, the CrlDistributionPoint extension will be extracted from\n", 
-            "-     * the real peer certificate in resources directory and copied to the fake certificate as a certificate extension.\n", 
-            "-     * So the criDistributionPointURL in the fake certificate will be the same as in the real certificate.\n", 
-            "-     * The created X509CRL object will be put to CRLCache against the criDistributionPointURL. Since the crl is in the\n", 
-            "-     * cache, there will NOT be a remote call to the CRL server at criDistributionPointURL.\n", 
-            "+     * To test CRLVerifier behaviour when a revoked certificate is given, a fake certificate will\n", 
-            "+     * be created, signed by a fake root certificate. To make our life easy,\n", 
-            "+     * the CrlDistributionPoint extension will be extracted from the real peer certificate in\n", 
-            "+     * resources directory and copied to the fake certificate as a certificate extension. So the\n", 
-            "+     * criDistributionPointURL in the fake certificate will be the same as in the real certificate.\n", 
-            "+     * The created X509CRL object will be put to CRLCache against the criDistributionPointURL.\n", 
-            "+     * Since the crl is in the cache, there will NOT be a remote call to the CRL server at\n", 
-            "+     * criDistributionPointURL.\n", 
-            "+     *\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "     public void testRevokedCertificate() throws Exception {\n"
-          ]
-        }, 
-        {
-          "locn": "-60,10 +64,12", 
-          "lines": [
-            "         KeyPair caKeyPair = utils.generateRSAKeyPair();\n", 
-            "         X509Certificate fakeCACert = utils.generateFakeRootCert(caKeyPair);\n", 
-            " \n", 
-            "-        //Create fake peer certificate signed by the fake CA private key. This will be a revoked certificate.\n", 
-            "+        //Create fake peer certificate signed by the fake CA private key. This will be a revoked\n", 
-            "+        // certificate.\n", 
-            "         KeyPair peerKeyPair = utils.generateRSAKeyPair();\n", 
-            "         BigInteger revokedSerialNumber = BigInteger.valueOf(111);\n", 
-            "-        X509Certificate fakeRevokedCertificate = generateFakePeerCert(revokedSerialNumber, peerKeyPair.getPublic(),\n", 
-            "+        X509Certificate fakeRevokedCertificate = generateFakePeerCert(revokedSerialNumber,\n", 
-            "+                peerKeyPair.getPublic(),\n", 
-            "                 caKeyPair.getPrivate(), fakeCACert, realPeerCertificate);\n", 
-            " \n", 
-            "         //Create a crl with fakeRevokedCertificate marked as revoked.\n"
-          ]
-        }, 
-        {
-          "locn": "-73,15 +79,17", 
-          "lines": [
-            "         cache.init(5, 5);\n", 
-            "         cache.setCacheValue(crlDistributionPointUrl, x509CRL);\n", 
-            " \n", 
-            "-        CRLVerifier crlVerifier  = new CRLVerifier(cache);\n", 
-            "+        CRLVerifier crlVerifier = new CRLVerifier(cache);\n", 
-            "         RevocationStatus status = crlVerifier.checkRevocationStatus(fakeRevokedCertificate, null);\n", 
-            " \n", 
-            "-        //the fake crl we created will be checked if the fake certificate is revoked. So the status should be REVOKED.\n", 
-            "+        //the fake crl we created will be checked if the fake certificate is revoked. So the\n", 
-            "+        // status should be REVOKED.\n", 
-            "         assertTrue(status == RevocationStatus.REVOKED);\n", 
+            "         String hostnameVerifierValue = hostnameVerifier != null ?\n", 
+            "                 hostnameVerifier.getValue().toString() : null;\n", 
+            "         Parameter revocationVerifierParam = transportOut.getParameter(\"CertificateRevocationVerifier\");\n", 
+            "-        return createSSLSetupHandler(hostnameVerifierValue,\n", 
+            "-                new CertificateVerificationConfig(revocationVerifierParam));\n", 
+            "+        CertificateVerificationConfig cvConfig = revocationVerifierParam != null ?\n", 
+            "+                new CertificateVerificationConfig(revocationVerifierParam) : null;\n", 
+            "+        return createSSLSetupHandler(hostnameVerifierValue, cvConfig);\n", 
             "     }\n", 
             " \n", 
-            "     /**\n", 
-            "      * This will use Reflection to call getCrlDistributionPoints() private method in CRLVerifier.\n", 
-            "+     *\n", 
-            "      * @param certificate is a certificate with a proper CRLDistributionPoints extension.\n", 
-            "      * @return the extracted cRLDistributionPointUrl.\n", 
-            "      * @throws Exception\n"
+            "     /**\n"
           ]
         }, 
         {
-          "locn": "-91,24 +99,30", 
+          "locn": "-316,7 +317,7", 
           "lines": [
-            "         CRLVerifier crlVerifier = new CRLVerifier(null);\n", 
-            "         // use reflection since getCrlDistributionPoints() is private.\n", 
-            "         Class<? extends CRLVerifier> crlVerifierClass = crlVerifier.getClass();\n", 
-            "-        Method getCrlDistributionPoints = crlVerifierClass.getDeclaredMethod(\"getCrlDistributionPoints\", X509Certificate.class);\n", 
-            "+        Method getCrlDistributionPoints = crlVerifierClass.getDeclaredMethod\n", 
-            "+                (\"getCrlDistributionPoints\", X509Certificate.class);\n", 
-            "         getCrlDistributionPoints.setAccessible(true);\n", 
+            "                     throw new SSLException(\"Host name verification failed for host : \" + address);\n", 
+            "                 }\n", 
             " \n", 
-            "         //getCrlDistributionPoints(..) returns a list of urls. Get the first one.\n", 
-            "-        List<String> distPoints = (List<String>) getCrlDistributionPoints.invoke(crlVerifier, certificate);\n", 
-            "+        List<String> distPoints = (List<String>) getCrlDistributionPoints.invoke(crlVerifier,\n", 
-            "+                certificate);\n", 
-            "         return distPoints.get(0);\n", 
+            "-                if (cvConfig.isEnabled()) {\n", 
+            "+                if (cvConfig != null) {\n", 
+            "                     //Do revocation verification of Certificates\n", 
+            "                     try {\n", 
+            "                         ocspCrl.verifyRevocationStatus(session.getPeerCertificateChain(),\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-108,8 +108,9", 
+          "lines": [
+            "         String hostnameVerifierValue = hostnameVerifier != null ?\n", 
+            "                 hostnameVerifier.getValue().toString() : null;\n", 
+            "         Parameter revocationVerifierParam = transportOut.getParameter(\"CertificateRevocationVerifier\");\n", 
+            "-        return createSSLSetupHandler(hostnameVerifierValue,\n", 
+            "-                new CertificateVerificationConfig(revocationVerifierParam));\n", 
+            "+        CertificateVerificationConfig cvConfig = revocationVerifierParam != null ?\n", 
+            "+                new CertificateVerificationConfig(revocationVerifierParam) : null;\n", 
+            "+        return createSSLSetupHandler(hostnameVerifierValue, cvConfig);\n", 
             "     }\n", 
             " \n", 
-            "     /**\n", 
-            "-     * Creates a fake CRL for the fake CA. The fake certificate with the given revokedSerialNumber will be marked\n", 
-            "+     * Creates a fake CRL for the fake CA. The fake certificate with the given\n", 
-            "+     * revokedSerialNumber will be marked\n", 
-            "      * as Revoked in the returned CRL.\n", 
-            "-     * @param caCert the fake CA certificate.\n", 
-            "-     * @param caPrivateKey private key of the fake CA.\n", 
-            "-     * @param revokedSerialNumber the serial number of the fake peer certificate made to be marked as revoked.\n", 
-            "+     *\n", 
-            "+     * @param caCert              the fake CA certificate.\n", 
-            "+     * @param caPrivateKey        private key of the fake CA.\n", 
-            "+     * @param revokedSerialNumber the serial number of the fake peer certificate made to be\n", 
-            "+     *                            marked as revoked.\n", 
-            "      * @return the created fake CRL\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "-    public static X509CRL createCRL(X509Certificate caCert, PrivateKey caPrivateKey, BigInteger revokedSerialNumber)\n", 
-            "+    public static X509CRL createCRL(X509Certificate caCert, PrivateKey caPrivateKey,\n", 
-            "+                                    BigInteger revokedSerialNumber)\n", 
-            "             throws Exception {\n", 
-            " \n", 
-            "         X509V2CRLGenerator crlGen = new X509V2CRLGenerator();\n"
+            "     /**\n"
           ]
         }, 
         {
-          "locn": "-118,7 +132,8", 
+          "locn": "-315,7 +316,7", 
           "lines": [
-            "         crlGen.setNextUpdate(new Date(now.getTime() + TestConstants.NEXT_UPDATE_PERIOD));\n", 
-            "         crlGen.setSignatureAlgorithm(\"SHA256WithRSAEncryption\");\n", 
-            "         crlGen.addCRLEntry(revokedSerialNumber, now, CRLReason.privilegeWithdrawn);\n", 
-            "-        crlGen.addExtension(X509Extensions.AuthorityKeyIdentifier, false, new AuthorityKeyIdentifierStructure(caCert));\n", 
-            "+        crlGen.addExtension(X509Extensions.AuthorityKeyIdentifier, false,\n", 
-            "+                new AuthorityKeyIdentifierStructure(caCert));\n", 
-            "         crlGen.addExtension(X509Extensions.CRLNumber, false, new CRLNumber(BigInteger.valueOf(1)));\n", 
+            "                     throw new SSLException(\"Host name verification failed for host : \" + address);\n", 
+            "                 }\n", 
             " \n", 
-            "         return crlGen.generateX509CRL(caPrivateKey, \"BC\");\n"
+            "-                if (cvConfig.isEnabled()) {\n", 
+            "+                if (cvConfig != null) {\n", 
+            "                     try {\n", 
+            "                         ocspCrl.verifyRevocationStatus(session.getPeerCertificateChain(),\n", 
+            "                                 cvConfig.getCacheSize(), cvConfig.getCacheDuration());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-37,18 +37,18", 
+          "lines": [
+            " public class RevocationVerificationManager {\n", 
+            " \n", 
+            "     private int cacheSize = Constants.CACHE_DEFAULT_ALLOCATED_SIZE;\n", 
+            "-    private int cacheDelayMins = Constants.CACHE_DEFAULT_DELAY_MINS;\n", 
+            "+    private int cacheDurationMins = Constants.CACHE_DEFAULT_DURATION_MINS;\n", 
+            "     private static final Log log = LogFactory.getLog(RevocationVerificationManager.class);\n", 
+            " \n", 
+            "-    public RevocationVerificationManager(Integer cacheAllocatedSize, Integer cacheDelayMins) {\n", 
+            "+    public RevocationVerificationManager(Integer cacheAllocatedSize, Integer cacheDurationMins) {\n", 
+            " \n", 
+            "         if (cacheAllocatedSize != null && cacheAllocatedSize > Constants.CACHE_MIN_ALLOCATED_SIZE\n", 
+            "                 && cacheAllocatedSize < Constants.CACHE_MAX_ALLOCATED_SIZE) {\n", 
+            "             this.cacheSize = cacheAllocatedSize;\n", 
+            "         }\n", 
+            "-        if (cacheDelayMins != null && cacheDelayMins > Constants.CACHE_MIN_DELAY_MINS\n", 
+            "-                && cacheDelayMins < Constants.CACHE_MAX_DELAY_MINS) {\n", 
+            "-            this.cacheDelayMins = cacheDelayMins;\n", 
+            "+        if (cacheDurationMins != null && cacheDurationMins > Constants.CACHE_MIN_DURATION_MINS\n", 
+            "+                && cacheDurationMins < Constants.CACHE_MAX_DURATION_MINS) {\n", 
+            "+            this.cacheDurationMins = cacheDurationMins;\n", 
+            "         }\n", 
+            "     }\n", 
+            " \n"
           ]
         }, 
         {
-          "locn": "-125,12 +140,15", 
+          "locn": "-68,9 +68,9", 
           "lines": [
+            "         long start = System.currentTimeMillis();\n", 
+            " \n", 
+            "         OCSPCache ocspCache = OCSPCache.getCache();\n", 
+            "-        ocspCache.init(cacheSize, cacheDelayMins);\n", 
+            "+        ocspCache.init(cacheSize, cacheDurationMins);\n", 
+            "         CRLCache crlCache = CRLCache.getCache();\n", 
+            "-        crlCache.init(cacheSize, cacheDelayMins);\n", 
+            "+        crlCache.init(cacheSize, cacheDurationMins);\n", 
+            " \n", 
+            "         RevocationVerifier[] verifiers = {new OCSPVerifier(ocspCache), new CRLVerifier(crlCache)};\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationManager.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationManager.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-21,39 +21,29", 
+          "lines": [
+            " \n", 
+            " import org.apache.axiom.om.OMElement;\n", 
+            " import org.apache.axis2.description.Parameter;\n", 
+            "-import org.apache.axis2.util.JavaUtils;\n", 
+            " \n", 
+            " import javax.xml.namespace.QName;\n", 
+            " \n", 
+            " public class CertificateVerificationConfig {\n", 
+            " \n", 
+            "-    private boolean enabled;\n", 
+            "     private Integer cacheSize = Constants.CACHE_DEFAULT_ALLOCATED_SIZE;\n", 
+            "-    private Integer cacheDuration = Constants.CACHE_DEFAULT_DELAY_MINS;\n", 
+            "+    private Integer cacheDuration = Constants.CACHE_DEFAULT_DURATION_MINS;\n", 
+            " \n", 
+            "     public CertificateVerificationConfig(Parameter param) {\n", 
+            "         if (param == null) {\n", 
+            "-            return;\n", 
+            "+            throw new IllegalArgumentException(\"Parameter must not be null\");\n", 
+            "         }\n", 
+            "         OMElement element = param.getParameterElement();\n", 
+            "-        OMElement enabledElement = element.getFirstChildWithName(new QName(\"Enabled\"));\n", 
+            "-        if (enabledElement != null && JavaUtils.isTrueExplicitly(enabledElement.getText())) {\n", 
+            "-            enabled = true;\n", 
+            "-        }\n", 
+            "         OMElement sizeElement = element.getFirstChildWithName(new QName(\"CacheSize\"));\n", 
+            "         if (sizeElement != null) {\n", 
+            "             cacheSize = new Integer(sizeElement.getText());\n", 
+            "         }\n", 
+            "-        OMElement delayElement = element.getFirstChildWithName(new QName(\"CacheDelayMins\"));\n", 
+            "-        if (delayElement != null) {\n", 
+            "-            cacheSize = new Integer(delayElement.getText());\n", 
+            "+        OMElement durationElement = element.getFirstChildWithName(new QName(\"CacheDurationMins\"));\n", 
+            "+        if (durationElement != null) {\n", 
+            "+            cacheDuration = new Integer(durationElement.getText());\n", 
+            "         }\n", 
             "     }\n", 
             " \n", 
-            "     public X509Certificate generateFakePeerCert(BigInteger serialNumber, PublicKey entityKey,\n", 
-            "-                                                PrivateKey caKey, X509Certificate caCert, X509Certificate firstCertificate)\n", 
-            "+                                                PrivateKey caKey, X509Certificate caCert,\n", 
-            "+                                                X509Certificate firstCertificate)\n", 
-            "             throws Exception {\n", 
-            " \n", 
-            "         Utils utils = new Utils();\n", 
-            "-        X509V3CertificateGenerator certGen = utils.getUsableCertificateGenerator(caCert, entityKey, serialNumber);\n", 
-            "-        certGen.copyAndAddExtension(new DERObjectIdentifier(X509Extensions.CRLDistributionPoints.getId()), false, firstCertificate);\n", 
-            "+        X509V3CertificateGenerator certGen = utils.getUsableCertificateGenerator(caCert,\n", 
-            "+                entityKey, serialNumber);\n", 
-            "+        certGen.copyAndAddExtension(new DERObjectIdentifier(X509Extensions.CRLDistributionPoints\n", 
-            "+                .getId()), false, firstCertificate);\n", 
-            " \n", 
-            "         return certGen.generateX509Certificate(caKey, \"BC\");\n", 
+            "-    public boolean isEnabled() {\n", 
+            "-        return enabled;\n", 
+            "-    }\n", 
+            "-\n", 
+            "     public Integer getCacheSize() {\n", 
+            "         return cacheSize;\n", 
             "     }\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/CRLVerifierTest.java", 
-      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/CRLVerifierTest.java"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/CertificateVerificationConfig.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/CertificateVerificationConfig.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-31,11 +31,13", 
+          "locn": "-24,9 +24,9", 
           "lines": [
-            " public class RevocationVerificationTest extends TestCase {\n", 
+            "     public static final int CACHE_MAX_ALLOCATED_SIZE = 10000;\n", 
+            "     public static final int CACHE_MIN_ALLOCATED_SIZE = 50;\n", 
+            "     public static final int CACHE_DEFAULT_ALLOCATED_SIZE = 50;\n", 
+            "-    public static final int CACHE_MAX_DELAY_MINS = 60 * 24;\n", 
+            "-    public static final int CACHE_MIN_DELAY_MINS = 1;\n", 
+            "-    public static final int CACHE_DEFAULT_DELAY_MINS = 15;\n", 
+            "+    public static final int CACHE_MAX_DURATION_MINS = 60 * 24;\n", 
+            "+    public static final int CACHE_MIN_DURATION_MINS = 1;\n", 
+            "+    public static final int CACHE_DEFAULT_DURATION_MINS = 15;\n", 
             " \n", 
-            "     /**\n", 
-            "-     * Tests CRL Path Validation with the use of a real certificate chain. The verification process will make\n", 
-            "-     * HTTP calls to remote CRL server URLs extracted from the certificates in the chain. Usually these certificates\n", 
-            "-     * will not be revoked. So the path validation must be successful to pass the test. In case they are revoked\n", 
-            "-     * or expired, new certificates should be added to the resources directory and Constants should be modified\n", 
-            "-     * accordingly. See the interface TestConstants for expiry dates of the certificates.\n", 
-            "+     * Tests CRL Path Validation with the use of a real certificate chain. The verification process\n", 
-            "+     * will make HTTP calls to remote CRL server URLs extracted from the certificates in the\n", 
-            "+     * chain. Usually these certificates will not be revoked. So the path validation must be\n", 
-            "+     * successful to pass the test. In case they are revoked or expired, new certificates should\n", 
-            "+     * be added to the resources directory and Constants should be modified accordingly. See the\n", 
-            "+     * interface TestConstants for expiry dates of the certificates.\n", 
-            "+     *\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "     public void testCRLPathValidation() throws Exception {\n"
-          ]
-        }, 
-        {
-          "locn": "-55,8 +57,9", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * Tests CRL path validation with fake certificates. The path validation should fail since they are fake and do not\n", 
-            "-     * contain proper information.\n", 
-            "+     * Tests CRL path validation with fake certificates. The path validation should fail since\n", 
-            "+     * they are fake and do not contain proper information.\n", 
-            "+     *\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "     public void testCRLPathValidationWithFakeCerts() throws Exception {\n"
-          ]
-        }, 
-        {
-          "locn": "-75,8 +78,10", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * Tests path validation with OCSP. The process makes remote HTTP requests to corresponding OCSP servers at the\n", 
-            "-     * certificate authorities. The path validation must be successful to pass the test.\n", 
-            "+     * Tests path validation with OCSP. The process makes remote HTTP requests to corresponding\n", 
-            "+     * OCSP servers at the certificate authorities. The path validation must be successful to\n", 
-            "+     * pass the test.\n", 
-            "+     *\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "     public void testOCSPPathValidation() throws Exception {\n"
-          ]
-        }, 
-        {
-          "locn": "-95,8 +100,10", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * Tests OCSP path validation with a chain of fake certificates. In order to pass the test, the path validation\n", 
-            "-     * should fail since the certificates are fake and do not contain right information.\n", 
-            "+     * Tests OCSP path validation with a chain of fake certificates. In order to pass the test,\n", 
-            "+     * the path validation should fail since the certificates are fake and do not contain right\n", 
-            "+     * information.\n", 
-            "+     *\n", 
-            "      * @throws Exception\n", 
-            "      */\n", 
-            "     public void testOCSPPathValidationWithFakeCerts() throws Exception {\n"
+            "     public static final String REVOCATION_MANAGER = \"org.apache.synapse.transport.utils.sslcert.\" +\n", 
+            "             \"RevocationVerificationManager\";\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationTest.java", 
-      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/RevocationVerificationTest.java"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/Constants.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/Constants.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-26,14 +26,14", 
+          "locn": "-37,8 +37,8", 
           "lines": [
-            "     final static int NEXT_UPDATE_PERIOD = 1000000;\n", 
+            "         return cacheManager.wakeUpNow();\n", 
+            "     }\n", 
             " \n", 
-            "     /**\n", 
-            "-     * The certificates in the resources folder will contain the certificates in the certificate chain from\n", 
-            "-     * https://www.github.com\n", 
-            "-     * These certificates are chosen because the certificate issuers support both CRL and OCSP. Read the certificates for\n", 
-            "-     * more details.\n", 
-            "-     *\n", 
-            "-     * CAUTION: Replace the certificates if they expire or are marked as revoked by their issuers. At the moment they are\n", 
-            "-     * valid. The expiry dates of the certificates are as follows:\n", 
-            "-     *\n", 
-            "+     * The certificates in the resources folder will contain the certificates in the certificate\n", 
-            "+     * chain from https://www.github.com\n", 
-            "+     * These certificates are chosen because the certificate issuers support both CRL and OCSP.\n", 
-            "+     * Read the certificates for more details.\n", 
-            "+     * <p/>\n", 
-            "+     * CAUTION: Replace the certificates if they expire or are marked as revoked by their issuers.\n", 
-            "+     * At the moment they are valid. The expiry dates of the certificates are as follows:\n", 
-            "+     * <p/>\n", 
-            "      * github.com                    : 09/02/2015\n", 
-            "      * DigiCertHighAssuranceEVCA-1   : 11/10/2021\n", 
-            "      * DigiCertHighAssuranceEVRootCA : 11/10/2031\n"
+            "-    public boolean changeCacheManagerDelayMins(int delay){\n", 
+            "-        return cacheManager.changeDelay(delay);\n", 
+            "+    public boolean changeCacheManagerDurationMins(int duration){\n", 
+            "+        return cacheManager.changeDuration(duration);\n", 
+            "     }\n", 
+            " \n", 
+            "     public boolean isCacheManagerRunning() {\n"
+          ]
+        }, 
+        {
+          "locn": "-49,7 +49,7", 
+          "lines": [
+            "         return cache.getCacheSize();\n", 
+            "     }\n", 
+            " \n", 
+            "-    public int getCacheManagerDelayMins(){\n", 
+            "-        return cacheManager.getDelay();\n", 
+            "+    public int getCacheManagerDurationMins(){\n", 
+            "+        return cacheManager.getDuration();\n", 
+            "     }\n", 
+            " }\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/TestConstants.java", 
-      "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/sslcert/TestConstants.java"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-35,10 +35,10", 
+          "lines": [
+            " \n", 
+            "     /**\n", 
+            "      * Changes cacheManager task scheduled period.\n", 
+            "-     * @param delay Delay which cacheManager thread waits to start its task again.\n", 
+            "-     * @return true if successfully changed delay. False otherwise.\n", 
+            "+     * @param duration Duration which cacheManager thread waits to start its task again.\n", 
+            "+     * @return true if successfully changed duration. False otherwise.\n", 
+            "      */\n", 
+            "-    public boolean changeCacheManagerDelayMins(int delay);\n", 
+            "+    public boolean changeCacheManagerDurationMins(int duration);\n", 
+            " \n", 
+            "     /**\n", 
+            "      * @return true if CacheManager is running. False if its stopped.\n"
+          ]
+        }, 
+        {
+          "locn": "-51,7 +51,7", 
+          "lines": [
+            "     public int getCacheSize();\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * @return cacheManager delay in minutes.\n", 
+            "+     * @return cacheManager duration in minutes.\n", 
+            "      */\n", 
+            "-    public int getCacheManagerDelayMins();\n", 
+            "+    public int getCacheManagerDurationMins();\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheControllerMBean.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheControllerMBean.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-32,7 +32,7", 
+          "lines": [
+            " \n", 
+            " /**\n", 
+            "  * Cache Manager takes care of and maintains an LRU cache which implements ManageableCache Interface.\n", 
+            "- * Delay should be configured such that cacheManager is not too much involved with the cache,\n", 
+            "+ * Duration should be configured such that cacheManager is not too much involved with the cache,\n", 
+            "  * but manages it optimally.\n", 
+            "  */\n", 
+            " public class CacheManager {\n"
+          ]
+        }, 
+        {
+          "locn": "-45,7 +45,7", 
+          "lines": [
+            "     private ScheduledFuture scheduledFuture = null;\n", 
+            "     private ManageableCache cache;\n", 
+            "     private int cacheMaxSize;\n", 
+            "-    private int delay;\n", 
+            "+    private int duration;\n", 
+            "     private CacheManagingTask cacheManagingTask;\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }, 
+        {
+          "locn": "-55,23 +55,23", 
+          "lines": [
+            "      * @param cacheMaxSize Maximum size of the cache. If the cache exceeds this size, LRU values\n", 
+            "      *                     will be removed\n", 
+            "      */\n", 
+            "-    public CacheManager(ManageableCache cache, int cacheMaxSize, int delay) {\n", 
+            "+    public CacheManager(ManageableCache cache, int cacheMaxSize, int duration) {\n", 
+            "         scheduler = Executors.newSingleThreadScheduledExecutor();\n", 
+            "         this.cache = cache;\n", 
+            "         this.cacheMaxSize = cacheMaxSize;\n", 
+            "         this.cacheManagingTask = new CacheManagingTask();\n", 
+            "-        this.delay = delay;\n", 
+            "+        this.duration = duration;\n", 
+            "         start();\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * To Start the CacheManager. Should be called only once per CacheManager so called in\n", 
+            "-     * constructor. CacheManager will run its scheduled task every \"delay\" number of minutes.\n", 
+            "+     * To Start the CacheManager. Should be called only once per CacheManager hence called in\n", 
+            "+     * constructor. CacheManager will run its scheduled task every \"duration\" number of minutes.\n", 
+            "      */\n", 
+            "     private boolean start() {\n", 
+            "         if (scheduledFuture == null || (scheduledFuture.isCancelled())) {\n", 
+            "             scheduledFuture = scheduler.scheduleWithFixedDelay(cacheManagingTask,\n", 
+            "-                    delay, delay, TimeUnit.MINUTES);\n", 
+            "+                    duration, duration, TimeUnit.MINUTES);\n", 
+            "             log.info(cache.getClass().getSimpleName()+\" Cache Manager Started\");\n", 
+            "             return true;\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-79,7 +79,7", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * To wake cacheManager up at will. If this method is called while its task is running, it\n", 
+            "+     * Used to wake cacheManager up at will. If this method is called while its task is running, it\n", 
+            "      * will run its task again soon after its done. CacheManagerTask will be rescheduled as before.\n", 
+            "      * @return true if successfully waken up. false otherwise.\n", 
+            "      */\n"
+          ]
+        }, 
+        {
+          "locn": "-89,7 +89,7", 
+          "lines": [
+            "                 scheduledFuture.cancel(DO_NOT_INTERRUPT_IF_RUNNING);\n", 
+            "             }\n", 
+            "             scheduledFuture = scheduler.scheduleWithFixedDelay(cacheManagingTask,\n", 
+            "-                    0, delay,TimeUnit.MINUTES);\n", 
+            "+                    0, duration,TimeUnit.MINUTES);\n", 
+            "             log.info(cache.getClass().getSimpleName()+\" Cache Manager Wakened Up.....\");\n", 
+            "             return true;\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-97,24 +97,24", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * Change the cacheManager delay (schedule period) to given value.\n", 
+            "-     * @param delay new delay to which the cacheManager schedule period should change.\n", 
+            "+     * Change the cacheManager duration (schedule period) to given value.\n", 
+            "+     * @param duration new duration to which the cacheManager schedule period should change.\n", 
+            "      * @return true if successfully changed. false otherwise.\n", 
+            "-     * @throws IllegalArgumentException if given delay is not between the allowed limit.\n", 
+            "+     * @throws IllegalArgumentException if given duration is not between the allowed limit.\n", 
+            "      */\n", 
+            "-    public boolean changeDelay(int delay) throws IllegalArgumentException {\n", 
+            "-        int min = Constants.CACHE_MIN_DELAY_MINS;\n", 
+            "-        int max = Constants.CACHE_MAX_DELAY_MINS;\n", 
+            "-        if (delay < min || delay > max) {\n", 
+            "-            throw new IllegalArgumentException(\"Delay time should should be between \" + min +\n", 
+            "+    public boolean changeDuration(int duration) throws IllegalArgumentException {\n", 
+            "+        int min = Constants.CACHE_MIN_DURATION_MINS;\n", 
+            "+        int max = Constants.CACHE_MAX_DURATION_MINS;\n", 
+            "+        if (duration < min || duration > max) {\n", 
+            "+            throw new IllegalArgumentException(\"Duration time should should be between \" + min +\n", 
+            "                     \" and \" + max + \" minutes\");\n", 
+            "         }\n", 
+            "-        this.delay = delay;\n", 
+            "+        this.duration = duration;\n", 
+            "         return wakeUpNow();\n", 
+            "     }\n", 
+            " \n", 
+            "-    public int getDelay(){\n", 
+            "-        return delay;\n", 
+            "+    public int getDuration(){\n", 
+            "+        return duration;\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java"
     }, 
     {
       "chunks": [

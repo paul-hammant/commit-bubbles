@@ -1,32 +1,8 @@
 {
   "when": "2012-01-03T01:44:07-05:00", 
+  "message": "Some improvements and control over how threads are handled by the FIX transport", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-107,6 +107,14", 
-          "lines": [
-            "     public static final String FIX_ACCEPTOR_EVENT_HANDLER = \"transport.fix.AcceptorSessionEventHandler\";\n", 
-            "     public static final String FIX_INITIATOR_EVENT_HANDLER = \"transport.fix.InitiatorSessionEventHandler\";\n", 
-            " \n", 
-            "+    public static final String FIX_PROCESS_SINGLE_THREADED = \"transport.fix.ProcessSingleThreaded\";\n", 
-            "+    public static final String FIX_ACCEPTOR_SINGLE_THREADED = \"transport.fix.AcceptorSingleThreaded\";\n", 
-            "+    public static final String FIX_INITIATOR_SINGLE_THREADED = \"transport.fix.InitiatorSingleThreaded\";\n", 
-            "+\n", 
-            "+    public static final String FIX_USE_THREADED_CONNECTORS = \"transport.fix.UseThreadedConnectors\";\n", 
-            "+    public static final String FIX_USE_THREADED_ACCEPTOR = \"transport.fix.UseThreadedAcceptor\";\n", 
-            "+    public static final String FIX_USE_THREADED_INITIATOR = \"transport.fix.UseThreadedInitiator\";\n", 
-            "+\n", 
-            "     //--------------------------- Message level properties -----------------------------------\n", 
-            " \n", 
-            "     public static final String FIX_IGNORE_ORDER = \"transport.fix.IgnoreOrder\";\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXConstants.java", 
-      "from": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXConstants.java"
-    }, 
     {
       "chunks": [
         {
@@ -511,6 +487,31 @@
       ], 
       "to": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXSessionFactory.java", 
       "from": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXSessionFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-107,6 +107,14", 
+          "lines": [
+            "     public static final String FIX_ACCEPTOR_EVENT_HANDLER = \"transport.fix.AcceptorSessionEventHandler\";\n", 
+            "     public static final String FIX_INITIATOR_EVENT_HANDLER = \"transport.fix.InitiatorSessionEventHandler\";\n", 
+            " \n", 
+            "+    public static final String FIX_PROCESS_SINGLE_THREADED = \"transport.fix.ProcessSingleThreaded\";\n", 
+            "+    public static final String FIX_ACCEPTOR_SINGLE_THREADED = \"transport.fix.AcceptorSingleThreaded\";\n", 
+            "+    public static final String FIX_INITIATOR_SINGLE_THREADED = \"transport.fix.InitiatorSingleThreaded\";\n", 
+            "+\n", 
+            "+    public static final String FIX_USE_THREADED_CONNECTORS = \"transport.fix.UseThreadedConnectors\";\n", 
+            "+    public static final String FIX_USE_THREADED_ACCEPTOR = \"transport.fix.UseThreadedAcceptor\";\n", 
+            "+    public static final String FIX_USE_THREADED_INITIATOR = \"transport.fix.UseThreadedInitiator\";\n", 
+            "+\n", 
+            "     //--------------------------- Message level properties -----------------------------------\n", 
+            " \n", 
+            "     public static final String FIX_IGNORE_ORDER = \"transport.fix.IgnoreOrder\";\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXConstants.java", 
+      "from": "java/modules/transports/optional/fix/src/main/java/org/apache/synapse/transport/fix/FIXConstants.java"
     }
   ], 
   "id": "1226672"

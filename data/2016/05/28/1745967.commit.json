@@ -1,5 +1,6 @@
 {
   "when": "2016-05-28T23:06:31-04:00", 
+  "message": "merge fix https://issues.apache.org/jira/browse/SYNAPSE-1024", 
   "who": "dushan", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2013-07-22T16:59:03-04:00", 
+  "message": "Finished refactoring the integration test framework. Removed the BackEndServerController interface and unified all server management tasks to the ProcessController interface. Made the SynapseTestCase class more coherent by moving backend server specific logic to respective ProcessController impls.", 
   "who": "hiranya", 
   "changes": [
     {
@@ -230,50 +231,15 @@
     {
       "chunks": [
         {
-          "locn": "-26,11 +26,9", 
+          "locn": "-25,11 +25,8", 
           "lines": [
-            " public class Sample362 extends SynapseTestCase {\n", 
             " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
+            " public class Sample8 extends SynapseTestCase {\n", 
             " \n", 
-            "     public Sample362() {\n", 
-            "         super(362);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-37,7 +35,7", 
-          "lines": [
-            "     public void testDbLookupReport() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-    private StockQuoteSampleClient client;\n", 
             "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Action of dbreport and dblookup mediators together\");\n", 
-            " \n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,9", 
-          "lines": [
-            " public class Sample452 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample452() {\n", 
-            "         super(452);\n", 
+            "     public Sample8() {\n", 
+            "         super(8);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -281,165 +247,54 @@
           ]
         }, 
         {
-          "locn": "-39,6 +37,7", 
+          "locn": "-36,6 +33,7", 
           "lines": [
-            " \n", 
-            "         String addUrl = \"https://localhost/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,15", 
-          "lines": [
-            " public class Sample354 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample354() {\n", 
-            "         super(354);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testScriptMediationWithInLineRuby() {\n", 
+            "     public void testRegistryAndXSLTMediator() {\n", 
             "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
             "         String trpUrl = \"http://localhost:8280/\";\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
             " \n", 
-            "         log.info(\"Running test: Using In-lined Ruby scripts for mediation\");\n", 
-            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+            "         log.info(\"Running test: Introduction to static and dynamic registry resources, and using XSLT transformations\");\n", 
+            "         SampleClientResult result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample8.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample8.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-28,11 +28,8", 
+          "locn": "-25,11 +25,8", 
           "lines": [
             " \n", 
-            " public class Sample51 extends SynapseTestCase {\n", 
+            " public class Sample11 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private MTOMSwASampleClient client;\n", 
+            "-    StockQuoteSampleClient client;\n", 
             "-\n", 
-            "     public Sample51() {\n", 
-            "         super(51);\n", 
-            "-        client = getMTOMSwASampleClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testMTOMOptimization() {\n"
-          ]
-        }, 
-        {
-          "locn": "-40,18 +37,18", 
-          "lines": [
-            "         String currentLocation = System.getProperty(\"user.dir\") + File.separator;\n", 
-            "         String filename = FilenameUtils.normalize(\n", 
-            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
-            "+        MTOMSwASampleClient client = getMTOMSwASampleClient();\n", 
-            "         log.info(\"Running test: MTOM optimization and request/response correlation \");\n", 
-            "         SampleClientResult result = client.sendUsingMTOM(filename, ep);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testSWAOptimization() {\n", 
-            "         String ep = \"http://localhost:8280/services/MTOMSwASampleService\";\n", 
-            "         String currentLocation = System.getProperty(\"user.dir\") + File.separator;\n", 
-            "         String filename = FilenameUtils.normalize(\n", 
-            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
-            "-\n", 
-            "+        MTOMSwASampleClient client = getMTOMSwASampleClient();\n", 
-            "         log.info(\"Running test:SwA optimization and request/response correlation \");\n", 
-            "         SampleClientResult result = client.sendUsingSWA(filename, ep);\n", 
-            "         assertResponseReceived(result);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,15", 
-          "lines": [
-            " public class Sample55 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private SampleClientResult result;\n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample55() {\n", 
-            "         super(55);\n", 
+            "     public Sample11() {\n", 
+            "         super(11);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
-            " \n", 
-            "     public void testSessionFullLBFailOver() {\n", 
-            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Failover sending among 3 endpoints\");\n", 
-            "         Thread t = new Thread(new Runnable() {\n", 
-            "             public void run() {\n"
+            " \n"
           ]
         }, 
         {
-          "locn": "-50,7 +49,7", 
+          "locn": "-36,6 +33,7", 
           "lines": [
-            " \n", 
-            "         }\n", 
-            " \n", 
-            "-        getBackendServerControllers().get(0).stop();\n", 
-            "+        getBackendServerControllers().get(0).stopProcess();\n", 
-            "         try {\n", 
-            "             Thread.sleep(2000);\n", 
-            "         } catch (InterruptedException e) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample55.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample55.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,17 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample52 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample52() {\n", 
-            "         super(52);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testSessionLessLB() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            "-\n", 
+            "     public void testFullRegistryBasedConfig() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Session-less load balancing between 3 endpoints\");\n", 
-            "         SampleClientResult result = client.sessionlessClient(addUrl, null, 100);\n", 
-            "         assertResponseReceived(result);\n"
+            " \n", 
+            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample11.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample11.java"
     }, 
     {
       "chunks": [
@@ -479,202 +334,15 @@
     {
       "chunks": [
         {
-          "locn": "-26,11 +26,9", 
-          "lines": [
-            " public class Sample360 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample360() {\n", 
-            "         super(360);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-37,6 +35,7", 
-          "lines": [
-            "     public void testDbLookup() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Introduction to dblookup mediator\");\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,9", 
-          "lines": [
-            " public class Sample451 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample451() {\n", 
-            "         super(451);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-37,6 +35,7", 
-          "lines": [
-            "     public void testURLRewrite() {\n", 
-            "         log.info(\"Running test: Conditional URL Rewriting\");\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         String addUrl = \"jms://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,9", 
-          "lines": [
-            " public class Sample361 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample361() {\n", 
-            "         super(361);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-37,6 +35,7", 
-          "lines": [
-            "     public void testDbReport() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Introduction to dbreport mediator\");\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample361.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample361.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,15", 
-          "lines": [
-            " public class Sample353 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample353() {\n", 
-            "         super(353);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testScriptMediationWithRuby() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Using Ruby scripts for mediation\");\n", 
-            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,17 +26,15", 
-          "lines": [
-            " public class Sample380 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample380() {\n", 
-            "         super(380);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testCustomMediator() {\n", 
-            "         String addUrl = \"http://localhost:8280/\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Demonstrate the use of Class mediator to extend the mediation functionality\");\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,14", 
-          "lines": [
-            " public class Sample372 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample372() {\n", 
-            "         super(372);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testConcurrencyAndRateThrottling() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: concurrency throttling and request rate based throttling\");\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample372.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample372.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-25,11 +25,8", 
           "lines": [
             " \n", 
-            " public class Sample50 extends SynapseTestCase {\n", 
+            " public class Sample16 extends SynapseTestCase {\n", 
             " \n", 
             "-    private StockQuoteSampleClient client;\n", 
             "-\n", 
-            "     public Sample50() {\n", 
-            "         super(50);\n", 
+            "     public Sample16() {\n", 
+            "         super(16);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -684,18 +352,51 @@
         {
           "locn": "-36,6 +33,7", 
           "lines": [
-            "     public void testRestToPox() {\n", 
+            "     public void testDynamicStaticKeys() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Introduction to dynamic and static keys \");\n", 
+            "         SampleClientResult result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,19 +25,18", 
+          "lines": [
+            " \n", 
+            " public class Sample1 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample1() {\n", 
+            "         super(1);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testDumbClientMode() {\n", 
             "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
-            "         log.info(\"Running test: HTTP REST request \");\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.requestRestQuote(null, trpUrl, null, \"IBM\");\n", 
+            " \n", 
+            "         log.info(\"Running test: Dumb Client mode\");\n", 
+            "-        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(\n", 
+            "+                null, trpUrl, null, \"IBM\", null);\n", 
             "         assertResponseReceived(result);\n", 
-            "     }\n"
+            "     }\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java"
     }, 
     {
       "chunks": [
@@ -703,12 +404,148 @@
           "locn": "-25,11 +25,8", 
           "lines": [
             " \n", 
-            " public class Sample54 extends SynapseTestCase {\n", 
+            " public class Sample3 extends SynapseTestCase {\n", 
             " \n", 
             "-    private StockQuoteSampleClient client;\n", 
             "-\n", 
-            "     public Sample54() {\n", 
-            "         super(54);\n", 
+            "     public Sample3() {\n", 
+            "         super(3);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-36,9 +33,11", 
+          "lines": [
+            "     public void testLocalEntriesReusableEndPointsSequences() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
+            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(\n", 
+            "+                addUrl, trpUrl, null, \"IBM\", null);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,8", 
+          "lines": [
+            " \n", 
+            " public class Sample5 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample5() {\n", 
+            "         super(5);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-40,6 +37,8", 
+          "lines": [
+            "         String expectedError_MSFT = \"Error while connecting to the endpoint (Connection Failed)\";\n", 
+            "         String expectedError_SUN = \"Error while connecting to the endpoint (Connection Failed)\";\n", 
+            " \n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "+\n", 
+            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "         assertFalse(\"Must not get a response\", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,8", 
+          "lines": [
+            " \n", 
+            " public class Sample7 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample7() {\n", 
+            "         super(7);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +35,7", 
+          "lines": [
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            "         String expectedError = \"Invalid custom quote request\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,16 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample10 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample10() {\n", 
+            "         super(10);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testDynamicEndPoints() {\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Dynamic EndPoints with Registry\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\", null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample10.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample10.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample13 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample13() {\n", 
+            "         super(13);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -718,18 +555,18 @@
         {
           "locn": "-36,6 +33,7", 
           "lines": [
-            "     public void testSessionFullLB() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            "         log.info(\"Running test: Session affinity load balancing between 3 endpoints\");\n", 
+            "     public void testDualQuote() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.statefulClient(addUrl,null, 100);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n"
+            " \n", 
+            "         log.info(\"Running test: Dual channel invocation through Synapse\");\n", 
+            "         SampleClientResult result = client.requestDualQuote(addUrl, trpUrl, null, \"IBM\");\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java"
     }, 
     {
       "chunks": [
@@ -1999,19 +1836,15 @@
     {
       "chunks": [
         {
-          "locn": "-21,15 +21,11", 
+          "locn": "-25,11 +25,8", 
           "lines": [
             " \n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            "-import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
-            " \n", 
-            " public class Sample0 extends SynapseTestCase {\n", 
+            " public class Sample50 extends SynapseTestCase {\n", 
             " \n", 
             "-    private StockQuoteSampleClient client;\n", 
             "-\n", 
-            "     public Sample0() {\n", 
-            "         super(0);\n", 
+            "     public Sample50() {\n", 
+            "         super(50);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -2019,855 +1852,96 @@
           ]
         }, 
         {
-          "locn": "-38,7 +34,8", 
+          "locn": "-36,6 +33,7", 
           "lines": [
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Smart Client mode\");\n", 
-            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        SampleClientResult result = getStockQuoteClient().requestStandardQuote(\n", 
-            "+                addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-48,7 +45,8", 
-          "lines": [
-            "         String prxUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Using Synapse as a HTTP Proxy\");\n", 
-            "-        SampleClientResult result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
-            "+        SampleClientResult result = getStockQuoteClient().requestStandardQuote(\n", 
-            "+                addUrl, null, prxUrl, \"IBM\", null);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,19 +25,18", 
-          "lines": [
-            " \n", 
-            " public class Sample1 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample1() {\n", 
-            "         super(1);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testDumbClientMode() {\n", 
+            "     public void testRestToPox() {\n", 
             "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
+            "         log.info(\"Running test: HTTP REST request \");\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Dumb Client mode\");\n", 
-            "-        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(\n", 
-            "+                null, trpUrl, null, \"IBM\", null);\n", 
+            "         SampleClientResult result = client.requestRestQuote(null, trpUrl, null, \"IBM\");\n", 
             "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,21 +25,19", 
-          "lines": [
-            " \n", 
-            " public class Sample2 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample2() {\n", 
-            "         super(2);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testCBR() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: CBR with the Switch-case mediator, using message properties\");\n", 
-            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n", 
-            "         assertResponseReceived(result);\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "+        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\", null);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample3 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample3() {\n", 
-            "         super(3);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,9 +33,11", 
-          "lines": [
-            "     public void testLocalEntriesReusableEndPointsSequences() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
-            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(\n", 
-            "+                addUrl, trpUrl, null, \"IBM\", null);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,8", 
-          "lines": [
-            " \n", 
-            " public class Sample4 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample4() {\n", 
-            "         super(4);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-38,6 +35,8", 
-          "lines": [
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            " \n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "+\n", 
-            "         log.info(\"Running test: Introduction to error handling\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertResponseReceived(result);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,8", 
-          "lines": [
-            " \n", 
-            " public class Sample5 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample5() {\n", 
-            "         super(5);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-40,6 +37,8", 
-          "lines": [
-            "         String expectedError_MSFT = \"Error while connecting to the endpoint (Connection Failed)\";\n", 
-            "         String expectedError_SUN = \"Error while connecting to the endpoint (Connection Failed)\";\n", 
-            " \n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "+\n", 
-            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "         assertFalse(\"Must not get a response\", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,15 +25,13", 
-          "lines": [
-            " \n", 
-            " public class Sample6 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample6() {\n", 
-            "         super(6);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testManipulatingHeadersAndFiltering() {\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Dumb Client mode  \");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,8", 
-          "lines": [
-            " \n", 
-            " public class Sample7 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample7() {\n", 
-            "         super(7);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-38,6 +35,7", 
-          "lines": [
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            "         String expectedError = \"Invalid custom quote request\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample8 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample8() {\n", 
-            "         super(8);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testRegistryAndXSLTMediator() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Introduction to static and dynamic registry resources, and using XSLT transformations\");\n", 
-            "         SampleClientResult result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample8.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample8.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample9 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample9() {\n", 
-            "         super(9);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testDynamicSequences() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Dynamic Sequences with Registry\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample9.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample9.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,16 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample10 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample10() {\n", 
-            "         super(10);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testDynamicEndPoints() {\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Dynamic EndPoints with Registry\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\", null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample10.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample10.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample11 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample11() {\n", 
-            "         super(11);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testFullRegistryBasedConfig() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample11.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample11.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,16 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample12 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample12() {\n", 
-            "         super(12);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testFireAndForget() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: One way messaging / fireAndForget through Synapse\");\n", 
-            "         SampleClientResult result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample13 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample13() {\n", 
-            "         super(13);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testDualQuote() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Dual channel invocation through Synapse\");\n", 
-            "         SampleClientResult result = client.requestDualQuote(addUrl, trpUrl, null, \"IBM\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,16 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample15 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample15() {\n", 
-            "         super(15);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testMessageEnrichment() {\n", 
-            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample16 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample16() {\n", 
-            "         super(16);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testDynamicStaticKeys() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Introduction to dynamic and static keys \");\n", 
-            "         SampleClientResult result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,14", 
-          "lines": [
-            " public class Sample420 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample420() {\n", 
-            "         super(420);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testCache() {\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Simple cache implemented on Synapse for the actual service\");\n", 
-            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,17 +26,15", 
-          "lines": [
-            " public class Sample430 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample430() {\n", 
-            "         super(430);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testCallOut() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Simple Callout Mediator for synchronizing web service invocation\");\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,16 +25,15", 
-          "lines": [
-            " public class Sample431 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample431() {\n", 
-            "         super(431);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testCallOutSecurity() {\n", 
-            "         log.info(\"Running test: Callout Mediator with security\");\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
             "     }\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-26,17 +26,15", 
+          "locn": "-28,11 +28,8", 
           "lines": [
-            " public class Sample350 extends SynapseTestCase {\n", 
             " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
+            " public class Sample51 extends SynapseTestCase {\n", 
             " \n", 
-            "     public Sample350() {\n", 
-            "         super(350);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testScriptMediationWithJS() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-    private MTOMSwASampleClient client;\n", 
             "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Introduction to the script mediator using js scripts \");\n", 
-            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample350.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample350.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,9", 
-          "lines": [
-            " public class Sample351 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample351() {\n", 
-            "         super(351);\n", 
-            "-        client = getStockQuoteClient();\n", 
+            "     public Sample51() {\n", 
+            "         super(51);\n", 
+            "-        client = getMTOMSwASampleClient();\n", 
             "     }\n", 
             " \n", 
-            " \n"
+            "     public void testMTOMOptimization() {\n"
           ]
         }, 
         {
-          "locn": "-37,6 +35,7", 
+          "locn": "-40,18 +37,18", 
           "lines": [
-            "     public void testScriptMediationInLineJS() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         String currentLocation = System.getProperty(\"user.dir\") + File.separator;\n", 
+            "         String filename = FilenameUtils.normalize(\n", 
+            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
+            "+        MTOMSwASampleClient client = getMTOMSwASampleClient();\n", 
+            "         log.info(\"Running test: MTOM optimization and request/response correlation \");\n", 
+            "         SampleClientResult result = client.sendUsingMTOM(filename, ep);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n", 
             " \n", 
-            "         log.info(\"Running test: Introduction to the script mediator using js scripts \");\n", 
-            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+            "-\n", 
+            "     public void testSWAOptimization() {\n", 
+            "         String ep = \"http://localhost:8280/services/MTOMSwASampleService\";\n", 
+            "         String currentLocation = System.getProperty(\"user.dir\") + File.separator;\n", 
+            "         String filename = FilenameUtils.normalize(\n", 
+            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
+            "-\n", 
+            "+        MTOMSwASampleClient client = getMTOMSwASampleClient();\n", 
+            "         log.info(\"Running test:SwA optimization and request/response correlation \");\n", 
+            "         SampleClientResult result = client.sendUsingSWA(filename, ep);\n", 
+            "         assertResponseReceived(result);\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample351.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample351.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-26,11 +26,9", 
+          "locn": "-25,17 +25,14", 
           "lines": [
-            " public class Sample460 extends SynapseTestCase {\n", 
             " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
+            " public class Sample52 extends SynapseTestCase {\n", 
             " \n", 
-            "     public Sample460() {\n", 
-            "         super(460);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-37,6 +35,7", 
-          "lines": [
-            "     public void testSpringBeanAsAMediator() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Spring Bean as a Mediator\");\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,18 +26,16", 
-          "lines": [
-            " public class Sample352 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample352() {\n", 
-            "         super(352);\n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample52() {\n", 
+            "         super(52);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
             " \n", 
-            "-    public void testAccesingAPIUsingScripting() {\n", 
-            "+    public void testAccessingAPIUsingScripting() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "     public void testSessionLessLB() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
             "-\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Accessing Synapse message context API methods using scripting language\");\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+            "         log.info(\"Running test: Session-less load balancing between 3 endpoints\");\n", 
+            "         SampleClientResult result = client.sessionlessClient(addUrl, null, 100);\n", 
+            "         assertResponseReceived(result);\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,17 +26,15", 
-          "lines": [
-            " public class Sample370 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample370() {\n", 
-            "         super(370);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testThrottling() {\n", 
-            "         String addUrl = \"http://localhost:8280/\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Introduction to throttle mediator and concurrency throttling\");\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample370.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample370.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,16 +27,15", 
-          "lines": [
-            " public class Sample371 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample371() {\n", 
-            "         super(371);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testRestrictedThrottling() {\n", 
-            "         String addUrl = \"http://localhost:8280/\";\n", 
-            "         String expectedError = \"Access Denied\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Restricting requests based on policies \");\n", 
-            "         for (int i = 0; i < 4; i++) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,17 +26,15", 
-          "lines": [
-            " public class Sample390 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample390() {\n", 
-            "         super(390);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testXQuery() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Introduction to the XQuery mediator\");\n", 
-            "         result = client.requestCustomQuote(addUrl, null, null, \"IBM\");\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,14", 
-          "lines": [
-            " public class Sample391 extends SynapseTestCase {\n", 
-            " \n", 
-            "     SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample391() {\n", 
-            "         super(391);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testExternalXQuery() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: How to use the data from an external XML document with in XQuery \");\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\",null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
     }, 
     {
       "chunks": [
@@ -2942,6 +2016,901 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample53.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample53.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample54 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample54() {\n", 
+            "         super(54);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-36,6 +33,7", 
+          "lines": [
+            "     public void testSessionFullLB() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            "         log.info(\"Running test: Session affinity load balancing between 3 endpoints\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.statefulClient(addUrl,null, 100);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,15", 
+          "lines": [
+            " public class Sample55 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private SampleClientResult result;\n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample55() {\n", 
+            "         super(55);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testSessionFullLBFailOver() {\n", 
+            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Failover sending among 3 endpoints\");\n", 
+            "         Thread t = new Thread(new Runnable() {\n", 
+            "             public void run() {\n"
+          ]
+        }, 
+        {
+          "locn": "-50,7 +49,7", 
+          "lines": [
+            " \n", 
+            "         }\n", 
+            " \n", 
+            "-        getBackendServerControllers().get(0).stop();\n", 
+            "+        getBackendServerControllers().get(0).stopProcess();\n", 
+            "         try {\n", 
+            "             Thread.sleep(2000);\n", 
+            "         } catch (InterruptedException e) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample55.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample55.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,17 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample56 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample56() {\n", 
+            "         super(56);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testSmartClientMode() {\n", 
+            "         String addUrl = \"http://localhost:8280\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Smart Client mode\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertResponseReceived(result);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,14", 
+          "lines": [
+            " public class Sample57 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private SampleClientResult result;\n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample57() {\n", 
+            "         super(57);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testDynamicLB() {\n", 
+            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            "-\n", 
+            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Dynamic load balancing between 3 nodes\");\n", 
+            "         try {\n", 
+            "             Thread.sleep(3000);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,15 +26,14", 
+          "lines": [
+            " public class Sample58 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private SampleClientResult result;\n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample58() {\n", 
+            "         super(58);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testStaticLB() {\n", 
+            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         new Thread(new Runnable() {\n", 
+            "             public void run() {\n"
+          ]
+        }, 
+        {
+          "locn": "-46,7 +45,7", 
+          "lines": [
+            "         } catch (InterruptedException e) {\n", 
+            " \n", 
+            "         }\n", 
+            "-        getBackendServerControllers().get(0).stop();\n", 
+            "+        getBackendServerControllers().get(0).stopProcess();\n", 
+            " \n", 
+            "         try {\n", 
+            "             Thread.sleep(2000);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample59 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample59() {\n", 
+            "         super(59);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testSessionLessLB() {\n"
+          ]
+        }, 
+        {
+          "locn": "-36,6 +33,7", 
+          "lines": [
+            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Weighted load balancing between 3 endpoints\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.sessionlessClient(addUrl, null, 100);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-29,16 +29,14", 
+          "lines": [
+            " \n", 
+            " public class Sample150 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample150() {\n", 
+            "         super(150);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testBasicProxy() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "         log.info(\"Running test: Introduction to proxy services\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,16 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample151 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample151() {\n", 
+            "         super(151);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testCustomSequencesEndpointsWithProxy() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy1\";\n", 
+            "         String addUrl2 = \"http://localhost:8280/services/StockQuoteProxy2\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Custom sequences and endpoints with proxy services\");\n", 
+            "         SampleClientResult result1 = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,8", 
+          "lines": [
+            " \n", 
+            " public class Sample152 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample152() {\n", 
+            "         super(152);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-39,7 +36,7", 
+          "lines": [
+            "         String trustStore = FilenameUtils.normalize(System.getProperty(\"user.dir\") +\n", 
+            "                 \"/modules/integration/src/test/resources/trust.jks\");\n", 
+            "         System.setProperty(\"javax.net.ssl.trustStore\", trustStore);\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Switching transports and message format from SOAP to REST/POX\");\n", 
+            " \n", 
+            "         SampleClientResult result2 = client.requestStandardQuote(null, url2, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample153 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample153() {\n", 
+            "         super(153);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +35,7", 
+          "lines": [
+            "         String policy = \"./repository/conf/sample/resources/policy/client_policy_3.xml\";\n", 
+            "         log.info(\"Running test: Routing the messages arrived to a proxy service without \" +\n", 
+            "                 \"processing the security headers\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult  result = client.requestStandardQuote(null, url, null, \"IBM\", policy);\n", 
+            "         assertTrue(\"Client did not a response with https \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample154 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample154() {\n", 
+            "         super(154);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-36,6 +33,7", 
+          "lines": [
+            "     public void testSessionFullLB() {\n", 
+            "         String trpUrl = \"http://localhost:8280/services/LBProxy\";\n", 
+            "         log.info(\"Running test: Load Balancing with Proxy Services \");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.statefulClient(null, trpUrl, 100);\n", 
+            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample155 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample155() {\n", 
+            "         super(155);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +35,7", 
+          "lines": [
+            " \n", 
+            "         log.info(\"Running test: Dual channel invocation on both client side and server \" +\n", 
+            "                 \"side of Synapse with Proxy Services\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.requestDualQuote(addUrl, null, null, \"IBM\");\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample156 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample156() {\n", 
+            "         super(156);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-36,6 +33,7", 
+          "lines": [
+            "     public void testServiceIntegration() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "         log.info(\"Running test: Service Integration with specifying the receiving sequence\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample100 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample100() {\n", 
+            "         super(100);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-37,6 +35,7", 
+          "lines": [
+            "     public void testWSSecurity() {\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "         log.info(\"Running test: Using WS-Security for outgoing messages\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\", null);\n", 
+            "         assertTrue(\"Client did not run successfully\", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample101 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample101() {\n", 
+            "         super(101);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +36,7", 
+          "lines": [
+            "         String addUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Reliable message exchange\");\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,16 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample15 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample15() {\n", 
+            "         super(15);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testMessageEnrichment() {\n", 
+            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-21,15 +21,11", 
+          "lines": [
+            " \n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            "-import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
+            " \n", 
+            " public class Sample0 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample0() {\n", 
+            "         super(0);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,7 +34,8", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Smart Client mode\");\n", 
+            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        SampleClientResult result = getStockQuoteClient().requestStandardQuote(\n", 
+            "+                addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-48,7 +45,8", 
+          "lines": [
+            "         String prxUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Using Synapse as a HTTP Proxy\");\n", 
+            "-        SampleClientResult result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
+            "+        SampleClientResult result = getStockQuoteClient().requestStandardQuote(\n", 
+            "+                addUrl, null, prxUrl, \"IBM\", null);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,21 +25,19", 
+          "lines": [
+            " \n", 
+            " public class Sample2 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample2() {\n", 
+            "         super(2);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testCBR() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: CBR with the Switch-case mediator, using message properties\");\n", 
+            "-        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n", 
+            "         assertResponseReceived(result);\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "+        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\", null);\n", 
+            "         assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,8", 
+          "lines": [
+            " \n", 
+            " public class Sample4 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample4() {\n", 
+            "         super(4);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +35,8", 
+          "lines": [
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            " \n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "+\n", 
+            "         log.info(\"Running test: Introduction to error handling\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertResponseReceived(result);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,15 +25,13", 
+          "lines": [
+            " \n", 
+            " public class Sample6 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample6() {\n", 
+            "         super(6);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testManipulatingHeadersAndFiltering() {\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Dumb Client mode  \");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,11 +25,8", 
+          "lines": [
+            " \n", 
+            " public class Sample9 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample9() {\n", 
+            "         super(9);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-36,6 +33,7", 
+          "lines": [
+            "     public void testDynamicSequences() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Dynamic Sequences with Registry\");\n", 
+            "         SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample9.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample9.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,16 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample12 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private StockQuoteSampleClient client;\n", 
+            "-\n", 
+            "     public Sample12() {\n", 
+            "         super(12);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testFireAndForget() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: One way messaging / fireAndForget through Synapse\");\n", 
+            "         SampleClientResult result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-1,98 +0,0", 
+          "lines": [
+            "-/*\n", 
+            "- *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "- *  or more contributor license agreements.  See the NOTICE file\n", 
+            "- *  distributed with this work for additional information\n", 
+            "- *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "- *  to you under the Apache License, Version 2.0 (the\n", 
+            "- *  \"License\"); you may not use this file except in compliance\n", 
+            "- *  with the License.  You may obtain a copy of the License at\n", 
+            "- *\n", 
+            "- *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "- *\n", 
+            "- *  Unless required by applicable law or agreed to in writing,\n", 
+            "- *  software distributed under the License is distributed on an\n", 
+            "- *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "- *  KIND, either express or implied.  See the License for the\n", 
+            "- *  specific language governing permissions and limitations\n", 
+            "- *  under the License.\n", 
+            "- */\n", 
+            "-\n", 
+            "-package org.apache.synapse.samples.framework.config;\n", 
+            "-\n", 
+            "-import java.util.HashMap;\n", 
+            "-import java.util.Set;\n", 
+            "-\n", 
+            "-public class SampleConfiguration {\n", 
+            "-\n", 
+            "-    private String sampleName;\n", 
+            "-    private SynapseServerConfiguration synapseServerConfig;\n", 
+            "-    private HashMap<String, Axis2ServerConfiguration> axis2ServerConfigs;\n", 
+            "-    private HashMap<String, JMSBrokerConfiguration> jmsConfigs;\n", 
+            "-    private HashMap<String, DerbyConfiguration> derbyConfigs;\n", 
+            "-    private Axis2ClientConfiguration axis2ClientConfig;\n", 
+            "-\n", 
+            "-    public SampleConfiguration() {\n", 
+            "-        this.synapseServerConfig = new SynapseServerConfiguration();\n", 
+            "-        this.axis2ServerConfigs = new HashMap<String, Axis2ServerConfiguration>();\n", 
+            "-        this.jmsConfigs = new HashMap<String, JMSBrokerConfiguration>();\n", 
+            "-        this.derbyConfigs = new HashMap<String, DerbyConfiguration>();\n", 
+            "-        this.axis2ClientConfig = new Axis2ClientConfiguration();\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public String getSampleName() {\n", 
+            "-        return sampleName;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void setSampleName(String sampleName) {\n", 
+            "-        this.sampleName = sampleName;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public Axis2ClientConfiguration getAxis2ClientConfig() {\n", 
+            "-        return axis2ClientConfig;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void setAxis2Client(Axis2ClientConfiguration axis2ClientConfig) {\n", 
+            "-        this.axis2ClientConfig = axis2ClientConfig;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public SynapseServerConfiguration getSynapseServerConfig() {\n", 
+            "-        return synapseServerConfig;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void setSynapseServerConfig(SynapseServerConfiguration synapseServerConfig) {\n", 
+            "-        this.synapseServerConfig = synapseServerConfig;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void addNewAxis2Server(String name) {\n", 
+            "-        axis2ServerConfigs.put(name, new Axis2ServerConfiguration());\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void addNewJMSBroker(String name) {\n", 
+            "-        jmsConfigs.put(name, new JMSBrokerConfiguration());\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void addNewDerbyServer(String name) {\n", 
+            "-        derbyConfigs.put(name, new DerbyConfiguration());\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public Axis2ServerConfiguration getAxis2Config(String name) {\n", 
+            "-        return axis2ServerConfigs.get(name);\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public JMSBrokerConfiguration getJMSConfig(String name) {\n", 
+            "-        return jmsConfigs.get(name);\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public DerbyConfiguration getDerbyConfig(String name) {\n", 
+            "-        return derbyConfigs.get(name);\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public Set<String> getAxis2ServersList() {\n", 
+            "-        return axis2ServerConfigs.keySet();\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public int getBackEndServerCount() {\n", 
+            "-        return axis2ServerConfigs.size() + jmsConfigs.size();\n", 
+            "-    }\n", 
+            "-\n", 
+            "-}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/SampleConfiguration.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/SampleConfiguration.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-1,33 +0,0", 
+          "lines": [
+            "-/*\n", 
+            "- *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "- *  or more contributor license agreements.  See the NOTICE file\n", 
+            "- *  distributed with this work for additional information\n", 
+            "- *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "- *  to you under the Apache License, Version 2.0 (the\n", 
+            "- *  \"License\"); you may not use this file except in compliance\n", 
+            "- *  with the License.  You may obtain a copy of the License at\n", 
+            "- *\n", 
+            "- *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "- *\n", 
+            "- *  Unless required by applicable law or agreed to in writing,\n", 
+            "- *  software distributed under the License is distributed on an\n", 
+            "- *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "- *  KIND, either express or implied.  See the License for the\n", 
+            "- *  specific language governing permissions and limitations\n", 
+            "- *  under the License.\n", 
+            "- */\n", 
+            "-\n", 
+            "-package org.apache.synapse.samples.framework.config;\n", 
+            "-\n", 
+            "-public class DerbyConfiguration {\n", 
+            "-\n", 
+            "-    private String serverName;\n", 
+            "-\n", 
+            "-    public String getServerName() {\n", 
+            "-        return serverName;\n", 
+            "-    }\n", 
+            "-\n", 
+            "-    public void setServerName(String serverName) {\n", 
+            "-        this.serverName = serverName;\n", 
+            "-    }\n", 
+            "-}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/DerbyConfiguration.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/DerbyConfiguration.java"
     }, 
     {
       "chunks": [
@@ -3195,492 +3164,15 @@
     {
       "chunks": [
         {
-          "locn": "-1,98 +0,0", 
-          "lines": [
-            "-/*\n", 
-            "- *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "- *  or more contributor license agreements.  See the NOTICE file\n", 
-            "- *  distributed with this work for additional information\n", 
-            "- *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "- *  to you under the Apache License, Version 2.0 (the\n", 
-            "- *  \"License\"); you may not use this file except in compliance\n", 
-            "- *  with the License.  You may obtain a copy of the License at\n", 
-            "- *\n", 
-            "- *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "- *\n", 
-            "- *  Unless required by applicable law or agreed to in writing,\n", 
-            "- *  software distributed under the License is distributed on an\n", 
-            "- *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "- *  KIND, either express or implied.  See the License for the\n", 
-            "- *  specific language governing permissions and limitations\n", 
-            "- *  under the License.\n", 
-            "- */\n", 
-            "-\n", 
-            "-package org.apache.synapse.samples.framework.config;\n", 
-            "-\n", 
-            "-import java.util.HashMap;\n", 
-            "-import java.util.Set;\n", 
-            "-\n", 
-            "-public class SampleConfiguration {\n", 
-            "-\n", 
-            "-    private String sampleName;\n", 
-            "-    private SynapseServerConfiguration synapseServerConfig;\n", 
-            "-    private HashMap<String, Axis2ServerConfiguration> axis2ServerConfigs;\n", 
-            "-    private HashMap<String, JMSBrokerConfiguration> jmsConfigs;\n", 
-            "-    private HashMap<String, DerbyConfiguration> derbyConfigs;\n", 
-            "-    private Axis2ClientConfiguration axis2ClientConfig;\n", 
-            "-\n", 
-            "-    public SampleConfiguration() {\n", 
-            "-        this.synapseServerConfig = new SynapseServerConfiguration();\n", 
-            "-        this.axis2ServerConfigs = new HashMap<String, Axis2ServerConfiguration>();\n", 
-            "-        this.jmsConfigs = new HashMap<String, JMSBrokerConfiguration>();\n", 
-            "-        this.derbyConfigs = new HashMap<String, DerbyConfiguration>();\n", 
-            "-        this.axis2ClientConfig = new Axis2ClientConfiguration();\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public String getSampleName() {\n", 
-            "-        return sampleName;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void setSampleName(String sampleName) {\n", 
-            "-        this.sampleName = sampleName;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public Axis2ClientConfiguration getAxis2ClientConfig() {\n", 
-            "-        return axis2ClientConfig;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void setAxis2Client(Axis2ClientConfiguration axis2ClientConfig) {\n", 
-            "-        this.axis2ClientConfig = axis2ClientConfig;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public SynapseServerConfiguration getSynapseServerConfig() {\n", 
-            "-        return synapseServerConfig;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void setSynapseServerConfig(SynapseServerConfiguration synapseServerConfig) {\n", 
-            "-        this.synapseServerConfig = synapseServerConfig;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void addNewAxis2Server(String name) {\n", 
-            "-        axis2ServerConfigs.put(name, new Axis2ServerConfiguration());\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void addNewJMSBroker(String name) {\n", 
-            "-        jmsConfigs.put(name, new JMSBrokerConfiguration());\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void addNewDerbyServer(String name) {\n", 
-            "-        derbyConfigs.put(name, new DerbyConfiguration());\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public Axis2ServerConfiguration getAxis2Config(String name) {\n", 
-            "-        return axis2ServerConfigs.get(name);\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public JMSBrokerConfiguration getJMSConfig(String name) {\n", 
-            "-        return jmsConfigs.get(name);\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public DerbyConfiguration getDerbyConfig(String name) {\n", 
-            "-        return derbyConfigs.get(name);\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public Set<String> getAxis2ServersList() {\n", 
-            "-        return axis2ServerConfigs.keySet();\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public int getBackEndServerCount() {\n", 
-            "-        return axis2ServerConfigs.size() + jmsConfigs.size();\n", 
-            "-    }\n", 
-            "-\n", 
-            "-}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/SampleConfiguration.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/SampleConfiguration.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-1,33 +0,0", 
-          "lines": [
-            "-/*\n", 
-            "- *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "- *  or more contributor license agreements.  See the NOTICE file\n", 
-            "- *  distributed with this work for additional information\n", 
-            "- *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "- *  to you under the Apache License, Version 2.0 (the\n", 
-            "- *  \"License\"); you may not use this file except in compliance\n", 
-            "- *  with the License.  You may obtain a copy of the License at\n", 
-            "- *\n", 
-            "- *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "- *\n", 
-            "- *  Unless required by applicable law or agreed to in writing,\n", 
-            "- *  software distributed under the License is distributed on an\n", 
-            "- *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "- *  KIND, either express or implied.  See the License for the\n", 
-            "- *  specific language governing permissions and limitations\n", 
-            "- *  under the License.\n", 
-            "- */\n", 
-            "-\n", 
-            "-package org.apache.synapse.samples.framework.config;\n", 
-            "-\n", 
-            "-public class DerbyConfiguration {\n", 
-            "-\n", 
-            "-    private String serverName;\n", 
-            "-\n", 
-            "-    public String getServerName() {\n", 
-            "-        return serverName;\n", 
-            "-    }\n", 
-            "-\n", 
-            "-    public void setServerName(String serverName) {\n", 
-            "-        this.serverName = serverName;\n", 
-            "-    }\n", 
-            "-}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/DerbyConfiguration.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/config/DerbyConfiguration.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample59 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample59() {\n", 
-            "         super(59);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testSessionLessLB() {\n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "         String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Weighted load balancing between 3 endpoints\");\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.sessionlessClient(addUrl, null, 100);\n", 
-            "         assertResponseReceived(result);\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample153 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample153() {\n", 
-            "         super(153);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-38,6 +35,7", 
-          "lines": [
-            "         String policy = \"./repository/conf/sample/resources/policy/client_policy_3.xml\";\n", 
-            "         log.info(\"Running test: Routing the messages arrived to a proxy service without \" +\n", 
-            "                 \"processing the security headers\");\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult  result = client.requestStandardQuote(null, url, null, \"IBM\", policy);\n", 
-            "         assertTrue(\"Client did not a response with https \", result.responseReceived());\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,15 +26,14", 
-          "lines": [
-            " public class Sample58 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private SampleClientResult result;\n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample58() {\n", 
-            "         super(58);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testStaticLB() {\n", 
-            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         new Thread(new Runnable() {\n", 
-            "             public void run() {\n"
-          ]
-        }, 
-        {
-          "locn": "-46,7 +45,7", 
-          "lines": [
-            "         } catch (InterruptedException e) {\n", 
-            " \n", 
-            "         }\n", 
-            "-        getBackendServerControllers().get(0).stop();\n", 
-            "+        getBackendServerControllers().get(0).stopProcess();\n", 
-            " \n", 
-            "         try {\n", 
-            "             Thread.sleep(2000);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,11 +26,8", 
-          "lines": [
-            " \n", 
-            " public class Sample152 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample152() {\n", 
-            "         super(152);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-39,7 +36,7", 
-          "lines": [
-            "         String trustStore = FilenameUtils.normalize(System.getProperty(\"user.dir\") +\n", 
-            "                 \"/modules/integration/src/test/resources/trust.jks\");\n", 
-            "         System.setProperty(\"javax.net.ssl.trustStore\", trustStore);\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Switching transports and message format from SOAP to REST/POX\");\n", 
-            " \n", 
-            "         SampleClientResult result2 = client.requestStandardQuote(null, url2, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,16 +26,14", 
-          "lines": [
-            " public class Sample57 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private SampleClientResult result;\n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample57() {\n", 
-            "         super(57);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testDynamicLB() {\n", 
-            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
-            "-\n", 
-            "+        final StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Dynamic load balancing between 3 nodes\");\n", 
-            "         try {\n", 
-            "             Thread.sleep(3000);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,16 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample151 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample151() {\n", 
-            "         super(151);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testCustomSequencesEndpointsWithProxy() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy1\";\n", 
-            "         String addUrl2 = \"http://localhost:8280/services/StockQuoteProxy2\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            " \n", 
-            "         log.info(\"Running test: Custom sequences and endpoints with proxy services\");\n", 
-            "         SampleClientResult result1 = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample155 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample155() {\n", 
-            "         super(155);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-38,6 +35,7", 
-          "lines": [
-            " \n", 
-            "         log.info(\"Running test: Dual channel invocation on both client side and server \" +\n", 
-            "                 \"side of Synapse with Proxy Services\");\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.requestDualQuote(addUrl, null, null, \"IBM\");\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,17 +25,14", 
-          "lines": [
-            " \n", 
-            " public class Sample56 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample56() {\n", 
-            "         super(56);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n", 
-            "     public void testSmartClientMode() {\n", 
-            "         String addUrl = \"http://localhost:8280\";\n", 
-            "-\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         log.info(\"Running test: Smart Client mode\");\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertResponseReceived(result);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,16 +29,14", 
-          "lines": [
-            " \n", 
-            " public class Sample150 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample150() {\n", 
-            "         super(150);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "     public void testBasicProxy() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "         log.info(\"Running test: Introduction to proxy services\");\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-25,11 +25,8", 
-          "lines": [
-            " \n", 
-            " public class Sample154 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample154() {\n", 
-            "         super(154);\n", 
-            "-        client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-36,6 +33,7", 
-          "lines": [
-            "     public void testSessionFullLB() {\n", 
-            "         String trpUrl = \"http://localhost:8280/services/LBProxy\";\n", 
-            "         log.info(\"Running test: Load Balancing with Proxy Services \");\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.statefulClient(null, trpUrl, 100);\n", 
-            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-26,11 +26,9", 
           "lines": [
-            " public class Sample100 extends SynapseTestCase {\n", 
+            " public class Sample460 extends SynapseTestCase {\n", 
             " \n", 
             "     SampleClientResult result;\n", 
             "-    StockQuoteSampleClient client;\n", 
             " \n", 
-            "     public Sample100() {\n", 
-            "         super(100);\n", 
+            "     public Sample460() {\n", 
+            "         super(460);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -3690,18 +3182,265 @@
         {
           "locn": "-37,6 +35,7", 
           "lines": [
-            "     public void testWSSecurity() {\n", 
+            "     public void testSpringBeanAsAMediator() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
             "         String trpUrl = \"http://localhost:8280/\";\n", 
-            "         log.info(\"Running test: Using WS-Security for outgoing messages\");\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\", null);\n", 
-            "         assertTrue(\"Client did not run successfully\", result.responseReceived());\n", 
+            " \n", 
+            "         log.info(\"Running test: Spring Bean as a Mediator\");\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample360 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample360() {\n", 
+            "         super(360);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-37,6 +35,7", 
+          "lines": [
+            "     public void testDbLookup() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Introduction to dblookup mediator\");\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample351 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample351() {\n", 
+            "         super(351);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-37,6 +35,7", 
+          "lines": [
+            "     public void testScriptMediationInLineJS() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Introduction to the script mediator using js scripts \");\n", 
+            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample351.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample351.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,18 +26,16", 
+          "lines": [
+            " public class Sample352 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample352() {\n", 
+            "         super(352);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "-    public void testAccesingAPIUsingScripting() {\n", 
+            "+    public void testAccessingAPIUsingScripting() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Accessing Synapse message context API methods using scripting language\");\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample451 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample451() {\n", 
+            "         super(451);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-37,6 +35,7", 
+          "lines": [
+            "     public void testURLRewrite() {\n", 
+            "         log.info(\"Running test: Conditional URL Rewriting\");\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         String addUrl = \"jms://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,17 +26,15", 
+          "lines": [
+            " public class Sample370 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample370() {\n", 
+            "         super(370);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testThrottling() {\n", 
+            "         String addUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Introduction to throttle mediator and concurrency throttling\");\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample370.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample370.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,17 +26,15", 
+          "lines": [
+            " public class Sample380 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample380() {\n", 
+            "         super(380);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testCustomMediator() {\n", 
+            "         String addUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Demonstrate the use of Class mediator to extend the mediation functionality\");\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,15", 
+          "lines": [
+            " public class Sample354 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample354() {\n", 
+            "         super(354);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testScriptMediationWithInLineRuby() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Using In-lined Ruby scripts for mediation\");\n", 
+            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,16 +25,15", 
+          "lines": [
+            " public class Sample431 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample431() {\n", 
+            "         super(431);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testCallOutSecurity() {\n", 
+            "         log.info(\"Running test: Callout Mediator with security\");\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
             "     }\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java"
     }, 
     {
       "chunks": [
@@ -3807,15 +3546,15 @@
     {
       "chunks": [
         {
-          "locn": "-25,11 +25,8", 
+          "locn": "-26,11 +26,9", 
           "lines": [
+            " public class Sample361 extends SynapseTestCase {\n", 
             " \n", 
-            " public class Sample156 extends SynapseTestCase {\n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
             " \n", 
-            "-    private StockQuoteSampleClient client;\n", 
-            "-\n", 
-            "     public Sample156() {\n", 
-            "         super(156);\n", 
+            "     public Sample361() {\n", 
+            "         super(361);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -3823,20 +3562,105 @@
           ]
         }, 
         {
-          "locn": "-36,6 +33,7", 
+          "locn": "-37,6 +35,7", 
           "lines": [
-            "     public void testServiceIntegration() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "         log.info(\"Running test: Service Integration with specifying the receiving sequence\");\n", 
+            "     public void testDbReport() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         SampleClientResult result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
-            "     }\n"
+            " \n", 
+            "         log.info(\"Running test: Introduction to dbreport mediator\");\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample361.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample361.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,16 +27,15", 
+          "lines": [
+            " public class Sample371 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample371() {\n", 
+            "         super(371);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testRestrictedThrottling() {\n", 
+            "         String addUrl = \"http://localhost:8280/\";\n", 
+            "         String expectedError = \"Access Denied\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Restricting requests based on policies \");\n", 
+            "         for (int i = 0; i < 4; i++) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,14", 
+          "lines": [
+            " public class Sample372 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample372() {\n", 
+            "         super(372);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testConcurrencyAndRateThrottling() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: concurrency throttling and request rate based throttling\");\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample372.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample372.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,17 +26,15", 
+          "lines": [
+            " public class Sample430 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample430() {\n", 
+            "         super(430);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testCallOut() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Simple Callout Mediator for synchronizing web service invocation\");\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java"
     }, 
     {
       "chunks": [
@@ -4073,6 +3897,98 @@
     {
       "chunks": [
         {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample362 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample362() {\n", 
+            "         super(362);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-37,7 +35,7", 
+          "lines": [
+            "     public void testDbLookupReport() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Action of dbreport and dblookup mediators together\");\n", 
+            " \n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,17 +26,15", 
+          "lines": [
+            " public class Sample390 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample390() {\n", 
+            "         super(390);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            " \n", 
+            "     public void testXQuery() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Introduction to the XQuery mediator\");\n", 
+            "         result = client.requestCustomQuote(addUrl, null, null, \"IBM\");\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,14", 
+          "lines": [
+            " public class Sample420 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample420() {\n", 
+            "         super(420);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testCache() {\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Simple cache implemented on Synapse for the actual service\");\n", 
+            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-19,6 +19,12", 
           "lines": [
             " \n", 
@@ -4147,15 +4063,43 @@
     {
       "chunks": [
         {
-          "locn": "-26,11 +26,9", 
+          "locn": "-26,16 +26,15", 
           "lines": [
-            " public class Sample101 extends SynapseTestCase {\n", 
+            " public class Sample353 extends SynapseTestCase {\n", 
             " \n", 
             "     SampleClientResult result;\n", 
             "-    StockQuoteSampleClient client;\n", 
             " \n", 
-            "     public Sample101() {\n", 
-            "         super(101);\n", 
+            "     public Sample353() {\n", 
+            "         super(353);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testScriptMediationWithRuby() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            " \n", 
+            "         log.info(\"Running test: Using Ruby scripts for mediation\");\n", 
+            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,11 +26,9", 
+          "lines": [
+            " public class Sample452 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample452() {\n", 
+            "         super(452);\n", 
             "-        client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
@@ -4163,20 +4107,77 @@
           ]
         }, 
         {
-          "locn": "-38,6 +36,7", 
+          "locn": "-39,6 +37,7", 
           "lines": [
-            "         String addUrl = \"http://localhost:8280/\";\n", 
             " \n", 
-            "         log.info(\"Running test: Reliable message exchange\");\n", 
+            "         String addUrl = \"https://localhost/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
             "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "         assertTrue(\"Client did not run successfully \", result.responseReceived());\n", 
-            "     }\n"
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\", null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,16 +26,14", 
+          "lines": [
+            " public class Sample391 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample391() {\n", 
+            "         super(391);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testExternalXQuery() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: How to use the data from an external XML document with in XQuery \");\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\",null);\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,17 +26,15", 
+          "lines": [
+            " public class Sample350 extends SynapseTestCase {\n", 
+            " \n", 
+            "     SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample350() {\n", 
+            "         super(350);\n", 
+            "-        client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "     public void testScriptMediationWithJS() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            "-\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "         log.info(\"Running test: Introduction to the script mediator using js scripts \");\n", 
+            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n", 
+            "         assertTrue(\"Client did not get run successfully \", result.responseReceived());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample350.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample350.java"
     }, 
     {
       "chunks": [

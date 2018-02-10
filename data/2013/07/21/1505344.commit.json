@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T07:27:59-04:00", 
+  "message": "fixing SYNAPSE-946", 
   "who": "miyuru", 
   "changes": [
     {

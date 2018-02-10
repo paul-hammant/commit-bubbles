@@ -1,7 +1,62 @@
 {
   "when": "2013-07-21T15:13:11-04:00", 
+  "message": "Applying patches for SYNAPSE-947 and SYNAPSE-948. WS-Security support for the callout mediator. Added an extra test case for the CalloutMediatorSerializationTest.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,43", 
+          "lines": [
+            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
+            "+\n", 
+            "+<!-- Callout  mediator Security Sample-->\n", 
+            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+\n", 
+            "+    <localEntry key=\"sec_policy\" src=\"file:repository/conf/sample/resources/policy/policy_3.xml\"/>\n", 
+            "+\n", 
+            "+    <sequence name=\"main\">\n", 
+            "+        <callout serviceURL=\"http://localhost:9000/services/SecureStockQuoteService\"\n", 
+            "+                 action=\"urn:getQuote\">\n", 
+            "+            <source xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
+            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
+            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/>\n", 
+            "+            <target xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
+            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
+            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/>\n", 
+            "+            <enableSec policy=\"sec_policy\"/>\n", 
+            "+        </callout>\n", 
+            "+        <property name=\"RESPONSE\" value=\"true\"/>\n", 
+            "+        <header name=\"To\" action=\"remove\"/>\n", 
+            "+        <send/>\n", 
+            "+        <drop/>\n", 
+            "+    </sequence>\n", 
+            "+\n", 
+            "+</definitions>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_431.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_431.xml"
+    }, 
     {
       "chunks": [
         {
@@ -193,53 +248,6 @@
     {
       "chunks": [
         {
-          "locn": "-29,6 +29,7", 
-          "lines": [
-            "  *      &lt;configuration [axis2xml=\"string\"] [repository=\"string\"]/&gt;?\n", 
-            "  *      &lt;source xpath=\"expression\" | key=\"string\"&gt;\n", 
-            "  *      &lt;target xpath=\"expression\" | key=\"string\"/&gt;\n", 
-            "+ *      &lt;enableSec policy=\"string\"/&gt;?\n", 
-            "  * &lt;/callout&gt;\n", 
-            "  * </pre>\n", 
-            "  */\n"
-          ]
-        }, 
-        {
-          "locn": "-38,6 +39,7", 
-          "lines": [
-            " \n", 
-            "         if (!(m instanceof CalloutMediator)) {\n", 
-            "             handleException(\"Unsupported mediator passed in for serialization : \" + m.getType());\n", 
-            "+            return null;\n", 
-            "         }\n", 
-            " \n", 
-            "         CalloutMediator mediator = (CalloutMediator) m;\n"
-          ]
-        }, 
-        {
-          "locn": "-82,6 +84,12", 
-          "lines": [
-            "                 \"key\", nullNS, mediator.getTargetKey()));\n", 
-            "         }\n", 
-            " \n", 
-            "+        if (mediator.isSecurityOn() && mediator.getWsSecPolicyKey() != null) {\n", 
-            "+            OMElement security = fac.createOMElement(\"enableSec\", synNS, callout);\n", 
-            "+            security.addAttribute(fac.createOMAttribute(\n", 
-            "+                    \"policy\", nullNS, mediator.getWsSecPolicyKey()));\n", 
-            "+        }\n", 
-            "+\n", 
-            "         return callout;\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-38,6 +38,7", 
           "lines": [
             "  *      &lt;configuration [axis2xml=\"string\"] [repository=\"string\"]/&gt;?\n", 
@@ -302,6 +310,53 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-29,6 +29,7", 
+          "lines": [
+            "  *      &lt;configuration [axis2xml=\"string\"] [repository=\"string\"]/&gt;?\n", 
+            "  *      &lt;source xpath=\"expression\" | key=\"string\"&gt;\n", 
+            "  *      &lt;target xpath=\"expression\" | key=\"string\"/&gt;\n", 
+            "+ *      &lt;enableSec policy=\"string\"/&gt;?\n", 
+            "  * &lt;/callout&gt;\n", 
+            "  * </pre>\n", 
+            "  */\n"
+          ]
+        }, 
+        {
+          "locn": "-38,6 +39,7", 
+          "lines": [
+            " \n", 
+            "         if (!(m instanceof CalloutMediator)) {\n", 
+            "             handleException(\"Unsupported mediator passed in for serialization : \" + m.getType());\n", 
+            "+            return null;\n", 
+            "         }\n", 
+            " \n", 
+            "         CalloutMediator mediator = (CalloutMediator) m;\n"
+          ]
+        }, 
+        {
+          "locn": "-82,6 +84,12", 
+          "lines": [
+            "                 \"key\", nullNS, mediator.getTargetKey()));\n", 
+            "         }\n", 
+            " \n", 
+            "+        if (mediator.isSecurityOn() && mediator.getWsSecPolicyKey() != null) {\n", 
+            "+            OMElement security = fac.createOMElement(\"enableSec\", synNS, callout);\n", 
+            "+            security.addAttribute(fac.createOMAttribute(\n", 
+            "+                    \"policy\", nullNS, mediator.getWsSecPolicyKey()));\n", 
+            "+        }\n", 
+            "+\n", 
+            "         return callout;\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java"
     }, 
     {
       "chunks": [
@@ -418,60 +473,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/CalloutMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/CalloutMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,43", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+\n", 
-            "+<!-- Callout  mediator Security Sample-->\n", 
-            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+\n", 
-            "+    <localEntry key=\"sec_policy\" src=\"file:repository/conf/sample/resources/policy/policy_3.xml\"/>\n", 
-            "+\n", 
-            "+    <sequence name=\"main\">\n", 
-            "+        <callout serviceURL=\"http://localhost:9000/services/SecureStockQuoteService\"\n", 
-            "+                 action=\"urn:getQuote\">\n", 
-            "+            <source xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
-            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
-            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/>\n", 
-            "+            <target xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
-            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
-            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/>\n", 
-            "+            <enableSec policy=\"sec_policy\"/>\n", 
-            "+        </callout>\n", 
-            "+        <property name=\"RESPONSE\" value=\"true\"/>\n", 
-            "+        <header name=\"To\" action=\"remove\"/>\n", 
-            "+        <send/>\n", 
-            "+        <drop/>\n", 
-            "+    </sequence>\n", 
-            "+\n", 
-            "+</definitions>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_431.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_431.xml"
     }
   ], 
   "id": "1505448"

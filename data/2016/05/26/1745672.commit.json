@@ -1,7 +1,69 @@
 {
   "when": "2016-05-26T19:00:20-04:00", 
+  "message": "Upgrading Rhino version to 1.7R5; Applying patch from Nuwan submitted at SYNAPSE-1013", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-394,8 +394,8", 
+          "lines": [
+            "             <scope>test</scope>\n", 
+            "         </dependency>\n", 
+            "         <dependency>\n", 
+            "-            <groupId>rhino</groupId>\n", 
+            "-            <artifactId>js</artifactId>\n", 
+            "+            <groupId>org.mozilla</groupId>\n", 
+            "+            <artifactId>rhino</artifactId>\n", 
+            "             <scope>test</scope>\n", 
+            "         </dependency>\n", 
+            "         <dependency>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/pom.xml", 
+      "from": "java/modules/integration/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-66,6 +66,11", 
+          "lines": [
+            "     private static final String MC_VAR_NAME = \"mc\";\n", 
+            " \n", 
+            "     /**\n", 
+            "+     * Name of the JavaScript language\n", 
+            "+     */\n", 
+            "+    private static final String JAVA_SCRIPT = \"js\";\n", 
+            "+\n", 
+            "+    /**\n", 
+            "      * The registry entry key for a script loaded from the registry\n", 
+            "      * Handle both static and dynamic(Xpath) Keys\n", 
+            "      */\n"
+          ]
+        }, 
+        {
+          "locn": "-428,7 +433,12", 
+          "lines": [
+            "         if (scriptEngine == null) {\n", 
+            "             handleException(\"No script engine found for language: \" + language);\n", 
+            "         }\n", 
+            "-        xmlHelper = XMLHelper.getArgHelper(scriptEngine);\n", 
+            "+        //Invoking a custom Helper class since there is an api change in rhino17 for js\n", 
+            "+        if (language.equalsIgnoreCase(JAVA_SCRIPT)) {\n", 
+            "+            xmlHelper = new JavaScriptXmlHelper();\n", 
+            "+        } else {\n", 
+            "+            xmlHelper = XMLHelper.getArgHelper(scriptEngine);\n", 
+            "+        }\n", 
+            " \n", 
+            "         this.multiThreadedEngine = scriptEngine.getFactory().getParameter(\"THREADING\") != null;\n", 
+            "         log.debug(\"Script mediator for language : \" + language +\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java", 
+      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java"
+    }, 
     {
       "chunks": [
         {
@@ -126,46 +188,6 @@
     {
       "chunks": [
         {
-          "locn": "-66,6 +66,11", 
-          "lines": [
-            "     private static final String MC_VAR_NAME = \"mc\";\n", 
-            " \n", 
-            "     /**\n", 
-            "+     * Name of the JavaScript language\n", 
-            "+     */\n", 
-            "+    private static final String JAVA_SCRIPT = \"js\";\n", 
-            "+\n", 
-            "+    /**\n", 
-            "      * The registry entry key for a script loaded from the registry\n", 
-            "      * Handle both static and dynamic(Xpath) Keys\n", 
-            "      */\n"
-          ]
-        }, 
-        {
-          "locn": "-428,7 +433,12", 
-          "lines": [
-            "         if (scriptEngine == null) {\n", 
-            "             handleException(\"No script engine found for language: \" + language);\n", 
-            "         }\n", 
-            "-        xmlHelper = XMLHelper.getArgHelper(scriptEngine);\n", 
-            "+        //Invoking a custom Helper class since there is an api change in rhino17 for js\n", 
-            "+        if (language.equalsIgnoreCase(JAVA_SCRIPT)) {\n", 
-            "+            xmlHelper = new JavaScriptXmlHelper();\n", 
-            "+        } else {\n", 
-            "+            xmlHelper = XMLHelper.getArgHelper(scriptEngine);\n", 
-            "+        }\n", 
-            " \n", 
-            "         this.multiThreadedEngine = scriptEngine.getFactory().getParameter(\"THREADING\") != null;\n", 
-            "         log.debug(\"Script mediator for language : \" + language +\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java", 
-      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-136,8 +136,8", 
           "lines": [
             "             <artifactId>wso2throttle-core</artifactId>\n", 
@@ -183,27 +205,6 @@
       ], 
       "to": "java/modules/extensions/pom.xml", 
       "from": "java/modules/extensions/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-394,8 +394,8", 
-          "lines": [
-            "             <scope>test</scope>\n", 
-            "         </dependency>\n", 
-            "         <dependency>\n", 
-            "-            <groupId>rhino</groupId>\n", 
-            "-            <artifactId>js</artifactId>\n", 
-            "+            <groupId>org.mozilla</groupId>\n", 
-            "+            <artifactId>rhino</artifactId>\n", 
-            "             <scope>test</scope>\n", 
-            "         </dependency>\n", 
-            "         <dependency>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/pom.xml", 
-      "from": "java/modules/integration/pom.xml"
     }, 
     {
       "chunks": [

@@ -1,5 +1,6 @@
 {
   "when": "2016-12-25T12:12:21-05:00", 
+  "message": "Avoid get-property() function in default scope look for entries from remote registry", 
   "who": "isudana", 
   "changes": [
     {
@@ -33,21 +34,27 @@
     {
       "chunks": [
         {
-          "locn": "-267,7 +267,7", 
+          "locn": "-156,6 +156,14", 
           "lines": [
-            "                 if (result != null) {\n", 
-            "                     return result;\n", 
-            "                 } else {\n", 
-            "-                    return synCtx.getEntry(key);\n", 
-            "+                    return synCtx.getLocalEntry(key);\n", 
-            "                 }\n", 
-            "             }\n", 
-            "         } else if (XMLConfigConstants.SCOPE_AXIS2.equals(scope)\n"
+            "     public Object getEntry(String key);\n", 
+            " \n", 
+            "     /**\n", 
+            "+     * Get the value of a property set on the message instance or from the local registry\n", 
+            "+     *\n", 
+            "+     * @param key key to look up property\n", 
+            "+     * @return value for the given key\n", 
+            "+     */\n", 
+            "+    public Object getLocalEntry(String key);\n", 
+            "+\n", 
+            "+    /**\n", 
+            "      * Set a custom (local) property with the given name on the message instance\n", 
+            "      * @param key key to be used\n", 
+            "      * @param value value to be saved\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/GetPropertyFunction.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/GetPropertyFunction.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/MessageContext.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/MessageContext.java"
     }, 
     {
       "chunks": [
@@ -83,27 +90,21 @@
     {
       "chunks": [
         {
-          "locn": "-156,6 +156,14", 
+          "locn": "-267,7 +267,7", 
           "lines": [
-            "     public Object getEntry(String key);\n", 
-            " \n", 
-            "     /**\n", 
-            "+     * Get the value of a property set on the message instance or from the local registry\n", 
-            "+     *\n", 
-            "+     * @param key key to look up property\n", 
-            "+     * @return value for the given key\n", 
-            "+     */\n", 
-            "+    public Object getLocalEntry(String key);\n", 
-            "+\n", 
-            "+    /**\n", 
-            "      * Set a custom (local) property with the given name on the message instance\n", 
-            "      * @param key key to be used\n", 
-            "      * @param value value to be saved\n"
+            "                 if (result != null) {\n", 
+            "                     return result;\n", 
+            "                 } else {\n", 
+            "-                    return synCtx.getEntry(key);\n", 
+            "+                    return synCtx.getLocalEntry(key);\n", 
+            "                 }\n", 
+            "             }\n", 
+            "         } else if (XMLConfigConstants.SCOPE_AXIS2.equals(scope)\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/MessageContext.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/MessageContext.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/GetPropertyFunction.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/GetPropertyFunction.java"
     }, 
     {
       "chunks": [

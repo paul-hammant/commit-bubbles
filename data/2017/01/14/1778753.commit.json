@@ -1,7 +1,41 @@
 {
   "when": "2017-01-14T05:57:31-05:00", 
+  "message": "Upgrade snmp4j to a version that is available from Maven central.", 
   "who": "veithen", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-27,8 +27,8", 
+          "lines": [
+            " import org.snmp4j.agent.DuplicateRegistrationException;\n", 
+            " import org.snmp4j.agent.ManagedObject;\n", 
+            " import org.snmp4j.agent.io.ImportModes;\n", 
+            "-import org.snmp4j.agent.mo.MOTableRow;\n", 
+            " import org.snmp4j.agent.mo.snmp.*;\n", 
+            "+import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB.SnmpCommunityEntryRow;\n", 
+            " import org.snmp4j.agent.security.MutableVACM;\n", 
+            " import org.snmp4j.mp.MPv3;\n", 
+            " import org.snmp4j.mp.SnmpConstants;\n"
+          ]
+        }, 
+        {
+          "locn": "-252,7 +252,7", 
+          "lines": [
+            "                 new Integer32(StorageType.nonVolatile),  // storage type\n", 
+            "                 new Integer32(RowStatus.active)          // row status\n", 
+            "         };\n", 
+            "-        MOTableRow row =\n", 
+            "+        SnmpCommunityEntryRow row =\n", 
+            "                 communityMIB.getSnmpCommunityEntry().createRow(\n", 
+            "                         new OctetString(COMMUNITY_RECORD).toSubIndex(true), com2sec);\n", 
+            "         communityMIB.getSnmpCommunityEntry().addRow(row);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SNMPAgent.java", 
+      "from": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SNMPAgent.java"
+    }, 
     {
       "chunks": [
         {
@@ -44,39 +78,6 @@
       ], 
       "to": "java/pom.xml", 
       "from": "java/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,8 +27,8", 
-          "lines": [
-            " import org.snmp4j.agent.DuplicateRegistrationException;\n", 
-            " import org.snmp4j.agent.ManagedObject;\n", 
-            " import org.snmp4j.agent.io.ImportModes;\n", 
-            "-import org.snmp4j.agent.mo.MOTableRow;\n", 
-            " import org.snmp4j.agent.mo.snmp.*;\n", 
-            "+import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB.SnmpCommunityEntryRow;\n", 
-            " import org.snmp4j.agent.security.MutableVACM;\n", 
-            " import org.snmp4j.mp.MPv3;\n", 
-            " import org.snmp4j.mp.SnmpConstants;\n"
-          ]
-        }, 
-        {
-          "locn": "-252,7 +252,7", 
-          "lines": [
-            "                 new Integer32(StorageType.nonVolatile),  // storage type\n", 
-            "                 new Integer32(RowStatus.active)          // row status\n", 
-            "         };\n", 
-            "-        MOTableRow row =\n", 
-            "+        SnmpCommunityEntryRow row =\n", 
-            "                 communityMIB.getSnmpCommunityEntry().createRow(\n", 
-            "                         new OctetString(COMMUNITY_RECORD).toSubIndex(true), com2sec);\n", 
-            "         communityMIB.getSnmpCommunityEntry().addRow(row);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SNMPAgent.java", 
-      "from": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SNMPAgent.java"
     }
   ], 
   "id": "1778753"

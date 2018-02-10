@@ -1,5 +1,6 @@
 {
   "when": "2013-08-07T18:36:06-04:00", 
+  "message": "Adding some tests cases for the AbstractEndpoint class", 
   "who": "hiranya", 
   "changes": [
     {

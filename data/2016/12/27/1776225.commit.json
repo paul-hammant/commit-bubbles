@@ -1,67 +1,8 @@
 {
   "when": "2016-12-27T23:08:49-05:00", 
+  "message": "Bundling axis2-json and jettison as part of distribution package and enabling json content type by default in axsi2.xml. Samples and setup guide also updated to reflect these changes.", 
   "who": "ravi", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-427,7 +427,12", 
-          "lines": [
-            "                 <groupId>org.apache.axis2</groupId>\n", 
-            "                 <artifactId>axis2-transport-mail</artifactId>\n", 
-            "                 <version>${axis2.version}</version>\n", 
-            "-            </dependency>\n", 
-            "+\t    </dependency>\n", 
-            "+\t    <dependency>\n", 
-            "+                <groupId>org.apache.axis2</groupId>\n", 
-            "+                <artifactId>axis2-json</artifactId>\n", 
-            "+                <version>${axis2.version}</version>\n", 
-            "+\t    </dependency>\n", 
-            "             <dependency>\n", 
-            "                 <groupId>org.apache.axis2</groupId>\n", 
-            "                 <artifactId>axis2-adb</artifactId>\n"
-          ]
-        }
-      ], 
-      "to": "java/pom.xml", 
-      "from": "java/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-148,8 +148,8", 
-          "lines": [
-            "                          class=\"org.apache.synapse.format.hessian.HessianMessageFormatter\"/>-->\n", 
-            "         <!--<messageFormatter contentType=\"\"\n", 
-            "                          class=\"org.apache.synapse.format.hessian.HessianMessageFormatter\"/>-->\n", 
-            "-        <!--<messageFormatter contentType=\"application/json\"\n", 
-            "-                         class=\"org.apache.axis2.json.JSONMessageFormatter\"/>-->\n", 
-            "+        <messageFormatter contentType=\"application/json\"\n", 
-            "+                         class=\"org.apache.axis2.json.JSONMessageFormatter\"/>\n", 
-            " \n", 
-            "     </messageFormatters>\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-178,8 +178,8", 
-          "lines": [
-            "                          class=\"org.apache.synapse.format.hessian.HessianMessageBuilder\"/>-->\n", 
-            "         <!--<messageBuilder contentType=\"\"\n", 
-            "                          class=\"org.apache.synapse.format.hessian.HessianMessageBuilder\"/>-->\n", 
-            "-        <!--<messageBuilder contentType=\"application/json\"\n", 
-            "-                         class=\"org.apache.axis2.json.JSONOMBuilder\"/>-->\n", 
-            "+        <messageBuilder contentType=\"application/json\"\n", 
-            "+                         class=\"org.apache.axis2.json.JSONOMBuilder\"/>\n", 
-            "     </messageBuilders>\n", 
-            " \n", 
-            "     <!-- ================================================= -->\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/axis2.xml", 
-      "from": "java/repository/conf/axis2.xml"
-    }, 
     {
       "chunks": [
         {
@@ -81,24 +22,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample158.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample158.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-383,6 +383,7", 
-          "lines": [
-            "                 <li><a href=\"tcp_udp.html\">TCP/UDP Setup Guide</a></li>\n", 
-            "                 <li><a href=\"db.html\">Database Setup Guide</a></li>\n", 
-            "                 <li><a href=\"script.html\">Script Setup Guide</a></li>\n", 
-            "+                <li><a href=\"script.html#json-syn3\">JSON Setup Guide</a></li>\n", 
-            "                 <li><a href=\"mail.html\">E-Mail Setup Guide</a></li>\n", 
-            "             </ul>\n", 
-            "         </section>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/index.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/index.xml"
     }, 
     {
       "chunks": [
@@ -167,6 +90,24 @@
     {
       "chunks": [
         {
+          "locn": "-383,6 +383,7", 
+          "lines": [
+            "                 <li><a href=\"tcp_udp.html\">TCP/UDP Setup Guide</a></li>\n", 
+            "                 <li><a href=\"db.html\">Database Setup Guide</a></li>\n", 
+            "                 <li><a href=\"script.html\">Script Setup Guide</a></li>\n", 
+            "+                <li><a href=\"script.html#json-syn3\">JSON Setup Guide</a></li>\n", 
+            "                 <li><a href=\"mail.html\">E-Mail Setup Guide</a></li>\n", 
+            "             </ul>\n", 
+            "         </section>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/index.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/index.xml"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-110,6 +110,12", 
           "lines": [
             "             <artifactId>axis2-codegen</artifactId>\n", 
@@ -186,6 +127,66 @@
       ], 
       "to": "java/modules/distribution/pom.xml", 
       "from": "java/modules/distribution/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-427,7 +427,12", 
+          "lines": [
+            "                 <groupId>org.apache.axis2</groupId>\n", 
+            "                 <artifactId>axis2-transport-mail</artifactId>\n", 
+            "                 <version>${axis2.version}</version>\n", 
+            "-            </dependency>\n", 
+            "+\t    </dependency>\n", 
+            "+\t    <dependency>\n", 
+            "+                <groupId>org.apache.axis2</groupId>\n", 
+            "+                <artifactId>axis2-json</artifactId>\n", 
+            "+                <version>${axis2.version}</version>\n", 
+            "+\t    </dependency>\n", 
+            "             <dependency>\n", 
+            "                 <groupId>org.apache.axis2</groupId>\n", 
+            "                 <artifactId>axis2-adb</artifactId>\n"
+          ]
+        }
+      ], 
+      "to": "java/pom.xml", 
+      "from": "java/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-148,8 +148,8", 
+          "lines": [
+            "                          class=\"org.apache.synapse.format.hessian.HessianMessageFormatter\"/>-->\n", 
+            "         <!--<messageFormatter contentType=\"\"\n", 
+            "                          class=\"org.apache.synapse.format.hessian.HessianMessageFormatter\"/>-->\n", 
+            "-        <!--<messageFormatter contentType=\"application/json\"\n", 
+            "-                         class=\"org.apache.axis2.json.JSONMessageFormatter\"/>-->\n", 
+            "+        <messageFormatter contentType=\"application/json\"\n", 
+            "+                         class=\"org.apache.axis2.json.JSONMessageFormatter\"/>\n", 
+            " \n", 
+            "     </messageFormatters>\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-178,8 +178,8", 
+          "lines": [
+            "                          class=\"org.apache.synapse.format.hessian.HessianMessageBuilder\"/>-->\n", 
+            "         <!--<messageBuilder contentType=\"\"\n", 
+            "                          class=\"org.apache.synapse.format.hessian.HessianMessageBuilder\"/>-->\n", 
+            "-        <!--<messageBuilder contentType=\"application/json\"\n", 
+            "-                         class=\"org.apache.axis2.json.JSONOMBuilder\"/>-->\n", 
+            "+        <messageBuilder contentType=\"application/json\"\n", 
+            "+                         class=\"org.apache.axis2.json.JSONOMBuilder\"/>\n", 
+            "     </messageBuilders>\n", 
+            " \n", 
+            "     <!-- ================================================= -->\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/axis2.xml", 
+      "from": "java/repository/conf/axis2.xml"
     }
   ], 
   "id": "1776225"

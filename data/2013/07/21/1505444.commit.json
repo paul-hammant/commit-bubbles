@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T14:53:18-04:00", 
+  "message": "Applying the patch for SYNAPSE-943. Prevent message building when the endpoint format is set to rest.", 
   "who": "hiranya", 
   "changes": [
     {

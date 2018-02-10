@@ -1,5 +1,6 @@
 {
   "when": "2016-12-28T05:40:18-05:00", 
+  "message": "Patch by Chanaka Fernando for SYNAPSE-1078", 
   "who": "ravi", 
   "changes": [
     {

@@ -1,7 +1,84 @@
 {
   "when": "2016-05-26T19:39:09-04:00", 
+  "message": "Added the base64 decode XPath function; Applied patch from Prabath at SYNAPSE-1012", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-34,12 +34,9", 
+          "lines": [
+            "  * Implements the XPath extension function synapse:base64Encode(string)\n", 
+            "  */\n", 
+            " public class Base64EncodeFunction implements Function {\n", 
+            "+\n", 
+            "     private static final Log log = LogFactory.getLog(Base64EncodeFunction.class);\n", 
+            " \n", 
+            "-    public static final String NULL_STRING = \"\";\n", 
+            "-\n", 
+            "-    private static final String DEFAULT_CHARSET = \"UTF-8\";\n", 
+            "-\n", 
+            "     /**\n", 
+            "      * Returns the base64 encoded string value of the first argument.\n", 
+            "      *\n"
+          ]
+        }, 
+        {
+          "locn": "-55,7 +52,7", 
+          "lines": [
+            "             if (debugOn) {\n", 
+            "                 log.debug(\"Property key value for lookup is not specified\");\n", 
+            "             }\n", 
+            "-            return NULL_STRING;\n", 
+            "+            return SynapseXPathConstants.NULL_STRING;\n", 
+            "         }\n", 
+            " \n", 
+            "         int size = args.size();\n"
+          ]
+        }, 
+        {
+          "locn": "-64,7 +61,7", 
+          "lines": [
+            "             String value = StringFunction.evaluate(args.get(0), context.getNavigator());\n", 
+            " \n", 
+            "             // use the default UTF-8 encoding\n", 
+            "-            return encode(debugOn, DEFAULT_CHARSET, value);\n", 
+            "+            return encode(debugOn, SynapseXPathConstants.DEFAULT_CHARSET, value);\n", 
+            "         } else if (size == 2) {\n", 
+            "             // get the first argument, it can be a function returning a string as well\n", 
+            "             String value = StringFunction.evaluate(args.get(0), context.getNavigator());\n"
+          ]
+        }, 
+        {
+          "locn": "-79,7 +76,7", 
+          "lines": [
+            "             }\n", 
+            "         }\n", 
+            "         // return empty string if the arguments are wrong\n", 
+            "-        return NULL_STRING;\n", 
+            "+        return SynapseXPathConstants.NULL_STRING;\n", 
+            "     }\n", 
+            " \n", 
+            "     private Object encode(boolean debugOn, String encoding, String value)\n"
+          ]
+        }, 
+        {
+          "locn": "-89,7 +86,7", 
+          "lines": [
+            "                 log.debug(\"Non emprty string value should be provided for encoding\");\n", 
+            "             }\n", 
+            " \n", 
+            "-            return NULL_STRING;\n", 
+            "+            return SynapseXPathConstants.NULL_STRING;\n", 
+            "         }\n", 
+            " \n", 
+            "         byte[] encodedValue;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/Base64EncodeFunction.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/Base64EncodeFunction.java"
+    }, 
     {
       "chunks": [
         {
@@ -176,82 +253,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/SynapseXPathConstants.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/SynapseXPathConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-34,12 +34,9", 
-          "lines": [
-            "  * Implements the XPath extension function synapse:base64Encode(string)\n", 
-            "  */\n", 
-            " public class Base64EncodeFunction implements Function {\n", 
-            "+\n", 
-            "     private static final Log log = LogFactory.getLog(Base64EncodeFunction.class);\n", 
-            " \n", 
-            "-    public static final String NULL_STRING = \"\";\n", 
-            "-\n", 
-            "-    private static final String DEFAULT_CHARSET = \"UTF-8\";\n", 
-            "-\n", 
-            "     /**\n", 
-            "      * Returns the base64 encoded string value of the first argument.\n", 
-            "      *\n"
-          ]
-        }, 
-        {
-          "locn": "-55,7 +52,7", 
-          "lines": [
-            "             if (debugOn) {\n", 
-            "                 log.debug(\"Property key value for lookup is not specified\");\n", 
-            "             }\n", 
-            "-            return NULL_STRING;\n", 
-            "+            return SynapseXPathConstants.NULL_STRING;\n", 
-            "         }\n", 
-            " \n", 
-            "         int size = args.size();\n"
-          ]
-        }, 
-        {
-          "locn": "-64,7 +61,7", 
-          "lines": [
-            "             String value = StringFunction.evaluate(args.get(0), context.getNavigator());\n", 
-            " \n", 
-            "             // use the default UTF-8 encoding\n", 
-            "-            return encode(debugOn, DEFAULT_CHARSET, value);\n", 
-            "+            return encode(debugOn, SynapseXPathConstants.DEFAULT_CHARSET, value);\n", 
-            "         } else if (size == 2) {\n", 
-            "             // get the first argument, it can be a function returning a string as well\n", 
-            "             String value = StringFunction.evaluate(args.get(0), context.getNavigator());\n"
-          ]
-        }, 
-        {
-          "locn": "-79,7 +76,7", 
-          "lines": [
-            "             }\n", 
-            "         }\n", 
-            "         // return empty string if the arguments are wrong\n", 
-            "-        return NULL_STRING;\n", 
-            "+        return SynapseXPathConstants.NULL_STRING;\n", 
-            "     }\n", 
-            " \n", 
-            "     private Object encode(boolean debugOn, String encoding, String value)\n"
-          ]
-        }, 
-        {
-          "locn": "-89,7 +86,7", 
-          "lines": [
-            "                 log.debug(\"Non emprty string value should be provided for encoding\");\n", 
-            "             }\n", 
-            " \n", 
-            "-            return NULL_STRING;\n", 
-            "+            return SynapseXPathConstants.NULL_STRING;\n", 
-            "         }\n", 
-            " \n", 
-            "         byte[] encodedValue;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/Base64EncodeFunction.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/util/xpath/Base64EncodeFunction.java"
     }, 
     {
       "chunks": [

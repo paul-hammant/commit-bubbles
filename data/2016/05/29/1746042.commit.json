@@ -1,199 +1,8 @@
 {
   "when": "2016-05-29T14:27:45-04:00", 
+  "message": "merging https://issues.apache.org/jira/browse/SYNAPSE-1025, integration tests were verified", 
   "who": "dushan", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-135,4 +135,7", 
-          "lines": [
-            "     public static final String COPY_CONTENT_LENGTH_FROM_INCOMING=\"COPY_CONTENT_LENGTH_FROM_INCOMING\";\n", 
-            "     \n", 
-            "     public static final String ORIGINAL_CONTENT_LENGTH =\"ORIGINAL_CONTENT_LENGTH\";\n", 
-            "+    \n", 
-            "+    //Http method type constants to be used in synapse\n", 
-            "+    public static final String HTTP_HEAD = \"HEAD\";\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,6 +29,7", 
-          "lines": [
-            " import java.io.IOException;\n", 
-            " import java.util.HashMap;\n", 
-            " import java.util.Map;\n", 
-            "+import org.apache.commons.collections.map.MultiValueMap;\n", 
-            " \n", 
-            " /**\n", 
-            "  * This class represents a response coming from the target server.\n"
-          ]
-        }, 
-        {
-          "locn": "-40,6 +41,9", 
-          "lines": [
-            " \n", 
-            "     /** Headers of the response */\n", 
-            "     private Map<String, String> headers = new HashMap<String, String>();\n", 
-            "+    \n", 
-            "+    /** Excess headers of the response */ \n", 
-            "+    private Map excessHeaders = new MultiValueMap();\n", 
-            " \n", 
-            "     /** The status of the response */\n", 
-            "     private int status = HttpStatus.SC_OK;\n"
-          ]
-        }, 
-        {
-          "locn": "-77,9 +81,13", 
-          "lines": [
-            "         Header[] headers = response.getAllHeaders();\n", 
-            "         if (headers != null) {\n", 
-            "             for (Header header : headers) {\n", 
-            "-                this.headers.put(header.getName(), header.getValue());\n", 
-            "-            }\n", 
-            "-        }\n", 
-            "+            \tif(this.headers.containsKey(header.getName())) {\n", 
-            "+            \t\taddExcessHeader(header);\n", 
-            "+            \t} else {\n", 
-            "+            \t\tthis.headers.put(header.getName(), header.getValue());\n", 
-            "+            \t}\n", 
-            "+             }        \n", 
-            "+        }   \n", 
-            " \n", 
-            "         this.expectResponseBody = expectResponseBody;\n", 
-            "     }    \n"
-          ]
-        }, 
-        {
-          "locn": "-140,6 +148,14", 
-          "lines": [
-            "         return headers;\n", 
-            "     }\n", 
-            " \n", 
-            "+    public Map getExcessHeaders() {\n", 
-            "+    \treturn this.excessHeaders;\n", 
-            "+    }\n", 
-            "+    \n", 
-            "+    public void addExcessHeader(Header h) {\n", 
-            "+    \tthis.excessHeaders.put(h.getName(), h.getValue());\n", 
-            "+    }\n", 
-            "+\n", 
-            "     public Pipe getPipe() {\n", 
-            "         return pipe;\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-69,6 +69,7", 
-          "lines": [
-            "         this.expectEntityBody = response.isExpectResponseBody();\n", 
-            " \n", 
-            "         Map<String,String> headers = response.getHeaders();\n", 
-            "+        Map excessHeaders = response.getExcessHeaders();\n", 
-            "       \n", 
-            " \t\tString oriURL = headers.get(PassThroughConstants.LOCATION);\n", 
-            " \t\t\n"
-          ]
-        }, 
-        {
-          "locn": "-141,6 +142,7", 
-          "lines": [
-            "             headerMap.put(headerEntry.getKey(), headerEntry.getValue());\n", 
-            "         }\n", 
-            "         responseMsgCtx.setProperty(MessageContext.TRANSPORT_HEADERS, headerMap);\n", 
-            "+        responseMsgCtx.setProperty(NhttpConstants.EXCESS_TRANSPORT_HEADERS, excessHeaders);\n", 
-            "         if (headerMap.get(HTTP.CONTENT_LEN) != null){\n", 
-            "             responseMsgCtx.setProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH,\n", 
-            "                     headerMap.get(HTTP.CONTENT_LEN));\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,6 +20,7", 
-          "lines": [
-            " \n", 
-            " package org.apache.synapse.transport.passthru;\n", 
-            " \n", 
-            "+import org.apache.commons.collections.map.MultiValueMap;\n", 
-            " import org.apache.http.*;\n", 
-            " import org.apache.http.message.BasicHttpResponse;\n", 
-            " import org.apache.http.nio.ContentDecoder;\n"
-          ]
-        }, 
-        {
-          "locn": "-65,7 +66,11", 
-          "lines": [
-            " \n", 
-            "     /** The connection from the client */\n", 
-            "     private NHttpServerConnection connection = null;\n", 
-            "+    \n", 
-            "+    /** Excess headers of the request */\n", 
-            "+    private Map excessHeaders = new MultiValueMap();\n", 
-            " \n", 
-            "+\n", 
-            "     public SourceRequest(SourceConfiguration sourceConfiguration,\n", 
-            "                          HttpRequest request,\n", 
-            "                          NHttpServerConnection conn) {\n"
-          ]
-        }, 
-        {
-          "locn": "-87,9 +92,13", 
-          "lines": [
-            "         Header[] headers = request.getAllHeaders();\n", 
-            "         if (headers != null) {\n", 
-            "             for (Header header : headers) {\n", 
-            "-                this.headers.put(header.getName(), header.getValue());\n", 
-            "-            }\n", 
-            "-        }\n", 
-            "+                if(this.headers.containsKey(header.getName())) {\n", 
-            "+\t                 addExcessHeader(header);\n", 
-            "+\t            } else {\n", 
-            "+\t                 this.headers.put(header.getName(), header.getValue());\n", 
-            "+\t            }\n", 
-            "+\t        }\n", 
-            "+\t    }\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }, 
-        {
-          "locn": "-181,4 +190,12", 
-          "lines": [
-            "     public boolean isEntityEnclosing() {\n", 
-            "         return entityEnclosing;\n", 
-            "     }\n", 
-            "+    \n", 
-            "+    public Map getExcessHeaders() {\n", 
-            "+        return this.excessHeaders;\n", 
-            "+   }\n", 
-            "+    \n", 
-            "+    public void addExcessHeader(Header h) {\n", 
-            "+        this.excessHeaders.put(h.getName(), h.getValue());\n", 
-            "+   }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java"
-    }, 
     {
       "chunks": [
         {
@@ -637,6 +446,198 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-135,4 +135,7", 
+          "lines": [
+            "     public static final String COPY_CONTENT_LENGTH_FROM_INCOMING=\"COPY_CONTENT_LENGTH_FROM_INCOMING\";\n", 
+            "     \n", 
+            "     public static final String ORIGINAL_CONTENT_LENGTH =\"ORIGINAL_CONTENT_LENGTH\";\n", 
+            "+    \n", 
+            "+    //Http method type constants to be used in synapse\n", 
+            "+    public static final String HTTP_HEAD = \"HEAD\";\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-29,6 +29,7", 
+          "lines": [
+            " import java.io.IOException;\n", 
+            " import java.util.HashMap;\n", 
+            " import java.util.Map;\n", 
+            "+import org.apache.commons.collections.map.MultiValueMap;\n", 
+            " \n", 
+            " /**\n", 
+            "  * This class represents a response coming from the target server.\n"
+          ]
+        }, 
+        {
+          "locn": "-40,6 +41,9", 
+          "lines": [
+            " \n", 
+            "     /** Headers of the response */\n", 
+            "     private Map<String, String> headers = new HashMap<String, String>();\n", 
+            "+    \n", 
+            "+    /** Excess headers of the response */ \n", 
+            "+    private Map excessHeaders = new MultiValueMap();\n", 
+            " \n", 
+            "     /** The status of the response */\n", 
+            "     private int status = HttpStatus.SC_OK;\n"
+          ]
+        }, 
+        {
+          "locn": "-77,9 +81,13", 
+          "lines": [
+            "         Header[] headers = response.getAllHeaders();\n", 
+            "         if (headers != null) {\n", 
+            "             for (Header header : headers) {\n", 
+            "-                this.headers.put(header.getName(), header.getValue());\n", 
+            "-            }\n", 
+            "-        }\n", 
+            "+            \tif(this.headers.containsKey(header.getName())) {\n", 
+            "+            \t\taddExcessHeader(header);\n", 
+            "+            \t} else {\n", 
+            "+            \t\tthis.headers.put(header.getName(), header.getValue());\n", 
+            "+            \t}\n", 
+            "+             }        \n", 
+            "+        }   \n", 
+            " \n", 
+            "         this.expectResponseBody = expectResponseBody;\n", 
+            "     }    \n"
+          ]
+        }, 
+        {
+          "locn": "-140,6 +148,14", 
+          "lines": [
+            "         return headers;\n", 
+            "     }\n", 
+            " \n", 
+            "+    public Map getExcessHeaders() {\n", 
+            "+    \treturn this.excessHeaders;\n", 
+            "+    }\n", 
+            "+    \n", 
+            "+    public void addExcessHeader(Header h) {\n", 
+            "+    \tthis.excessHeaders.put(h.getName(), h.getValue());\n", 
+            "+    }\n", 
+            "+\n", 
+            "     public Pipe getPipe() {\n", 
+            "         return pipe;\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-69,6 +69,7", 
+          "lines": [
+            "         this.expectEntityBody = response.isExpectResponseBody();\n", 
+            " \n", 
+            "         Map<String,String> headers = response.getHeaders();\n", 
+            "+        Map excessHeaders = response.getExcessHeaders();\n", 
+            "       \n", 
+            " \t\tString oriURL = headers.get(PassThroughConstants.LOCATION);\n", 
+            " \t\t\n"
+          ]
+        }, 
+        {
+          "locn": "-141,6 +142,7", 
+          "lines": [
+            "             headerMap.put(headerEntry.getKey(), headerEntry.getValue());\n", 
+            "         }\n", 
+            "         responseMsgCtx.setProperty(MessageContext.TRANSPORT_HEADERS, headerMap);\n", 
+            "+        responseMsgCtx.setProperty(NhttpConstants.EXCESS_TRANSPORT_HEADERS, excessHeaders);\n", 
+            "         if (headerMap.get(HTTP.CONTENT_LEN) != null){\n", 
+            "             responseMsgCtx.setProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH,\n", 
+            "                     headerMap.get(HTTP.CONTENT_LEN));\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-20,6 +20,7", 
+          "lines": [
+            " \n", 
+            " package org.apache.synapse.transport.passthru;\n", 
+            " \n", 
+            "+import org.apache.commons.collections.map.MultiValueMap;\n", 
+            " import org.apache.http.*;\n", 
+            " import org.apache.http.message.BasicHttpResponse;\n", 
+            " import org.apache.http.nio.ContentDecoder;\n"
+          ]
+        }, 
+        {
+          "locn": "-65,7 +66,11", 
+          "lines": [
+            " \n", 
+            "     /** The connection from the client */\n", 
+            "     private NHttpServerConnection connection = null;\n", 
+            "+    \n", 
+            "+    /** Excess headers of the request */\n", 
+            "+    private Map excessHeaders = new MultiValueMap();\n", 
+            " \n", 
+            "+\n", 
+            "     public SourceRequest(SourceConfiguration sourceConfiguration,\n", 
+            "                          HttpRequest request,\n", 
+            "                          NHttpServerConnection conn) {\n"
+          ]
+        }, 
+        {
+          "locn": "-87,9 +92,13", 
+          "lines": [
+            "         Header[] headers = request.getAllHeaders();\n", 
+            "         if (headers != null) {\n", 
+            "             for (Header header : headers) {\n", 
+            "-                this.headers.put(header.getName(), header.getValue());\n", 
+            "-            }\n", 
+            "-        }\n", 
+            "+                if(this.headers.containsKey(header.getName())) {\n", 
+            "+\t                 addExcessHeader(header);\n", 
+            "+\t            } else {\n", 
+            "+\t                 this.headers.put(header.getName(), header.getValue());\n", 
+            "+\t            }\n", 
+            "+\t        }\n", 
+            "+\t    }\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }, 
+        {
+          "locn": "-181,4 +190,12", 
+          "lines": [
+            "     public boolean isEntityEnclosing() {\n", 
+            "         return entityEnclosing;\n", 
+            "     }\n", 
+            "+    \n", 
+            "+    public Map getExcessHeaders() {\n", 
+            "+        return this.excessHeaders;\n", 
+            "+   }\n", 
+            "+    \n", 
+            "+    public void addExcessHeader(Header h) {\n", 
+            "+        this.excessHeaders.put(h.getName(), h.getValue());\n", 
+            "+   }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java"
     }, 
     {
       "chunks": [

@@ -1,5 +1,6 @@
 {
   "when": "2013-08-05T21:04:23-04:00", 
+  "message": "Adding test cases for default endpoint serialization and message store observers", 
   "who": "hiranya", 
   "changes": [
     {

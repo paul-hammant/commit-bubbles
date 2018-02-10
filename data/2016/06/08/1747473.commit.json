@@ -1,7 +1,112 @@
 {
   "when": "2016-06-08T20:39:35-04:00", 
+  "message": "Preventing Strings from being set as fault detail in the FaultMediator; Applied patch from SYNAPSE-1041 with a couple of unit tests", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-29,6 +29,7", 
+          "lines": [
+            " import org.apache.synapse.core.axis2.Axis2MessageContext;\n", 
+            " import org.apache.synapse.mediators.AbstractMediator;\n", 
+            " import org.apache.synapse.util.xpath.SynapseXPath;\n", 
+            "+import org.apache.synapse.util.POXUtils;\n", 
+            " import org.jaxen.JaxenException;\n", 
+            " \n", 
+            " import javax.xml.namespace.QName;\n"
+          ]
+        }, 
+        {
+          "locn": "-392,7 +393,10", 
+          "lines": [
+            "                     }\n", 
+            "                 }\n", 
+            "             } else {\n", 
+            "-                soapFaultDetail.setText(faultDetailExpr.stringValueOf(synCtx));\n", 
+            "+                OMElement om = POXUtils.getOMFromXML(faultDetailExpr.stringValueOf(synCtx));\n", 
+            "+                if (om != null) {\n", 
+            "+                    soapFaultDetail.addChild(om);\n", 
+            "+                }\n", 
+            "             }\n", 
+            "             fault.setDetail(soapFaultDetail);\n", 
+            "         } else if (!faultDetailElements.isEmpty()) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-20,7 +20,9", 
+          "lines": [
+            " package org.apache.synapse.util;\n", 
+            " \n", 
+            " import org.apache.axiom.om.OMElement;\n", 
+            "+import org.apache.axiom.om.OMException;\n", 
+            " import org.apache.axiom.om.OMFactory;\n", 
+            "+import org.apache.axiom.om.util.AXIOMUtil;\n", 
+            " import org.apache.axiom.soap.SOAPBody;\n", 
+            " import org.apache.axiom.soap.SOAPFault;\n", 
+            " import org.apache.axis2.context.MessageContext;\n"
+          ]
+        }, 
+        {
+          "locn": "-28,6 +30,7", 
+          "lines": [
+            " import org.apache.commons.logging.LogFactory;\n", 
+            " \n", 
+            " import javax.xml.namespace.QName;\n", 
+            "+import javax.xml.stream.XMLStreamException;\n", 
+            " \n", 
+            " /**\n", 
+            "  *\n"
+          ]
+        }, 
+        {
+          "locn": "-52,8 +55,10", 
+          "lines": [
+            "                 if (log.isDebugEnabled()) {\n", 
+            "                     log.debug(\"Setting the fault detail : \" + faultDetail + \" as athe POX Fault\");\n", 
+            "                 }\n", 
+            "-                faultPayload.setText(faultDetail);\n", 
+            "-\n", 
+            "+                OMElement om = POXUtils.getOMFromXML(faultDetail);\n", 
+            "+                if(om != null) {\n", 
+            "+                    faultPayload.addChild(om);\n", 
+            "+                }\n", 
+            "             } else if (fault.getReason() != null && !fault.getReason().getText().equals(\"\")) {\n", 
+            " \n", 
+            "                 String faultReasonValue = fault.getReason().getText();\n"
+          ]
+        }, 
+        {
+          "locn": "-89,4 +94,16", 
+          "lines": [
+            "             body.addChild(faultPayload);\n", 
+            "         }\n", 
+            "     }\n", 
+            "+\n", 
+            "+    /**\n", 
+            "+     * If the input string is valid xml, this method will convert it into an OMElement and\n", 
+            "+     * return back. Otherwise returns null.\n", 
+            "+     */\n", 
+            "+    public static OMElement getOMFromXML(String text) {\n", 
+            "+        try {\n", 
+            "+            return AXIOMUtil.stringToOM(text);\n", 
+            "+        } catch (Exception ignore) {\n", 
+            "+            return null;\n", 
+            "+        }\n", 
+            "+    }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/util/POXUtils.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/util/POXUtils.java"
+    }, 
     {
       "chunks": [
         {
@@ -105,110 +210,6 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/FaultMediatorTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/FaultMediatorTest.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,7 +20,9", 
-          "lines": [
-            " package org.apache.synapse.util;\n", 
-            " \n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            "+import org.apache.axiom.om.OMException;\n", 
-            " import org.apache.axiom.om.OMFactory;\n", 
-            "+import org.apache.axiom.om.util.AXIOMUtil;\n", 
-            " import org.apache.axiom.soap.SOAPBody;\n", 
-            " import org.apache.axiom.soap.SOAPFault;\n", 
-            " import org.apache.axis2.context.MessageContext;\n"
-          ]
-        }, 
-        {
-          "locn": "-28,6 +30,7", 
-          "lines": [
-            " import org.apache.commons.logging.LogFactory;\n", 
-            " \n", 
-            " import javax.xml.namespace.QName;\n", 
-            "+import javax.xml.stream.XMLStreamException;\n", 
-            " \n", 
-            " /**\n", 
-            "  *\n"
-          ]
-        }, 
-        {
-          "locn": "-52,8 +55,10", 
-          "lines": [
-            "                 if (log.isDebugEnabled()) {\n", 
-            "                     log.debug(\"Setting the fault detail : \" + faultDetail + \" as athe POX Fault\");\n", 
-            "                 }\n", 
-            "-                faultPayload.setText(faultDetail);\n", 
-            "-\n", 
-            "+                OMElement om = POXUtils.getOMFromXML(faultDetail);\n", 
-            "+                if(om != null) {\n", 
-            "+                    faultPayload.addChild(om);\n", 
-            "+                }\n", 
-            "             } else if (fault.getReason() != null && !fault.getReason().getText().equals(\"\")) {\n", 
-            " \n", 
-            "                 String faultReasonValue = fault.getReason().getText();\n"
-          ]
-        }, 
-        {
-          "locn": "-89,4 +94,16", 
-          "lines": [
-            "             body.addChild(faultPayload);\n", 
-            "         }\n", 
-            "     }\n", 
-            "+\n", 
-            "+    /**\n", 
-            "+     * If the input string is valid xml, this method will convert it into an OMElement and\n", 
-            "+     * return back. Otherwise returns null.\n", 
-            "+     */\n", 
-            "+    public static OMElement getOMFromXML(String text) {\n", 
-            "+        try {\n", 
-            "+            return AXIOMUtil.stringToOM(text);\n", 
-            "+        } catch (Exception ignore) {\n", 
-            "+            return null;\n", 
-            "+        }\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/util/POXUtils.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/util/POXUtils.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,6 +29,7", 
-          "lines": [
-            " import org.apache.synapse.core.axis2.Axis2MessageContext;\n", 
-            " import org.apache.synapse.mediators.AbstractMediator;\n", 
-            " import org.apache.synapse.util.xpath.SynapseXPath;\n", 
-            "+import org.apache.synapse.util.POXUtils;\n", 
-            " import org.jaxen.JaxenException;\n", 
-            " \n", 
-            " import javax.xml.namespace.QName;\n"
-          ]
-        }, 
-        {
-          "locn": "-392,7 +393,10", 
-          "lines": [
-            "                     }\n", 
-            "                 }\n", 
-            "             } else {\n", 
-            "-                soapFaultDetail.setText(faultDetailExpr.stringValueOf(synCtx));\n", 
-            "+                OMElement om = POXUtils.getOMFromXML(faultDetailExpr.stringValueOf(synCtx));\n", 
-            "+                if (om != null) {\n", 
-            "+                    soapFaultDetail.addChild(om);\n", 
-            "+                }\n", 
-            "             }\n", 
-            "             fault.setDetail(soapFaultDetail);\n", 
-            "         } else if (!faultDetailElements.isEmpty()) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java"
     }
   ], 
   "id": "1747473"

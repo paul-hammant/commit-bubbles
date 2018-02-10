@@ -1,5 +1,6 @@
 {
   "when": "2013-08-12T01:28:55-04:00", 
+  "message": "Removing unnecessary threading from the sample53 test", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2016-05-27T15:14:34-04:00", 
+  "message": "Upgrading HTTP Core and HTTP Client versions; As suggested in SYNAPSE-1014", 
   "who": "hiranya", 
   "changes": [
     {

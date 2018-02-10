@@ -1,7 +1,117 @@
 {
   "when": "2013-07-14T17:30:22-04:00", 
+  "message": "Fixing a race condition in the new GET handler. Code refactoring and cleanup.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-83,7 +83,7", 
+          "lines": [
+            "                     System.currentTimeMillis());\n", 
+            "         \t \n", 
+            "             if (!SourceContext.assertState(conn, ProtocolState.REQUEST_READY) &&\n", 
+            "-                    !SourceContext.assertState(conn, ProtocolState.WSDL_XSD_RESPONSE_DONE)) {\n", 
+            "+                    !SourceContext.assertState(conn, ProtocolState.GET_REQUEST_COMPLETE)) {\n", 
+            "                 handleInvalidState(conn, \"Request received\");\n", 
+            "                 return;\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-192,7 +192,7", 
+          "lines": [
+            "             ProtocolState protocolState = SourceContext.getState(conn);\n", 
+            "             \n", 
+            "             //special case to handle WSDLs\n", 
+            "-            if(protocolState == ProtocolState.WSDL_XSD_RESPONSE_DONE){\n", 
+            "+            if(protocolState == ProtocolState.GET_REQUEST_COMPLETE){\n", 
+            "             \t// we need to shut down if the shutdown flag is set\n", 
+            "             \t HttpContext context = conn.getContext();\n", 
+            "             \t ContentOutputBuffer outBuf = (ContentOutputBuffer) context.getAttribute(\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-184,9 +184,9", 
+          "lines": [
+            " \t\t} \n", 
+            " \t\t\n", 
+            " \t\t//need special case to handle REST\n", 
+            "-\t\tboolean restHandle =false;\n", 
+            "+\t\tboolean restHandle = false;\n", 
+            " \t\tif (msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE) != null &&\n", 
+            "-                (Boolean)msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE)){\n", 
+            "+                (Boolean) msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE)){\n", 
+            " \t\t\tmsgContext.setProperty(HTTPConstants.HTTP_METHOD, method);\n", 
+            " \t        msgContext.setServerSide(true);\n", 
+            " \t        msgContext.setDoingREST(true);\n"
+          ]
+        }, 
+        {
+          "locn": "-196,13 +196,13", 
+          "lines": [
+            " \t\t\trestHandle = true;\n", 
+            " \t\t}\n", 
+            " \t\t\n", 
+            "-\t\t//if WSDL done then moved out rather than hand over to entity handle methods.\n", 
+            "+\t\t// If WSDL generation is done then move out rather than hand over to\n", 
+            "+\t\t// entity handle methods.\n", 
+            " \t\tSourceContext info = (SourceContext) request.getConnection().getContext().\n", 
+            "                 getAttribute(SourceContext.CONNECTION_INFORMATION);\n", 
+            "-\t\tif (info != null &&\n", 
+            "-\t\t    info.getState().equals(ProtocolState.WSDL_XSD_RESPONSE_DONE) ||\n", 
+            "-\t\t    (msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED) != null &&\n", 
+            "-                    Boolean.TRUE.equals((msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED))))) {\n", 
+            "+        Object getHandled = msgContext.getProperty(PassThroughConstants.GET_REQUEST_HANDLED);\n", 
+            "+\t\tif ((info != null && info.getState().equals(ProtocolState.GET_REQUEST_COMPLETE)) ||\n", 
+            "+                Boolean.TRUE.equals(getHandled)) {\n", 
+            " \t\t\treturn;\n", 
+            " \t\t}\n", 
+            " \t\t\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-35,7 +35,7", 
+          "lines": [
+            "     REQUEST_DONE,\n", 
+            "     /** The connection is reading the response headers */\n", 
+            "     RESPONSE_HEAD,\n", 
+            "-    /** The connection si reading the response body */\n", 
+            "+    /** The connection is reading the response body */\n", 
+            "     RESPONSE_BODY,\n", 
+            "     /** The response is completed */\n", 
+            "     RESPONSE_DONE,\n"
+          ]
+        }, 
+        {
+          "locn": "-43,6 +43,6", 
+          "lines": [
+            "     CLOSING,\n", 
+            "     /** The connection is closed */\n", 
+            "     CLOSED,\n", 
+            "-    /** WSDL response has been sent */\n", 
+            "-    WSDL_XSD_RESPONSE_DONE\n", 
+            "+    /** GET request has been responded to */\n", 
+            "+    GET_REQUEST_COMPLETE\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java"
+    }, 
     {
       "chunks": [
         {
@@ -186,70 +296,6 @@
     {
       "chunks": [
         {
-          "locn": "-83,7 +83,7", 
-          "lines": [
-            "                     System.currentTimeMillis());\n", 
-            "         \t \n", 
-            "             if (!SourceContext.assertState(conn, ProtocolState.REQUEST_READY) &&\n", 
-            "-                    !SourceContext.assertState(conn, ProtocolState.WSDL_XSD_RESPONSE_DONE)) {\n", 
-            "+                    !SourceContext.assertState(conn, ProtocolState.GET_REQUEST_COMPLETE)) {\n", 
-            "                 handleInvalidState(conn, \"Request received\");\n", 
-            "                 return;\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-192,7 +192,7", 
-          "lines": [
-            "             ProtocolState protocolState = SourceContext.getState(conn);\n", 
-            "             \n", 
-            "             //special case to handle WSDLs\n", 
-            "-            if(protocolState == ProtocolState.WSDL_XSD_RESPONSE_DONE){\n", 
-            "+            if(protocolState == ProtocolState.GET_REQUEST_COMPLETE){\n", 
-            "             \t// we need to shut down if the shutdown flag is set\n", 
-            "             \t HttpContext context = conn.getContext();\n", 
-            "             \t ContentOutputBuffer outBuf = (ContentOutputBuffer) context.getAttribute(\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-35,7 +35,7", 
-          "lines": [
-            "     REQUEST_DONE,\n", 
-            "     /** The connection is reading the response headers */\n", 
-            "     RESPONSE_HEAD,\n", 
-            "-    /** The connection si reading the response body */\n", 
-            "+    /** The connection is reading the response body */\n", 
-            "     RESPONSE_BODY,\n", 
-            "     /** The response is completed */\n", 
-            "     RESPONSE_DONE,\n"
-          ]
-        }, 
-        {
-          "locn": "-43,6 +43,6", 
-          "lines": [
-            "     CLOSING,\n", 
-            "     /** The connection is closed */\n", 
-            "     CLOSED,\n", 
-            "-    /** WSDL response has been sent */\n", 
-            "-    WSDL_XSD_RESPONSE_DONE\n", 
-            "+    /** GET request has been responded to */\n", 
-            "+    GET_REQUEST_COMPLETE\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-124,6 +124,6", 
           "lines": [
             " \t\n", 
@@ -264,51 +310,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-184,9 +184,9", 
-          "lines": [
-            " \t\t} \n", 
-            " \t\t\n", 
-            " \t\t//need special case to handle REST\n", 
-            "-\t\tboolean restHandle =false;\n", 
-            "+\t\tboolean restHandle = false;\n", 
-            " \t\tif (msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE) != null &&\n", 
-            "-                (Boolean)msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE)){\n", 
-            "+                (Boolean) msgContext.getProperty(PassThroughConstants.REST_GET_DELETE_INVOKE)){\n", 
-            " \t\t\tmsgContext.setProperty(HTTPConstants.HTTP_METHOD, method);\n", 
-            " \t        msgContext.setServerSide(true);\n", 
-            " \t        msgContext.setDoingREST(true);\n"
-          ]
-        }, 
-        {
-          "locn": "-196,13 +196,13", 
-          "lines": [
-            " \t\t\trestHandle = true;\n", 
-            " \t\t}\n", 
-            " \t\t\n", 
-            "-\t\t//if WSDL done then moved out rather than hand over to entity handle methods.\n", 
-            "+\t\t// If WSDL generation is done then move out rather than hand over to\n", 
-            "+\t\t// entity handle methods.\n", 
-            " \t\tSourceContext info = (SourceContext) request.getConnection().getContext().\n", 
-            "                 getAttribute(SourceContext.CONNECTION_INFORMATION);\n", 
-            "-\t\tif (info != null &&\n", 
-            "-\t\t    info.getState().equals(ProtocolState.WSDL_XSD_RESPONSE_DONE) ||\n", 
-            "-\t\t    (msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED) != null &&\n", 
-            "-                    Boolean.TRUE.equals((msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED))))) {\n", 
-            "+        Object getHandled = msgContext.getProperty(PassThroughConstants.GET_REQUEST_HANDLED);\n", 
-            "+\t\tif ((info != null && info.getState().equals(ProtocolState.GET_REQUEST_COMPLETE)) ||\n", 
-            "+                Boolean.TRUE.equals(getHandled)) {\n", 
-            " \t\t\treturn;\n", 
-            " \t\t}\n", 
-            " \t\t\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
     }
   ], 
   "id": "1503064"

@@ -1,5 +1,6 @@
 {
   "when": "2012-08-08T13:59:01-04:00", 
+  "message": "Fixed incorrect sample number.", 
   "who": "veithen", 
   "changes": [
     {

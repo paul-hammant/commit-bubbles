@@ -1,5 +1,6 @@
 {
   "when": "2013-08-08T14:02:16-04:00", 
+  "message": "Adding a serialization test case for dynamic load balance endpoint", 
   "who": "hiranya", 
   "changes": [
     {
@@ -92,6 +93,24 @@
     {
       "chunks": [
         {
+          "locn": "-16,6 +16,7", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.core.axis2;\n", 
+            " \n", 
+            " import org.apache.axis2.clustering.ClusteringAgent;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2LoadBalanceMembershipHandler.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2LoadBalanceMembershipHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-129,9 +129,13", 
           "lines": [
             "                             getFirstChildWithName(new QName(SynapseConstants.SYNAPSE_NAMESPACE,\n", 
@@ -132,24 +151,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/DynamicLoadbalanceEndpointFactory.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/DynamicLoadbalanceEndpointFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,6 +16,7", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.core.axis2;\n", 
-            " \n", 
-            " import org.apache.axis2.clustering.ClusteringAgent;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2LoadBalanceMembershipHandler.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2LoadBalanceMembershipHandler.java"
     }
   ], 
   "id": "1511904"

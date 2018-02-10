@@ -1,5 +1,6 @@
 {
   "when": "2013-08-08T17:58:24-04:00", 
+  "message": "Resolving relative paths of WSDLs relative to SynapseHome. This is important in WAR deployments. Patch applied from SYNAPSE-896", 
   "who": "hiranya", 
   "changes": [
     {

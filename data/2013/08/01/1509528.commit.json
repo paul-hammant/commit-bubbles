@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T23:46:36-04:00", 
+  "message": "handled the ctrl+c signal.", 
   "who": "rajikak", 
   "changes": [
     {

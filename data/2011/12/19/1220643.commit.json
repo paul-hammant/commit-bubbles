@@ -1,5 +1,6 @@
 {
   "when": "2011-12-19T03:19:19-05:00", 
+  "message": "Fixing xalan duplication issue", 
   "who": "hiranya", 
   "changes": [
     {

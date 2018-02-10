@@ -1,27 +1,8 @@
 {
   "when": "2013-08-19T19:40:26-04:00", 
+  "message": "Transport documentation update", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-130,7 +130,8", 
-          "lines": [
-            "                 <p>\n", 
-            "                     A proxy service configured with the VFS listener, can be further customized by\n", 
-            "                     setting a number of parameters (some of which are required). Following table\n", 
-            "-                    lists all the supported service parameters.\n", 
-            "+                    lists all the supported service parameters. Please refer <a href=\"../samples/sample254.html\">sample 254</a>\n", 
-            "+                    for an example that demonstrates how to use some of these settings.\n", 
-            "                 </p>\n", 
-            "                 <table>\n", 
-            "                     <tr>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/transports/vfs.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/transports/vfs.xml"
-    }, 
     {
       "chunks": [
         {
@@ -516,6 +497,26 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/transports/fix.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/transports/fix.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-130,7 +130,8", 
+          "lines": [
+            "                 <p>\n", 
+            "                     A proxy service configured with the VFS listener, can be further customized by\n", 
+            "                     setting a number of parameters (some of which are required). Following table\n", 
+            "-                    lists all the supported service parameters.\n", 
+            "+                    lists all the supported service parameters. Please refer <a href=\"../samples/sample254.html\">sample 254</a>\n", 
+            "+                    for an example that demonstrates how to use some of these settings.\n", 
+            "                 </p>\n", 
+            "                 <table>\n", 
+            "                     <tr>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/transports/vfs.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/transports/vfs.xml"
     }
   ], 
   "id": "1515668"

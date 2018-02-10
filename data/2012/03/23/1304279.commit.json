@@ -1,26 +1,8 @@
 {
   "when": "2012-03-23T07:17:21-04:00", 
+  "message": "committing patch for API serialization", 
   "who": "uswick", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-33,7 +33,7", 
-          "lines": [
-            " \n", 
-            "     public static OMElement serializeAPI(API api) {\n", 
-            "         OMElement apiElt = fac.createOMElement(\"api\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
-            "-        apiElt.addAttribute(\"name\", api.getName(), null);\n", 
-            "+        apiElt.addAttribute(\"name\", api.getAPIName(), null);\n", 
-            "         apiElt.addAttribute(\"context\", api.getContext(), null);\n", 
-            " \n", 
-            "         VersionStrategySerializer.serializeVersioningStrategy(api.getVersionStrategy(), apiElt) ;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/rest/APISerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/rest/APISerializer.java"
-    }, 
     {
       "chunks": [
         {
@@ -41,6 +23,25 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/rest/API.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/rest/API.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-33,7 +33,7", 
+          "lines": [
+            " \n", 
+            "     public static OMElement serializeAPI(API api) {\n", 
+            "         OMElement apiElt = fac.createOMElement(\"api\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            "-        apiElt.addAttribute(\"name\", api.getName(), null);\n", 
+            "+        apiElt.addAttribute(\"name\", api.getAPIName(), null);\n", 
+            "         apiElt.addAttribute(\"context\", api.getContext(), null);\n", 
+            " \n", 
+            "         VersionStrategySerializer.serializeVersioningStrategy(api.getVersionStrategy(), apiElt) ;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/rest/APISerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/rest/APISerializer.java"
     }
   ], 
   "id": "1304279"

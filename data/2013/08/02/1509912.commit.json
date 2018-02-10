@@ -1,5 +1,6 @@
 {
   "when": "2013-08-02T19:28:09-04:00", 
+  "message": "Removing the redundant MBeanRegistrar in pass thru transport - Changed the transport to use the registrat in Synapse commons like the nhttp transport.", 
   "who": "hiranya", 
   "changes": [
     {
@@ -176,6 +177,53 @@
             " import org.apache.axis2.AxisFault;\n", 
             "+import org.apache.synapse.commons.jmx.MBeanRegistrar;\n", 
             " \n", 
+            " import java.util.Calendar;\n", 
+            " import java.util.Date;\n"
+          ]
+        }, 
+        {
+          "locn": "-101,13 +102,21", 
+          "lines": [
+            "         scheduler.scheduleAtFixedRate(new LongTermDataCollector(), LARGE_DATA_COLLECTION_PERIOD,\n", 
+            "                 LARGE_DATA_COLLECTION_PERIOD, TimeUnit.SECONDS);\n", 
+            " \n", 
+            "-        MBeanRegistrar.getInstance().registerMBean(this, NHTTP_LATENCY_VIEW, name);\n", 
+            "-\n", 
+            "+        boolean registered = false;\n", 
+            "+        try {\n", 
+            "+            registered = MBeanRegistrar.getInstance().registerMBean(this, NHTTP_LATENCY_VIEW, name);\n", 
+            "+        } finally {\n", 
+            "+            if (!registered) {\n", 
+            "+                scheduler.shutdownNow();\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "     }\n", 
+            " \n", 
+            "     public void destroy() {\n", 
+            "         MBeanRegistrar.getInstance().unRegisterMBean(NHTTP_LATENCY_VIEW, name);\n", 
+            "-        scheduler.shutdownNow();\n", 
+            "+        if (!scheduler.isShutdown()) {\n", 
+            "+            scheduler.shutdownNow();\n", 
+            "+        }\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/LatencyView.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/LatencyView.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-20,6 +20,7", 
+          "lines": [
+            " package org.apache.synapse.transport.passthru.jmx;\n", 
+            " \n", 
+            " import org.apache.axis2.AxisFault;\n", 
+            "+import org.apache.synapse.commons.jmx.MBeanRegistrar;\n", 
+            " \n", 
             " import java.util.*;\n", 
             " import java.util.concurrent.Executors;\n"
           ]
@@ -242,53 +290,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/ConnectionsView.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/ConnectionsView.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,6 +20,7", 
-          "lines": [
-            " package org.apache.synapse.transport.passthru.jmx;\n", 
-            " \n", 
-            " import org.apache.axis2.AxisFault;\n", 
-            "+import org.apache.synapse.commons.jmx.MBeanRegistrar;\n", 
-            " \n", 
-            " import java.util.Calendar;\n", 
-            " import java.util.Date;\n"
-          ]
-        }, 
-        {
-          "locn": "-101,13 +102,21", 
-          "lines": [
-            "         scheduler.scheduleAtFixedRate(new LongTermDataCollector(), LARGE_DATA_COLLECTION_PERIOD,\n", 
-            "                 LARGE_DATA_COLLECTION_PERIOD, TimeUnit.SECONDS);\n", 
-            " \n", 
-            "-        MBeanRegistrar.getInstance().registerMBean(this, NHTTP_LATENCY_VIEW, name);\n", 
-            "-\n", 
-            "+        boolean registered = false;\n", 
-            "+        try {\n", 
-            "+            registered = MBeanRegistrar.getInstance().registerMBean(this, NHTTP_LATENCY_VIEW, name);\n", 
-            "+        } finally {\n", 
-            "+            if (!registered) {\n", 
-            "+                scheduler.shutdownNow();\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "     }\n", 
-            " \n", 
-            "     public void destroy() {\n", 
-            "         MBeanRegistrar.getInstance().unRegisterMBean(NHTTP_LATENCY_VIEW, name);\n", 
-            "-        scheduler.shutdownNow();\n", 
-            "+        if (!scheduler.isShutdown()) {\n", 
-            "+            scheduler.shutdownNow();\n", 
-            "+        }\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/LatencyView.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/jmx/LatencyView.java"
     }
   ], 
   "id": "1509912"

@@ -1,26 +1,8 @@
 {
   "when": "2011-12-06T07:07:10-05:00", 
+  "message": "s/TribesClusterManager/TribesClusteringAgent since this class has been renamed in the Axis2 trunk", 
   "who": "azeez", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-256,7 +256,7", 
-          "lines": [
-            "     <!-- Clustering  -->\n", 
-            "     <!-- ================================================= -->\n", 
-            "     <!-- Configure the following for preparing Axis2 to a clustered environment -->\n", 
-            "-    <clustering class=\"org.apache.axis2.clustering.tribes.TribesClusterManager\" enable=\"false\">\n", 
-            "+    <clustering class=\"org.apache.axis2.clustering.tribes.TribesClusteringAgent\" enable=\"false\">\n", 
-            "         <parameter name=\"AvoidInitiation\">true</parameter>\n", 
-            "         <parameter name=\"membershipScheme\">multicast</parameter>\n", 
-            "         <parameter name=\"domain\">apache.axis2.app.domain</parameter>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/resources/misc/server/axis2.xml", 
-      "from": "java/repository/conf/sample/resources/misc/server/axis2.xml"
-    }, 
     {
       "chunks": [
         {
@@ -39,6 +21,25 @@
       ], 
       "to": "java/repository/conf/sample/resources/misc/client/axis2.xml", 
       "from": "java/repository/conf/sample/resources/misc/client/axis2.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-256,7 +256,7", 
+          "lines": [
+            "     <!-- Clustering  -->\n", 
+            "     <!-- ================================================= -->\n", 
+            "     <!-- Configure the following for preparing Axis2 to a clustered environment -->\n", 
+            "-    <clustering class=\"org.apache.axis2.clustering.tribes.TribesClusterManager\" enable=\"false\">\n", 
+            "+    <clustering class=\"org.apache.axis2.clustering.tribes.TribesClusteringAgent\" enable=\"false\">\n", 
+            "         <parameter name=\"AvoidInitiation\">true</parameter>\n", 
+            "         <parameter name=\"membershipScheme\">multicast</parameter>\n", 
+            "         <parameter name=\"domain\">apache.axis2.app.domain</parameter>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/resources/misc/server/axis2.xml", 
+      "from": "java/repository/conf/sample/resources/misc/server/axis2.xml"
     }, 
     {
       "chunks": [

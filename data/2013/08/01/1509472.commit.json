@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T19:51:47-04:00", 
+  "message": "Refactored SynapseConfiguration so no back to back init/destroy calls can be made. See SYNAPSE-698", 
   "who": "hiranya", 
   "changes": [
     {

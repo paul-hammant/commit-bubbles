@@ -1,5 +1,6 @@
 {
   "when": "2013-09-16T14:34:53-04:00", 
+  "message": "SYNAPSE-881:\n* Instead of using our own code, use the appropriate Axiom feature to clone SOAPEnvelope objects.\n* Also fixed an obvious bug in the code responsible for converting between SOAP 1.1 and 1.2. This bug was discovered because Axiom properly clones SOAPHeaderBlocks as SOAPHeaderBlocks (and not plain OMElement instances).\n", 
   "who": "veithen", 
   "changes": [
     {

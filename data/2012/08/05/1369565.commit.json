@@ -1,5 +1,6 @@
 {
   "when": "2012-08-05T08:20:47-04:00", 
+  "message": "minor code change and java doc addtions for Message Store Serialization Test", 
   "who": "charith", 
   "changes": [
     {

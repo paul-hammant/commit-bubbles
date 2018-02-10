@@ -1,5 +1,6 @@
 {
   "when": "2016-12-30T08:04:19-05:00", 
+  "message": "Using project.version instead of manually entering synapse version, this causes release time headaches having to manually change things", 
   "who": "ravi", 
   "changes": [
     {

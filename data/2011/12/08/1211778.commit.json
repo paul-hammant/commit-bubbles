@@ -1,15 +1,29 @@
 {
   "when": "2011-12-08T03:05:30-05:00", 
+  "message": "Log messages updated", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-41,7 +41,7", 
+          "locn": "-45,7 +45,7", 
+          "lines": [
+            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
+            "         log.info(\"Running test: MTOM optimization and request/response correlation \");\n", 
+            "         result = client.sendUsingMTOM(filename, ep);\n", 
+            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
+            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-57,7 +57,7", 
           "lines": [
             " \n", 
-            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
-            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "         log.info(\"Running test:SwA optimization and request/response correlation \");\n", 
+            "         result = client.sendUsingSWA(filename, ep);\n", 
             "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
             "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
             "     }\n", 
@@ -18,8 +32,8 @@
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java"
     }, 
     {
       "chunks": [
@@ -27,8 +41,65 @@
           "locn": "-42,7 +42,7", 
           "lines": [
             " \n", 
-            "         log.info(\"Running test: Introduction to dynamic and static keys \");\n", 
-            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n", 
+            "         log.info(\"Running test: Session-less load balancing between 3 endpoints\");\n", 
+            "         result = client.sessionlessClient(addUrl, null, 100);\n", 
+            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
+            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-41,7 +41,7", 
+          "lines": [
+            " \n", 
+            "         log.info(\"Running test: Smart Client mode\");\n", 
+            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
+            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-41,7 +41,7", 
+          "lines": [
+            " \n", 
+            "         log.info(\"Running test: Weighted load balancing between 3 endpoints\");\n", 
+            "         result = client.sessionlessClient(addUrl,null, 100);\n", 
+            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
+            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "     }\n", 
+            " \n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-42,7 +42,7", 
+          "lines": [
+            " \n", 
+            "         log.info(\"Running test: HTTP REST request \");\n", 
+            "         result = client.requestRestQuote(null, trpUrl, null, \"IBM\");\n", 
             "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
             "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
             "     }\n", 
@@ -37,8 +108,8 @@
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
     }, 
     {
       "chunks": [
@@ -268,11 +339,11 @@
     {
       "chunks": [
         {
-          "locn": "-42,7 +42,7", 
+          "locn": "-41,7 +41,7", 
           "lines": [
             " \n", 
-            "         log.info(\"Running test: HTTP REST request \");\n", 
-            "         result = client.requestRestQuote(null, trpUrl, null, \"IBM\");\n", 
+            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
+            "         result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
             "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
             "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
             "     }\n", 
@@ -281,30 +352,17 @@
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-45,7 +45,7", 
-          "lines": [
-            "                 currentLocation + \"repository/conf/sample/resources/mtom/asf-logo.gif\");\n", 
-            "         log.info(\"Running test: MTOM optimization and request/response correlation \");\n", 
-            "         result = client.sendUsingMTOM(filename, ep);\n", 
-            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
-            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-57,7 +57,7", 
+          "locn": "-42,7 +42,7", 
           "lines": [
             " \n", 
-            "         log.info(\"Running test:SwA optimization and request/response correlation \");\n", 
-            "         result = client.sendUsingSWA(filename, ep);\n", 
+            "         log.info(\"Running test: Introduction to dynamic and static keys \");\n", 
+            "         result = client.requestCustomQuote(addUrl, trpUrl, null, \"IBM\");\n", 
             "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
             "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
             "     }\n", 
@@ -313,65 +371,8 @@
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample51.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-42,7 +42,7", 
-          "lines": [
-            " \n", 
-            "         log.info(\"Running test: Session-less load balancing between 3 endpoints\");\n", 
-            "         result = client.sessionlessClient(addUrl, null, 100);\n", 
-            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
-            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-41,7 +41,7", 
-          "lines": [
-            " \n", 
-            "         log.info(\"Running test: Smart Client mode\");\n", 
-            "         result = client.requestStandardQuote(addUrl, null, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
-            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-41,7 +41,7", 
-          "lines": [
-            " \n", 
-            "         log.info(\"Running test: Weighted load balancing between 3 endpoints\");\n", 
-            "         result = client.sessionlessClient(addUrl,null, 100);\n", 
-            "-        assertTrue(\"Client did not get run successfully \", result.gotResponse());\n", 
-            "+        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
     }
   ], 
   "id": "1211778"

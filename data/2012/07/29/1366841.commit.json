@@ -1,5 +1,6 @@
 {
   "when": "2012-07-29T08:57:15-04:00", 
+  "message": "Fixing a race condition in SynapseConfiguration and using a shared thread pool for running endpoint stat collector tasks", 
   "who": "hiranya", 
   "changes": [
     {

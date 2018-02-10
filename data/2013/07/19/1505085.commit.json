@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T23:13:30-04:00", 
+  "message": "resolving https://issues.apache.org/jira/browse/SYNAPSE-857 with patch", 
   "who": "uswick", 
   "changes": [
     {

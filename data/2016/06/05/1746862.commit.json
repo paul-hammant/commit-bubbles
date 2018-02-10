@@ -1,5 +1,6 @@
 {
   "when": "2016-06-05T01:06:14-04:00", 
+  "message": "Fix for SYNAPSE-1028 by Hiranya", 
   "who": "ravi", 
   "changes": [
     {

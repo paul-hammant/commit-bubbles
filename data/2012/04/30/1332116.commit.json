@@ -1,5 +1,6 @@
 {
   "when": "2012-04-30T04:41:41-04:00", 
+  "message": "Removed references to deprecated Axiom classes.\n", 
   "who": "veithen", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2012-01-18T09:22:49-05:00", 
+  "message": "Some refactoring and building REST APIs at startup", 
   "who": "hiranya", 
   "changes": [
     {
@@ -107,6 +108,28 @@
     {
       "chunks": [
         {
+          "locn": "-319,9 +319,10", 
+          "lines": [
+            "         }\r\n", 
+            "     }\r\n", 
+            " \r\n", 
+            "-    public static void defineAPI(SynapseConfiguration config, OMElement elem) {\r\n", 
+            "+    public static API defineAPI(SynapseConfiguration config, OMElement elem) {\r\n", 
+            "         API api = APIFactory.createAPI(elem);\r\n", 
+            "         config.addAPI(api.getName(), api);\r\n", 
+            "+        return api;\r\n", 
+            "     }\r\n", 
+            " \r\n", 
+            "     private static void handleException(String msg) {\r\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-41,6 +41,7", 
           "lines": [
             " import org.apache.synapse.endpoints.Endpoint;\n", 
@@ -181,28 +204,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-319,9 +319,10", 
-          "lines": [
-            "         }\r\n", 
-            "     }\r\n", 
-            " \r\n", 
-            "-    public static void defineAPI(SynapseConfiguration config, OMElement elem) {\r\n", 
-            "+    public static API defineAPI(SynapseConfiguration config, OMElement elem) {\r\n", 
-            "         API api = APIFactory.createAPI(elem);\r\n", 
-            "         config.addAPI(api.getName(), api);\r\n", 
-            "+        return api;\r\n", 
-            "     }\r\n", 
-            " \r\n", 
-            "     private static void handleException(String msg) {\r\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java"
     }, 
     {
       "chunks": [

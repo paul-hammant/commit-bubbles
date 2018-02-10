@@ -1,5 +1,6 @@
 {
   "when": "2016-10-23T00:12:48-04:00", 
+  "message": "reducing global timeout interval to 3mins, it is pointless to keep the call backs after socket timeout of 3mins", 
   "who": "isudana", 
   "changes": [
     {

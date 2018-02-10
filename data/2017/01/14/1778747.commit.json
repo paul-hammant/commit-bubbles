@@ -1,26 +1,8 @@
 {
   "when": "2017-01-14T05:04:42-05:00", 
+  "message": "Eliminate some usages of deprecated Axiom APIs.", 
   "who": "veithen", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-358,7 +358,7", 
-          "lines": [
-            "     private void setFaultNode(SOAPFactory factory, SOAPFault fault) {\n", 
-            "         if (faultNode != null) {\n", 
-            "             SOAPFaultNode soapfaultNode = factory.createSOAPFaultNode();\n", 
-            "-            soapfaultNode.setNodeValue(faultNode.toString());\n", 
-            "+            soapfaultNode.setFaultNodeValue(faultNode.toString());\n", 
-            "             fault.setNode(soapfaultNode);\n", 
-            "         }\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java"
-    }, 
     {
       "chunks": [
         {
@@ -157,6 +139,25 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/util/TextFileDataSource.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/util/TextFileDataSource.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-358,7 +358,7", 
+          "lines": [
+            "     private void setFaultNode(SOAPFactory factory, SOAPFault fault) {\n", 
+            "         if (faultNode != null) {\n", 
+            "             SOAPFaultNode soapfaultNode = factory.createSOAPFaultNode();\n", 
+            "-            soapfaultNode.setNodeValue(faultNode.toString());\n", 
+            "+            soapfaultNode.setFaultNodeValue(faultNode.toString());\n", 
+            "             fault.setNode(soapfaultNode);\n", 
+            "         }\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/FaultMediator.java"
     }
   ], 
   "id": "1778747"

@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T23:08:38-04:00", 
+  "message": "Reverting the fix for SYNAPSE-872 due to a possible regression", 
   "who": "hiranya", 
   "changes": [
     {

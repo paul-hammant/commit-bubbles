@@ -1,5 +1,6 @@
 {
   "when": "2016-05-22T14:17:55-04:00", 
+  "message": "setting neethi version to latest released version. Checked the diff between neethi trunk and 3.0.3, it seems like no fixes has gone to trunk as of today, so it is safe to use 3.0.3", 
   "who": "isudana", 
   "changes": [
     {

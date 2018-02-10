@@ -1,5 +1,6 @@
 {
   "when": "2014-09-21T17:04:21-04:00", 
+  "message": "Fixing SYNAPSE-875 Applying patch from Dushan to support loading properties files from arbitrary locations", 
   "who": "hiranya", 
   "changes": [
     {

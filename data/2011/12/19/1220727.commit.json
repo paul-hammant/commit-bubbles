@@ -1,5 +1,6 @@
 {
   "when": "2011-12-19T08:04:11-05:00", 
+  "message": "Upgrading XML APIs version - SYNAPSE-410 - Removed some redundant libs", 
   "who": "hiranya", 
   "changes": [
     {

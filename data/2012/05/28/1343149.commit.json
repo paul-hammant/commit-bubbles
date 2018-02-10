@@ -1,5 +1,6 @@
 {
   "when": "2012-05-28T02:47:23-04:00", 
+  "message": "Making NHTTP ports available via system properties", 
   "who": "hiranya", 
   "changes": [
     {

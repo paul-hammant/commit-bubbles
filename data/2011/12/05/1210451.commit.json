@@ -1,5 +1,6 @@
 {
   "when": "2011-12-05T08:14:12-05:00", 
+  "message": "Fixing an issue with persisting messages in a message store", 
   "who": "hiranya", 
   "changes": [
     {
@@ -23,6 +24,21 @@
     {
       "chunks": [
         {
+          "locn": "-148,4 +148,3", 
+          "lines": [
+            "         return view;\n", 
+            "     }\n", 
+            " }\n", 
+            "-\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-132,7 +132,6", 
           "lines": [
             "             // otherwise when retrying same header element will add multiple times\n", 
@@ -37,21 +53,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/BlockingMessageSender.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/BlockingMessageSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-148,4 +148,3", 
-          "lines": [
-            "         return view;\n", 
-            "     }\n", 
-            " }\n", 
-            "-\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java"
     }, 
     {
       "chunks": [

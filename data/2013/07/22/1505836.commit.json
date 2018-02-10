@@ -1,5 +1,6 @@
 {
   "when": "2013-07-22T18:22:53-04:00", 
+  "message": "Applying the patch for SYNAPSE-903. Not closing data sources fetched via JNDI lookups.", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T14:56:06-04:00", 
+  "message": "Applying the patch for SYNAPSE-945. Fixing a debug log statement.", 
   "who": "hiranya", 
   "changes": [
     {

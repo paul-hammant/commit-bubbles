@@ -1,5 +1,6 @@
 {
   "when": "2013-08-15T16:53:20-04:00", 
+  "message": "Refactored the code related to closing/releasing http connections in the PT transport", 
   "who": "hiranya", 
   "changes": [
     {
@@ -137,82 +138,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/transports/pass_through.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/transports/pass_through.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-21,7 +21,6", 
-          "lines": [
-            " \n", 
-            " import org.apache.http.*;\n", 
-            " import org.apache.http.entity.BasicHttpEntity;\n", 
-            "-import org.apache.http.impl.DefaultConnectionReuseStrategy;\n", 
-            " import org.apache.http.nio.ContentEncoder;\n", 
-            " import org.apache.http.nio.NHttpServerConnection;\n", 
-            " import org.apache.http.protocol.HTTP;\n"
-          ]
-        }, 
-        {
-          "locn": "-28,6 +27,7", 
-          "lines": [
-            " import org.apache.http.protocol.HttpContext;\n", 
-            " import org.apache.http.protocol.HttpCoreContext;\n", 
-            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
-            "+import org.apache.synapse.transport.passthru.util.PassThroughTransportUtils;\n", 
-            " \n", 
-            " import java.io.IOException;\n", 
-            " import java.util.HashMap;\n"
-          ]
-        }, 
-        {
-          "locn": "-56,9 +56,6", 
-          "lines": [
-            "     /** Version of the response */\n", 
-            "     private ProtocolVersion version = HttpVersion.HTTP_1_1;\n", 
-            " \n", 
-            "-    /** Connection strategy */\n", 
-            "-    private ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();\n", 
-            "-\n", 
-            "     private SourceRequest request = null;\n", 
-            " \n", 
-            "     public SourceResponse(SourceConfiguration config, int status, SourceRequest request) {\n"
-          ]
-        }, 
-        {
-          "locn": "-157,23 +154,10", 
-          "lines": [
-            "         // Update connection state\n", 
-            "         if (encoder.isCompleted()) {\n", 
-            "             SourceContext.updateState(conn, ProtocolState.RESPONSE_DONE);\n", 
-            "-\n", 
-            "-            sourceConfiguration.getMetrics().\n", 
-            "-                    notifySentMessageSize(conn.getMetrics().getSentBytesCount());\n", 
-            "-\n", 
-            "-            if (!this.connStrategy.keepAlive(response, conn.getContext())) {\n", 
-            "-                SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
-            "-                sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
-            "-            } else if (SourceContext.get(conn).isShutDown()) {\n", 
-            "-                // we need to shut down if the shutdown flag is set\n", 
-            "-                SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
-            "-                sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
-            "-            } else {\n", 
-            "-                // Reset connection state\n", 
-            "-                sourceConfiguration.getSourceConnections().releaseConnection(conn);\n", 
-            "-                // Ready to deal with a new request                \n", 
-            "-                conn.requestInput();\n", 
-            "-            }\n", 
-            "+            sourceConfiguration.getMetrics().notifySentMessageSize(\n", 
-            "+                    conn.getMetrics().getSentBytesCount());\n", 
-            "+            PassThroughTransportUtils.finishUsingSourceConnection(response, conn,\n", 
-            "+                    sourceConfiguration.getSourceConnections());\n", 
-            "         }\n", 
-            "         return bytes;\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
     }, 
     {
       "chunks": [
@@ -456,6 +381,82 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-21,7 +21,6", 
+          "lines": [
+            " \n", 
+            " import org.apache.http.*;\n", 
+            " import org.apache.http.entity.BasicHttpEntity;\n", 
+            "-import org.apache.http.impl.DefaultConnectionReuseStrategy;\n", 
+            " import org.apache.http.nio.ContentEncoder;\n", 
+            " import org.apache.http.nio.NHttpServerConnection;\n", 
+            " import org.apache.http.protocol.HTTP;\n"
+          ]
+        }, 
+        {
+          "locn": "-28,6 +27,7", 
+          "lines": [
+            " import org.apache.http.protocol.HttpContext;\n", 
+            " import org.apache.http.protocol.HttpCoreContext;\n", 
+            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
+            "+import org.apache.synapse.transport.passthru.util.PassThroughTransportUtils;\n", 
+            " \n", 
+            " import java.io.IOException;\n", 
+            " import java.util.HashMap;\n"
+          ]
+        }, 
+        {
+          "locn": "-56,9 +56,6", 
+          "lines": [
+            "     /** Version of the response */\n", 
+            "     private ProtocolVersion version = HttpVersion.HTTP_1_1;\n", 
+            " \n", 
+            "-    /** Connection strategy */\n", 
+            "-    private ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();\n", 
+            "-\n", 
+            "     private SourceRequest request = null;\n", 
+            " \n", 
+            "     public SourceResponse(SourceConfiguration config, int status, SourceRequest request) {\n"
+          ]
+        }, 
+        {
+          "locn": "-157,23 +154,10", 
+          "lines": [
+            "         // Update connection state\n", 
+            "         if (encoder.isCompleted()) {\n", 
+            "             SourceContext.updateState(conn, ProtocolState.RESPONSE_DONE);\n", 
+            "-\n", 
+            "-            sourceConfiguration.getMetrics().\n", 
+            "-                    notifySentMessageSize(conn.getMetrics().getSentBytesCount());\n", 
+            "-\n", 
+            "-            if (!this.connStrategy.keepAlive(response, conn.getContext())) {\n", 
+            "-                SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
+            "-                sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
+            "-            } else if (SourceContext.get(conn).isShutDown()) {\n", 
+            "-                // we need to shut down if the shutdown flag is set\n", 
+            "-                SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
+            "-                sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
+            "-            } else {\n", 
+            "-                // Reset connection state\n", 
+            "-                sourceConfiguration.getSourceConnections().releaseConnection(conn);\n", 
+            "-                // Ready to deal with a new request                \n", 
+            "-                conn.requestInput();\n", 
+            "-            }\n", 
+            "+            sourceConfiguration.getMetrics().notifySentMessageSize(\n", 
+            "+                    conn.getMetrics().getSentBytesCount());\n", 
+            "+            PassThroughTransportUtils.finishUsingSourceConnection(response, conn,\n", 
+            "+                    sourceConfiguration.getSourceConnections());\n", 
+            "         }\n", 
+            "         return bytes;\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
     }
   ], 
   "id": "1514487"

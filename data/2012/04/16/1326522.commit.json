@@ -1,5 +1,6 @@
 {
   "when": "2012-04-16T03:52:07-04:00", 
+  "message": "comitting patch for SYNAPSE-863", 
   "who": "uswick", 
   "changes": [
     {

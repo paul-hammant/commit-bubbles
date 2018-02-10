@@ -1,5 +1,6 @@
 {
   "when": "2013-07-20T16:17:45-04:00", 
+  "message": "Applying patch for SYNAPSE-941. Fail safe mode for message stores and processors.", 
   "who": "hiranya", 
   "changes": [
     {

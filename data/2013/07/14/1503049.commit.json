@@ -1,7 +1,206 @@
 {
   "when": "2013-07-14T16:43:58-04:00", 
+  "message": "Committing the patch for SYNAPSE-936. Updated the axis2.xml configs and sample 800 config. Thanks Dushan for the contribution.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-14,6 +14,7", 
+          "lines": [
+            "                         <arg expression=\"get-property('uri.var.symbol')\"/>\n", 
+            "                     </args>\n", 
+            "                 </payloadFactory>\n", 
+            "+                <header name=\"Action\" value=\"urn:getQuote\"/>\n", 
+            "                 <send>\n", 
+            "                     <endpoint>\n", 
+            "                         <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\" format=\"soap11\"/>\n"
+          ]
+        }, 
+        {
+          "locn": "-28,6 +29,7", 
+          "lines": [
+            "             <inSequence>\n", 
+            "                 <property name=\"FORCE_SC_ACCEPTED\" value=\"true\" scope=\"axis2\"/>\n", 
+            "                 <property name=\"OUT_ONLY\" value=\"true\"/>\n", 
+            "+                <header name=\"Action\" value=\"urn:placeOrder\"/>\n", 
+            "                 <send>\n", 
+            "                     <endpoint>\n", 
+            "                         <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\" format=\"soap11\"/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_800.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_800.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-189,6 +189,7", 
+          "lines": [
+            "     <transportReceiver name=\"http\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpListener\">\n", 
+            "         <parameter name=\"port\">8280</parameter>\n", 
+            "         <parameter name=\"non-blocking\">true</parameter>\n", 
+            "+\t    <parameter name=\"httpGetProcessor\" locked=\"false\">org.apache.synapse.transport.passthru.api.PassThroughNHttpGetProcessor</parameter>\n", 
+            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
+            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">https://apachehost:port/somepath</parameter-->\n", 
+            "         <!-- paramter name=\"priorityConfigFile\" locked=\"false\">location of priority configuration file<parameter-->\n"
+          ]
+        }, 
+        {
+          "locn": "-197,9 +198,11", 
+          "lines": [
+            "     <!-- the non blocking https transport based on HttpCore + SSL-NIO extensions -->\n", 
+            "     <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLListener\">\n", 
+            "         <parameter name=\"port\" locked=\"false\">8243</parameter>\n", 
+            "+        <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
+            "+        <parameter name=\"httpGetProcessor\" locked=\"false\">org.apache.synapse.transport.passthru.api.PassThroughNHttpGetProcessor</parameter>\n", 
+            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
+            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">http://apachehost:port/somepath</parameter-->\n", 
+            "-        <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
+            "+\n", 
+            "         <parameter name=\"keystore\" locked=\"false\">\n", 
+            "             <KeyStore>\n", 
+            "                 <Location>lib/identity.jks</Location>\n"
+          ]
+        }, 
+        {
+          "locn": "-585,4 +588,4", 
+          "lines": [
+            "         <phase name=\"MessageOut\"/>\n", 
+            "         <phase name=\"Security\"/>\n", 
+            "     </phaseOrder>\n", 
+            "-</axisconfig>\n", 
+            "\\ No newline at end of file\n", 
+            "+</axisconfig>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/axis2.xml", 
+      "from": "java/repository/conf/axis2.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-118,12 +118,6", 
+          "lines": [
+            "             response.setStatusCode(HttpStatus.SC_MOVED_PERMANENTLY);\n", 
+            "             response.addHeader(LOCATION, \"http://ws.apache.org/favicon.ico\");\n", 
+            "             serverHandler.commitResponseHideExceptions(conn, response);\n", 
+            "-\n", 
+            "-//        } else if (!uri.startsWith(servicePath)) {\n", 
+            "-//            response.setStatusCode(HttpStatus.SC_MOVED_PERMANENTLY);\n", 
+            "-//            response.addHeader(LOCATION, servicePath + \"/\");\n", 
+            "-//            serverHandler.commitResponseHideExceptions(conn, response);\n", 
+            "-\n", 
+            "         } else if (serviceName != null && parameters.containsKey(\"wsdl\")) {\n", 
+            "             generateWsdl(request, response, msgContext,\n", 
+            "                     conn, os, serviceName, parameters, isRestDispatching);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/DefaultHttpGetProcessor.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/DefaultHttpGetProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-83,7 +83,7", 
+          "lines": [
+            "                     System.currentTimeMillis());\n", 
+            "         \t \n", 
+            "             if (!SourceContext.assertState(conn, ProtocolState.REQUEST_READY) &&\n", 
+            "-                    !SourceContext.assertState(conn, ProtocolState.WSDL_RESPONSE_DONE)) {\n", 
+            "+                    !SourceContext.assertState(conn, ProtocolState.WSDL_XSD_RESPONSE_DONE)) {\n", 
+            "                 handleInvalidState(conn, \"Request received\");\n", 
+            "                 return;\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-192,7 +192,7", 
+          "lines": [
+            "             ProtocolState protocolState = SourceContext.getState(conn);\n", 
+            "             \n", 
+            "             //special case to handle WSDLs\n", 
+            "-            if(protocolState == ProtocolState.WSDL_RESPONSE_DONE){\n", 
+            "+            if(protocolState == ProtocolState.WSDL_XSD_RESPONSE_DONE){\n", 
+            "             \t// we need to shut down if the shutdown flag is set\n", 
+            "             \t HttpContext context = conn.getContext();\n", 
+            "             \t ContentOutputBuffer outBuf = (ContentOutputBuffer) context.getAttribute(\n"
+          ]
+        }, 
+        {
+          "locn": "-433,5 +433,26", 
+          "lines": [
+            "         }\n", 
+            "         log.error(errorMessage, e);\n", 
+            "     }\n", 
+            "+    \n", 
+            "+    \n", 
+            "+    /**\n", 
+            "+     * Commit the response to the connection. Processes the response through the configured\n", 
+            "+     * HttpProcessor and submits it to be sent out. This method hides any exceptions and is targetted\n", 
+            "+     * for non critical (i.e. browser requests etc) requests, which are not core messages\n", 
+            "+     * @param conn the connection being processed\n", 
+            "+     * @param response the response to commit over the connection\n", 
+            "+     */\n", 
+            "+    public void commitResponseHideExceptions(\n", 
+            "+            final NHttpServerConnection conn, final HttpResponse response) {\n", 
+            "+        try {\n", 
+            "+            conn.suspendInput();\n", 
+            "+            sourceConfiguration.getHttpProcessor().process(response, conn.getContext());\n", 
+            "+            conn.submitResponse(response);\n", 
+            "+        } catch (HttpException e) {\n", 
+            "+            handleException(\"Unexpected HTTP protocol error : \" + e.getMessage(), e, conn);\n", 
+            "+        } catch (IOException e) {\n", 
+            "+            handleException(\"IO error submiting response : \" + e.getMessage(), e, conn);\n", 
+            "+        }\n", 
+            "+    }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-200,7 +200,7", 
+          "lines": [
+            " \t\tSourceContext info = (SourceContext) request.getConnection().getContext().\n", 
+            "                 getAttribute(SourceContext.CONNECTION_INFORMATION);\n", 
+            " \t\tif (info != null &&\n", 
+            "-\t\t    info.getState().equals(ProtocolState.WSDL_RESPONSE_DONE) ||\n", 
+            "+\t\t    info.getState().equals(ProtocolState.WSDL_XSD_RESPONSE_DONE) ||\n", 
+            " \t\t    (msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED) != null &&\n", 
+            "                     Boolean.TRUE.equals((msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED))))) {\n", 
+            " \t\t\treturn;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-44,5 +44,5", 
+          "lines": [
+            "     /** The connection is closed */\n", 
+            "     CLOSED,\n", 
+            "     /** WSDL response has been sent */\n", 
+            "-    WSDL_RESPONSE_DONE\n", 
+            "+    WSDL_XSD_RESPONSE_DONE\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java"
+    }, 
     {
       "chunks": [
         {
@@ -504,128 +703,6 @@
     {
       "chunks": [
         {
-          "locn": "-83,7 +83,7", 
-          "lines": [
-            "                     System.currentTimeMillis());\n", 
-            "         \t \n", 
-            "             if (!SourceContext.assertState(conn, ProtocolState.REQUEST_READY) &&\n", 
-            "-                    !SourceContext.assertState(conn, ProtocolState.WSDL_RESPONSE_DONE)) {\n", 
-            "+                    !SourceContext.assertState(conn, ProtocolState.WSDL_XSD_RESPONSE_DONE)) {\n", 
-            "                 handleInvalidState(conn, \"Request received\");\n", 
-            "                 return;\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-192,7 +192,7", 
-          "lines": [
-            "             ProtocolState protocolState = SourceContext.getState(conn);\n", 
-            "             \n", 
-            "             //special case to handle WSDLs\n", 
-            "-            if(protocolState == ProtocolState.WSDL_RESPONSE_DONE){\n", 
-            "+            if(protocolState == ProtocolState.WSDL_XSD_RESPONSE_DONE){\n", 
-            "             \t// we need to shut down if the shutdown flag is set\n", 
-            "             \t HttpContext context = conn.getContext();\n", 
-            "             \t ContentOutputBuffer outBuf = (ContentOutputBuffer) context.getAttribute(\n"
-          ]
-        }, 
-        {
-          "locn": "-433,5 +433,26", 
-          "lines": [
-            "         }\n", 
-            "         log.error(errorMessage, e);\n", 
-            "     }\n", 
-            "+    \n", 
-            "+    \n", 
-            "+    /**\n", 
-            "+     * Commit the response to the connection. Processes the response through the configured\n", 
-            "+     * HttpProcessor and submits it to be sent out. This method hides any exceptions and is targetted\n", 
-            "+     * for non critical (i.e. browser requests etc) requests, which are not core messages\n", 
-            "+     * @param conn the connection being processed\n", 
-            "+     * @param response the response to commit over the connection\n", 
-            "+     */\n", 
-            "+    public void commitResponseHideExceptions(\n", 
-            "+            final NHttpServerConnection conn, final HttpResponse response) {\n", 
-            "+        try {\n", 
-            "+            conn.suspendInput();\n", 
-            "+            sourceConfiguration.getHttpProcessor().process(response, conn.getContext());\n", 
-            "+            conn.submitResponse(response);\n", 
-            "+        } catch (HttpException e) {\n", 
-            "+            handleException(\"Unexpected HTTP protocol error : \" + e.getMessage(), e, conn);\n", 
-            "+        } catch (IOException e) {\n", 
-            "+            handleException(\"IO error submiting response : \" + e.getMessage(), e, conn);\n", 
-            "+        }\n", 
-            "+    }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-200,7 +200,7", 
-          "lines": [
-            " \t\tSourceContext info = (SourceContext) request.getConnection().getContext().\n", 
-            "                 getAttribute(SourceContext.CONNECTION_INFORMATION);\n", 
-            " \t\tif (info != null &&\n", 
-            "-\t\t    info.getState().equals(ProtocolState.WSDL_RESPONSE_DONE) ||\n", 
-            "+\t\t    info.getState().equals(ProtocolState.WSDL_XSD_RESPONSE_DONE) ||\n", 
-            " \t\t    (msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED) != null &&\n", 
-            "                     Boolean.TRUE.equals((msgContext.getProperty(PassThroughConstants.WSDL_GEN_HANDLED))))) {\n", 
-            " \t\t\treturn;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ServerWorker.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-44,5 +44,5", 
-          "lines": [
-            "     /** The connection is closed */\n", 
-            "     CLOSED,\n", 
-            "     /** WSDL response has been sent */\n", 
-            "-    WSDL_RESPONSE_DONE\n", 
-            "+    WSDL_XSD_RESPONSE_DONE\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ProtocolState.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-118,12 +118,6", 
-          "lines": [
-            "             response.setStatusCode(HttpStatus.SC_MOVED_PERMANENTLY);\n", 
-            "             response.addHeader(LOCATION, \"http://ws.apache.org/favicon.ico\");\n", 
-            "             serverHandler.commitResponseHideExceptions(conn, response);\n", 
-            "-\n", 
-            "-//        } else if (!uri.startsWith(servicePath)) {\n", 
-            "-//            response.setStatusCode(HttpStatus.SC_MOVED_PERMANENTLY);\n", 
-            "-//            response.addHeader(LOCATION, servicePath + \"/\");\n", 
-            "-//            serverHandler.commitResponseHideExceptions(conn, response);\n", 
-            "-\n", 
-            "         } else if (serviceName != null && parameters.containsKey(\"wsdl\")) {\n", 
-            "             generateWsdl(request, response, msgContext,\n", 
-            "                     conn, os, serviceName, parameters, isRestDispatching);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/DefaultHttpGetProcessor.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/DefaultHttpGetProcessor.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-192,6 +192,7", 
           "lines": [
             "     <transportReceiver name=\"http\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpListener\">\n", 
@@ -652,82 +729,6 @@
       ], 
       "to": "java/modules/integration/src/test/resources/axis2Xml/synapse/axis2_def.xml", 
       "from": "java/modules/integration/src/test/resources/axis2Xml/synapse/axis2_def.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-189,6 +189,7", 
-          "lines": [
-            "     <transportReceiver name=\"http\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpListener\">\n", 
-            "         <parameter name=\"port\">8280</parameter>\n", 
-            "         <parameter name=\"non-blocking\">true</parameter>\n", 
-            "+\t    <parameter name=\"httpGetProcessor\" locked=\"false\">org.apache.synapse.transport.passthru.api.PassThroughNHttpGetProcessor</parameter>\n", 
-            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
-            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">https://apachehost:port/somepath</parameter-->\n", 
-            "         <!-- paramter name=\"priorityConfigFile\" locked=\"false\">location of priority configuration file<parameter-->\n"
-          ]
-        }, 
-        {
-          "locn": "-197,9 +198,11", 
-          "lines": [
-            "     <!-- the non blocking https transport based on HttpCore + SSL-NIO extensions -->\n", 
-            "     <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLListener\">\n", 
-            "         <parameter name=\"port\" locked=\"false\">8243</parameter>\n", 
-            "+        <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
-            "+        <parameter name=\"httpGetProcessor\" locked=\"false\">org.apache.synapse.transport.passthru.api.PassThroughNHttpGetProcessor</parameter>\n", 
-            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
-            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">http://apachehost:port/somepath</parameter-->\n", 
-            "-        <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
-            "+\n", 
-            "         <parameter name=\"keystore\" locked=\"false\">\n", 
-            "             <KeyStore>\n", 
-            "                 <Location>lib/identity.jks</Location>\n"
-          ]
-        }, 
-        {
-          "locn": "-585,4 +588,4", 
-          "lines": [
-            "         <phase name=\"MessageOut\"/>\n", 
-            "         <phase name=\"Security\"/>\n", 
-            "     </phaseOrder>\n", 
-            "-</axisconfig>\n", 
-            "\\ No newline at end of file\n", 
-            "+</axisconfig>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/axis2.xml", 
-      "from": "java/repository/conf/axis2.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-14,6 +14,7", 
-          "lines": [
-            "                         <arg expression=\"get-property('uri.var.symbol')\"/>\n", 
-            "                     </args>\n", 
-            "                 </payloadFactory>\n", 
-            "+                <header name=\"Action\" value=\"urn:getQuote\"/>\n", 
-            "                 <send>\n", 
-            "                     <endpoint>\n", 
-            "                         <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\" format=\"soap11\"/>\n"
-          ]
-        }, 
-        {
-          "locn": "-28,6 +29,7", 
-          "lines": [
-            "             <inSequence>\n", 
-            "                 <property name=\"FORCE_SC_ACCEPTED\" value=\"true\" scope=\"axis2\"/>\n", 
-            "                 <property name=\"OUT_ONLY\" value=\"true\"/>\n", 
-            "+                <header name=\"Action\" value=\"urn:placeOrder\"/>\n", 
-            "                 <send>\n", 
-            "                     <endpoint>\n", 
-            "                         <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\" format=\"soap11\"/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_800.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_800.xml"
     }
   ], 
   "id": "1503049"

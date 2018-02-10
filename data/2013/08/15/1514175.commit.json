@@ -1,25 +1,8 @@
 {
   "when": "2013-08-15T02:35:22-04:00", 
+  "message": "Removed a dead import and some unnecessary whitespace", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-167,7 +167,6", 
-          "lines": [
-            "             } else if (SourceContext.get(conn).isShutDown()) {\n", 
-            "                 // we need to shut down if the shutdown flag is set\n", 
-            "                 SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
-            "-\n", 
-            "                 sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
-            "             } else {\n", 
-            "                 // Reset connection state\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
-    }, 
     {
       "chunks": [
         {
@@ -210,6 +193,24 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/api/PassThroughNHttpGetProcessor.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/api/PassThroughNHttpGetProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-167,7 +167,6", 
+          "lines": [
+            "             } else if (SourceContext.get(conn).isShutDown()) {\n", 
+            "                 // we need to shut down if the shutdown flag is set\n", 
+            "                 SourceContext.updateState(conn, ProtocolState.CLOSING);\n", 
+            "-\n", 
+            "                 sourceConfiguration.getSourceConnections().closeConnection(conn);\n", 
+            "             } else {\n", 
+            "                 // Reset connection state\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
     }
   ], 
   "id": "1514175"

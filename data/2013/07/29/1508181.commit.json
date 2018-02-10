@@ -1,5 +1,6 @@
 {
   "when": "2013-07-29T15:01:07-04:00", 
+  "message": "removed dead code.", 
   "who": "rajikak", 
   "changes": [
     {
@@ -139,6 +140,124 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/AMQPTransportConstant.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/AMQPTransportConstant.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-94,7 +94,8", 
+          "lines": [
+            "         pt.setConnectionFactoryName(connectionFactory.getName());\n", 
+            " \n", 
+            "         String responseConFac = AMQPTransportUtils.getOptionalStringParameter(\n", 
+            "-                AMQPTransportConstant.PARAMETER_RESPONSE_CONNECTION_FACTORY_NAME, svcParam, conFacParam);\n", 
+            "+                AMQPTransportConstant.PARAMETER_RESPONSE_CONNECTION_FACTORY_NAME,\n", 
+            "+                svcParam, conFacParam);\n", 
+            "         if (responseConFac != null) {\n", 
+            "             pt.setResponseConnectionFactory(responseConFac);\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-157,7 +158,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer noOfConsumers = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_NO_OF_CONCURRENT_CONSUMERS, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_NO_OF_CONCURRENT_CONSUMERS,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (noOfConsumers != null) {\n", 
+            "                 pt.setNoOfConcurrentConsumers(noOfConsumers);\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-167,7 +169,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer initialReconectionDuration = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (initialReconectionDuration != null) {\n", 
+            "                 pt.setInitialReconnectDuration(initialReconectionDuration);\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-177,7 +180,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer reconnectionFactor = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (reconnectionFactor != null) {\n", 
+            "                 pt.setReconnectionFactor(reconnectionFactor);\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-187,7 +191,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer dispatchingTask = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (dispatchingTask != null) {\n", 
+            "                 pt.setNoOfDispatchingTask(dispatchingTask);\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-203,7 +208,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer initialDelay = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (initialDelay != null) {\n", 
+            "                 pt.setScheduledTaskInitialDelay(initialDelay.intValue());\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-213,7 +219,8", 
+          "lines": [
+            " \n", 
+            "         try {\n", 
+            "             Integer delay = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY, svcParam, conFacParam);\n", 
+            "+                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY,\n", 
+            "+                    svcParam, conFacParam);\n", 
+            "             if (delay != null) {\n", 
+            "                 pt.setScheduledTaskDelay(delay.intValue());\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-222,7 +229,8", 
+          "lines": [
+            "         }\n", 
+            " \n", 
+            "         String timeUnit = AMQPTransportUtils.getOptionalStringParameter(\n", 
+            "-                AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_TIME_UNIT, svcParam, conFacParam);\n", 
+            "+                AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_TIME_UNIT,\n", 
+            "+                svcParam, conFacParam);\n", 
+            " \n", 
+            "         if (timeUnit != null) {\n", 
+            "             pt.setScheduledTaskTimeUnit(getTimeUnit(timeUnit));\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
+      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
     }, 
     {
       "chunks": [
@@ -291,124 +410,6 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-94,7 +94,8", 
-          "lines": [
-            "         pt.setConnectionFactoryName(connectionFactory.getName());\n", 
-            " \n", 
-            "         String responseConFac = AMQPTransportUtils.getOptionalStringParameter(\n", 
-            "-                AMQPTransportConstant.PARAMETER_RESPONSE_CONNECTION_FACTORY_NAME, svcParam, conFacParam);\n", 
-            "+                AMQPTransportConstant.PARAMETER_RESPONSE_CONNECTION_FACTORY_NAME,\n", 
-            "+                svcParam, conFacParam);\n", 
-            "         if (responseConFac != null) {\n", 
-            "             pt.setResponseConnectionFactory(responseConFac);\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-157,7 +158,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer noOfConsumers = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_NO_OF_CONCURRENT_CONSUMERS, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_NO_OF_CONCURRENT_CONSUMERS,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (noOfConsumers != null) {\n", 
-            "                 pt.setNoOfConcurrentConsumers(noOfConsumers);\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-167,7 +169,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer initialReconectionDuration = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (initialReconectionDuration != null) {\n", 
-            "                 pt.setInitialReconnectDuration(initialReconectionDuration);\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-177,7 +180,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer reconnectionFactor = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (reconnectionFactor != null) {\n", 
-            "                 pt.setReconnectionFactor(reconnectionFactor);\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-187,7 +191,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer dispatchingTask = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (dispatchingTask != null) {\n", 
-            "                 pt.setNoOfDispatchingTask(dispatchingTask);\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-203,7 +208,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer initialDelay = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (initialDelay != null) {\n", 
-            "                 pt.setScheduledTaskInitialDelay(initialDelay.intValue());\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-213,7 +219,8", 
-          "lines": [
-            " \n", 
-            "         try {\n", 
-            "             Integer delay = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY, svcParam, conFacParam);\n", 
-            "+                    AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_INITIAL_DELAY,\n", 
-            "+                    svcParam, conFacParam);\n", 
-            "             if (delay != null) {\n", 
-            "                 pt.setScheduledTaskDelay(delay.intValue());\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-222,7 +229,8", 
-          "lines": [
-            "         }\n", 
-            " \n", 
-            "         String timeUnit = AMQPTransportUtils.getOptionalStringParameter(\n", 
-            "-                AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_TIME_UNIT, svcParam, conFacParam);\n", 
-            "+                AMQPTransportConstant.PARAMETER_SCHEDULED_TASK_TIME_UNIT,\n", 
-            "+                svcParam, conFacParam);\n", 
-            " \n", 
-            "         if (timeUnit != null) {\n", 
-            "             pt.setScheduledTaskTimeUnit(getTimeUnit(timeUnit));\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
-      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
     }
   ], 
   "id": "1508181"

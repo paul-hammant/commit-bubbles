@@ -1,5 +1,6 @@
 {
   "when": "2013-12-11T15:17:58-05:00", 
+  "message": "Use the new getSAXResult API instead of the old OMResult API.", 
   "who": "veithen", 
   "changes": [
     {

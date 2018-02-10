@@ -1,7 +1,83 @@
 {
   "when": "2016-12-28T03:47:40-05:00", 
+  "message": "Fixing indents", 
   "who": "ravi", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-18,9 +18,9", 
+          "lines": [
+            "   -->\n", 
+            " \n", 
+            " <project\n", 
+            "-    xmlns=\"http://maven.apache.org/POM/4.0.0\"\n", 
+            "-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
+            "-    xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n", 
+            "+        xmlns=\"http://maven.apache.org/POM/4.0.0\"\n", 
+            "+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
+            "+        xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n", 
+            "     <modelVersion>4.0.0</modelVersion>\n", 
+            "     <parent>\n", 
+            "         <groupId>org.apache.synapse</groupId>\n"
+          ]
+        }, 
+        {
+          "locn": "-102,7 +102,7", 
+          "lines": [
+            "             <artifactId>addressing</artifactId>\n", 
+            "             <type>mar</type>\n", 
+            "         </dependency>\n", 
+            "-        \n", 
+            "+\n", 
+            "         <!-- Because of a design flaw in Axis2 (see AXIS2-4265), axis2-codegen is required\n", 
+            "              to deploy some modules => include this explicitly. -->\n", 
+            "         <dependency>\n"
+          ]
+        }, 
+        {
+          "locn": "-110,7 +110,7", 
+          "lines": [
+            "             <artifactId>axis2-codegen</artifactId>\n", 
+            "         </dependency>\n", 
+            " \n", 
+            "-\t    <!-- JSON Support -->\n", 
+            "+        <!-- JSON Support -->\n", 
+            "         <dependency>\n", 
+            "             <groupId>org.apache.axis2</groupId>\n", 
+            "             <artifactId>axis2-json</artifactId>\n"
+          ]
+        }, 
+        {
+          "locn": "-143,7 +143,7", 
+          "lines": [
+            "             <artifactId>xmltask</artifactId>\n", 
+            "             <version>1.14</version>\n", 
+            "         </dependency>\n", 
+            "-        \n", 
+            "+\n", 
+            "         <!-- Patches -->\n", 
+            "         <dependency>\n", 
+            "             <groupId>org.apache.synapse</groupId>\n"
+          ]
+        }, 
+        {
+          "locn": "-155,7 +155,7", 
+          "lines": [
+            "             <groupId>xerces</groupId>\n", 
+            "             <artifactId>xercesImpl</artifactId>\n", 
+            "         </dependency-->\n", 
+            "-        \n", 
+            "+\n", 
+            "         <!-- Libraries packaged with the sample Axis2 server (but that are not useful for Synapse itself) -->\n", 
+            "         <dependency>\n", 
+            "             <groupId>org.apache.axis2</groupId>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/distribution/pom.xml", 
+      "from": "java/modules/distribution/pom.xml"
+    }, 
     {
       "chunks": [
         {
@@ -128,81 +204,6 @@
       ], 
       "to": "java/pom.xml", 
       "from": "java/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-18,9 +18,9", 
-          "lines": [
-            "   -->\n", 
-            " \n", 
-            " <project\n", 
-            "-    xmlns=\"http://maven.apache.org/POM/4.0.0\"\n", 
-            "-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
-            "-    xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n", 
-            "+        xmlns=\"http://maven.apache.org/POM/4.0.0\"\n", 
-            "+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
-            "+        xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n", 
-            "     <modelVersion>4.0.0</modelVersion>\n", 
-            "     <parent>\n", 
-            "         <groupId>org.apache.synapse</groupId>\n"
-          ]
-        }, 
-        {
-          "locn": "-102,7 +102,7", 
-          "lines": [
-            "             <artifactId>addressing</artifactId>\n", 
-            "             <type>mar</type>\n", 
-            "         </dependency>\n", 
-            "-        \n", 
-            "+\n", 
-            "         <!-- Because of a design flaw in Axis2 (see AXIS2-4265), axis2-codegen is required\n", 
-            "              to deploy some modules => include this explicitly. -->\n", 
-            "         <dependency>\n"
-          ]
-        }, 
-        {
-          "locn": "-110,7 +110,7", 
-          "lines": [
-            "             <artifactId>axis2-codegen</artifactId>\n", 
-            "         </dependency>\n", 
-            " \n", 
-            "-\t    <!-- JSON Support -->\n", 
-            "+        <!-- JSON Support -->\n", 
-            "         <dependency>\n", 
-            "             <groupId>org.apache.axis2</groupId>\n", 
-            "             <artifactId>axis2-json</artifactId>\n"
-          ]
-        }, 
-        {
-          "locn": "-143,7 +143,7", 
-          "lines": [
-            "             <artifactId>xmltask</artifactId>\n", 
-            "             <version>1.14</version>\n", 
-            "         </dependency>\n", 
-            "-        \n", 
-            "+\n", 
-            "         <!-- Patches -->\n", 
-            "         <dependency>\n", 
-            "             <groupId>org.apache.synapse</groupId>\n"
-          ]
-        }, 
-        {
-          "locn": "-155,7 +155,7", 
-          "lines": [
-            "             <groupId>xerces</groupId>\n", 
-            "             <artifactId>xercesImpl</artifactId>\n", 
-            "         </dependency-->\n", 
-            "-        \n", 
-            "+\n", 
-            "         <!-- Libraries packaged with the sample Axis2 server (but that are not useful for Synapse itself) -->\n", 
-            "         <dependency>\n", 
-            "             <groupId>org.apache.axis2</groupId>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/distribution/pom.xml", 
-      "from": "java/modules/distribution/pom.xml"
     }
   ], 
   "id": "1776244"

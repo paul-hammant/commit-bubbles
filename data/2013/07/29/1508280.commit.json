@@ -1,5 +1,6 @@
 {
   "when": "2013-07-29T23:13:35-04:00", 
+  "message": "Supporting basic auth protected URLs for loading WSDLs and local entries - Applying patch for SYNAPSE-812", 
   "who": "hiranya", 
   "changes": [
     {

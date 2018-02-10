@@ -1,5 +1,6 @@
 {
   "when": "2013-08-03T23:24:07-04:00", 
+  "message": "added low thread pool size to avoid OOM.", 
   "who": "rajikak", 
   "changes": [
     {

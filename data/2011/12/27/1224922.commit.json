@@ -1,5 +1,6 @@
 {
   "when": "2011-12-27T10:03:22-05:00", 
+  "message": "Modifying javadoc plugin configuration to prevent the effects of http://jira.codehaus.org/browse/MJAVADOC-276", 
   "who": "hiranya", 
   "changes": [
     {

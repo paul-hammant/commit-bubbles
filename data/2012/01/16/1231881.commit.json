@@ -1,7 +1,65 @@
 {
   "when": "2012-01-16T04:31:20-05:00", 
+  "message": "Some refactoring and cleanup", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-39,21 +39,21", 
+          "lines": [
+            "     /**\n", 
+            "      * The directory in which log files are created.\n", 
+            "      */\n", 
+            "-    public static String DIRECTORY = \"logs\";\n", 
+            "+    public static final String DIRECTORY = \"logs\";\n", 
+            " \n", 
+            "     /**\n", 
+            "      * Gives the format of the date to be appended to the name of the access log file.\n", 
+            "      */\n", 
+            "-    public static String FILE_FORMAT = \"yyyy-MM-dd\";\n", 
+            "+    public static final String FILE_FORMAT = \"yyyy-MM-dd\";\n", 
+            " \n", 
+            "     /**\n", 
+            "      * The prefix that is added to log file file names.\n", 
+            "      */\n", 
+            "-    public static String PREFIX = \"http_access_\";\n", 
+            "+    public static final String PREFIX = \"http_access_\";\n", 
+            " \n", 
+            "     /**\n", 
+            "      * The suffix that is added to log file file names.\n", 
+            "      */\n", 
+            "-    public static String SUFFIX = \".log\";\n", 
+            "+    public static final String SUFFIX = \".log\";\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/AccessConstants.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/AccessConstants.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-333,8 +333,8", 
+          "lines": [
+            "                     Map<String, String> responseHeaders = (Map<String, String>)\n", 
+            "                             msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
+            "                     if (responseHeaders != null) {\n", 
+            "-                        for (String headerName : responseHeaders.keySet()) {\n", 
+            "-                            response.addHeader(headerName, responseHeaders.get(headerName));\n", 
+            "+                        for (Map.Entry<String,String> entry : responseHeaders.entrySet()) {\n", 
+            "+                            response.addHeader(entry.getKey(), entry.getValue());\n", 
+            "                         }\n", 
+            "                     }\n", 
+            "                 }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ServerWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ServerWorker.java"
+    }, 
     {
       "chunks": [
         {
@@ -56,63 +114,6 @@
     {
       "chunks": [
         {
-          "locn": "-333,8 +333,8", 
-          "lines": [
-            "                     Map<String, String> responseHeaders = (Map<String, String>)\n", 
-            "                             msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
-            "                     if (responseHeaders != null) {\n", 
-            "-                        for (String headerName : responseHeaders.keySet()) {\n", 
-            "-                            response.addHeader(headerName, responseHeaders.get(headerName));\n", 
-            "+                        for (Map.Entry<String,String> entry : responseHeaders.entrySet()) {\n", 
-            "+                            response.addHeader(entry.getKey(), entry.getValue());\n", 
-            "                         }\n", 
-            "                     }\n", 
-            "                 }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ServerWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ServerWorker.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-39,21 +39,21", 
-          "lines": [
-            "     /**\n", 
-            "      * The directory in which log files are created.\n", 
-            "      */\n", 
-            "-    public static String DIRECTORY = \"logs\";\n", 
-            "+    public static final String DIRECTORY = \"logs\";\n", 
-            " \n", 
-            "     /**\n", 
-            "      * Gives the format of the date to be appended to the name of the access log file.\n", 
-            "      */\n", 
-            "-    public static String FILE_FORMAT = \"yyyy-MM-dd\";\n", 
-            "+    public static final String FILE_FORMAT = \"yyyy-MM-dd\";\n", 
-            " \n", 
-            "     /**\n", 
-            "      * The prefix that is added to log file file names.\n", 
-            "      */\n", 
-            "-    public static String PREFIX = \"http_access_\";\n", 
-            "+    public static final String PREFIX = \"http_access_\";\n", 
-            " \n", 
-            "     /**\n", 
-            "      * The suffix that is added to log file file names.\n", 
-            "      */\n", 
-            "-    public static String SUFFIX = \".log\";\n", 
-            "+    public static final String SUFFIX = \".log\";\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/AccessConstants.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/AccessConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-328,7 +328,7", 
           "lines": [
             "     /**\n", 
@@ -128,6 +129,93 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Access.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Access.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-83,11 +83,11", 
+          "lines": [
+            " \n", 
+            "     public String getString() {\n", 
+            "         if (pathSegments != null) {\n", 
+            "-            String str = \"\";\n", 
+            "+            StringBuilder str = new StringBuilder(\"\");\n", 
+            "             for (String segment : pathSegments) {\n", 
+            "-                str += \"/\" + segment;\n", 
+            "+                str.append(\"/\").append(segment);\n", 
+            "             }\n", 
+            "-            return str + \"/*\";\n", 
+            "+            return str.append(\"/*\").toString();\n", 
+            "         } else if (extension != null) {\n", 
+            "             return \"*.\" + extension;\n", 
+            "         } else {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-212,10 +212,9", 
+          "lines": [
+            "                     break;\n", 
+            "                 }\n", 
+            "                 case ST_OFF: {\n", 
+            "-                    // mark as in maintenence, and reset all other information\n", 
+            "+                    // mark as in maintenance, and reset all other information\n", 
+            "                     Replicator.setAndReplicateState(REMAINING_RETRIES_KEY,\n", 
+            "-                            definition == null ? -1 :\n", 
+            "-                                    definition.getRetriesOnTimeoutBeforeSuspend(), cfgCtx);\n", 
+            "+                            definition.getRetriesOnTimeoutBeforeSuspend(), cfgCtx);\n", 
+            "                     Replicator.setAndReplicateState(LAST_SUSPEND_DURATION_KEY, null, cfgCtx);\n", 
+            "                     break;\n", 
+            "                 }\n"
+          ]
+        }, 
+        {
+          "locn": "-260,9 +259,8", 
+          "lines": [
+            "                     break;\n", 
+            "                 }\n", 
+            "                 case ST_OFF: {\n", 
+            "-                    // mark as in maintenence, and reset all other information\n", 
+            "-                    localRemainingRetries = definition == null ?\n", 
+            "-                            -1 : definition.getRetriesOnTimeoutBeforeSuspend();\n", 
+            "+                    // mark as in maintenance, and reset all other information\n", 
+            "+                    localRemainingRetries = definition.getRetriesOnTimeoutBeforeSuspend();\n", 
+            "                     localLastSuspendDuration = -1;\n", 
+            "                     break;\n", 
+            "                 }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointContext.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointContext.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-70,10 +70,8", 
+          "lines": [
+            "             cloneElem.addAttribute(\"sequential\", \"true\", nullNS);\n", 
+            "         }\n", 
+            " \n", 
+            "-        for (Object o : clone.getTargets()) {\n", 
+            "-            if (o instanceof Target) {\n", 
+            "-                cloneElem.addChild(TargetSerializer.serializeTarget((Target) o));\n", 
+            "-            }\n", 
+            "+        for (Target o : clone.getTargets()) {\n", 
+            "+            cloneElem.addChild(TargetSerializer.serializeTarget(o));\n", 
+            "         }\n", 
+            "         return cloneElem;\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CloneMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CloneMediatorSerializer.java"
     }, 
     {
       "chunks": [
@@ -187,48 +275,6 @@
     {
       "chunks": [
         {
-          "locn": "-70,10 +70,8", 
-          "lines": [
-            "             cloneElem.addAttribute(\"sequential\", \"true\", nullNS);\n", 
-            "         }\n", 
-            " \n", 
-            "-        for (Object o : clone.getTargets()) {\n", 
-            "-            if (o instanceof Target) {\n", 
-            "-                cloneElem.addChild(TargetSerializer.serializeTarget((Target) o));\n", 
-            "-            }\n", 
-            "+        for (Target o : clone.getTargets()) {\n", 
-            "+            cloneElem.addChild(TargetSerializer.serializeTarget(o));\n", 
-            "         }\n", 
-            "         return cloneElem;\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CloneMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CloneMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-33,7 +33,7", 
-          "lines": [
-            " \n", 
-            " public class TemplateEndpointSerializer extends EndpointSerializer {\n", 
-            " \n", 
-            "-    protected static OMNamespace nullNS;\n", 
-            "+    private OMNamespace nullNS;\n", 
-            " \n", 
-            "     public TemplateEndpointSerializer() {\n", 
-            "         fac = OMAbstractFactory.getOMFactory();\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/TemplateEndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/TemplateEndpointSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-32,7 +32,7", 
           "lines": [
             " import java.util.Map;\n", 
@@ -248,34 +294,21 @@
     {
       "chunks": [
         {
-          "locn": "-248,7 +248,7", 
+          "locn": "-33,7 +33,7", 
           "lines": [
-            "             }\n", 
-            "         } catch (Exception e) {\n", 
-            "             handleSynapseArtifactDeploymentError(\n", 
-            "-                    \"Template Undeployement of template named : \" + artifactName + \" : Failed\", e);\n", 
-            "+                    \"Template Undeployment of template named : \" + artifactName + \" : Failed\", e);\n", 
-            "         }\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-283,7 +283,7", 
-          "lines": [
-            "                     if (mt.getFileName() != null) {\n", 
-            "                         String fileName = getServerConfigurationInformation().getSynapseXMLLocation()\n", 
-            "                                 + File.separator + MultiXMLConfigurationBuilder.TEMPLATES_DIR\n", 
-            "-                                + File.separator + st.getFileName();\n", 
-            "+                                + File.separator + mt.getFileName();\n", 
-            "                         writeToFile(stElem, fileName);\n", 
-            "                         if (log.isDebugEnabled()) {\n", 
-            "                             log.debug(\"Restoring the Sequence Template with name : \" +\n"
+            " \n", 
+            " public class TemplateEndpointSerializer extends EndpointSerializer {\n", 
+            " \n", 
+            "-    protected static OMNamespace nullNS;\n", 
+            "+    private OMNamespace nullNS;\n", 
+            " \n", 
+            "     public TemplateEndpointSerializer() {\n", 
+            "         fac = OMAbstractFactory.getOMFactory();\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/deployers/TemplateDeployer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/deployers/TemplateDeployer.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/TemplateEndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/TemplateEndpointSerializer.java"
     }, 
     {
       "chunks": [
@@ -324,66 +357,21 @@
     {
       "chunks": [
         {
-          "locn": "-212,10 +212,9", 
+          "locn": "-241,7 +241,7", 
           "lines": [
-            "                     break;\n", 
-            "                 }\n", 
-            "                 case ST_OFF: {\n", 
-            "-                    // mark as in maintenence, and reset all other information\n", 
-            "+                    // mark as in maintenance, and reset all other information\n", 
-            "                     Replicator.setAndReplicateState(REMAINING_RETRIES_KEY,\n", 
-            "-                            definition == null ? -1 :\n", 
-            "-                                    definition.getRetriesOnTimeoutBeforeSuspend(), cfgCtx);\n", 
-            "+                            definition.getRetriesOnTimeoutBeforeSuspend(), cfgCtx);\n", 
-            "                     Replicator.setAndReplicateState(LAST_SUSPEND_DURATION_KEY, null, cfgCtx);\n", 
-            "                     break;\n", 
-            "                 }\n"
-          ]
-        }, 
-        {
-          "locn": "-260,9 +259,8", 
-          "lines": [
-            "                     break;\n", 
-            "                 }\n", 
-            "                 case ST_OFF: {\n", 
-            "-                    // mark as in maintenence, and reset all other information\n", 
-            "-                    localRemainingRetries = definition == null ?\n", 
-            "-                            -1 : definition.getRetriesOnTimeoutBeforeSuspend();\n", 
-            "+                    // mark as in maintenance, and reset all other information\n", 
-            "+                    localRemainingRetries = definition.getRetriesOnTimeoutBeforeSuspend();\n", 
-            "                     localLastSuspendDuration = -1;\n", 
-            "                     break;\n", 
-            "                 }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointContext.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/EndpointContext.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-83,11 +83,11", 
-          "lines": [
-            " \n", 
-            "     public String getString() {\n", 
-            "         if (pathSegments != null) {\n", 
-            "-            String str = \"\";\n", 
-            "+            StringBuilder str = new StringBuilder(\"\");\n", 
-            "             for (String segment : pathSegments) {\n", 
-            "-                str += \"/\" + segment;\n", 
-            "+                str.append(\"/\").append(segment);\n", 
             "             }\n", 
-            "-            return str + \"/*\";\n", 
-            "+            return str.append(\"/*\").toString();\n", 
-            "         } else if (extension != null) {\n", 
-            "             return \"*.\" + extension;\n", 
-            "         } else {\n"
+            " \n", 
+            "         } else {\n", 
+            "-            throw new Exception(\"Error! Cant send Message Context : \" + messageContext);\n", 
+            "+            throw new Exception(\"MessageContext must not be null\");\n", 
+            "         }\n", 
+            "     }\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/MessageForwardingProcessorView.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/MessageForwardingProcessorView.java"
     }, 
     {
       "chunks": [
@@ -455,25 +443,6 @@
     {
       "chunks": [
         {
-          "locn": "-241,7 +241,7", 
-          "lines": [
-            "             }\n", 
-            " \n", 
-            "         } else {\n", 
-            "-            throw new Exception(\"Error! Cant send Message Context : \" + messageContext);\n", 
-            "+            throw new Exception(\"MessageContext must not be null\");\n", 
-            "         }\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/MessageForwardingProcessorView.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/MessageForwardingProcessorView.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-66,8 +66,8", 
           "lines": [
             " \n", 
@@ -490,6 +459,38 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-248,7 +248,7", 
+          "lines": [
+            "             }\n", 
+            "         } catch (Exception e) {\n", 
+            "             handleSynapseArtifactDeploymentError(\n", 
+            "-                    \"Template Undeployement of template named : \" + artifactName + \" : Failed\", e);\n", 
+            "+                    \"Template Undeployment of template named : \" + artifactName + \" : Failed\", e);\n", 
+            "         }\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-283,7 +283,7", 
+          "lines": [
+            "                     if (mt.getFileName() != null) {\n", 
+            "                         String fileName = getServerConfigurationInformation().getSynapseXMLLocation()\n", 
+            "                                 + File.separator + MultiXMLConfigurationBuilder.TEMPLATES_DIR\n", 
+            "-                                + File.separator + st.getFileName();\n", 
+            "+                                + File.separator + mt.getFileName();\n", 
+            "                         writeToFile(stElem, fileName);\n", 
+            "                         if (log.isDebugEnabled()) {\n", 
+            "                             log.debug(\"Restoring the Sequence Template with name : \" +\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/deployers/TemplateDeployer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/deployers/TemplateDeployer.java"
     }
   ], 
   "id": "1231881"

@@ -1,5 +1,6 @@
 {
   "when": "2013-08-15T16:20:52-04:00", 
+  "message": "Made the default User-Agent and Server header values configurable - Updated the docs", 
   "who": "hiranya", 
   "changes": [
     {

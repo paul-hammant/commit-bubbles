@@ -1,31 +1,8 @@
 {
   "when": "2011-12-24T07:09:47-05:00", 
+  "message": "Adding the throttle mediator test - Made some changes to match a few changes done in wso2 throttle core", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-44,11 +44,11", 
-          "lines": [
-            "                 <groupId>org.apache.maven.plugins</groupId>\n", 
-            "                 <artifactId>maven-surefire-plugin</artifactId>\n", 
-            "                 <version>2.2</version>\n", 
-            "-                <configuration>\n", 
-            "+                <!--configuration>\n", 
-            "                     <excludes>\n", 
-            "                         <exclude>org/apache/synapse/mediators/throttle/ThrottleMediatorTest.java</exclude>\n", 
-            "                     </excludes>                    \n", 
-            "-                </configuration>\n", 
-            "+                </configuration-->\n", 
-            "             </plugin>\n", 
-            " \n", 
-            "             <plugin>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/extensions/pom.xml", 
-      "from": "java/modules/extensions/pom.xml"
-    }, 
     {
       "chunks": [
         {
@@ -212,6 +189,30 @@
       ], 
       "to": "java/modules/extensions/src/test/java/org/apache/synapse/mediators/throttle/ThrottleMediatorTest.java", 
       "from": "java/modules/extensions/src/test/java/org/apache/synapse/mediators/throttle/ThrottleMediatorTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-44,11 +44,11", 
+          "lines": [
+            "                 <groupId>org.apache.maven.plugins</groupId>\n", 
+            "                 <artifactId>maven-surefire-plugin</artifactId>\n", 
+            "                 <version>2.2</version>\n", 
+            "-                <configuration>\n", 
+            "+                <!--configuration>\n", 
+            "                     <excludes>\n", 
+            "                         <exclude>org/apache/synapse/mediators/throttle/ThrottleMediatorTest.java</exclude>\n", 
+            "                     </excludes>                    \n", 
+            "-                </configuration>\n", 
+            "+                </configuration-->\n", 
+            "             </plugin>\n", 
+            " \n", 
+            "             <plugin>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/extensions/pom.xml", 
+      "from": "java/modules/extensions/pom.xml"
     }
   ], 
   "id": "1222964"

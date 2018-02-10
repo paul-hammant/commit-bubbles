@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T20:27:32-04:00", 
+  "message": "added ha implementations.", 
   "who": "rajikak", 
   "changes": [
     {
@@ -23,62 +24,6 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/connectionfactory/AMQPTransportConnectionFactoryManager.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/connectionfactory/AMQPTransportConnectionFactoryManager.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-19,6 +19,7", 
-          "lines": [
-            " import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.transport.amqp.*;\n", 
-            " import org.apache.synapse.transport.amqp.connectionfactory.AMQPTransportConnectionFactory;\n", 
-            "+import org.apache.synapse.transport.amqp.ha.AMQPTransportReconnectHandler;\n", 
-            " \n", 
-            " import java.util.Map;\n", 
-            " import java.util.concurrent.ScheduledExecutorService;\n"
-          ]
-        }, 
-        {
-          "locn": "-36,7 +37,8", 
-          "lines": [
-            "             AxisService service,\n", 
-            "             ScheduledExecutorService pool,\n", 
-            "             AMQPTransportEndpoint endpoint,\n", 
-            "-            AMQPTransportConnectionFactory connectionFactory) throws AxisFault {\n", 
-            "+            AMQPTransportConnectionFactory connectionFactory,\n", 
-            "+            AMQPTransportReconnectHandler haHandler) throws AxisFault {\n", 
-            " \n", 
-            "         Map<String, String> svcParam =\n", 
-            "                 AMQPTransportUtils.getServiceStringParameters(service.getParameters());\n"
-          ]
-        }, 
-        {
-          "locn": "-48,6 +50,7", 
-          "lines": [
-            "         pt.setServiceName(service.getName());\n", 
-            "         pt.setEndpoint(endpoint);\n", 
-            "         pt.setPollingTaskScheduler(pool);\n", 
-            "+        pt.setHaHandler(haHandler);\n", 
-            " \n", 
-            "         // set buffers to hold request/response messages for this task\n", 
-            "         pt.setBuffers(new AMQPTransportBuffers());\n"
-          ]
-        }, 
-        {
-          "locn": "-89,7 +92,6", 
-          "lines": [
-            "             pt.setInternalExchange(isInternalExchange);\n", 
-            "         }\n", 
-            " \n", 
-            "-\n", 
-            "         pt.setChannel(connectionFactory.getChannel());\n", 
-            "         pt.setConnectionFactoryName(connectionFactory.getName());\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
-      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
     }, 
     {
       "chunks": [
@@ -175,6 +120,62 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-19,6 +19,7", 
+          "lines": [
+            " import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.transport.amqp.*;\n", 
+            " import org.apache.synapse.transport.amqp.connectionfactory.AMQPTransportConnectionFactory;\n", 
+            "+import org.apache.synapse.transport.amqp.ha.AMQPTransportReconnectHandler;\n", 
+            " \n", 
+            " import java.util.Map;\n", 
+            " import java.util.concurrent.ScheduledExecutorService;\n"
+          ]
+        }, 
+        {
+          "locn": "-36,7 +37,8", 
+          "lines": [
+            "             AxisService service,\n", 
+            "             ScheduledExecutorService pool,\n", 
+            "             AMQPTransportEndpoint endpoint,\n", 
+            "-            AMQPTransportConnectionFactory connectionFactory) throws AxisFault {\n", 
+            "+            AMQPTransportConnectionFactory connectionFactory,\n", 
+            "+            AMQPTransportReconnectHandler haHandler) throws AxisFault {\n", 
+            " \n", 
+            "         Map<String, String> svcParam =\n", 
+            "                 AMQPTransportUtils.getServiceStringParameters(service.getParameters());\n"
+          ]
+        }, 
+        {
+          "locn": "-48,6 +50,7", 
+          "lines": [
+            "         pt.setServiceName(service.getName());\n", 
+            "         pt.setEndpoint(endpoint);\n", 
+            "         pt.setPollingTaskScheduler(pool);\n", 
+            "+        pt.setHaHandler(haHandler);\n", 
+            " \n", 
+            "         // set buffers to hold request/response messages for this task\n", 
+            "         pt.setBuffers(new AMQPTransportBuffers());\n"
+          ]
+        }, 
+        {
+          "locn": "-89,7 +92,6", 
+          "lines": [
+            "             pt.setInternalExchange(isInternalExchange);\n", 
+            "         }\n", 
+            " \n", 
+            "-\n", 
+            "         pt.setChannel(connectionFactory.getChannel());\n", 
+            "         pt.setConnectionFactoryName(connectionFactory.getName());\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
+      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
     }, 
     {
       "chunks": [

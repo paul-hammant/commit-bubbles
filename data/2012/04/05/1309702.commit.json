@@ -1,7 +1,156 @@
 {
   "when": "2012-04-05T04:54:08-04:00", 
+  "message": "Adding basic SNMPv1 and SNMPv2c support", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-986,6 +986,16", 
+          "lines": [
+            "                 <artifactId>xercesImpl</artifactId>\n", 
+            "                 <version>${xerces.version}</version>\n", 
+            "             </dependency>\n", 
+            "+            <dependency>\n", 
+            "+                <groupId>org.snmp4j</groupId>\n", 
+            "+                <artifactId>snmp4j-agent</artifactId>\n", 
+            "+                <version>${snmp4j.agent.version}</version>\n", 
+            "+            </dependency>\n", 
+            "+            <dependency>\n", 
+            "+                <groupId>org.snmp4j</groupId>\n", 
+            "+                <artifactId>snmp4j</artifactId>\n", 
+            "+                <version>${snmp4j.version}</version>\n", 
+            "+            </dependency>\n", 
+            "         </dependencies>\n", 
+            "     </dependencyManagement>\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-1043,6 +1053,17", 
+          "lines": [
+            "                 <updatePolicy>interval:10080</updatePolicy>\n", 
+            "             </snapshots>\n", 
+            "         </repository>\n", 
+            "+        <repository>\n", 
+            "+            <id>snmp4j-repo</id>\n", 
+            "+            <name>SNMP4J Repository</name>\n", 
+            "+            <url>https://server.oosnmp.net/dist/release/</url>\n", 
+            "+            <releases>\n", 
+            "+                <updatePolicy>never</updatePolicy>\n", 
+            "+            </releases>\n", 
+            "+            <snapshots>\n", 
+            "+                <enabled>false</enabled>\n", 
+            "+            </snapshots>\n", 
+            "+        </repository>\n", 
+            "     </repositories>\n", 
+            " \n", 
+            "     <modules>\n"
+          ]
+        }, 
+        {
+          "locn": "-1123,6 +1144,8", 
+          "lines": [
+            "         <wso2uri-template.version>1.0.0</wso2uri-template.version>\n", 
+            "         <woden.version>1.0M9</woden.version>\n", 
+            "         <activemq.version>5.2.0</activemq.version>\n", 
+            "+        <snmp4j.version>2.0.3</snmp4j.version>\n", 
+            "+        <snmp4j.agent.version>2.0.5</snmp4j.agent.version>\n", 
+            " \n", 
+            "         <!-- dependencies of Synapse extensions module -->\n", 
+            "         <wso2commons.version>1.2</wso2commons.version>\n"
+          ]
+        }
+      ], 
+      "to": "java/pom.xml", 
+      "from": "java/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,75", 
+          "lines": [
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            "+package org.apache.synapse.commons.snmp;\n", 
+            "+\n", 
+            "+import org.apache.commons.logging.Log;\n", 
+            "+import org.apache.commons.logging.LogFactory;\n", 
+            "+import org.snmp4j.agent.mo.MOAccessImpl;\n", 
+            "+import org.snmp4j.agent.mo.MOScalar;\n", 
+            "+import org.snmp4j.mp.SnmpConstants;\n", 
+            "+import org.snmp4j.smi.*;\n", 
+            "+\n", 
+            "+import javax.management.*;\n", 
+            "+import java.lang.management.ManagementFactory;\n", 
+            "+import java.util.Date;\n", 
+            "+\n", 
+            "+/**\n", 
+            "+ * Synapse managed object scalar implementation. This class queries built-in JMX MBeans\n", 
+            "+ * to retrieve the value of the specified OID. \n", 
+            "+ */\n", 
+            "+public class SynapseMOScalar extends MOScalar<Variable> {\n", 
+            "+    \n", 
+            "+    private static final Log log = LogFactory.getLog(SynapseMOScalar.class);\n", 
+            "+    \n", 
+            "+    private ObjectName objectName;\n", 
+            "+    private String attribute;\n", 
+            "+    private int snmpVersion;\n", 
+            "+\n", 
+            "+    public SynapseMOScalar(OID id, ObjectName objectName, String attribute, int snmpVersion) {\n", 
+            "+        super(id, MOAccessImpl.ACCESS_READ_ONLY, new OctetString());\n", 
+            "+        this.objectName = objectName;\n", 
+            "+        this.attribute = attribute;\n", 
+            "+        this.snmpVersion = snmpVersion;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    @Override\n", 
+            "+    public Variable getValue() {\n", 
+            "+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();\n", 
+            "+        try {\n", 
+            "+            Object obj = mbs.getAttribute(objectName, attribute);\n", 
+            "+            if (obj instanceof Integer) {\n", 
+            "+                return new Integer32((Integer) obj);\n", 
+            "+            }\n", 
+            "+            \n", 
+            "+            if (snmpVersion > SnmpConstants.version1) {\n", 
+            "+                if (obj instanceof Long) {\n", 
+            "+                    return new Counter64(((Long) obj).longValue());\n", 
+            "+                } else if (obj instanceof Date) {\n", 
+            "+                    return new Counter64(((Date) obj).getTime());\n", 
+            "+                }\n", 
+            "+            }\n", 
+            "+\n", 
+            "+            return new OctetString(obj.toString());\n", 
+            "+        } catch (Exception e) {\n", 
+            "+            log.error(\"Unexpected error while retrieving the value of OID: \" + getID(), e);\n", 
+            "+            return null;\n", 
+            "+        }\n", 
+            "+    }\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SynapseMOScalar.java", 
+      "from": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SynapseMOScalar.java"
+    }, 
     {
       "chunks": [
         {
@@ -534,92 +683,6 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,75", 
-          "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+\n", 
-            "+package org.apache.synapse.commons.snmp;\n", 
-            "+\n", 
-            "+import org.apache.commons.logging.Log;\n", 
-            "+import org.apache.commons.logging.LogFactory;\n", 
-            "+import org.snmp4j.agent.mo.MOAccessImpl;\n", 
-            "+import org.snmp4j.agent.mo.MOScalar;\n", 
-            "+import org.snmp4j.mp.SnmpConstants;\n", 
-            "+import org.snmp4j.smi.*;\n", 
-            "+\n", 
-            "+import javax.management.*;\n", 
-            "+import java.lang.management.ManagementFactory;\n", 
-            "+import java.util.Date;\n", 
-            "+\n", 
-            "+/**\n", 
-            "+ * Synapse managed object scalar implementation. This class queries built-in JMX MBeans\n", 
-            "+ * to retrieve the value of the specified OID. \n", 
-            "+ */\n", 
-            "+public class SynapseMOScalar extends MOScalar<Variable> {\n", 
-            "+    \n", 
-            "+    private static final Log log = LogFactory.getLog(SynapseMOScalar.class);\n", 
-            "+    \n", 
-            "+    private ObjectName objectName;\n", 
-            "+    private String attribute;\n", 
-            "+    private int snmpVersion;\n", 
-            "+\n", 
-            "+    public SynapseMOScalar(OID id, ObjectName objectName, String attribute, int snmpVersion) {\n", 
-            "+        super(id, MOAccessImpl.ACCESS_READ_ONLY, new OctetString());\n", 
-            "+        this.objectName = objectName;\n", 
-            "+        this.attribute = attribute;\n", 
-            "+        this.snmpVersion = snmpVersion;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    @Override\n", 
-            "+    public Variable getValue() {\n", 
-            "+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();\n", 
-            "+        try {\n", 
-            "+            Object obj = mbs.getAttribute(objectName, attribute);\n", 
-            "+            if (obj instanceof Integer) {\n", 
-            "+                return new Integer32((Integer) obj);\n", 
-            "+            }\n", 
-            "+            \n", 
-            "+            if (snmpVersion > SnmpConstants.version1) {\n", 
-            "+                if (obj instanceof Long) {\n", 
-            "+                    return new Counter64(((Long) obj).longValue());\n", 
-            "+                } else if (obj instanceof Date) {\n", 
-            "+                    return new Counter64(((Date) obj).getTime());\n", 
-            "+                }\n", 
-            "+            }\n", 
-            "+\n", 
-            "+            return new OctetString(obj.toString());\n", 
-            "+        } catch (Exception e) {\n", 
-            "+            log.error(\"Unexpected error while retrieving the value of OID: \" + getID(), e);\n", 
-            "+            return null;\n", 
-            "+        }\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SynapseMOScalar.java", 
-      "from": "java/modules/commons/src/main/java/org/apache/synapse/commons/snmp/SynapseMOScalar.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-95,5 +95,13", 
           "lines": [
             "             <groupId>xmlunit</groupId>\n", 
@@ -748,68 +811,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-986,6 +986,16", 
-          "lines": [
-            "                 <artifactId>xercesImpl</artifactId>\n", 
-            "                 <version>${xerces.version}</version>\n", 
-            "             </dependency>\n", 
-            "+            <dependency>\n", 
-            "+                <groupId>org.snmp4j</groupId>\n", 
-            "+                <artifactId>snmp4j-agent</artifactId>\n", 
-            "+                <version>${snmp4j.agent.version}</version>\n", 
-            "+            </dependency>\n", 
-            "+            <dependency>\n", 
-            "+                <groupId>org.snmp4j</groupId>\n", 
-            "+                <artifactId>snmp4j</artifactId>\n", 
-            "+                <version>${snmp4j.version}</version>\n", 
-            "+            </dependency>\n", 
-            "         </dependencies>\n", 
-            "     </dependencyManagement>\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-1043,6 +1053,17", 
-          "lines": [
-            "                 <updatePolicy>interval:10080</updatePolicy>\n", 
-            "             </snapshots>\n", 
-            "         </repository>\n", 
-            "+        <repository>\n", 
-            "+            <id>snmp4j-repo</id>\n", 
-            "+            <name>SNMP4J Repository</name>\n", 
-            "+            <url>https://server.oosnmp.net/dist/release/</url>\n", 
-            "+            <releases>\n", 
-            "+                <updatePolicy>never</updatePolicy>\n", 
-            "+            </releases>\n", 
-            "+            <snapshots>\n", 
-            "+                <enabled>false</enabled>\n", 
-            "+            </snapshots>\n", 
-            "+        </repository>\n", 
-            "     </repositories>\n", 
-            " \n", 
-            "     <modules>\n"
-          ]
-        }, 
-        {
-          "locn": "-1123,6 +1144,8", 
-          "lines": [
-            "         <wso2uri-template.version>1.0.0</wso2uri-template.version>\n", 
-            "         <woden.version>1.0M9</woden.version>\n", 
-            "         <activemq.version>5.2.0</activemq.version>\n", 
-            "+        <snmp4j.version>2.0.3</snmp4j.version>\n", 
-            "+        <snmp4j.agent.version>2.0.5</snmp4j.agent.version>\n", 
-            " \n", 
-            "         <!-- dependencies of Synapse extensions module -->\n", 
-            "         <wso2commons.version>1.2</wso2commons.version>\n"
-          ]
-        }
-      ], 
-      "to": "java/pom.xml", 
-      "from": "java/pom.xml"
     }
   ], 
   "id": "1309702"

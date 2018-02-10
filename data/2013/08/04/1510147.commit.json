@@ -1,5 +1,6 @@
 {
   "when": "2013-08-04T08:12:42-04:00", 
+  "message": "If the project uses Java 1.6, then it should also configure the maven-compiler-plugin accordingly.\n", 
   "who": "veithen", 
   "changes": [
     {

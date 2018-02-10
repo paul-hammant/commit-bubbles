@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T18:01:07-04:00", 
+  "message": "Avoid the dependency on JavaMail (which is no longer a dependency of Axiom; see AXIOM-418).", 
   "who": "veithen", 
   "changes": [
     {

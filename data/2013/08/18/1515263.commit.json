@@ -1,77 +1,151 @@
 {
   "when": "2013-08-18T22:29:05-04:00", 
+  "message": "Callout mediator improvements - Supporting Synapse Endpoints in callout mediator. Applying patches from SYNAPSE-966 SYNAPSE-967 and SYNAPSE-968", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-234,6 +234,7", 
+          "locn": "-200,6 +200,7", 
           "lines": [
-            "         sampleClassRepo.put(\"430\", Sample430.class);\n", 
-            "         sampleClassRepo.put(\"431\", Sample431.class);\n", 
-            "         sampleClassRepo.put(\"432\", Sample432.class);\n", 
-            "+        sampleClassRepo.put(\"433\", Sample433.class);\n", 
-            "         sampleClassRepo.put(\"450\", Sample450.class);\n", 
-            "         sampleClassRepo.put(\"451\", Sample451.class);\n", 
-            "         sampleClassRepo.put(\"452\", Sample452.class);\n"
+            "                         <li><a href=\"samples/sample430.html\">Sample 430: Callout mediator for synchronous web service invocations</a></li>\n", 
+            "                         <li><a href=\"samples/sample431.html\">Sample 431: Callout Mediator with WS-Security for Outgoing Messages</a></li>\n", 
+            "                         <li><a href=\"samples/sample432.html\">Sample 432: Callout Mediator - Invoke a secured service which has different policies for inbound and outbound flows</a></li>\n", 
+            "+                        <li><a href=\"samples/sample433.html\">Sample 433: Callout Mediator - Invoke a service using a defined Endpoint</a></li>\n", 
+            "                     </ul>\n", 
+            "                 </p>\n", 
+            "                 <h4>URL Rewrite Mediator</h4>\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,42", 
+          "locn": "-0,0 +1,85", 
           "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
+            "+<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
             "+\n", 
-            "+package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            "+<document>\n", 
+            "+    <properties>\n", 
+            "+        <title>Apache Synapse - Sample 433</title>\n", 
+            "+    </properties>\n", 
+            "+    <body>\n", 
+            "+        <section name=\"Sample 433: Callout Mediator - Invoke a service using a defined Endpoint\">\n", 
+            "+            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
             "+\n", 
-            "+import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            "+import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            "+import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
+            "+    &lt;sequence name=\"main\"&gt;\n", 
+            "+        &lt;callout endpointKey=\"StockQuoteServiceEndpoint\"&gt;\n", 
+            "+            &lt;source xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
+            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
+            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/&gt;\n", 
+            "+            &lt;target xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
+            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
+            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/&gt;\n", 
+            "+        &lt;/callout&gt;\n", 
+            "+        &lt;property name=\"RESPONSE\" value=\"true\"/&gt;\n", 
+            "+        &lt;header name=\"To\" action=\"remove\"/&gt;\n", 
+            "+        &lt;send/&gt;\n", 
+            "+        &lt;drop/&gt;\n", 
+            "+    &lt;/sequence&gt;\n", 
             "+\n", 
-            "+public class Sample433 extends SynapseTestCase {\n", 
+            "+    &lt;endpoint name=\"StockQuoteServiceEndpoint\"&gt;\n", 
+            "+       &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "+    &lt;/endpoint&gt;\n", 
             "+\n", 
-            "+    SampleClientResult result;\n", 
-            "+\n", 
-            "+    public Sample433() {\n", 
-            "+        super(433);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void testCallOutDefinedEndpoint() {\n", 
-            "+        log.info(\"Running test: Callout mediator - Invoke a service using a defined Endpoint\");\n", 
-            "+        String trpUrl = \"http://localhost:8280/\";\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "+        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertTrue(\"Client did not run successfully\", result.responseReceived());\n", 
-            "+    }\n", 
-            "+\n", 
-            "+}\n"
+            "+&lt;/definitions&gt;</div>\n", 
+            "+            <subsection name=\"Objective\">\n", 
+            "+                <p>\n", 
+            "+                    Demonstrate how to invoke a service from Callout Mediator using a defined endpoint.\n", 
+            "+                </p>\n", 
+            "+            </subsection>\n", 
+            "+            <subsection name=\"Pre-requisites\">\n", 
+            "+                <p>\n", 
+            "+                    <ul>\n", 
+            "+                        <li>\n", 
+            "+                            Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "+                        </li>\n", 
+            "+                        <li>\n", 
+            "+                            Start Synapse using the configuration numbered 433 (repository/conf/sample/synapse_sample_433.xml)\n", 
+            "+                            <div class=\"command\">\n", 
+            "+                                Unix/Linux: sh synapse.sh -sample 433<br/>\n", 
+            "+                                Windows: synapse.bat -sample 433\n", 
+            "+                            </div>\n", 
+            "+                        </li>\n", 
+            "+                    </ul>\n", 
+            "+                </p>\n", 
+            "+            </subsection>\n", 
+            "+            <subsection name=\"Executing the Client\">\n", 
+            "+                <p>\n", 
+            "+                    In this sample, the Callout mediator does the direct service invocation to the\n", 
+            "+                    StockQuoteService using the client request, gets the response and sets it as the\n", 
+            "+                    first child of the SOAP message body. Callout Mediator uses the defined endpoint\n", 
+            "+                    named 'StockQuoteServiceEndpoint' to send the message to the StockQuoteService.\n", 
+            "+                </p>\n", 
+            "+                <p>\n", 
+            "+                    Invoke the client as follows.\n", 
+            "+                </p>\n", 
+            "+                <div class=\"command\">ant stockquote -Daddurl=http://localhost:8280/</div>\n", 
+            "+            </subsection>\n", 
+            "+        </section>\n", 
+            "+        <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n", 
+            "+    </body>\n", 
+            "+</document>\n", 
+            "\\ No newline at end of file\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample433.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample433.java"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample433.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample433.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,18", 
+          "lines": [
+            "+<synapseSample>\n", 
+            "+    <sampleID>433</sampleID>\n", 
+            "+    <sampleName>Callout mediator - Invoke a service using a defined Endpoint</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_433_altered.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <axis2Server id='0'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample433.xml", 
+      "from": "java/modules/integration/src/test/resources/sample433.xml"
     }, 
     {
       "chunks": [
@@ -131,31 +205,73 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,18", 
+          "locn": "-0,0 +1,42", 
           "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>433</sampleID>\n", 
-            "+    <sampleName>Callout mediator - Invoke a service using a defined Endpoint</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_433_altered.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <axis2Server id='0'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            "+package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            "+\n", 
+            "+import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            "+import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            "+import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
+            "+\n", 
+            "+public class Sample433 extends SynapseTestCase {\n", 
+            "+\n", 
+            "+    SampleClientResult result;\n", 
+            "+\n", 
+            "+    public Sample433() {\n", 
+            "+        super(433);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void testCallOutDefinedEndpoint() {\n", 
+            "+        log.info(\"Running test: Callout mediator - Invoke a service using a defined Endpoint\");\n", 
+            "+        String trpUrl = \"http://localhost:8280/\";\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "+        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertTrue(\"Client did not run successfully\", result.responseReceived());\n", 
+            "+    }\n", 
+            "+\n", 
+            "+}\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/resources/sample433.xml", 
-      "from": "java/modules/integration/src/test/resources/sample433.xml"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample433.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample433.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-234,6 +234,7", 
+          "lines": [
+            "         sampleClassRepo.put(\"430\", Sample430.class);\n", 
+            "         sampleClassRepo.put(\"431\", Sample431.class);\n", 
+            "         sampleClassRepo.put(\"432\", Sample432.class);\n", 
+            "+        sampleClassRepo.put(\"433\", Sample433.class);\n", 
+            "         sampleClassRepo.put(\"450\", Sample450.class);\n", 
+            "         sampleClassRepo.put(\"451\", Sample451.class);\n", 
+            "         sampleClassRepo.put(\"452\", Sample452.class);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
     }, 
     {
       "chunks": [
@@ -219,6 +335,137 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/CalloutMediatorSerializationTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/CalloutMediatorSerializationTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-48,7 +48,10", 
+          "lines": [
+            " \n", 
+            "         if (mediator.getServiceURL() != null) {\n", 
+            "             callout.addAttribute(fac.createOMAttribute(\"serviceURL\", nullNS, mediator.getServiceURL()));\n", 
+            "+        } else if (mediator.getEndpointKey() != null) {\n", 
+            "+            callout.addAttribute(fac.createOMAttribute(\"endpointKey\", nullNS, mediator.getEndpointKey()));\n", 
+            "         }\n", 
+            "+\n", 
+            "         if (mediator.getAction() != null) {\n", 
+            "             callout.addAttribute(fac.createOMAttribute(\"action\", nullNS, mediator.getAction()));\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-70,20 +73,24", 
+          "lines": [
+            "             callout.addAttribute(fac.createOMAttribute(\"passHeaders\", nullNS, \"true\"));\n", 
+            "         }\n", 
+            " \n", 
+            "-        OMElement source = fac.createOMElement(\"source\", synNS, callout);\n", 
+            "-        if (mediator.getRequestXPath() != null) {\n", 
+            "-            SynapseXPathSerializer.serializeXPath(mediator.getRequestXPath(), source, \"xpath\");\n", 
+            "-        } else if (mediator.getRequestKey() != null) {\n", 
+            "-            source.addAttribute(fac.createOMAttribute(\n", 
+            "-                \"key\", nullNS, mediator.getRequestKey()));\n", 
+            "+        if (mediator.getRequestXPath() != null || mediator.getRequestKey() != null) {\n", 
+            "+            OMElement source = fac.createOMElement(\"source\", synNS, callout);\n", 
+            "+            if (mediator.getRequestXPath() != null) {\n", 
+            "+                SynapseXPathSerializer.serializeXPath(mediator.getRequestXPath(), source, \"xpath\");\n", 
+            "+            } else if (mediator.getRequestKey() != null) {\n", 
+            "+                source.addAttribute(fac.createOMAttribute(\n", 
+            "+                        \"key\", nullNS, mediator.getRequestKey()));\n", 
+            "+            }\n", 
+            "         }\n", 
+            " \n", 
+            "-        OMElement target = fac.createOMElement(\"target\", synNS, callout);\n", 
+            "-        if (mediator.getTargetXPath() != null) {\n", 
+            "-            SynapseXPathSerializer.serializeXPath(mediator.getTargetXPath(), target, \"xpath\");\n", 
+            "-        } else if (mediator.getTargetKey() != null) {\n", 
+            "-            target.addAttribute(fac.createOMAttribute(\n", 
+            "-                \"key\", nullNS, mediator.getTargetKey()));\n", 
+            "+        if (mediator.getTargetXPath() != null || mediator.getTargetKey() != null) {\n", 
+            "+            OMElement target = fac.createOMElement(\"target\", synNS, callout);\n", 
+            "+            if (mediator.getTargetXPath() != null) {\n", 
+            "+                SynapseXPathSerializer.serializeXPath(mediator.getTargetXPath(), target, \"xpath\");\n", 
+            "+            } else if (mediator.getTargetKey() != null) {\n", 
+            "+                target.addAttribute(fac.createOMAttribute(\n", 
+            "+                        \"key\", nullNS, mediator.getTargetKey()));\n", 
+            "+            }\n", 
+            "         }\n", 
+            " \n", 
+            "         if (mediator.isSecurityOn()) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-65,6 +65,7", 
+          "lines": [
+            "                 = new QName(XMLConfigConstants.NULL_NAMESPACE, \"outboundPolicy\");\n", 
+            "     private static final QName ATT_INBOUND_SEC_POLICY\n", 
+            "                 = new QName(XMLConfigConstants.NULL_NAMESPACE, \"inboundPolicy\");\n", 
+            "+    private static final QName ATT_ENDPOINT = new QName(\"endpointKey\");\n", 
+            " \n", 
+            "     public Mediator createSpecificMediator(OMElement elem, Properties properties) {\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-71,6 +72,7", 
+          "lines": [
+            "         CalloutMediator callout = new CalloutMediator();\n", 
+            " \n", 
+            "         OMAttribute attServiceURL = elem.getAttribute(ATT_URL);\n", 
+            "+        OMAttribute attEndpoint = elem.getAttribute(ATT_ENDPOINT);\n", 
+            "         OMAttribute attAction     = elem.getAttribute(ATT_ACTION);\n", 
+            "         OMAttribute attPassHeaders = elem.getAttribute(ATT_PASS_HEADERS);\n", 
+            "         OMElement   configElt     = elem.getFirstChildWithName(Q_CONFIG);\n"
+          ]
+        }, 
+        {
+          "locn": "-80,6 +82,8", 
+          "lines": [
+            " \n", 
+            "         if (attServiceURL != null) {\n", 
+            "             callout.setServiceURL(attServiceURL.getAttributeValue());\n", 
+            "+        } else if (attEndpoint != null) {\n", 
+            "+            callout.setEndpointKey(attEndpoint.getAttributeValue());\n", 
+            "         }\n", 
+            " \n", 
+            "         if (attAction != null) {\n"
+          ]
+        }, 
+        {
+          "locn": "-130,8 +134,6", 
+          "lines": [
+            "                 handleException(\"A 'xpath' or 'key' attribute \" +\n", 
+            "                     \"is required for the Callout 'source'\");\n", 
+            "             }\n", 
+            "-        } else {\n", 
+            "-            handleException(\"The message 'source' must be specified for a Callout mediator\");\n", 
+            "         }\n", 
+            " \n", 
+            "         if (targetElt != null) {\n"
+          ]
+        }, 
+        {
+          "locn": "-149,8 +151,6", 
+          "lines": [
+            "                 handleException(\"A 'xpath' or 'key' attribute \" +\n", 
+            "                     \"is required for the Callout 'target'\");\n", 
+            "             }\n", 
+            "-        } else {\n", 
+            "-            handleException(\"The message 'target' must be specified for a Callout mediator\");\n", 
+            "         }\n", 
+            " \n", 
+            "         if (wsSec != null) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java"
     }, 
     {
       "chunks": [
@@ -1490,252 +1737,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/SynapseConstants.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/SynapseConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-48,7 +48,10", 
-          "lines": [
-            " \n", 
-            "         if (mediator.getServiceURL() != null) {\n", 
-            "             callout.addAttribute(fac.createOMAttribute(\"serviceURL\", nullNS, mediator.getServiceURL()));\n", 
-            "+        } else if (mediator.getEndpointKey() != null) {\n", 
-            "+            callout.addAttribute(fac.createOMAttribute(\"endpointKey\", nullNS, mediator.getEndpointKey()));\n", 
-            "         }\n", 
-            "+\n", 
-            "         if (mediator.getAction() != null) {\n", 
-            "             callout.addAttribute(fac.createOMAttribute(\"action\", nullNS, mediator.getAction()));\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-70,20 +73,24", 
-          "lines": [
-            "             callout.addAttribute(fac.createOMAttribute(\"passHeaders\", nullNS, \"true\"));\n", 
-            "         }\n", 
-            " \n", 
-            "-        OMElement source = fac.createOMElement(\"source\", synNS, callout);\n", 
-            "-        if (mediator.getRequestXPath() != null) {\n", 
-            "-            SynapseXPathSerializer.serializeXPath(mediator.getRequestXPath(), source, \"xpath\");\n", 
-            "-        } else if (mediator.getRequestKey() != null) {\n", 
-            "-            source.addAttribute(fac.createOMAttribute(\n", 
-            "-                \"key\", nullNS, mediator.getRequestKey()));\n", 
-            "+        if (mediator.getRequestXPath() != null || mediator.getRequestKey() != null) {\n", 
-            "+            OMElement source = fac.createOMElement(\"source\", synNS, callout);\n", 
-            "+            if (mediator.getRequestXPath() != null) {\n", 
-            "+                SynapseXPathSerializer.serializeXPath(mediator.getRequestXPath(), source, \"xpath\");\n", 
-            "+            } else if (mediator.getRequestKey() != null) {\n", 
-            "+                source.addAttribute(fac.createOMAttribute(\n", 
-            "+                        \"key\", nullNS, mediator.getRequestKey()));\n", 
-            "+            }\n", 
-            "         }\n", 
-            " \n", 
-            "-        OMElement target = fac.createOMElement(\"target\", synNS, callout);\n", 
-            "-        if (mediator.getTargetXPath() != null) {\n", 
-            "-            SynapseXPathSerializer.serializeXPath(mediator.getTargetXPath(), target, \"xpath\");\n", 
-            "-        } else if (mediator.getTargetKey() != null) {\n", 
-            "-            target.addAttribute(fac.createOMAttribute(\n", 
-            "-                \"key\", nullNS, mediator.getTargetKey()));\n", 
-            "+        if (mediator.getTargetXPath() != null || mediator.getTargetKey() != null) {\n", 
-            "+            OMElement target = fac.createOMElement(\"target\", synNS, callout);\n", 
-            "+            if (mediator.getTargetXPath() != null) {\n", 
-            "+                SynapseXPathSerializer.serializeXPath(mediator.getTargetXPath(), target, \"xpath\");\n", 
-            "+            } else if (mediator.getTargetKey() != null) {\n", 
-            "+                target.addAttribute(fac.createOMAttribute(\n", 
-            "+                        \"key\", nullNS, mediator.getTargetKey()));\n", 
-            "+            }\n", 
-            "         }\n", 
-            " \n", 
-            "         if (mediator.isSecurityOn()) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-65,6 +65,7", 
-          "lines": [
-            "                 = new QName(XMLConfigConstants.NULL_NAMESPACE, \"outboundPolicy\");\n", 
-            "     private static final QName ATT_INBOUND_SEC_POLICY\n", 
-            "                 = new QName(XMLConfigConstants.NULL_NAMESPACE, \"inboundPolicy\");\n", 
-            "+    private static final QName ATT_ENDPOINT = new QName(\"endpointKey\");\n", 
-            " \n", 
-            "     public Mediator createSpecificMediator(OMElement elem, Properties properties) {\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-71,6 +72,7", 
-          "lines": [
-            "         CalloutMediator callout = new CalloutMediator();\n", 
-            " \n", 
-            "         OMAttribute attServiceURL = elem.getAttribute(ATT_URL);\n", 
-            "+        OMAttribute attEndpoint = elem.getAttribute(ATT_ENDPOINT);\n", 
-            "         OMAttribute attAction     = elem.getAttribute(ATT_ACTION);\n", 
-            "         OMAttribute attPassHeaders = elem.getAttribute(ATT_PASS_HEADERS);\n", 
-            "         OMElement   configElt     = elem.getFirstChildWithName(Q_CONFIG);\n"
-          ]
-        }, 
-        {
-          "locn": "-80,6 +82,8", 
-          "lines": [
-            " \n", 
-            "         if (attServiceURL != null) {\n", 
-            "             callout.setServiceURL(attServiceURL.getAttributeValue());\n", 
-            "+        } else if (attEndpoint != null) {\n", 
-            "+            callout.setEndpointKey(attEndpoint.getAttributeValue());\n", 
-            "         }\n", 
-            " \n", 
-            "         if (attAction != null) {\n"
-          ]
-        }, 
-        {
-          "locn": "-130,8 +134,6", 
-          "lines": [
-            "                 handleException(\"A 'xpath' or 'key' attribute \" +\n", 
-            "                     \"is required for the Callout 'source'\");\n", 
-            "             }\n", 
-            "-        } else {\n", 
-            "-            handleException(\"The message 'source' must be specified for a Callout mediator\");\n", 
-            "         }\n", 
-            " \n", 
-            "         if (targetElt != null) {\n"
-          ]
-        }, 
-        {
-          "locn": "-149,8 +151,6", 
-          "lines": [
-            "                 handleException(\"A 'xpath' or 'key' attribute \" +\n", 
-            "                     \"is required for the Callout 'target'\");\n", 
-            "             }\n", 
-            "-        } else {\n", 
-            "-            handleException(\"The message 'target' must be specified for a Callout mediator\");\n", 
-            "         }\n", 
-            " \n", 
-            "         if (wsSec != null) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/CalloutMediatorFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-200,6 +200,7", 
-          "lines": [
-            "                         <li><a href=\"samples/sample430.html\">Sample 430: Callout mediator for synchronous web service invocations</a></li>\n", 
-            "                         <li><a href=\"samples/sample431.html\">Sample 431: Callout Mediator with WS-Security for Outgoing Messages</a></li>\n", 
-            "                         <li><a href=\"samples/sample432.html\">Sample 432: Callout Mediator - Invoke a secured service which has different policies for inbound and outbound flows</a></li>\n", 
-            "+                        <li><a href=\"samples/sample433.html\">Sample 433: Callout Mediator - Invoke a service using a defined Endpoint</a></li>\n", 
-            "                     </ul>\n", 
-            "                 </p>\n", 
-            "                 <h4>URL Rewrite Mediator</h4>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,85", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+\n", 
-            "+<document>\n", 
-            "+    <properties>\n", 
-            "+        <title>Apache Synapse - Sample 433</title>\n", 
-            "+    </properties>\n", 
-            "+    <body>\n", 
-            "+        <section name=\"Sample 433: Callout Mediator - Invoke a service using a defined Endpoint\">\n", 
-            "+            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "+\n", 
-            "+    &lt;sequence name=\"main\"&gt;\n", 
-            "+        &lt;callout endpointKey=\"StockQuoteServiceEndpoint\"&gt;\n", 
-            "+            &lt;source xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
-            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
-            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/&gt;\n", 
-            "+            &lt;target xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
-            "+                    xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\"\n", 
-            "+                    xpath=\"s11:Body/child::*[fn:position()=1] | s12:Body/child::*[fn:position()=1]\"/&gt;\n", 
-            "+        &lt;/callout&gt;\n", 
-            "+        &lt;property name=\"RESPONSE\" value=\"true\"/&gt;\n", 
-            "+        &lt;header name=\"To\" action=\"remove\"/&gt;\n", 
-            "+        &lt;send/&gt;\n", 
-            "+        &lt;drop/&gt;\n", 
-            "+    &lt;/sequence&gt;\n", 
-            "+\n", 
-            "+    &lt;endpoint name=\"StockQuoteServiceEndpoint\"&gt;\n", 
-            "+       &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "+    &lt;/endpoint&gt;\n", 
-            "+\n", 
-            "+&lt;/definitions&gt;</div>\n", 
-            "+            <subsection name=\"Objective\">\n", 
-            "+                <p>\n", 
-            "+                    Demonstrate how to invoke a service from Callout Mediator using a defined endpoint.\n", 
-            "+                </p>\n", 
-            "+            </subsection>\n", 
-            "+            <subsection name=\"Pre-requisites\">\n", 
-            "+                <p>\n", 
-            "+                    <ul>\n", 
-            "+                        <li>\n", 
-            "+                            Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
-            "+                        </li>\n", 
-            "+                        <li>\n", 
-            "+                            Start Synapse using the configuration numbered 433 (repository/conf/sample/synapse_sample_433.xml)\n", 
-            "+                            <div class=\"command\">\n", 
-            "+                                Unix/Linux: sh synapse.sh -sample 433<br/>\n", 
-            "+                                Windows: synapse.bat -sample 433\n", 
-            "+                            </div>\n", 
-            "+                        </li>\n", 
-            "+                    </ul>\n", 
-            "+                </p>\n", 
-            "+            </subsection>\n", 
-            "+            <subsection name=\"Executing the Client\">\n", 
-            "+                <p>\n", 
-            "+                    In this sample, the Callout mediator does the direct service invocation to the\n", 
-            "+                    StockQuoteService using the client request, gets the response and sets it as the\n", 
-            "+                    first child of the SOAP message body. Callout Mediator uses the defined endpoint\n", 
-            "+                    named 'StockQuoteServiceEndpoint' to send the message to the StockQuoteService.\n", 
-            "+                </p>\n", 
-            "+                <p>\n", 
-            "+                    Invoke the client as follows.\n", 
-            "+                </p>\n", 
-            "+                <div class=\"command\">ant stockquote -Daddurl=http://localhost:8280/</div>\n", 
-            "+            </subsection>\n", 
-            "+        </section>\n", 
-            "+        <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n", 
-            "+    </body>\n", 
-            "+</document>\n", 
-            "\\ No newline at end of file\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample433.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample433.xml"
     }, 
     {
       "chunks": [

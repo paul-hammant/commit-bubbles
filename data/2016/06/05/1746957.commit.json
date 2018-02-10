@@ -1,5 +1,6 @@
 {
   "when": "2016-06-05T19:34:11-04:00", 
+  "message": "Adding properties catalog to the documentation; Applying patch from SYNAPSE-818", 
   "who": "hiranya", 
   "changes": [
     {

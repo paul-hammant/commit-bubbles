@@ -1,24 +1,135 @@
 {
   "when": "2016-12-26T00:14:41-05:00", 
+  "message": "SYNAPSE-1016 HTTP Header Preservation through configuration, patch by Prabath Ariyarathna", 
   "who": "ravi", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-26,4 +26,5", 
+          "locn": "-38,6 +38,7", 
           "lines": [
-            " #worker_pool_queue_length=-1\n", 
-            " #io_threads_per_reactor=2\n", 
-            " io_buffer_size=16384\n", 
-            "-http.socket.reuseaddr=true\n", 
-            "\\ No newline at end of file\n", 
-            "+http.socket.reuseaddr=true\n", 
-            "+#http.headers.preserve=Location,Serer,User-Agent,Host,Date\n"
+            " import org.apache.synapse.transport.passthru.ProtocolState;\n", 
+            " import org.apache.synapse.transport.passthru.SourceContext;\n", 
+            " import org.apache.synapse.transport.passthru.TargetContext;\n", 
+            "+import org.apache.synapse.transport.passthru.config.TargetConfiguration;\n", 
+            " import org.apache.synapse.transport.passthru.connections.SourceConnections;\n", 
+            " import org.apache.synapse.transport.passthru.connections.TargetConnections;\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-111,12 +112,9", 
+          "lines": [
+            "      * copied from the request messages\n", 
+            "      * \n", 
+            "      * @param msgContext the Axis2 Message context from which these headers should be removed\n", 
+            "-     * @param preserveServerHeader if true preserve the original server header\n", 
+            "-     * @param preserveUserAgentHeader if true preserve the original user-agent header\n", 
+            "+     * @param targetConfiguration configuration for the passThrough handler\n", 
+            "      */\n", 
+            "-    public static void removeUnwantedHeaders(MessageContext msgContext,\n", 
+            "-                                             boolean preserveServerHeader,\n", 
+            "-                                             boolean preserveUserAgentHeader) {\n", 
+            "+    public static void removeUnwantedHeaders(MessageContext msgContext, TargetConfiguration targetConfiguration) {\n", 
+            "         Map headers = (Map) msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
+            " \t\tMap excessHeaders = (Map) msgContext.getProperty(NhttpConstants.EXCESS_TRANSPORT_HEADERS);\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-128,20 +126,34", 
+          "lines": [
+            "         while (iter.hasNext()) {\n", 
+            "             String headerName = (String) iter.next();\n", 
+            "             if (HTTP.CONN_DIRECTIVE.equalsIgnoreCase(headerName) ||\n", 
+            "-                HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName) ||\n", 
+            "-                HTTP.DATE_HEADER.equalsIgnoreCase(headerName) ||\n", 
+            "-                HTTP.CONTENT_LEN.equalsIgnoreCase(headerName) ||\n", 
+            "-                HTTP.CONN_KEEP_ALIVE.equalsIgnoreCase(headerName)) {\n", 
+            "+                HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            " \n", 
+            "-            if (!preserveServerHeader && HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)) {\n", 
+            "+            if (HTTP.DATE_HEADER.equalsIgnoreCase(headerName)\n", 
+            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.DATE_HEADER)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            " \n", 
+            "-            if (!preserveUserAgentHeader && HTTP.USER_AGENT.equalsIgnoreCase(headerName)) {\n", 
+            "+            if (HTTP.CONTENT_LEN.equalsIgnoreCase(headerName)\n", 
+            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.CONTENT_LEN)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            "+\n", 
+            "+            if (HTTP.CONN_KEEP_ALIVE.equalsIgnoreCase(headerName)\n", 
+            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.CONN_KEEP_ALIVE)) {\n", 
+            "+                iter.remove();\n", 
+            "+            }\n", 
+            "+\n", 
+            "+            if (HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)\n", 
+            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.SERVER_HEADER)) {\n", 
+            "+                iter.remove();\n", 
+            "+            }\n", 
+            "+\n", 
+            "+            if (HTTP.USER_AGENT.equalsIgnoreCase(headerName)\n", 
+            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.USER_AGENT)) {\n", 
+            "+                iter.remove();\n", 
+            "+            }\n", 
+            "         }\n", 
+            " \n", 
+            "     }\n"
           ]
         }
       ], 
-      "to": "java/repository/conf/passthru-http.properties", 
-      "from": "java/repository/conf/passthru-http.properties"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/PassThroughTransportUtils.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/PassThroughTransportUtils.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-69,9 +69,7", 
+          "lines": [
+            "                     noEntityBody == null || !noEntityBody);\n", 
+            " \n", 
+            "             // headers\n", 
+            "-            PassThroughTransportUtils.removeUnwantedHeaders(msgContext,\n", 
+            "-                    configuration.isPreserveServerHeader(),\n", 
+            "-                    configuration.isPreserveUserAgentHeader());\n", 
+            "+            PassThroughTransportUtils.removeUnwantedHeaders(msgContext, configuration);\n", 
+            " \n", 
+            "             Object o = msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
+            "             if (o != null && o instanceof Map) {\n"
+          ]
+        }, 
+        {
+          "locn": "-81,14 +79,14", 
+          "lines": [
+            "                     Map.Entry entry = (Map.Entry) entryObj;\n", 
+            "                     if (entry.getValue() != null && entry.getKey() instanceof String &&\n", 
+            "                             entry.getValue() instanceof String) {\n", 
+            "-                        if (!HTTPConstants.HEADER_HOST.equalsIgnoreCase((String) entry.getKey())) {\n", 
+            "-                            request.addHeader((String) entry.getKey(), (String) entry.getValue());\n", 
+            "-                        } else {\n", 
+            "+                        if (HTTPConstants.HEADER_HOST.equalsIgnoreCase((String) entry.getKey())\n", 
+            "+                            && !configuration.isPreserveHttpHeader(HTTPConstants.HEADER_HOST)) {\n", 
+            "                             if (msgContext.getProperty(NhttpConstants.REQUEST_HOST_HEADER) != null) {\n", 
+            "-                            \trequest.addHeader((String) entry.getKey(),\n", 
+            "-                                        (String) msgContext.getProperty(\n", 
+            "-                                                NhttpConstants.REQUEST_HOST_HEADER));\n", 
+            "+                                request.addHeader((String) entry.getKey(),\n", 
+            "+                                                  (String) msgContext.getProperty(NhttpConstants.REQUEST_HOST_HEADER));\n", 
+            "                             }\n", 
+            "+                        } else {\n", 
+            "+                            request.addHeader((String) entry.getKey(), (String) entry.getValue());\n", 
+            "                         }\n", 
+            "                     }\n", 
+            "                 }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/TargetRequestFactory.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/TargetRequestFactory.java"
     }, 
     {
       "chunks": [
@@ -291,217 +402,6 @@
     {
       "chunks": [
         {
-          "locn": "-38,6 +38,7", 
-          "lines": [
-            " import org.apache.synapse.transport.passthru.ProtocolState;\n", 
-            " import org.apache.synapse.transport.passthru.SourceContext;\n", 
-            " import org.apache.synapse.transport.passthru.TargetContext;\n", 
-            "+import org.apache.synapse.transport.passthru.config.TargetConfiguration;\n", 
-            " import org.apache.synapse.transport.passthru.connections.SourceConnections;\n", 
-            " import org.apache.synapse.transport.passthru.connections.TargetConnections;\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-111,12 +112,9", 
-          "lines": [
-            "      * copied from the request messages\n", 
-            "      * \n", 
-            "      * @param msgContext the Axis2 Message context from which these headers should be removed\n", 
-            "-     * @param preserveServerHeader if true preserve the original server header\n", 
-            "-     * @param preserveUserAgentHeader if true preserve the original user-agent header\n", 
-            "+     * @param targetConfiguration configuration for the passThrough handler\n", 
-            "      */\n", 
-            "-    public static void removeUnwantedHeaders(MessageContext msgContext,\n", 
-            "-                                             boolean preserveServerHeader,\n", 
-            "-                                             boolean preserveUserAgentHeader) {\n", 
-            "+    public static void removeUnwantedHeaders(MessageContext msgContext, TargetConfiguration targetConfiguration) {\n", 
-            "         Map headers = (Map) msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
-            " \t\tMap excessHeaders = (Map) msgContext.getProperty(NhttpConstants.EXCESS_TRANSPORT_HEADERS);\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-128,20 +126,34", 
-          "lines": [
-            "         while (iter.hasNext()) {\n", 
-            "             String headerName = (String) iter.next();\n", 
-            "             if (HTTP.CONN_DIRECTIVE.equalsIgnoreCase(headerName) ||\n", 
-            "-                HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName) ||\n", 
-            "-                HTTP.DATE_HEADER.equalsIgnoreCase(headerName) ||\n", 
-            "-                HTTP.CONTENT_LEN.equalsIgnoreCase(headerName) ||\n", 
-            "-                HTTP.CONN_KEEP_ALIVE.equalsIgnoreCase(headerName)) {\n", 
-            "+                HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            " \n", 
-            "-            if (!preserveServerHeader && HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)) {\n", 
-            "+            if (HTTP.DATE_HEADER.equalsIgnoreCase(headerName)\n", 
-            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.DATE_HEADER)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            " \n", 
-            "-            if (!preserveUserAgentHeader && HTTP.USER_AGENT.equalsIgnoreCase(headerName)) {\n", 
-            "+            if (HTTP.CONTENT_LEN.equalsIgnoreCase(headerName)\n", 
-            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.CONTENT_LEN)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            "+\n", 
-            "+            if (HTTP.CONN_KEEP_ALIVE.equalsIgnoreCase(headerName)\n", 
-            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.CONN_KEEP_ALIVE)) {\n", 
-            "+                iter.remove();\n", 
-            "+            }\n", 
-            "+\n", 
-            "+            if (HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)\n", 
-            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.SERVER_HEADER)) {\n", 
-            "+                iter.remove();\n", 
-            "+            }\n", 
-            "+\n", 
-            "+            if (HTTP.USER_AGENT.equalsIgnoreCase(headerName)\n", 
-            "+                && !targetConfiguration.isPreserveHttpHeader(HTTP.USER_AGENT)) {\n", 
-            "+                iter.remove();\n", 
-            "+            }\n", 
-            "         }\n", 
-            " \n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/PassThroughTransportUtils.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/PassThroughTransportUtils.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-69,9 +69,7", 
-          "lines": [
-            "                     noEntityBody == null || !noEntityBody);\n", 
-            " \n", 
-            "             // headers\n", 
-            "-            PassThroughTransportUtils.removeUnwantedHeaders(msgContext,\n", 
-            "-                    configuration.isPreserveServerHeader(),\n", 
-            "-                    configuration.isPreserveUserAgentHeader());\n", 
-            "+            PassThroughTransportUtils.removeUnwantedHeaders(msgContext, configuration);\n", 
-            " \n", 
-            "             Object o = msgContext.getProperty(MessageContext.TRANSPORT_HEADERS);\n", 
-            "             if (o != null && o instanceof Map) {\n"
-          ]
-        }, 
-        {
-          "locn": "-81,14 +79,14", 
-          "lines": [
-            "                     Map.Entry entry = (Map.Entry) entryObj;\n", 
-            "                     if (entry.getValue() != null && entry.getKey() instanceof String &&\n", 
-            "                             entry.getValue() instanceof String) {\n", 
-            "-                        if (!HTTPConstants.HEADER_HOST.equalsIgnoreCase((String) entry.getKey())) {\n", 
-            "-                            request.addHeader((String) entry.getKey(), (String) entry.getValue());\n", 
-            "-                        } else {\n", 
-            "+                        if (HTTPConstants.HEADER_HOST.equalsIgnoreCase((String) entry.getKey())\n", 
-            "+                            && !configuration.isPreserveHttpHeader(HTTPConstants.HEADER_HOST)) {\n", 
-            "                             if (msgContext.getProperty(NhttpConstants.REQUEST_HOST_HEADER) != null) {\n", 
-            "-                            \trequest.addHeader((String) entry.getKey(),\n", 
-            "-                                        (String) msgContext.getProperty(\n", 
-            "-                                                NhttpConstants.REQUEST_HOST_HEADER));\n", 
-            "+                                request.addHeader((String) entry.getKey(),\n", 
-            "+                                                  (String) msgContext.getProperty(NhttpConstants.REQUEST_HOST_HEADER));\n", 
-            "                             }\n", 
-            "+                        } else {\n", 
-            "+                            request.addHeader((String) entry.getKey(), (String) entry.getValue());\n", 
-            "                         }\n", 
-            "                     }\n", 
-            "                 }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/TargetRequestFactory.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/TargetRequestFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-102,10 +102,9", 
-          "lines": [
-            "     private List<String> knownDirectHosts = new ArrayList<String>();\n", 
-            "     /** The list of known hosts to go via proxy */\n", 
-            "     private List<String> knownProxyHosts = new ArrayList<String>();\n", 
-            "-    /** Weather User-Agent header coming from client should be preserved */\n", 
-            "-    private boolean preserveUserAgentHeader = false;\n", 
-            "-    /** Weather Server header coming from server should be preserved */\n", 
-            "-    private boolean preserveServerHeader = true;\n", 
-            "+    /** NHttp transporter base configurations */\n", 
-            "+    private NHttpConfiguration cfg;\n", 
-            "+\n", 
-            "     /**\n", 
-            "      * Initialize the transport sender, and execute reactor in new separate thread\n", 
-            "      * @param cfgCtx the Axis2 configuration context\n"
-          ]
-        }, 
-        {
-          "locn": "-116,6 +115,7", 
-          "lines": [
-            "         // is this an SSL Sender?\n", 
-            "         sslContext = getSSLContext(transportOut);\n", 
-            "         SSLSetupHandler sslSetupHandler = getSSLSetupHandler(transportOut);\n", 
-            "+        cfg = NHttpConfiguration.getInstance();\n", 
-            " \n", 
-            "         // configure proxy settings - only supports HTTP right now (See SYNAPSE-418)\n", 
-            "         if (sslContext == null) {\n"
-          ]
-        }, 
-        {
-          "locn": "-152,9 +152,6", 
-          "lines": [
-            "             cfgCtx.setNonReplicableProperty(\"warnOnHTTP500\", warnOnHttp500);\n", 
-            "         }\n", 
-            " \n", 
-            "-        preserveUserAgentHeader = NHttpConfiguration.getInstance().isPreserveUserAgentHeader();\n", 
-            "-        preserveServerHeader = NHttpConfiguration.getInstance().isPreserveServerHeader();\n", 
-            "-\n", 
-            "         try {\n", 
-            "             String prefix = (sslContext == null ? \"http\" : \"https\") + \"-Sender I/O dispatcher\";\n", 
-            "             ioReactor = new DefaultConnectingIOReactor(\n"
-          ]
-        }, 
-        {
-          "locn": "-321,19 +318,25", 
-          "lines": [
-            "             String headerName = (String) iter.next();\n", 
-            "             if (HTTP.CONN_DIRECTIVE.equalsIgnoreCase(headerName) ||\n", 
-            "                 HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName) ||\n", 
-            "-                HTTP.DATE_HEADER.equalsIgnoreCase(headerName) ||\n", 
-            "                 HTTP.CONTENT_TYPE.equalsIgnoreCase(headerName) ||\n", 
-            "                 HTTP.CONTENT_LEN.equalsIgnoreCase(headerName)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            " \n", 
-            "-            if (!preserveServerHeader && HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)) {\n", 
-            "+            if (HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)\n", 
-            "+                && !cfg.isPreserveHttpHeader(HTTP.SERVER_HEADER)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            " \n", 
-            "-            if (!preserveUserAgentHeader && HTTP.USER_AGENT.equalsIgnoreCase(headerName)) {\n", 
-            "+            if (HTTP.USER_AGENT.equalsIgnoreCase(headerName)\n", 
-            "+                && !cfg.isPreserveHttpHeader(HTTP.USER_AGENT)) {\n", 
-            "                 iter.remove();\n", 
-            "             }\n", 
-            "+\n", 
-            "+            if (HTTP.DATE_HEADER.equalsIgnoreCase(headerName)\n", 
-            "+                && !cfg.isPreserveHttpHeader(HTTP.DATE_HEADER)) {\n", 
-            "+                iter.remove();\n", 
-            "+            }\n", 
-            "         }\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSender.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-19,9 +19,11", 
           "lines": [
             " \n", 
@@ -635,6 +535,107 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-102,10 +102,9", 
+          "lines": [
+            "     private List<String> knownDirectHosts = new ArrayList<String>();\n", 
+            "     /** The list of known hosts to go via proxy */\n", 
+            "     private List<String> knownProxyHosts = new ArrayList<String>();\n", 
+            "-    /** Weather User-Agent header coming from client should be preserved */\n", 
+            "-    private boolean preserveUserAgentHeader = false;\n", 
+            "-    /** Weather Server header coming from server should be preserved */\n", 
+            "-    private boolean preserveServerHeader = true;\n", 
+            "+    /** NHttp transporter base configurations */\n", 
+            "+    private NHttpConfiguration cfg;\n", 
+            "+\n", 
+            "     /**\n", 
+            "      * Initialize the transport sender, and execute reactor in new separate thread\n", 
+            "      * @param cfgCtx the Axis2 configuration context\n"
+          ]
+        }, 
+        {
+          "locn": "-116,6 +115,7", 
+          "lines": [
+            "         // is this an SSL Sender?\n", 
+            "         sslContext = getSSLContext(transportOut);\n", 
+            "         SSLSetupHandler sslSetupHandler = getSSLSetupHandler(transportOut);\n", 
+            "+        cfg = NHttpConfiguration.getInstance();\n", 
+            " \n", 
+            "         // configure proxy settings - only supports HTTP right now (See SYNAPSE-418)\n", 
+            "         if (sslContext == null) {\n"
+          ]
+        }, 
+        {
+          "locn": "-152,9 +152,6", 
+          "lines": [
+            "             cfgCtx.setNonReplicableProperty(\"warnOnHTTP500\", warnOnHttp500);\n", 
+            "         }\n", 
+            " \n", 
+            "-        preserveUserAgentHeader = NHttpConfiguration.getInstance().isPreserveUserAgentHeader();\n", 
+            "-        preserveServerHeader = NHttpConfiguration.getInstance().isPreserveServerHeader();\n", 
+            "-\n", 
+            "         try {\n", 
+            "             String prefix = (sslContext == null ? \"http\" : \"https\") + \"-Sender I/O dispatcher\";\n", 
+            "             ioReactor = new DefaultConnectingIOReactor(\n"
+          ]
+        }, 
+        {
+          "locn": "-321,19 +318,25", 
+          "lines": [
+            "             String headerName = (String) iter.next();\n", 
+            "             if (HTTP.CONN_DIRECTIVE.equalsIgnoreCase(headerName) ||\n", 
+            "                 HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName) ||\n", 
+            "-                HTTP.DATE_HEADER.equalsIgnoreCase(headerName) ||\n", 
+            "                 HTTP.CONTENT_TYPE.equalsIgnoreCase(headerName) ||\n", 
+            "                 HTTP.CONTENT_LEN.equalsIgnoreCase(headerName)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            " \n", 
+            "-            if (!preserveServerHeader && HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)) {\n", 
+            "+            if (HTTP.SERVER_HEADER.equalsIgnoreCase(headerName)\n", 
+            "+                && !cfg.isPreserveHttpHeader(HTTP.SERVER_HEADER)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            " \n", 
+            "-            if (!preserveUserAgentHeader && HTTP.USER_AGENT.equalsIgnoreCase(headerName)) {\n", 
+            "+            if (HTTP.USER_AGENT.equalsIgnoreCase(headerName)\n", 
+            "+                && !cfg.isPreserveHttpHeader(HTTP.USER_AGENT)) {\n", 
+            "                 iter.remove();\n", 
+            "             }\n", 
+            "+\n", 
+            "+            if (HTTP.DATE_HEADER.equalsIgnoreCase(headerName)\n", 
+            "+                && !cfg.isPreserveHttpHeader(HTTP.DATE_HEADER)) {\n", 
+            "+                iter.remove();\n", 
+            "+            }\n", 
+            "         }\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,4 +26,5", 
+          "lines": [
+            " #worker_pool_queue_length=-1\n", 
+            " #io_threads_per_reactor=2\n", 
+            " io_buffer_size=16384\n", 
+            "-http.socket.reuseaddr=true\n", 
+            "\\ No newline at end of file\n", 
+            "+http.socket.reuseaddr=true\n", 
+            "+#http.headers.preserve=Location,Serer,User-Agent,Host,Date\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/passthru-http.properties", 
+      "from": "java/repository/conf/passthru-http.properties"
     }
   ], 
   "id": "1776041"

@@ -1,5 +1,6 @@
 {
   "when": "2012-06-22T09:42:43-04:00", 
+  "message": "Providig a hook to handle messages with no matching API resources", 
   "who": "hiranya", 
   "changes": [
     {

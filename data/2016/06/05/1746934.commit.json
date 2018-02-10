@@ -1,7 +1,121 @@
 {
   "when": "2016-06-05T13:04:08-04:00", 
+  "message": "Respond mediator samples and documentation update patches by vanji, SYNAPSE-1033, SYNAPSE-1032", 
   "who": "isudana", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,30", 
+          "lines": [
+            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
+            "+\n", 
+            "+<!-- Respond Mediator with proxy services -->\n", 
+            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+    <proxy name=\"EchoService\">\n", 
+            "+        <target>\n", 
+            "+            <inSequence>\n", 
+            "+                <respond/>\n", 
+            "+            </inSequence>\n", 
+            "+        </target>\n", 
+            "+    </proxy>\n", 
+            "+</definitions>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_440.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_440.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,42", 
+          "lines": [
+            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
+            "+\n", 
+            "+<!-- Mock Service using Respond Mediator with proxy services -->\n", 
+            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+    <proxy name=\"MockService\">\n", 
+            "+        <target>\n", 
+            "+            <inSequence>\n", 
+            "+                <log level=\"full\"/>\n", 
+            "+                <payloadFactory>\n", 
+            "+                    <format>\n", 
+            "+                        <m:Sample xmlns:m=\"http://services.samples\">\n", 
+            "+                            <m:Response>\n", 
+            "+                                <m:value>foo</m:value>\n", 
+            "+                            </m:Response>\n", 
+            "+                        </m:Sample>\n", 
+            "+                    </format>\n", 
+            "+                    <args>\n", 
+            "+                    </args>\n", 
+            "+                </payloadFactory>\n", 
+            "+                <respond/>\n", 
+            "+            </inSequence>\n", 
+            "+        </target>\n", 
+            "+    </proxy>\n", 
+            "+</definitions>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_441.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_441.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-18,7 +18,7", 
+          "lines": [
+            "   ~  under the License.\n", 
+            "   -->\n", 
+            " \n", 
+            "-<!-- Repond Mediator with proxy services -->\n", 
+            "+<!-- Respond Mediator with proxy services -->\n", 
+            " <definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "     <proxy name=\"EchoService\">\n", 
+            "         <target>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_161.xml", 
+      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_161.xml"
+    }, 
     {
       "chunks": [
         {
@@ -242,119 +356,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/mediators.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/mediators.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-18,7 +18,7", 
-          "lines": [
-            "   ~  under the License.\n", 
-            "   -->\n", 
-            " \n", 
-            "-<!-- Repond Mediator with proxy services -->\n", 
-            "+<!-- Respond Mediator with proxy services -->\n", 
-            " <definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "     <proxy name=\"EchoService\">\n", 
-            "         <target>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_161.xml", 
-      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_161.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,30", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+\n", 
-            "+<!-- Respond Mediator with proxy services -->\n", 
-            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+    <proxy name=\"EchoService\">\n", 
-            "+        <target>\n", 
-            "+            <inSequence>\n", 
-            "+                <respond/>\n", 
-            "+            </inSequence>\n", 
-            "+        </target>\n", 
-            "+    </proxy>\n", 
-            "+</definitions>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_440.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_440.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,42", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+\n", 
-            "+<!-- Mock Service using Respond Mediator with proxy services -->\n", 
-            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+    <proxy name=\"MockService\">\n", 
-            "+        <target>\n", 
-            "+            <inSequence>\n", 
-            "+                <log level=\"full\"/>\n", 
-            "+                <payloadFactory>\n", 
-            "+                    <format>\n", 
-            "+                        <m:Sample xmlns:m=\"http://services.samples\">\n", 
-            "+                            <m:Response>\n", 
-            "+                                <m:value>foo</m:value>\n", 
-            "+                            </m:Response>\n", 
-            "+                        </m:Sample>\n", 
-            "+                    </format>\n", 
-            "+                    <args>\n", 
-            "+                    </args>\n", 
-            "+                </payloadFactory>\n", 
-            "+                <respond/>\n", 
-            "+            </inSequence>\n", 
-            "+        </target>\n", 
-            "+    </proxy>\n", 
-            "+</definitions>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_441.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_441.xml"
     }
   ], 
   "id": "1746934"

@@ -1,30 +1,8 @@
 {
   "when": "2012-03-19T08:53:58-04:00", 
+  "message": "Adding docs distro as a dependency", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-71,6 +71,12", 
-          "lines": [
-            "             <groupId>org.apache.synapse</groupId>\n", 
-            "             <artifactId>synapse-fix-transport</artifactId>\n", 
-            "         </dependency>\n", 
-            "+\t<dependency>\n", 
-            "+            <groupId>org.apache.synapse</groupId>\n", 
-            "+            <artifactId>synapse-documentation</artifactId>\n", 
-            "+\t    <type>zip</type>\n", 
-            "+\t    <classifier>docs</classifier>\n", 
-            "+        </dependency>\n", 
-            " \n", 
-            "         <!-- Wrapper jars -->\n", 
-            "         <dependency>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/distribution/pom.xml", 
-      "from": "java/modules/distribution/pom.xml"
-    }, 
     {
       "chunks": [
         {
@@ -118,6 +96,29 @@
       ], 
       "to": "java/modules/distribution/src/main/assembly/bin.xml", 
       "from": "java/modules/distribution/src/main/assembly/bin.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-71,6 +71,12", 
+          "lines": [
+            "             <groupId>org.apache.synapse</groupId>\n", 
+            "             <artifactId>synapse-fix-transport</artifactId>\n", 
+            "         </dependency>\n", 
+            "+\t<dependency>\n", 
+            "+            <groupId>org.apache.synapse</groupId>\n", 
+            "+            <artifactId>synapse-documentation</artifactId>\n", 
+            "+\t    <type>zip</type>\n", 
+            "+\t    <classifier>docs</classifier>\n", 
+            "+        </dependency>\n", 
+            " \n", 
+            "         <!-- Wrapper jars -->\n", 
+            "         <dependency>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/distribution/pom.xml", 
+      "from": "java/modules/distribution/pom.xml"
     }, 
     {
       "chunks": [

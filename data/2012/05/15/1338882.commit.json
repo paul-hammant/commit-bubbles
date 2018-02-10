@@ -1,5 +1,6 @@
 {
   "when": "2012-05-15T16:39:00-04:00", 
+  "message": "Eliminated a couple of instances of the catch-and-fail JUnit anti-pattern.", 
   "who": "veithen", 
   "changes": [
     {

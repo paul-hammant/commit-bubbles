@@ -1,5 +1,6 @@
 {
   "when": "2013-07-29T14:48:33-04:00", 
+  "message": "handled the shutdown signal + fixed the clients.", 
   "who": "rajikak", 
   "changes": [
     {

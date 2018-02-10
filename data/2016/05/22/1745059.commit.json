@@ -1,26 +1,8 @@
 {
   "when": "2016-05-22T10:32:33-04:00", 
+  "message": "Fix for SYNAPSE-1007 by Ravi. Committing with a test case", 
   "who": "isudana", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-110,6 +110,8", 
-          "lines": [
-            "             if (o instanceof OMElement) {\n", 
-            "                 if (clone) {\n", 
-            "                     sourceNodeList.add(((OMElement) o).cloneOMElement());\n", 
-            "+                } else {\n", 
-            "+                    sourceNodeList.add((OMElement) o);\n", 
-            "                 }\n", 
-            "             } else if (o instanceof String) {\n", 
-            "                 String sourceStr = (String) o;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/elementary/Source.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/elementary/Source.java"
-    }, 
     {
       "chunks": [
         {
@@ -65,6 +47,25 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/elementary/EnrichMediatorTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/elementary/EnrichMediatorTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-110,6 +110,8", 
+          "lines": [
+            "             if (o instanceof OMElement) {\n", 
+            "                 if (clone) {\n", 
+            "                     sourceNodeList.add(((OMElement) o).cloneOMElement());\n", 
+            "+                } else {\n", 
+            "+                    sourceNodeList.add((OMElement) o);\n", 
+            "                 }\n", 
+            "             } else if (o instanceof String) {\n", 
+            "                 String sourceStr = (String) o;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/elementary/Source.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/elementary/Source.java"
     }
   ], 
   "id": "1745059"

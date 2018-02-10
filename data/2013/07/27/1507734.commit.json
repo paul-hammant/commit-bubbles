@@ -1,5 +1,6 @@
 {
   "when": "2013-07-27T18:31:04-04:00", 
+  "message": "Upgrading Quartz version to 2.2.0 (latest). Applying the patch for SYNAPSE-837.", 
   "who": "hiranya", 
   "changes": [
     {
@@ -240,140 +241,6 @@
     {
       "chunks": [
         {
-          "locn": "-16,23 +16,21", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.message.processors.sampler;\n", 
-            " \n", 
-            "-\n", 
-            " import org.apache.commons.logging.Log;\n", 
-            " import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.core.SynapseEnvironment;\n", 
-            "-import org.apache.synapse.message.processors.AbstractMessageProcessor;\n", 
-            " import org.apache.synapse.message.processors.ScheduledMessageProcessor;\n", 
-            "-import org.quartz.JobDataMap;\n", 
-            "-import org.quartz.JobDetail;\n", 
-            "-import org.quartz.SchedulerException;\n", 
-            "+import org.quartz.*;\n", 
-            " \n", 
-            " import java.util.concurrent.atomic.AtomicBoolean;\n", 
-            " \n", 
-            "-public class SamplingProcessor extends ScheduledMessageProcessor{\n", 
-            "-    private Log log = LogFactory.getLog(SamplingProcessor.class);\n", 
-            "+public class SamplingProcessor extends ScheduledMessageProcessor {\n", 
-            " \n", 
-            "+    private static final Log log = LogFactory.getLog(SamplingProcessor.class);\n", 
-            "+\n", 
-            "     public static final String CONCURRENCY = \"concurrency\";\n", 
-            "     public static final String SEQUENCE = \"sequence\";\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-51,11 +49,9", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     @Override\n", 
-            "-    protected JobDetail getJobDetail() {\n", 
-            "-        JobDetail jobDetail = new JobDetail();\n", 
-            "-        jobDetail.setName(name + \"-sampling-job\");\n", 
-            "-        jobDetail.setJobClass(SamplingJob.class);\n", 
-            "-        return jobDetail;\n", 
-            "+    protected JobBuilder getJobBuilder() {\n", 
-            "+        return JobBuilder.newJob(SamplingJob.class).withIdentity(\n", 
-            "+                name + \"-sampling-job\", SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
-            "     }\n", 
-            " \n", 
-            "     @Override\n"
-          ]
-        }, 
-        {
-          "locn": "-69,8 +65,8", 
-          "lines": [
-            "     @Override\n", 
-            "     public void destroy() {\n", 
-            "          try {\n", 
-            "-            scheduler.deleteJob(name + \"-sampling-job\",\n", 
-            "-                    ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
-            "+             scheduler.deleteJob(new JobKey(name + \"-sampling-job\",\n", 
-            "+                     ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP));\n", 
-            "         } catch (SchedulerException e) {\n", 
-            "             log.error(\"Error while destroying the task \" + e);\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/sampler/SamplingProcessor.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/sampler/SamplingProcessor.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,14 +16,13", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.message.processors.forward;\n", 
-            " \n", 
-            " import org.apache.synapse.SynapseException;\n", 
-            " import org.apache.synapse.core.SynapseEnvironment;\n", 
-            " import org.apache.synapse.message.processors.ScheduledMessageProcessor;\n", 
-            "-import org.quartz.JobDataMap;\n", 
-            "-import org.quartz.JobDetail;\n", 
-            "-import org.quartz.SchedulerException;\n", 
-            "+import org.quartz.*;\n", 
-            " \n", 
-            " import java.util.Map;\n", 
-            " import java.util.concurrent.atomic.AtomicBoolean;\n"
-          ]
-        }, 
-        {
-          "locn": "-61,11 +60,9", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     @Override\n", 
-            "-    protected JobDetail getJobDetail() {\n", 
-            "-        JobDetail jobDetail = new JobDetail();\n", 
-            "-        jobDetail.setName(name + \"-forward job\");\n", 
-            "-        jobDetail.setJobClass(ForwardingJob.class);\n", 
-            "-        return jobDetail;\n", 
-            "+    protected JobBuilder getJobBuilder() {\n", 
-            "+        return JobBuilder.newJob(ForwardingJob.class).withIdentity(\n", 
-            "+                name + \"-forward job\", SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
-            "     }\n", 
-            " \n", 
-            "     @Override\n"
-          ]
-        }, 
-        {
-          "locn": "-131,8 +128,8", 
-          "lines": [
-            "     @Override\n", 
-            "     public void destroy() {\n", 
-            "          try {\n", 
-            "-             scheduler.deleteJob(name + \"-forward job\",\n", 
-            "-                    ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
-            "+             scheduler.deleteJob(new JobKey(name + \"-forward job\",\n", 
-            "+                     ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP));\n", 
-            "              scheduler.shutdown(true);\n", 
-            "         } catch (SchedulerException e) {\n", 
-            "             log.error(\"Error while destroying the task \" + e);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-16,22 +16,18", 
           "lines": [
             "  *  specific language governing permissions and limitations\n", 
@@ -530,6 +397,140 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/resequence/ResequencingProcessor.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/resequence/ResequencingProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,23 +16,21", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.message.processors.sampler;\n", 
+            " \n", 
+            "-\n", 
+            " import org.apache.commons.logging.Log;\n", 
+            " import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.core.SynapseEnvironment;\n", 
+            "-import org.apache.synapse.message.processors.AbstractMessageProcessor;\n", 
+            " import org.apache.synapse.message.processors.ScheduledMessageProcessor;\n", 
+            "-import org.quartz.JobDataMap;\n", 
+            "-import org.quartz.JobDetail;\n", 
+            "-import org.quartz.SchedulerException;\n", 
+            "+import org.quartz.*;\n", 
+            " \n", 
+            " import java.util.concurrent.atomic.AtomicBoolean;\n", 
+            " \n", 
+            "-public class SamplingProcessor extends ScheduledMessageProcessor{\n", 
+            "-    private Log log = LogFactory.getLog(SamplingProcessor.class);\n", 
+            "+public class SamplingProcessor extends ScheduledMessageProcessor {\n", 
+            " \n", 
+            "+    private static final Log log = LogFactory.getLog(SamplingProcessor.class);\n", 
+            "+\n", 
+            "     public static final String CONCURRENCY = \"concurrency\";\n", 
+            "     public static final String SEQUENCE = \"sequence\";\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-51,11 +49,9", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     @Override\n", 
+            "-    protected JobDetail getJobDetail() {\n", 
+            "-        JobDetail jobDetail = new JobDetail();\n", 
+            "-        jobDetail.setName(name + \"-sampling-job\");\n", 
+            "-        jobDetail.setJobClass(SamplingJob.class);\n", 
+            "-        return jobDetail;\n", 
+            "+    protected JobBuilder getJobBuilder() {\n", 
+            "+        return JobBuilder.newJob(SamplingJob.class).withIdentity(\n", 
+            "+                name + \"-sampling-job\", SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
+            "     }\n", 
+            " \n", 
+            "     @Override\n"
+          ]
+        }, 
+        {
+          "locn": "-69,8 +65,8", 
+          "lines": [
+            "     @Override\n", 
+            "     public void destroy() {\n", 
+            "          try {\n", 
+            "-            scheduler.deleteJob(name + \"-sampling-job\",\n", 
+            "-                    ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
+            "+             scheduler.deleteJob(new JobKey(name + \"-sampling-job\",\n", 
+            "+                     ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP));\n", 
+            "         } catch (SchedulerException e) {\n", 
+            "             log.error(\"Error while destroying the task \" + e);\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/sampler/SamplingProcessor.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/sampler/SamplingProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,14 +16,13", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.message.processors.forward;\n", 
+            " \n", 
+            " import org.apache.synapse.SynapseException;\n", 
+            " import org.apache.synapse.core.SynapseEnvironment;\n", 
+            " import org.apache.synapse.message.processors.ScheduledMessageProcessor;\n", 
+            "-import org.quartz.JobDataMap;\n", 
+            "-import org.quartz.JobDetail;\n", 
+            "-import org.quartz.SchedulerException;\n", 
+            "+import org.quartz.*;\n", 
+            " \n", 
+            " import java.util.Map;\n", 
+            " import java.util.concurrent.atomic.AtomicBoolean;\n"
+          ]
+        }, 
+        {
+          "locn": "-61,11 +60,9", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     @Override\n", 
+            "-    protected JobDetail getJobDetail() {\n", 
+            "-        JobDetail jobDetail = new JobDetail();\n", 
+            "-        jobDetail.setName(name + \"-forward job\");\n", 
+            "-        jobDetail.setJobClass(ForwardingJob.class);\n", 
+            "-        return jobDetail;\n", 
+            "+    protected JobBuilder getJobBuilder() {\n", 
+            "+        return JobBuilder.newJob(ForwardingJob.class).withIdentity(\n", 
+            "+                name + \"-forward job\", SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
+            "     }\n", 
+            " \n", 
+            "     @Override\n"
+          ]
+        }, 
+        {
+          "locn": "-131,8 +128,8", 
+          "lines": [
+            "     @Override\n", 
+            "     public void destroy() {\n", 
+            "          try {\n", 
+            "-             scheduler.deleteJob(name + \"-forward job\",\n", 
+            "-                    ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
+            "+             scheduler.deleteJob(new JobKey(name + \"-forward job\",\n", 
+            "+                     ScheduledMessageProcessor.SCHEDULED_MESSAGE_PROCESSOR_GROUP));\n", 
+            "              scheduler.shutdown(true);\n", 
+            "         } catch (SchedulerException e) {\n", 
+            "             log.error(\"Error while destroying the task \" + e);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java"
     }, 
     {
       "chunks": [

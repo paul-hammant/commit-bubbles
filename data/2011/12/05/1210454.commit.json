@@ -1,5 +1,6 @@
 {
   "when": "2011-12-05T08:20:26-05:00", 
+  "message": "Fixing some minor issues with clone mediator, DB mediators and InvokeMediator", 
   "who": "hiranya", 
   "changes": [
     {
@@ -220,6 +221,60 @@
     {
       "chunks": [
         {
+          "locn": "-63,9 +63,10", 
+          "lines": [
+            "                 synLog.traceTrace(\"Message : \" + synCtx.getEnvelope());\n", 
+            "             }\n", 
+            "         }\n", 
+            "-        populateParameters(synCtx);\n", 
+            "+\n", 
+            "         //get the target function template and invoke by passing populated parameters\n", 
+            "         Mediator mediator = synCtx.getSequenceTemplate(targetTemplate);\n", 
+            "+        populateParameters(synCtx, ((TemplateMediator)mediator).getName());\n", 
+            "         if (mediator != null && mediator instanceof TemplateMediator) {\n", 
+            "             return mediator.mediate(synCtx);\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-73,10 +74,11", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            "     /**\n", 
+            "-     * poplulate declared parameters on temp synapse properties\n", 
+            "+     * populate declared parameters on temp synapse properties\n", 
+            "      * @param synCtx\n", 
+            "+     * @param templateQualifiedName\n", 
+            "      */\n", 
+            "-    private void populateParameters(MessageContext synCtx) {\n", 
+            "+    private void populateParameters(MessageContext synCtx, String templateQualifiedName) {\n", 
+            "         Iterator<String> params = pName2ExpressionMap.keySet().iterator();\n", 
+            "         while (params.hasNext()) {\n", 
+            "             String parameter = params.next();\n"
+          ]
+        }, 
+        {
+          "locn": "-83,7 +85,8", 
+          "lines": [
+            "             if (!\"\".equals(parameter)) {\n", 
+            "                 Value expression = pName2ExpressionMap.get(parameter);\n", 
+            "                 if (expression != null) {\n", 
+            "-                    EIPUtils.createSynapseEIPTemplateProperty(synCtx, targetTemplate, parameter, expression);\n", 
+            "+                    EIPUtils.createSynapseEIPTemplateProperty(synCtx, templateQualifiedName,\n", 
+            "+                            parameter, expression);\n", 
+            "                 }\n", 
+            "             }\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-0,0 +1,44", 
           "lines": [
             "+/*\n", 
@@ -271,60 +326,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/Argument.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/Argument.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-63,9 +63,10", 
-          "lines": [
-            "                 synLog.traceTrace(\"Message : \" + synCtx.getEnvelope());\n", 
-            "             }\n", 
-            "         }\n", 
-            "-        populateParameters(synCtx);\n", 
-            "+\n", 
-            "         //get the target function template and invoke by passing populated parameters\n", 
-            "         Mediator mediator = synCtx.getSequenceTemplate(targetTemplate);\n", 
-            "+        populateParameters(synCtx, ((TemplateMediator)mediator).getName());\n", 
-            "         if (mediator != null && mediator instanceof TemplateMediator) {\n", 
-            "             return mediator.mediate(synCtx);\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-73,10 +74,11", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            "     /**\n", 
-            "-     * poplulate declared parameters on temp synapse properties\n", 
-            "+     * populate declared parameters on temp synapse properties\n", 
-            "      * @param synCtx\n", 
-            "+     * @param templateQualifiedName\n", 
-            "      */\n", 
-            "-    private void populateParameters(MessageContext synCtx) {\n", 
-            "+    private void populateParameters(MessageContext synCtx, String templateQualifiedName) {\n", 
-            "         Iterator<String> params = pName2ExpressionMap.keySet().iterator();\n", 
-            "         while (params.hasNext()) {\n", 
-            "             String parameter = params.next();\n"
-          ]
-        }, 
-        {
-          "locn": "-83,7 +85,8", 
-          "lines": [
-            "             if (!\"\".equals(parameter)) {\n", 
-            "                 Value expression = pName2ExpressionMap.get(parameter);\n", 
-            "                 if (expression != null) {\n", 
-            "-                    EIPUtils.createSynapseEIPTemplateProperty(synCtx, targetTemplate, parameter, expression);\n", 
-            "+                    EIPUtils.createSynapseEIPTemplateProperty(synCtx, templateQualifiedName,\n", 
-            "+                            parameter, expression);\n", 
-            "                 }\n", 
-            "             }\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/InvokeMediator.java"
     }, 
     {
       "chunks": [

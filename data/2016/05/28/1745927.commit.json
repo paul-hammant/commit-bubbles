@@ -1,5 +1,6 @@
 {
   "when": "2016-05-28T16:11:29-04:00", 
+  "message": "Implemented the new XPath function url-encode; Applied patch from Buddhima from SYNAPSE-1022", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2013-08-11T15:43:13-04:00", 
+  "message": "fixed the rabbitmq client target.", 
   "who": "rajikak", 
   "changes": [
     {

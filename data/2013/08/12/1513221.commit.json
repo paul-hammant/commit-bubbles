@@ -1,85 +1,8 @@
 {
   "when": "2013-08-12T14:53:55-04:00", 
+  "message": "Getting rid of the last of deprecated http core APIs (ExecutionContext)", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-22,8 +22,8", 
-          "lines": [
-            " import org.apache.http.nio.NHttpClientConnection;\n", 
-            " import org.apache.commons.logging.Log;\n", 
-            " import org.apache.commons.logging.LogFactory;\n", 
-            "-import org.apache.http.protocol.ExecutionContext;\n", 
-            " import org.apache.http.protocol.HttpContext;\n", 
-            "+import org.apache.http.protocol.HttpCoreContext;\n", 
-            " \n", 
-            " import java.util.List;\n", 
-            " import java.util.ArrayList;\n"
-          ]
-        }, 
-        {
-          "locn": "-86,8 +86,8", 
-          "lines": [
-            "     public void release(NHttpClientConnection conn) {\n", 
-            "         conn.getMetrics().reset();\n", 
-            "         HttpContext ctx = conn.getContext();\n", 
-            "-        ctx.removeAttribute(ExecutionContext.HTTP_REQUEST);\n", 
-            "-        ctx.removeAttribute(ExecutionContext.HTTP_RESPONSE);\n", 
-            "+        ctx.removeAttribute(HttpCoreContext.HTTP_REQUEST);\n", 
-            "+        ctx.removeAttribute(HttpCoreContext.HTTP_RESPONSE);\n", 
-            " \n", 
-            "         lock.lock();\n", 
-            "         try {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,8 +24,9", 
-          "lines": [
-            " import org.apache.http.impl.DefaultConnectionReuseStrategy;\n", 
-            " import org.apache.http.nio.ContentEncoder;\n", 
-            " import org.apache.http.nio.NHttpServerConnection;\n", 
-            "-import org.apache.http.protocol.ExecutionContext;\n", 
-            " import org.apache.http.protocol.HTTP;\n", 
-            "+import org.apache.http.protocol.HttpContext;\n", 
-            "+import org.apache.http.protocol.HttpCoreContext;\n", 
-            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
-            " \n", 
-            " import java.io.IOException;\n"
-          ]
-        }, 
-        {
-          "locn": "-129,12 +130,13", 
-          "lines": [
-            "         SourceContext.updateState(conn, ProtocolState.RESPONSE_HEAD);\n", 
-            " \n", 
-            "         // Pre-process HTTP response\n", 
-            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_CONNECTION, conn);\n", 
-            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_RESPONSE, response);\n", 
-            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_REQUEST,\n", 
-            "+        HttpContext context = conn.getContext();\n", 
-            "+        context.setAttribute(HttpCoreContext.HTTP_CONNECTION, conn);\n", 
-            "+        context.setAttribute(HttpCoreContext.HTTP_RESPONSE, response);\n", 
-            "+        context.setAttribute(HttpCoreContext.HTTP_REQUEST,\n", 
-            "                 SourceContext.getRequest(conn).getRequest());\n", 
-            "         \n", 
-            "-        sourceConfiguration.getHttpProcessor().process(response, conn.getContext());\n", 
-            "+        sourceConfiguration.getHttpProcessor().process(response, context);\n", 
-            "         conn.submitResponse(response);        \n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
-    }, 
     {
       "chunks": [
         {
@@ -160,6 +83,84 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-22,8 +22,8", 
+          "lines": [
+            " import org.apache.http.nio.NHttpClientConnection;\n", 
+            " import org.apache.commons.logging.Log;\n", 
+            " import org.apache.commons.logging.LogFactory;\n", 
+            "-import org.apache.http.protocol.ExecutionContext;\n", 
+            " import org.apache.http.protocol.HttpContext;\n", 
+            "+import org.apache.http.protocol.HttpCoreContext;\n", 
+            " \n", 
+            " import java.util.List;\n", 
+            " import java.util.ArrayList;\n"
+          ]
+        }, 
+        {
+          "locn": "-86,8 +86,8", 
+          "lines": [
+            "     public void release(NHttpClientConnection conn) {\n", 
+            "         conn.getMetrics().reset();\n", 
+            "         HttpContext ctx = conn.getContext();\n", 
+            "-        ctx.removeAttribute(ExecutionContext.HTTP_REQUEST);\n", 
+            "-        ctx.removeAttribute(ExecutionContext.HTTP_RESPONSE);\n", 
+            "+        ctx.removeAttribute(HttpCoreContext.HTTP_REQUEST);\n", 
+            "+        ctx.removeAttribute(HttpCoreContext.HTTP_RESPONSE);\n", 
+            " \n", 
+            "         lock.lock();\n", 
+            "         try {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-24,8 +24,9", 
+          "lines": [
+            " import org.apache.http.impl.DefaultConnectionReuseStrategy;\n", 
+            " import org.apache.http.nio.ContentEncoder;\n", 
+            " import org.apache.http.nio.NHttpServerConnection;\n", 
+            "-import org.apache.http.protocol.ExecutionContext;\n", 
+            " import org.apache.http.protocol.HTTP;\n", 
+            "+import org.apache.http.protocol.HttpContext;\n", 
+            "+import org.apache.http.protocol.HttpCoreContext;\n", 
+            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
+            " \n", 
+            " import java.io.IOException;\n"
+          ]
+        }, 
+        {
+          "locn": "-129,12 +130,13", 
+          "lines": [
+            "         SourceContext.updateState(conn, ProtocolState.RESPONSE_HEAD);\n", 
+            " \n", 
+            "         // Pre-process HTTP response\n", 
+            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_CONNECTION, conn);\n", 
+            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_RESPONSE, response);\n", 
+            "-        conn.getContext().setAttribute(ExecutionContext.HTTP_REQUEST,\n", 
+            "+        HttpContext context = conn.getContext();\n", 
+            "+        context.setAttribute(HttpCoreContext.HTTP_CONNECTION, conn);\n", 
+            "+        context.setAttribute(HttpCoreContext.HTTP_RESPONSE, response);\n", 
+            "+        context.setAttribute(HttpCoreContext.HTTP_REQUEST,\n", 
+            "                 SourceContext.getRequest(conn).getRequest());\n", 
+            "         \n", 
+            "-        sourceConfiguration.getHttpProcessor().process(response, conn.getContext());\n", 
+            "+        sourceConfiguration.getHttpProcessor().process(response, context);\n", 
+            "         conn.submitResponse(response);        \n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
     }, 
     {
       "chunks": [

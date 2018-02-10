@@ -1,5 +1,6 @@
 {
   "when": "2013-08-08T19:43:10-04:00", 
+  "message": "Passing top level synapse properties to the AbstractRegistry, so SYNAPSE_HOME can be resolved proeprly by the subclasses. Fix applied from SYNAPSE-774", 
   "who": "hiranya", 
   "changes": [
     {

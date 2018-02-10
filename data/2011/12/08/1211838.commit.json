@@ -1,5 +1,6 @@
 {
   "when": "2011-12-08T06:23:50-05:00", 
+  "message": "committing patch for https://issues.apache.org/jira/browse/SYNAPSE-822", 
   "who": "uswick", 
   "changes": [
     {

@@ -1,7 +1,27 @@
 {
   "when": "2013-08-13T03:12:47-04:00", 
+  "message": "Using the RequestUserAgent API to set the User-Agent header on outgoing messages.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-59,7 +59,7", 
+          "lines": [
+            "                 new RequestContent(),\n", 
+            "                 new RequestTargetHost(),\n", 
+            "                 new RequestConnControl(),\n", 
+            "-                new RequestUserAgent(),\n", 
+            "+                new RequestUserAgent(\"Synapse-PT-HttpComponents-NIO\"),\n", 
+            "                 new RequestExpectContinue(false));\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/TargetConfiguration.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/TargetConfiguration.java"
+    }, 
     {
       "chunks": [
         {
@@ -69,25 +89,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetRequest.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-59,7 +59,7", 
-          "lines": [
-            "                 new RequestContent(),\n", 
-            "                 new RequestTargetHost(),\n", 
-            "                 new RequestConnControl(),\n", 
-            "-                new RequestUserAgent(),\n", 
-            "+                new RequestUserAgent(\"Synapse-PT-HttpComponents-NIO\"),\n", 
-            "                 new RequestExpectContinue(false));\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/TargetConfiguration.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/TargetConfiguration.java"
     }
   ], 
   "id": "1513375"

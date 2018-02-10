@@ -1,25 +1,8 @@
 {
   "when": "2013-07-30T02:57:22-04:00", 
+  "message": "added a rabbit mq client.", 
   "who": "rajikak", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-86,7 +86,6", 
-          "lines": [
-            "             this.responseMessage = responseMessage;\n", 
-            "         }\n", 
-            " \n", 
-            "-        @Override\n", 
-            "         public void run() {\n", 
-            "             try {\n", 
-            "                 channel.queueDeclare(queueName, false, false, false, null);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java", 
-      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java"
-    }, 
     {
       "chunks": [
         {
@@ -232,6 +215,24 @@
       ], 
       "to": "java/modules/samples/src/main/scripts/axis2Client/build.xml", 
       "from": "java/modules/samples/src/main/scripts/axis2Client/build.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-86,7 +86,6", 
+          "lines": [
+            "             this.responseMessage = responseMessage;\n", 
+            "         }\n", 
+            " \n", 
+            "-        @Override\n", 
+            "         public void run() {\n", 
+            "             try {\n", 
+            "                 channel.queueDeclare(queueName, false, false, false, null);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java", 
+      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java"
     }
   ], 
   "id": "1508322"

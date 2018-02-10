@@ -1,28 +1,8 @@
 {
   "when": "2016-12-28T07:48:29-05:00", 
+  "message": "Updating site theme to use fluido 1.4. Changes to site.css to work with fluido theme", 
   "who": "ravi", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-21,8 +21,8", 
-          "lines": [
-            " <project name=\"Apache Synapse\">\n", 
-            "     <skin>\n", 
-            "         <groupId>org.apache.maven.skins</groupId>\n", 
-            "-        <artifactId>maven-default-skin</artifactId>\n", 
-            "-        <version>1.0</version>\n", 
-            "+        <artifactId>maven-fluido-skin</artifactId>\n", 
-            "+        <version>1.4</version>\n", 
-            "     </skin>\n", 
-            "     <body>\n", 
-            "         <menu name=\"Main Menu\">\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/site.xml", 
-      "from": "java/modules/documentation/src/site/site.xml"
-    }, 
     {
       "chunks": [
         {
@@ -173,6 +153,27 @@
       ], 
       "to": "java/modules/documentation/src/site/resources/css/site.css", 
       "from": "java/modules/documentation/src/site/resources/css/site.css"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-21,8 +21,8", 
+          "lines": [
+            " <project name=\"Apache Synapse\">\n", 
+            "     <skin>\n", 
+            "         <groupId>org.apache.maven.skins</groupId>\n", 
+            "-        <artifactId>maven-default-skin</artifactId>\n", 
+            "-        <version>1.0</version>\n", 
+            "+        <artifactId>maven-fluido-skin</artifactId>\n", 
+            "+        <version>1.4</version>\n", 
+            "     </skin>\n", 
+            "     <body>\n", 
+            "         <menu name=\"Main Menu\">\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/site.xml", 
+      "from": "java/modules/documentation/src/site/site.xml"
     }, 
     {
       "chunks": [

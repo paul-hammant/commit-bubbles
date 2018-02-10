@@ -1,5 +1,6 @@
 {
   "when": "2013-05-11T08:15:41-04:00", 
+  "message": "Avoid usage of deprecated API.\n", 
   "who": "veithen", 
   "changes": [
     {

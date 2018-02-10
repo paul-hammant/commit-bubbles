@@ -1,41 +1,8 @@
 {
   "when": "2011-12-05T01:17:50-05:00", 
+  "message": "Synchronized the endpoint init. in order to avoid double locking.", 
   "who": "rajikak", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-53,7 +53,7", 
-          "lines": [
-            "         }\n", 
-            "     }\n", 
-            " \n", 
-            "-    private synchronized Endpoint loadAndInitEndpoint(ConfigurationContext cc, String key) {\n", 
-            "+    private Endpoint loadAndInitEndpoint(ConfigurationContext cc, String key) {\n", 
-            "         Parameter parameter = cc.getAxisConfiguration().getParameter(\n", 
-            "                 SynapseConstants.SYNAPSE_CONFIG);\n", 
-            "         Parameter synEnvParameter = cc.getAxisConfiguration().getParameter(\n"
-          ]
-        }, 
-        {
-          "locn": "-70,7 +70,9", 
-          "lines": [
-            " \n", 
-            "             Endpoint ep = synCfg.getEndpoint(key);\n", 
-            "             if (ep != null && !ep.isInitialized()) {\n", 
-            "-                ep.init(synapseEnvironment);\n", 
-            "+                synchronized (ep) {\n", 
-            "+                    ep.init(synapseEnvironment);\n", 
-            "+                }\n", 
-            "             }\n", 
-            "             return ep;\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/ResolvingEndpoint.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/ResolvingEndpoint.java"
-    }, 
     {
       "chunks": [
         {
@@ -85,6 +52,40 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/Entry.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/Entry.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-53,7 +53,7", 
+          "lines": [
+            "         }\n", 
+            "     }\n", 
+            " \n", 
+            "-    private synchronized Endpoint loadAndInitEndpoint(ConfigurationContext cc, String key) {\n", 
+            "+    private Endpoint loadAndInitEndpoint(ConfigurationContext cc, String key) {\n", 
+            "         Parameter parameter = cc.getAxisConfiguration().getParameter(\n", 
+            "                 SynapseConstants.SYNAPSE_CONFIG);\n", 
+            "         Parameter synEnvParameter = cc.getAxisConfiguration().getParameter(\n"
+          ]
+        }, 
+        {
+          "locn": "-70,7 +70,9", 
+          "lines": [
+            " \n", 
+            "             Endpoint ep = synCfg.getEndpoint(key);\n", 
+            "             if (ep != null && !ep.isInitialized()) {\n", 
+            "-                ep.init(synapseEnvironment);\n", 
+            "+                synchronized (ep) {\n", 
+            "+                    ep.init(synapseEnvironment);\n", 
+            "+                }\n", 
+            "             }\n", 
+            "             return ep;\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/ResolvingEndpoint.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/ResolvingEndpoint.java"
     }
   ], 
   "id": "1210338"

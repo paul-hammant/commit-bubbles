@@ -1,5 +1,6 @@
 {
   "when": "2016-05-26T19:14:02-04:00", 
+  "message": "Improved error handling in the AbstractListMediator; Triggering the fault sequence for all non-SynapseExceptions. Applying the patch provided by Buddhima at SYNAPSE-1011", 
   "who": "hiranya", 
   "changes": [
     {

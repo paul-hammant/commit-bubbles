@@ -1,5 +1,6 @@
 {
   "when": "2013-11-23T16:51:54-05:00", 
+  "message": "Fixed formatting: use spaces instead of tabs.", 
   "who": "veithen", 
   "changes": [
     {

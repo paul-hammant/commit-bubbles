@@ -1,5 +1,6 @@
 {
   "when": "2013-07-20T16:00:35-04:00", 
+  "message": "Applying the patch for SYNAPSE-939 with some changes. Engaging the fail-safe mode when an invalid XML is encountered in the synapse configuration.", 
   "who": "hiranya", 
   "changes": [
     {

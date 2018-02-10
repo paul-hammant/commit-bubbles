@@ -1,5 +1,6 @@
 {
   "when": "2012-07-28T05:04:06-04:00", 
+  "message": "Some code simplifications using the new OMContainer#removeChildren() method.\n", 
   "who": "veithen", 
   "changes": [
     {

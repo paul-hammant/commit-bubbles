@@ -1,96 +1,51 @@
 {
   "when": "2011-12-05T16:41:37-05:00", 
+  "message": "Added a regression test for SYNAPSE-501 (which basically shows that the issue was fixed by an improvement in Axiom).\n", 
   "who": "veithen", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,8", 
+          "locn": "-20,6 +20,8", 
           "lines": [
-            "+<validate xmlns=\"http://ws.apache.org/ns/synapse\" xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\" source=\"s11:Body/child::*[position()=1] | s12:Body/child::*[position()=1]\">\n", 
-            "+    <schema key=\"validate_schema\"/>\n", 
-            "+    <on-fail>\n", 
-            "+        <log level=\"custom\">\n", 
-            "+            <property name=\"MSG\" value=\"FAIL\"/>\n", 
-            "+        </log>\n", 
-            "+    </on-fail>\n", 
-            "+</validate>\n"
+            " package org.apache.synapse.mediators.builtin;\n", 
+            " \n", 
+            " import junit.framework.TestCase;\n", 
+            "+\n", 
+            "+import org.apache.axiom.om.OMXMLBuilderFactory;\n", 
+            " import org.apache.commons.lang.mutable.MutableInt;\n", 
+            " import org.apache.synapse.MessageContext;\n", 
+            " import org.apache.synapse.TestMessageContextBuilder;\n"
           ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-conf.xml", 
-      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-conf.xml"
-    }, 
-    {
-      "chunks": [
+        }, 
         {
-          "locn": "-0,0 +1,35", 
+          "locn": "-400,5 +402,19", 
           "lines": [
-            "+<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\n", 
-            "+   xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
-            "+   elementFormDefault=\"qualified\"\n", 
-            "+   attributeFormDefault=\"unqualified\"\n", 
-            "+   xmlns:tns=\"http://hostname/rfid_1_0/\"\n", 
-            "+   targetNamespace=\"http://hostname/rfid_1_0/\" >\n", 
-            "+\n", 
-            "+<!-- ISSUE -->\n", 
-            "+<xs:element name=\"issue\" type=\"tns:issue\"/>\n", 
-            "+<xs:complexType name=\"issue\">\n", 
-            "+        <xs:sequence>\n", 
-            "+                <xs:element name=\"token\" type=\"xs:string\"/>\n", 
-            "+                <xs:element name=\"rfid\" type=\"xs:string\"/>\n", 
-            "+                <xs:element name=\"eventId\" type=\"xs:string\"/>\n", 
-            "+                <xs:element name=\"locationId\" type=\"xs:long\"/>\n", 
-            "+                <xs:element name=\"accessStart\" type=\"xs:string\" />\n", 
-            "+                <xs:element minOccurs=\"0\" name=\"accessEnd\" type=\"xs:string\"/>\n", 
-            "+                <xs:element minOccurs=\"0\" name=\"reentry\" type=\"xs:boolean\"/>\n", 
-            "+                <xs:element minOccurs=\"0\" name=\"count\" type=\"xs:int\"/>\n", 
-            "+                <xs:element minOccurs=\"0\" name=\"customerId\" type=\"xs:string\"/>\n", 
-            "+                <xs:element minOccurs=\"0\" name=\"customerName\" type=\"xs:string\"/>\n", 
-            "+        </xs:sequence>\n", 
-            "+</xs:complexType>\n", 
-            "+\n", 
-            "+<!-- ISSUE RESPONSE -->\n", 
-            "+<xs:element name=\"issueResponse\" type=\"tns:issueResponse\" />\n", 
-            "+<xs:complexType name=\"issueResponse\">\n", 
-            "+        <xs:sequence>\n", 
-            "+                <xs:element minOccurs=\"1\" maxOccurs=\"1\" name=\"resultCode\" type=\"xs:int\"/>\n", 
-            "+                <xs:element minOccurs=\"1\" maxOccurs=\"1\" name=\"resultDescription\" type=\"xs:string\"/>\n", 
-            "+                <xs:element minOccurs=\"0\" maxOccurs=\"1\" name=\"transactionId\" type=\"xs:long\"/>\n", 
-            "+                </xs:sequence>\n", 
-            "+</xs:complexType>\n", 
-            "+\n", 
-            "+</xs:schema>\n"
+            "         return keyList;\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "+    /**\n", 
+            "+     * Regression test for SYNAPSE-501.\n", 
+            "+     * \n", 
+            "+     * @throws Exception\n", 
+            "+     */\n", 
+            "+    public void testSynapse501() throws Exception {\n", 
+            "+        ValidateMediatorFactory mf = new ValidateMediatorFactory();\n", 
+            "+        ValidateMediator validate = (ValidateMediator)mf.createMediator(\n", 
+            "+                OMXMLBuilderFactory.createOMBuilder(ValidateMediatorTest.class.getResourceAsStream(\"synapse-501-conf.xml\")).getDocumentElement(),\n", 
+            "+                new Properties());\n", 
+            "+        MessageContext synCtx = new TestMessageContextBuilder()\n", 
+            "+                .addEntry(\"validate_schema\", ValidateMediatorTest.class.getResource(\"synapse-501.xsd\"))\n", 
+            "+                .setEnvelope(ValidateMediatorTest.class.getResource(\"synapse-501-soap.xml\")).build();\n", 
+            "+        test(validate, synCtx, false);\n", 
+            "+    }\n", 
+            " }\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501.xsd", 
-      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501.xsd"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,14", 
-          "lines": [
-            "+<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"\n", 
-            "+ xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
-            "+ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n", 
-            "+SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\n", 
-            "+<SOAP-ENV:Body>\n", 
-            "+<ns6216:issue xmlns:ns6216=\"http://hostname/rfid_1_0/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n", 
-            "+<nu4900:token xmlns:nu4900=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">00000000-00</nu4900:token>\n", 
-            "+<nu4712:rfid xmlns:nu4712=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">4C46688D</nu4712:rfid>\n", 
-            "+<nu9698:eventId xmlns:nu9698=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">0</nu9698:eventId>\n", 
-            "+<nu5118:locationId xmlns:nu5118=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:long\">534</nu5118:locationId>\n", 
-            "+<nu4242:accessStart xmlns:nu4242=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">test0.8</nu4242:accessStart>\n", 
-            "+</ns6216:issue>\n", 
-            "+</SOAP-ENV:Body>\n", 
-            "+</SOAP-ENV:Envelope>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-soap.xml", 
-      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-soap.xml"
+      "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/ValidateMediatorTest.java", 
+      "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/ValidateMediatorTest.java"
     }, 
     {
       "chunks": [
@@ -177,46 +132,92 @@
     {
       "chunks": [
         {
-          "locn": "-20,6 +20,8", 
+          "locn": "-0,0 +1,35", 
           "lines": [
-            " package org.apache.synapse.mediators.builtin;\n", 
-            " \n", 
-            " import junit.framework.TestCase;\n", 
+            "+<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\n", 
+            "+   xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
+            "+   elementFormDefault=\"qualified\"\n", 
+            "+   attributeFormDefault=\"unqualified\"\n", 
+            "+   xmlns:tns=\"http://hostname/rfid_1_0/\"\n", 
+            "+   targetNamespace=\"http://hostname/rfid_1_0/\" >\n", 
             "+\n", 
-            "+import org.apache.axiom.om.OMXMLBuilderFactory;\n", 
-            " import org.apache.commons.lang.mutable.MutableInt;\n", 
-            " import org.apache.synapse.MessageContext;\n", 
-            " import org.apache.synapse.TestMessageContextBuilder;\n"
-          ]
-        }, 
-        {
-          "locn": "-400,5 +402,19", 
-          "lines": [
-            "         return keyList;\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "+    /**\n", 
-            "+     * Regression test for SYNAPSE-501.\n", 
-            "+     * \n", 
-            "+     * @throws Exception\n", 
-            "+     */\n", 
-            "+    public void testSynapse501() throws Exception {\n", 
-            "+        ValidateMediatorFactory mf = new ValidateMediatorFactory();\n", 
-            "+        ValidateMediator validate = (ValidateMediator)mf.createMediator(\n", 
-            "+                OMXMLBuilderFactory.createOMBuilder(ValidateMediatorTest.class.getResourceAsStream(\"synapse-501-conf.xml\")).getDocumentElement(),\n", 
-            "+                new Properties());\n", 
-            "+        MessageContext synCtx = new TestMessageContextBuilder()\n", 
-            "+                .addEntry(\"validate_schema\", ValidateMediatorTest.class.getResource(\"synapse-501.xsd\"))\n", 
-            "+                .setEnvelope(ValidateMediatorTest.class.getResource(\"synapse-501-soap.xml\")).build();\n", 
-            "+        test(validate, synCtx, false);\n", 
-            "+    }\n", 
-            " }\n"
+            "+<!-- ISSUE -->\n", 
+            "+<xs:element name=\"issue\" type=\"tns:issue\"/>\n", 
+            "+<xs:complexType name=\"issue\">\n", 
+            "+        <xs:sequence>\n", 
+            "+                <xs:element name=\"token\" type=\"xs:string\"/>\n", 
+            "+                <xs:element name=\"rfid\" type=\"xs:string\"/>\n", 
+            "+                <xs:element name=\"eventId\" type=\"xs:string\"/>\n", 
+            "+                <xs:element name=\"locationId\" type=\"xs:long\"/>\n", 
+            "+                <xs:element name=\"accessStart\" type=\"xs:string\" />\n", 
+            "+                <xs:element minOccurs=\"0\" name=\"accessEnd\" type=\"xs:string\"/>\n", 
+            "+                <xs:element minOccurs=\"0\" name=\"reentry\" type=\"xs:boolean\"/>\n", 
+            "+                <xs:element minOccurs=\"0\" name=\"count\" type=\"xs:int\"/>\n", 
+            "+                <xs:element minOccurs=\"0\" name=\"customerId\" type=\"xs:string\"/>\n", 
+            "+                <xs:element minOccurs=\"0\" name=\"customerName\" type=\"xs:string\"/>\n", 
+            "+        </xs:sequence>\n", 
+            "+</xs:complexType>\n", 
+            "+\n", 
+            "+<!-- ISSUE RESPONSE -->\n", 
+            "+<xs:element name=\"issueResponse\" type=\"tns:issueResponse\" />\n", 
+            "+<xs:complexType name=\"issueResponse\">\n", 
+            "+        <xs:sequence>\n", 
+            "+                <xs:element minOccurs=\"1\" maxOccurs=\"1\" name=\"resultCode\" type=\"xs:int\"/>\n", 
+            "+                <xs:element minOccurs=\"1\" maxOccurs=\"1\" name=\"resultDescription\" type=\"xs:string\"/>\n", 
+            "+                <xs:element minOccurs=\"0\" maxOccurs=\"1\" name=\"transactionId\" type=\"xs:long\"/>\n", 
+            "+                </xs:sequence>\n", 
+            "+</xs:complexType>\n", 
+            "+\n", 
+            "+</xs:schema>\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/ValidateMediatorTest.java", 
-      "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/ValidateMediatorTest.java"
+      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501.xsd", 
+      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501.xsd"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,14", 
+          "lines": [
+            "+<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"\n", 
+            "+ xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
+            "+ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n", 
+            "+SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\n", 
+            "+<SOAP-ENV:Body>\n", 
+            "+<ns6216:issue xmlns:ns6216=\"http://hostname/rfid_1_0/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n", 
+            "+<nu4900:token xmlns:nu4900=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">00000000-00</nu4900:token>\n", 
+            "+<nu4712:rfid xmlns:nu4712=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">4C46688D</nu4712:rfid>\n", 
+            "+<nu9698:eventId xmlns:nu9698=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">0</nu9698:eventId>\n", 
+            "+<nu5118:locationId xmlns:nu5118=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:long\">534</nu5118:locationId>\n", 
+            "+<nu4242:accessStart xmlns:nu4242=\"http://hostname/rfid_1_0/\" xsi:type=\"xsd:string\">test0.8</nu4242:accessStart>\n", 
+            "+</ns6216:issue>\n", 
+            "+</SOAP-ENV:Body>\n", 
+            "+</SOAP-ENV:Envelope>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-soap.xml", 
+      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-soap.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,8", 
+          "lines": [
+            "+<validate xmlns=\"http://ws.apache.org/ns/synapse\" xmlns:s11=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:s12=\"http://www.w3.org/2003/05/soap-envelope\" source=\"s11:Body/child::*[position()=1] | s12:Body/child::*[position()=1]\">\n", 
+            "+    <schema key=\"validate_schema\"/>\n", 
+            "+    <on-fail>\n", 
+            "+        <log level=\"custom\">\n", 
+            "+            <property name=\"MSG\" value=\"FAIL\"/>\n", 
+            "+        </log>\n", 
+            "+    </on-fail>\n", 
+            "+</validate>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-conf.xml", 
+      "from": "java/modules/core/src/test/resources/org/apache/synapse/mediators/builtin/synapse-501-conf.xml"
     }
   ], 
   "id": "1210652"

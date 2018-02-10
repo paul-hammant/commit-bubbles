@@ -1,7 +1,31 @@
 {
   "when": "2017-01-04T05:07:29-05:00", 
+  "message": "Removing previous versions and updating 3.0.0 release date", 
   "who": "ravi", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-64,12 +64,5", 
+          "lines": [
+            "             <item name=\"Dependencies\" href=\"dependency-management.html\"/>\n", 
+            "             <item name=\"Project Team\" href=\"team-list.html\"/>\n", 
+            "         </menu>\n", 
+            "-        <menu name=\"Previous Releases\">\n", 
+            "-            <item name=\"Version 2.0\" href=\"/2_0/docs_index.html\"/>\n", 
+            "-            <item name=\"Version 1.2\" href=\"/1_2/docs_index.html\"/>\n", 
+            "-            <item name=\"Version 1.1.1\" href=\"/1_1_1/content.html\"/>\n", 
+            "-            <item name=\"Version 1.1\" href=\"/1_1/content.html\"/>\n", 
+            "-            <item name=\"Version 1.0\" href=\"/1_1/content.html\"/>\n", 
+            "-        </menu>\n", 
+            "     </body>\n", 
+            " </project>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/site.xml", 
+      "from": "java/modules/documentation/src/site/site.xml"
+    }, 
     {
       "chunks": [
         {
@@ -46,29 +70,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/download.xml", 
       "from": "java/modules/documentation/src/site/xdoc/download.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-64,12 +64,5", 
-          "lines": [
-            "             <item name=\"Dependencies\" href=\"dependency-management.html\"/>\n", 
-            "             <item name=\"Project Team\" href=\"team-list.html\"/>\n", 
-            "         </menu>\n", 
-            "-        <menu name=\"Previous Releases\">\n", 
-            "-            <item name=\"Version 2.0\" href=\"/2_0/docs_index.html\"/>\n", 
-            "-            <item name=\"Version 1.2\" href=\"/1_2/docs_index.html\"/>\n", 
-            "-            <item name=\"Version 1.1.1\" href=\"/1_1_1/content.html\"/>\n", 
-            "-            <item name=\"Version 1.1\" href=\"/1_1/content.html\"/>\n", 
-            "-            <item name=\"Version 1.0\" href=\"/1_1/content.html\"/>\n", 
-            "-        </menu>\n", 
-            "     </body>\n", 
-            " </project>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/site.xml", 
-      "from": "java/modules/documentation/src/site/site.xml"
     }
   ], 
   "id": "1777274"

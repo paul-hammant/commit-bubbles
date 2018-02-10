@@ -1,7 +1,69 @@
 {
   "when": "2014-09-21T18:04:10-04:00", 
+  "message": "minor code cleanup in vfs module", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-52,7 +52,6", 
+          "lines": [
+            "      * @param outFileURI URI of the file to which the message is delivered\n", 
+            "      */\n", 
+            "     VFSOutTransportInfo(String outFileURI, boolean fileLocking) {\n", 
+            "-\n", 
+            "         if (outFileURI.startsWith(VFSConstants.VFS_PREFIX)) {\n", 
+            "             this.outFileURI = outFileURI.substring(VFSConstants.VFS_PREFIX.length());\n", 
+            "         } else {\n"
+          ]
+        }, 
+        {
+          "locn": "-69,7 +68,7", 
+          "lines": [
+            " \n", 
+            "         if (properties.containsKey(VFSConstants.TRANSPORT_FILE_USE_TEMP_FILE)) {\n", 
+            "             String useTempFile = properties.get(VFSConstants.TRANSPORT_FILE_USE_TEMP_FILE);\n", 
+            "-            isUseTempFile = Boolean.valueOf(useTempFile).booleanValue();\n", 
+            "+            isUseTempFile = Boolean.valueOf(useTempFile);\n", 
+            "         }\n", 
+            " \n", 
+            "         if (properties.containsKey(VFSConstants.RECONNECT_TIMEOUT)) {\n"
+          ]
+        }, 
+        {
+          "locn": "-82,9 +81,9", 
+          "lines": [
+            "         if (properties.containsKey(VFSConstants.TRANSPORT_FILE_LOCKING)) {\n", 
+            "             String strFileLocking = properties.get(VFSConstants.TRANSPORT_FILE_LOCKING);\n", 
+            "             if (VFSConstants.TRANSPORT_FILE_LOCKING_ENABLED.equals(strFileLocking)) {\n", 
+            "-                fileLocking = true;\n", 
+            "+                this.fileLocking = true;\n", 
+            "             } else if (VFSConstants.TRANSPORT_FILE_LOCKING_DISABLED.equals(strFileLocking)) {\n", 
+            "-                fileLocking = false;\n", 
+            "+                this.fileLocking = false;\n", 
+            "             }\n", 
+            "         } else {\n", 
+            "             this.fileLocking = fileLocking;\n"
+          ]
+        }, 
+        {
+          "locn": "-91,8 +90,7", 
+          "lines": [
+            "         }\n", 
+            " \n", 
+            "         if (properties.containsKey(VFSConstants.APPEND)) {\n", 
+            "-            String strAppend = properties.get(VFSConstants.APPEND);\n", 
+            "-            append = Boolean.parseBoolean(strAppend);\n", 
+            "+            append = Boolean.parseBoolean(properties.get(VFSConstants.APPEND));\n", 
+            "         }\n", 
+            " \n", 
+            "         if (log.isDebugEnabled()) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSOutTransportInfo.java", 
+      "from": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSOutTransportInfo.java"
+    }, 
     {
       "chunks": [
         {
@@ -93,67 +155,6 @@
       ], 
       "to": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportSender.java", 
       "from": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-52,7 +52,6", 
-          "lines": [
-            "      * @param outFileURI URI of the file to which the message is delivered\n", 
-            "      */\n", 
-            "     VFSOutTransportInfo(String outFileURI, boolean fileLocking) {\n", 
-            "-\n", 
-            "         if (outFileURI.startsWith(VFSConstants.VFS_PREFIX)) {\n", 
-            "             this.outFileURI = outFileURI.substring(VFSConstants.VFS_PREFIX.length());\n", 
-            "         } else {\n"
-          ]
-        }, 
-        {
-          "locn": "-69,7 +68,7", 
-          "lines": [
-            " \n", 
-            "         if (properties.containsKey(VFSConstants.TRANSPORT_FILE_USE_TEMP_FILE)) {\n", 
-            "             String useTempFile = properties.get(VFSConstants.TRANSPORT_FILE_USE_TEMP_FILE);\n", 
-            "-            isUseTempFile = Boolean.valueOf(useTempFile).booleanValue();\n", 
-            "+            isUseTempFile = Boolean.valueOf(useTempFile);\n", 
-            "         }\n", 
-            " \n", 
-            "         if (properties.containsKey(VFSConstants.RECONNECT_TIMEOUT)) {\n"
-          ]
-        }, 
-        {
-          "locn": "-82,9 +81,9", 
-          "lines": [
-            "         if (properties.containsKey(VFSConstants.TRANSPORT_FILE_LOCKING)) {\n", 
-            "             String strFileLocking = properties.get(VFSConstants.TRANSPORT_FILE_LOCKING);\n", 
-            "             if (VFSConstants.TRANSPORT_FILE_LOCKING_ENABLED.equals(strFileLocking)) {\n", 
-            "-                fileLocking = true;\n", 
-            "+                this.fileLocking = true;\n", 
-            "             } else if (VFSConstants.TRANSPORT_FILE_LOCKING_DISABLED.equals(strFileLocking)) {\n", 
-            "-                fileLocking = false;\n", 
-            "+                this.fileLocking = false;\n", 
-            "             }\n", 
-            "         } else {\n", 
-            "             this.fileLocking = fileLocking;\n"
-          ]
-        }, 
-        {
-          "locn": "-91,8 +90,7", 
-          "lines": [
-            "         }\n", 
-            " \n", 
-            "         if (properties.containsKey(VFSConstants.APPEND)) {\n", 
-            "-            String strAppend = properties.get(VFSConstants.APPEND);\n", 
-            "-            append = Boolean.parseBoolean(strAppend);\n", 
-            "+            append = Boolean.parseBoolean(properties.get(VFSConstants.APPEND));\n", 
-            "         }\n", 
-            " \n", 
-            "         if (log.isDebugEnabled()) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSOutTransportInfo.java", 
-      "from": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSOutTransportInfo.java"
     }
   ], 
   "id": "1626642"

@@ -1,5 +1,6 @@
 {
   "when": "2012-04-20T08:54:05-04:00", 
+  "message": "committing fix for unit test failure", 
   "who": "uswick", 
   "changes": [
     {

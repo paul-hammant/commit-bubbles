@@ -1,5 +1,6 @@
 {
   "when": "2013-08-02T14:47:02-04:00", 
+  "message": "Applying the patch for SYNAPSE-886", 
   "who": "hiranya", 
   "changes": [
     {

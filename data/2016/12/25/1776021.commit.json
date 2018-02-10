@@ -1,5 +1,6 @@
 {
   "when": "2016-12-25T12:38:00-05:00", 
+  "message": "Handle failure situation while building the message in RelayUtils", 
   "who": "isudana", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2016-06-09T12:59:08-04:00", 
+  "message": "fixing SYNAPSE-1040 by applying modfied patch by Isuru Ranawaka", 
   "who": "isudana", 
   "changes": [
     {
@@ -21,44 +22,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/aspects/statistics/StatisticsLog.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/aspects/statistics/StatisticsLog.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-47,7 +47,7", 
-          "lines": [
-            "      */\n", 
-            "     private Map mappedValues;\n", 
-            " \n", 
-            "-    TemplateContext(String name, Collection<TemplateParameter> parameters) {\n", 
-            "+    public TemplateContext(String name, Collection<TemplateParameter> parameters) {\n", 
-            "         this.fName = name;\n", 
-            "         this.parameters = parameters;\n", 
-            "         mappedValues = new HashMap();\n"
-          ]
-        }, 
-        {
-          "locn": "-116,6 +116,14", 
-          "lines": [
-            "         }\n", 
-            "     }\n", 
-            " \n", 
-            "+    public Map getMappedValues() {\n", 
-            "+        return mappedValues;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void setMappedValues(Map map) {\n", 
-            "+        this.mappedValues = map;\n", 
-            "+    }\n", 
-            "+\n", 
-            "     public Object getParameterValue(String paramName) {\n", 
-            "         return mappedValues.get(paramName);\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateContext.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateContext.java"
     }, 
     {
       "chunks": [
@@ -240,6 +203,44 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/util/MessageHelper.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/util/MessageHelper.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-47,7 +47,7", 
+          "lines": [
+            "      */\n", 
+            "     private Map mappedValues;\n", 
+            " \n", 
+            "-    TemplateContext(String name, Collection<TemplateParameter> parameters) {\n", 
+            "+    public TemplateContext(String name, Collection<TemplateParameter> parameters) {\n", 
+            "         this.fName = name;\n", 
+            "         this.parameters = parameters;\n", 
+            "         mappedValues = new HashMap();\n"
+          ]
+        }, 
+        {
+          "locn": "-116,6 +116,14", 
+          "lines": [
+            "         }\n", 
+            "     }\n", 
+            " \n", 
+            "+    public Map getMappedValues() {\n", 
+            "+        return mappedValues;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void setMappedValues(Map map) {\n", 
+            "+        this.mappedValues = map;\n", 
+            "+    }\n", 
+            "+\n", 
+            "     public Object getParameterValue(String paramName) {\n", 
+            "         return mappedValues.get(paramName);\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateContext.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateContext.java"
     }
   ], 
   "id": "1747563"

@@ -1,7 +1,78 @@
 {
   "when": "2016-05-29T20:35:51-04:00", 
+  "message": "Implemented support for echoing HTTP headers in the Echo Http server; Implemented Sample10101 to test the impact of the DISABLE_CHUNKING property in the HTTP transport", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,29", 
+          "lines": [
+            "+<syn:definitions xmlns:syn=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+    <syn:api name=\"TestAPI\" context=\"/test\">\n", 
+            "+        <syn:resource methods=\"POST\" url-mapping=\"/content_length\">\n", 
+            "+            <syn:inSequence>\n", 
+            "+                <syn:property name=\"DISABLE_CHUNKING\" value=\"true\" scope=\"axis2\"/>\n", 
+            "+                <syn:send>\n", 
+            "+                    <syn:endpoint>\n", 
+            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
+            "+                    </syn:endpoint>\n", 
+            "+                </syn:send>\n", 
+            "+            </syn:inSequence>\n", 
+            "+            <syn:outSequence>\n", 
+            "+                <syn:send/>\n", 
+            "+            </syn:outSequence>\n", 
+            "+        </syn:resource>\n", 
+            "+        <syn:resource methods=\"POST\" url-mapping=\"/chunked\">\n", 
+            "+            <syn:inSequence>\n", 
+            "+                <syn:send>\n", 
+            "+                    <syn:endpoint>\n", 
+            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
+            "+                    </syn:endpoint>\n", 
+            "+                </syn:send>\n", 
+            "+            </syn:inSequence>\n", 
+            "+            <syn:outSequence>\n", 
+            "+                <syn:send/>\n", 
+            "+            </syn:outSequence>\n", 
+            "+        </syn:resource>\n", 
+            "+    </syn:api>\n", 
+            "+</syn:definitions>\n", 
+            "\\ No newline at end of file\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_10101.xml", 
+      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_10101.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,18", 
+          "lines": [
+            "+<synapseSample>\n", 
+            "+    <sampleID>10101</sampleID>\n", 
+            "+    <sampleName>Pass Through Transport Chunked Encoding Support</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_10101.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <echoServer id=\"0\">\n", 
+            "+            <httpPort>9000</httpPort>\n", 
+            "+            <echoHeaders>true</echoHeaders>\n", 
+            "+        </echoServer>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample10101.xml", 
+      "from": "java/modules/integration/src/test/resources/sample10101.xml"
+    }, 
     {
       "chunks": [
         {
@@ -290,76 +361,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/EchoHttpServerController.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/EchoHttpServerController.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,29", 
-          "lines": [
-            "+<syn:definitions xmlns:syn=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+    <syn:api name=\"TestAPI\" context=\"/test\">\n", 
-            "+        <syn:resource methods=\"POST\" url-mapping=\"/content_length\">\n", 
-            "+            <syn:inSequence>\n", 
-            "+                <syn:property name=\"DISABLE_CHUNKING\" value=\"true\" scope=\"axis2\"/>\n", 
-            "+                <syn:send>\n", 
-            "+                    <syn:endpoint>\n", 
-            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
-            "+                    </syn:endpoint>\n", 
-            "+                </syn:send>\n", 
-            "+            </syn:inSequence>\n", 
-            "+            <syn:outSequence>\n", 
-            "+                <syn:send/>\n", 
-            "+            </syn:outSequence>\n", 
-            "+        </syn:resource>\n", 
-            "+        <syn:resource methods=\"POST\" url-mapping=\"/chunked\">\n", 
-            "+            <syn:inSequence>\n", 
-            "+                <syn:send>\n", 
-            "+                    <syn:endpoint>\n", 
-            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
-            "+                    </syn:endpoint>\n", 
-            "+                </syn:send>\n", 
-            "+            </syn:inSequence>\n", 
-            "+            <syn:outSequence>\n", 
-            "+                <syn:send/>\n", 
-            "+            </syn:outSequence>\n", 
-            "+        </syn:resource>\n", 
-            "+    </syn:api>\n", 
-            "+</syn:definitions>\n", 
-            "\\ No newline at end of file\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_10101.xml", 
-      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_10101.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,18", 
-          "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>10101</sampleID>\n", 
-            "+    <sampleName>Pass Through Transport Chunked Encoding Support</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_10101.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <echoServer id=\"0\">\n", 
-            "+            <httpPort>9000</httpPort>\n", 
-            "+            <echoHeaders>true</echoHeaders>\n", 
-            "+        </echoServer>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample10101.xml", 
-      "from": "java/modules/integration/src/test/resources/sample10101.xml"
     }
   ], 
   "id": "1746069"

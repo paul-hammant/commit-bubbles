@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T04:40:00-04:00", 
+  "message": "SYNAPSE-838: Adding the EJB sample.\n", 
   "who": "sadeep", 
   "changes": [
     {

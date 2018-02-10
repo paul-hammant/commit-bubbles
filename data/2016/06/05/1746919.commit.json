@@ -1,5 +1,6 @@
 {
   "when": "2016-06-05T09:49:40-04:00", 
+  "message": "* Fix the binary distribution descriptor:\n  * Remove unused exclusions for Xerces.\n  * Fix the exclusion for quickfix.\n* Upgrade maven-assembly-plugin to fix issues with wildcards in exclusions.\n* Fix a flaw in the library extraction logic exposed by the upgrade of maven-assembly-plugin.\n* Upgrade maven-compiler-plugin to get meaningful compiler errors.\n", 
   "who": "veithen", 
   "changes": [
     {
@@ -22,6 +23,23 @@
       ], 
       "to": "java/modules/distribution/src/main/assembly/bin.xml", 
       "from": "java/modules/distribution/src/main/assembly/bin.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-1,5 +1,6", 
+          "lines": [
+            " <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
+            " <assembly>\n", 
+            "+    <id>eiptest-lib</id>\n", 
+            "     <formats>\n", 
+            "         <format>zip</format>\n", 
+            "     </formats>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eiptest-lib.xml", 
+      "from": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eiptest-lib.xml"
     }, 
     {
       "chunks": [
@@ -56,23 +74,6 @@
       ], 
       "to": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eipcore-lib.xml", 
       "from": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eipcore-lib.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-1,5 +1,6", 
-          "lines": [
-            " <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
-            " <assembly>\n", 
-            "+    <id>eiptest-lib</id>\n", 
-            "     <formats>\n", 
-            "         <format>zip</format>\n", 
-            "     </formats>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eiptest-lib.xml", 
-      "from": "java/modules/core/src/test/resources/synapse-libraries/assembly/assemble-eiptest-lib.xml"
     }, 
     {
       "chunks": [

@@ -1,5 +1,6 @@
 {
   "when": "2013-07-27T07:12:32-04:00", 
+  "message": "SYNAPSE-838: Adding default beanstalk props.\n", 
   "who": "sadeep", 
   "changes": [
     {

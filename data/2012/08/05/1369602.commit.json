@@ -1,5 +1,6 @@
 {
   "when": "2012-08-05T10:23:23-04:00", 
+  "message": "adding Test case for MessageProcessor serialization test to test the config with params", 
   "who": "charith", 
   "changes": [
     {

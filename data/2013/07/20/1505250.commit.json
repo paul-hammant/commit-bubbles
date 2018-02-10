@@ -1,27 +1,8 @@
 {
   "when": "2013-07-20T21:28:59-04:00", 
+  "message": "Applying the patch for SYNAPSE-871. Prevent calling the datasource.getConnection() twice for a single DB interaction.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-50,7 +50,8", 
-          "lines": [
-            " \n", 
-            "         Connection con = null;\n", 
-            "         try {\n", 
-            "-            PreparedStatement ps = getPreparedStatement(stmnt, msgCtx);\n", 
-            "+            con = this.getDataSource().getConnection();\n", 
-            "+            PreparedStatement ps = getPreparedStatement(stmnt, con, msgCtx);\n", 
-            "             con = ps.getConnection();\n", 
-            "             int count = ps.executeUpdate();\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBReportMediator.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBReportMediator.java"
-    }, 
     {
       "chunks": [
         {
@@ -93,6 +74,26 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBLookupMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBLookupMediator.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-50,7 +50,8", 
+          "lines": [
+            " \n", 
+            "         Connection con = null;\n", 
+            "         try {\n", 
+            "-            PreparedStatement ps = getPreparedStatement(stmnt, msgCtx);\n", 
+            "+            con = this.getDataSource().getConnection();\n", 
+            "+            PreparedStatement ps = getPreparedStatement(stmnt, con, msgCtx);\n", 
+            "             con = ps.getConnection();\n", 
+            "             int count = ps.executeUpdate();\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBReportMediator.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/db/DBReportMediator.java"
     }
   ], 
   "id": "1505250"

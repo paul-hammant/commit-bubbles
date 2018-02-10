@@ -1,5 +1,6 @@
 {
   "when": "2017-09-11T15:20:42-04:00", 
+  "message": "SYNAPSE-1095, Mobile friendly site support", 
   "who": "vanji", 
   "changes": [
     {

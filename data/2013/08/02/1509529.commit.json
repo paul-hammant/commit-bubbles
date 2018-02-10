@@ -1,26 +1,8 @@
 {
   "when": "2013-08-02T00:10:48-04:00", 
+  "message": "fixed logs + multiple consumer ha.", 
   "who": "rajikak", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-544,7 +544,7", 
-          "lines": [
-            "                         stop();\n", 
-            "                         try {\n", 
-            "                             start();\n", 
-            "-                            log.info(\"Polling task for service '\" + serviceName + \"' is re-deployed\");\n", 
-            "+                            log.info(\"Worker task for service '\" + serviceName + \"' is re-deployed\");\n", 
-            "                         } catch (AMQPTransportException ex) {\n", 
-            "                             log.error(\"Start of polling tasks failed. System must be restarted!\");\n", 
-            "                         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java", 
-      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java"
-    }, 
     {
       "chunks": [
         {
@@ -39,6 +21,25 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPSimpleConsumerTask.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-544,7 +544,7", 
+          "lines": [
+            "                         stop();\n", 
+            "                         try {\n", 
+            "                             start();\n", 
+            "-                            log.info(\"Polling task for service '\" + serviceName + \"' is re-deployed\");\n", 
+            "+                            log.info(\"Worker task for service '\" + serviceName + \"' is re-deployed\");\n", 
+            "                         } catch (AMQPTransportException ex) {\n", 
+            "                             log.error(\"Start of polling tasks failed. System must be restarted!\");\n", 
+            "                         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java", 
+      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java"
     }, 
     {
       "chunks": [

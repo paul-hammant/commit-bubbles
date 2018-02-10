@@ -1,5 +1,6 @@
 {
   "when": "2013-07-18T14:25:03-04:00", 
+  "message": "Applying the patch to SYNAPSE-907. This will make sure that the VFS listener never tries to lock a file that doesn't match the configured file pattern regex. Also it will make sure that each acquired lock is eventually released.", 
   "who": "hiranya", 
   "changes": [
     {

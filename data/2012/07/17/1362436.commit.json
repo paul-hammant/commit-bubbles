@@ -1,5 +1,6 @@
 {
   "when": "2012-07-17T06:21:02-04:00", 
+  "message": "Changing wso2eventing-api version to a released version as the project is no longer maintained.\n", 
   "who": "sadeep", 
   "changes": [
     {

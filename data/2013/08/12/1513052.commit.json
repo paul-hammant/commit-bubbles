@@ -1,5 +1,6 @@
 {
   "when": "2013-08-12T02:48:54-04:00", 
+  "message": "Changed the log level of a statement", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2013-12-16T04:25:45-05:00", 
+  "message": "SYNAPSE-986: Removed a dependency management entry that is no longer relevant.", 
   "who": "veithen", 
   "changes": [
     {

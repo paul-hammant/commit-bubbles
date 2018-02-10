@@ -1,7 +1,26 @@
 {
   "when": "2016-06-09T02:57:12-04:00", 
+  "message": "Supporting the DISABLE_CHUNKING property in the response path of HTTP message mediation; Applied patches from SYNAPSE-1023 and SYNAPSE-1029", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-519,6 +519,7", 
+          "lines": [
+            "         SourceResponse sourceResponse = SourceResponseFactory.create(msgContext,\n", 
+            "                 sourceRequest, sourceConfiguration);\n", 
+            " \n", 
+            "+        sourceResponse.processChunkingOptions(msgContext);\n", 
+            "         SourceContext.setResponse(conn, sourceResponse);\n", 
+            " \n", 
+            "         Boolean noEntityBody = (Boolean) msgContext.getProperty(PassThroughConstants.NO_ENTITY_BODY);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
+    }, 
     {
       "chunks": [
         {
@@ -113,99 +132,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-519,6 +519,7", 
-          "lines": [
-            "         SourceResponse sourceResponse = SourceResponseFactory.create(msgContext,\n", 
-            "                 sourceRequest, sourceConfiguration);\n", 
-            " \n", 
-            "+        sourceResponse.processChunkingOptions(msgContext);\n", 
-            "         SourceContext.setResponse(conn, sourceResponse);\n", 
-            " \n", 
-            "         Boolean noEntityBody = (Boolean) msgContext.getProperty(PassThroughConstants.NO_ENTITY_BODY);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,35", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+\n", 
-            "+<!-- DISABLE_CHUNKING in response path proxy services -->\n", 
-            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+    <proxy name=\"StockQuoteProxy\">\n", 
-            "+        <target>\n", 
-            "+            <endpoint>\n", 
-            "+                <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+            </endpoint>\n", 
-            "+            <outSequence>\n", 
-            "+                <property name=\"DISABLE_CHUNKING\" value=\"true\" scope=\"axis2\"/>\n", 
-            "+                <send/>\n", 
-            "+            </outSequence>\n", 
-            "+        </target>\n", 
-            "+        <publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/>\n", 
-            "+    </proxy>\n", 
-            "+</definitions>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_160.xml", 
-      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_160.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,18", 
-          "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>160</sampleID>\n", 
-            "+    <sampleName>DISABLE_CHUNKING in response path proxy services</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_160.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <axis2Server id='0'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+\t    <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample160.xml", 
-      "from": "java/modules/integration/src/test/resources/sample160.xml"
     }, 
     {
       "chunks": [
@@ -324,6 +250,81 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample161.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample161.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,35", 
+          "lines": [
+            "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
+            "+\n", 
+            "+<!-- DISABLE_CHUNKING in response path proxy services -->\n", 
+            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+    <proxy name=\"StockQuoteProxy\">\n", 
+            "+        <target>\n", 
+            "+            <endpoint>\n", 
+            "+                <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+            </endpoint>\n", 
+            "+            <outSequence>\n", 
+            "+                <property name=\"DISABLE_CHUNKING\" value=\"true\" scope=\"axis2\"/>\n", 
+            "+                <send/>\n", 
+            "+            </outSequence>\n", 
+            "+        </target>\n", 
+            "+        <publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/>\n", 
+            "+    </proxy>\n", 
+            "+</definitions>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_160.xml", 
+      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_160.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,18", 
+          "lines": [
+            "+<synapseSample>\n", 
+            "+    <sampleID>160</sampleID>\n", 
+            "+    <sampleName>DISABLE_CHUNKING in response path proxy services</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_160.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <axis2Server id='0'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+\t    <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample160.xml", 
+      "from": "java/modules/integration/src/test/resources/sample160.xml"
     }
   ], 
   "id": "1747502"

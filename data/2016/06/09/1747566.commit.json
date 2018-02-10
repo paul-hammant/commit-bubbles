@@ -1,5 +1,6 @@
 {
   "when": "2016-06-09T13:13:16-04:00", 
+  "message": "cleaning imports in message helper and template context", 
   "who": "isudana", 
   "changes": [
     {

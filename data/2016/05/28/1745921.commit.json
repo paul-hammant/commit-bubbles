@@ -1,5 +1,6 @@
 {
   "when": "2016-05-28T15:12:53-04:00", 
+  "message": "merging the improvement https://issues.apache.org/jira/browse/SYNAPSE-1006", 
   "who": "dushan", 
   "changes": [
     {
@@ -32,6 +33,26 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/nhttp/HttpCoreNIOListenerTest.java", 
       "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/nhttp/HttpCoreNIOListenerTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-53,6 +53,9", 
+          "lines": [
+            "     public static final String REQUEST_CONTENT_TYPE = \"DEFAULT_REQUEST_CONTENT_TYPE\";\n", 
+            "     public static final String DEFAULT_CONTENT_TYPE = \"application/octet-stream\";\n", 
+            " \n", 
+            "+    public static final String CLIENT_REMOTE_ADDR = \"CLIENT_REMOTE_ADDR\";\n", 
+            "+    public static final String CLIENT_REMOTE_PORT = \"CLIENT_REMOTE_PORT\";\n", 
+            "+\n", 
+            "     public static final String SEND_TIMEOUT = \"SEND_TIMEOUT\";\n", 
+            " \n", 
+            "     public static final String HIDDEN_SERVICE_PARAM_NAME = \"hiddenService\";\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java"
     }, 
     {
       "chunks": [
@@ -427,26 +448,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ClientHandler.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/ClientHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-53,6 +53,9", 
-          "lines": [
-            "     public static final String REQUEST_CONTENT_TYPE = \"DEFAULT_REQUEST_CONTENT_TYPE\";\n", 
-            "     public static final String DEFAULT_CONTENT_TYPE = \"application/octet-stream\";\n", 
-            " \n", 
-            "+    public static final String CLIENT_REMOTE_ADDR = \"CLIENT_REMOTE_ADDR\";\n", 
-            "+    public static final String CLIENT_REMOTE_PORT = \"CLIENT_REMOTE_PORT\";\n", 
-            "+\n", 
-            "     public static final String SEND_TIMEOUT = \"SEND_TIMEOUT\";\n", 
-            " \n", 
-            "     public static final String HIDDEN_SERVICE_PARAM_NAME = \"hiddenService\";\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java"
     }
   ], 
   "id": "1745921"

@@ -1,11 +1,12 @@
 {
   "when": "2011-12-06T05:29:41-05:00", 
+  "message": "Updated clustering confguration to be inline with the clustering implementation in the trunk", 
   "who": "azeez", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-302,7 +302,7", 
+          "locn": "-343,7 +343,7", 
           "lines": [
             "     <!--                  Clustering                       -->\n", 
             "     <!-- ================================================= -->\n", 
@@ -18,7 +19,7 @@
           ]
         }, 
         {
-          "locn": "-393,14 +393,15", 
+          "locn": "-434,14 +434,15", 
           "lines": [
             "         </members>\n", 
             " \n", 
@@ -42,7 +43,7 @@
           ]
         }, 
         {
-          "locn": "-432,7 +433,7", 
+          "locn": "-473,7 +474,7", 
           "lines": [
             "                 </context>\n", 
             "             </replication>\n", 
@@ -55,8 +56,8 @@
           ]
         }
       ], 
-      "to": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml", 
-      "from": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml"
+      "to": "java/repository/conf/axis2.xml", 
+      "from": "java/repository/conf/axis2.xml"
     }, 
     {
       "chunks": [
@@ -125,7 +126,7 @@
     {
       "chunks": [
         {
-          "locn": "-343,7 +343,7", 
+          "locn": "-302,7 +302,7", 
           "lines": [
             "     <!--                  Clustering                       -->\n", 
             "     <!-- ================================================= -->\n", 
@@ -138,7 +139,7 @@
           ]
         }, 
         {
-          "locn": "-434,14 +434,15", 
+          "locn": "-393,14 +393,15", 
           "lines": [
             "         </members>\n", 
             " \n", 
@@ -162,7 +163,7 @@
           ]
         }, 
         {
-          "locn": "-473,7 +474,7", 
+          "locn": "-432,7 +433,7", 
           "lines": [
             "                 </context>\n", 
             "             </replication>\n", 
@@ -175,8 +176,8 @@
           ]
         }
       ], 
-      "to": "java/repository/conf/axis2.xml", 
-      "from": "java/repository/conf/axis2.xml"
+      "to": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml", 
+      "from": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml"
     }
   ], 
   "id": "1210852"

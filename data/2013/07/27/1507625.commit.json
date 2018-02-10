@@ -1,5 +1,6 @@
 {
   "when": "2013-07-27T07:13:28-04:00", 
+  "message": "SYNAPSE-838: Adding documentation for the samples.\n", 
   "who": "sadeep", 
   "changes": [
     {

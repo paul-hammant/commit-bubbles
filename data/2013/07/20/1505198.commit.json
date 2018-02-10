@@ -1,5 +1,6 @@
 {
   "when": "2013-07-20T16:21:35-04:00", 
+  "message": "Applying patch for SYNAPSE-942. Incorrect error handling logic for templates and endpoints.", 
   "who": "hiranya", 
   "changes": [
     {

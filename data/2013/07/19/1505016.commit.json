@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T17:01:29-04:00", 
+  "message": "Applying the patch for SYNAPSE-919. Treating OPTIONS and PUT requests are possible REST requests.", 
   "who": "hiranya", 
   "changes": [
     {

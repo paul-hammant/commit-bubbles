@@ -1,5 +1,6 @@
 {
   "when": "2013-08-07T20:25:44-04:00", 
+  "message": "Updated the documentation regarding the new transport attribute in APIs", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2016-12-28T05:42:28-05:00", 
+  "message": "Update Maven dependencies to 3.0 to fix a weird compilation failure (related to raw types) that seems to occur only on Java 8.", 
   "who": "veithen", 
   "changes": [
     {

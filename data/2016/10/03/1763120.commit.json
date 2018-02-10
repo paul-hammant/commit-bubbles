@@ -1,5 +1,6 @@
 {
   "when": "2016-10-03T03:34:00-04:00", 
+  "message": "Fixing build break in integration tests. Start Active MQ broker on port 62626 instead of deafult port due to port binding issue on build servers", 
   "who": "ravi", 
   "changes": [
     {
@@ -113,6 +114,49 @@
     {
       "chunks": [
         {
+          "locn": "-9,7 +9,7", 
+          "lines": [
+            "     </synapseConfig>\n", 
+            "     <backEndServerConfig>\n", 
+            "         <jmsBroker id='0'>\n", 
+            "-            <providerURL>tcp://localhost:61616</providerURL>\n", 
+            "+            <providerURL>tcp://localhost:62626</providerURL>\n", 
+            "             <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
+            "         </jmsBroker>\n", 
+            "         <axis2Server id='1'>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample250.xml", 
+      "from": "java/modules/integration/src/test/resources/sample250.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-5,11 +5,11", 
+          "lines": [
+            "         <!--if we don't specify the optional values, framework will use defaults-->\n", 
+            "         <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "         <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_jms.xml</axis2Xml>\n", 
+            "-        <synapseXml>repository/conf/sample/synapse_sample_251.xml</synapseXml>\n", 
+            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_251.xml</synapseXml>\n", 
+            "     </synapseConfig>\n", 
+            "     <backEndServerConfig>\n", 
+            "         <jmsBroker id='0'>\n", 
+            "-            <providerURL>tcp://localhost:61616</providerURL>\n", 
+            "+            <providerURL>tcp://localhost:62626</providerURL>\n", 
+            "             <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
+            "         </jmsBroker>\n", 
+            "         <axis2Server id='1'>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample251.xml", 
+      "from": "java/modules/integration/src/test/resources/sample251.xml"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-0,0 +1,40", 
           "lines": [
             "+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 
@@ -160,49 +204,6 @@
       ], 
       "to": "java/modules/integration/src/test/resources/extras/synapse_sample_251.xml", 
       "from": "java/modules/integration/src/test/resources/extras/synapse_sample_251.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-9,7 +9,7", 
-          "lines": [
-            "     </synapseConfig>\n", 
-            "     <backEndServerConfig>\n", 
-            "         <jmsBroker id='0'>\n", 
-            "-            <providerURL>tcp://localhost:61616</providerURL>\n", 
-            "+            <providerURL>tcp://localhost:62626</providerURL>\n", 
-            "             <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
-            "         </jmsBroker>\n", 
-            "         <axis2Server id='1'>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample250.xml", 
-      "from": "java/modules/integration/src/test/resources/sample250.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-5,11 +5,11", 
-          "lines": [
-            "         <!--if we don't specify the optional values, framework will use defaults-->\n", 
-            "         <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "         <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_jms.xml</axis2Xml>\n", 
-            "-        <synapseXml>repository/conf/sample/synapse_sample_251.xml</synapseXml>\n", 
-            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_251.xml</synapseXml>\n", 
-            "     </synapseConfig>\n", 
-            "     <backEndServerConfig>\n", 
-            "         <jmsBroker id='0'>\n", 
-            "-            <providerURL>tcp://localhost:61616</providerURL>\n", 
-            "+            <providerURL>tcp://localhost:62626</providerURL>\n", 
-            "             <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
-            "         </jmsBroker>\n", 
-            "         <axis2Server id='1'>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample251.xml", 
-      "from": "java/modules/integration/src/test/resources/sample251.xml"
     }
   ], 
   "id": "1763120"

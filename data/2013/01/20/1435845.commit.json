@@ -1,7 +1,82 @@
 {
   "when": "2013-01-20T09:06:32-05:00", 
+  "message": "Use the new SOAPEnvelope#getOrCreateHeader() method where appropriate.", 
   "who": "veithen", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-19,9 +19,7", 
+          "lines": [
+            " \n", 
+            " package org.apache.synapse.core.axis2;\n", 
+            " \n", 
+            "-import org.apache.axiom.om.OMAbstractFactory;\n", 
+            " import org.apache.axiom.om.OMElement;\n", 
+            "-import org.apache.axiom.soap.SOAPFactory;\n", 
+            " import org.apache.axis2.AxisFault;\n", 
+            " import org.apache.axis2.Constants;\n", 
+            " import org.apache.axis2.addressing.AddressingConstants;\n"
+          ]
+        }, 
+        {
+          "locn": "-383,11 +381,7", 
+          "lines": [
+            "                 }\n", 
+            "             }\n", 
+            "             // temporary workaround for https://issues.apache.org/jira/browse/WSCOMMONS-197\n", 
+            "-            if (axisOutMsgCtx.getEnvelope().getHeader() == null) {\n", 
+            "-                SOAPFactory fac = axisOutMsgCtx.isSOAP11() ?\n", 
+            "-                        OMAbstractFactory.getSOAP11Factory() : OMAbstractFactory.getSOAP12Factory();\n", 
+            "-                fac.createSOAPHeader(axisOutMsgCtx.getEnvelope());\n", 
+            "-            }\n", 
+            "+            axisOutMsgCtx.getEnvelope().getOrCreateHeader();\n", 
+            "         }\n", 
+            " \n", 
+            "         OperationClient mepClient = axisAnonymousOperation.createClient(serviceCtx, clientOptions);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-19,8 +19,6", 
+          "lines": [
+            " \n", 
+            " package org.apache.synapse.core.axis2;\n", 
+            " \n", 
+            "-import org.apache.axiom.om.OMAbstractFactory;\n", 
+            "-import org.apache.axiom.soap.SOAPFactory;\n", 
+            " import org.apache.axiom.util.UIDGenerator;\n", 
+            " import org.apache.axis2.AxisFault;\n", 
+            " import org.apache.axis2.Constants;\n"
+          ]
+        }, 
+        {
+          "locn": "-144,11 +142,8", 
+          "lines": [
+            "             }\n", 
+            " \n", 
+            "             // temporary workaround for https://issues.apache.org/jira/browse/WSCOMMONS-197\n", 
+            "-            if (messageContext.isEngaged(SynapseConstants.SECURITY_MODULE_NAME) &&\n", 
+            "-                messageContext.getEnvelope().getHeader() == null) {\n", 
+            "-                SOAPFactory fac = messageContext.isSOAP11() ?\n", 
+            "-                    OMAbstractFactory.getSOAP11Factory() : OMAbstractFactory.getSOAP12Factory();\n", 
+            "-                fac.createSOAPHeader(messageContext.getEnvelope());\n", 
+            "+            if (messageContext.isEngaged(SynapseConstants.SECURITY_MODULE_NAME)) {\n", 
+            "+                messageContext.getEnvelope().getOrCreateHeader();\n", 
+            "             }\n", 
+            " \n", 
+            "             Axis2FlexibleMEPClient.clearSecurtityProperties(messageContext.getOptions());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java"
+    }, 
     {
       "chunks": [
         {
@@ -69,80 +144,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/HeaderMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/transform/HeaderMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-19,8 +19,6", 
-          "lines": [
-            " \n", 
-            " package org.apache.synapse.core.axis2;\n", 
-            " \n", 
-            "-import org.apache.axiom.om.OMAbstractFactory;\n", 
-            "-import org.apache.axiom.soap.SOAPFactory;\n", 
-            " import org.apache.axiom.util.UIDGenerator;\n", 
-            " import org.apache.axis2.AxisFault;\n", 
-            " import org.apache.axis2.Constants;\n"
-          ]
-        }, 
-        {
-          "locn": "-144,11 +142,8", 
-          "lines": [
-            "             }\n", 
-            " \n", 
-            "             // temporary workaround for https://issues.apache.org/jira/browse/WSCOMMONS-197\n", 
-            "-            if (messageContext.isEngaged(SynapseConstants.SECURITY_MODULE_NAME) &&\n", 
-            "-                messageContext.getEnvelope().getHeader() == null) {\n", 
-            "-                SOAPFactory fac = messageContext.isSOAP11() ?\n", 
-            "-                    OMAbstractFactory.getSOAP11Factory() : OMAbstractFactory.getSOAP12Factory();\n", 
-            "-                fac.createSOAPHeader(messageContext.getEnvelope());\n", 
-            "+            if (messageContext.isEngaged(SynapseConstants.SECURITY_MODULE_NAME)) {\n", 
-            "+                messageContext.getEnvelope().getOrCreateHeader();\n", 
-            "             }\n", 
-            " \n", 
-            "             Axis2FlexibleMEPClient.clearSecurtityProperties(messageContext.getOptions());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-19,9 +19,7", 
-          "lines": [
-            " \n", 
-            " package org.apache.synapse.core.axis2;\n", 
-            " \n", 
-            "-import org.apache.axiom.om.OMAbstractFactory;\n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            "-import org.apache.axiom.soap.SOAPFactory;\n", 
-            " import org.apache.axis2.AxisFault;\n", 
-            " import org.apache.axis2.Constants;\n", 
-            " import org.apache.axis2.addressing.AddressingConstants;\n"
-          ]
-        }, 
-        {
-          "locn": "-383,11 +381,7", 
-          "lines": [
-            "                 }\n", 
-            "             }\n", 
-            "             // temporary workaround for https://issues.apache.org/jira/browse/WSCOMMONS-197\n", 
-            "-            if (axisOutMsgCtx.getEnvelope().getHeader() == null) {\n", 
-            "-                SOAPFactory fac = axisOutMsgCtx.isSOAP11() ?\n", 
-            "-                        OMAbstractFactory.getSOAP11Factory() : OMAbstractFactory.getSOAP12Factory();\n", 
-            "-                fac.createSOAPHeader(axisOutMsgCtx.getEnvelope());\n", 
-            "-            }\n", 
-            "+            axisOutMsgCtx.getEnvelope().getOrCreateHeader();\n", 
-            "         }\n", 
-            " \n", 
-            "         OperationClient mepClient = axisAnonymousOperation.createClient(serviceCtx, clientOptions);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java"
     }, 
     {
       "chunks": [

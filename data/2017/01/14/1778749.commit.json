@@ -1,5 +1,6 @@
 {
   "when": "2017-01-14T05:16:37-05:00", 
+  "message": "Remove unused imports.", 
   "who": "veithen", 
   "changes": [
     {

@@ -1,83 +1,8 @@
 {
   "when": "2011-12-08T03:45:50-05:00", 
+  "message": "Fixing some thread issues and minor refactoring", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-27,8 +27,7", 
-          "lines": [
-            " public class Sample12 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample12.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample12() {\n", 
-            "         super(12);\n"
-          ]
-        }, 
-        {
-          "locn": "-35,14 +34,13", 
-          "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testFireAndForget() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: One way messaging / fireAndForget through Synapse\");\n", 
-            "-        result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,8 +27,7", 
-          "lines": [
-            " public class Sample15 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample15.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample15() {\n", 
-            "         super(15);\n"
-          ]
-        }, 
-        {
-          "locn": "-40,8 +39,8", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
-            "-        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
-    }, 
     {
       "chunks": [
         {
@@ -101,42 +26,44 @@
     {
       "chunks": [
         {
-          "locn": "-114,10 +114,10", 
+          "locn": "-25,13 +25,13", 
           "lines": [
-            "             dest.close();\n", 
-            "             log.info(\"Saved response to file : \" + tempFile.getAbsolutePath());\n", 
+            "  */\n", 
+            " public class SampleClientResult {\n", 
             " \n", 
-            "-            clientResult.setGotResponse(true);\n", 
-            "+            clientResult.setResponseReceived(true);\n", 
-            "         } catch (Exception e) {\n", 
-            "             log.error(\"Error invoking service\", e);\n", 
-            "-            clientResult.setGotResponse(false);\n", 
-            "+            clientResult.setResponseReceived(false);\n", 
-            "             clientResult.setException(e);\n", 
-            "         }\n", 
-            " \n"
+            "-    private boolean gotResponse;\n", 
+            "+    private boolean responseReceived;\n", 
+            "     private boolean isFinished;\n", 
+            "     private Exception exception;\n", 
+            "     private Properties clientProperties = new Properties();\n", 
+            " \n", 
+            "-    public void setGotResponse(boolean gotResponse) {\n", 
+            "-        this.gotResponse = gotResponse;\n", 
+            "+    public void setResponseReceived(boolean responseReceived) {\n", 
+            "+        this.responseReceived = responseReceived;\n", 
+            "     }\n", 
+            " \n", 
+            "     public void setException(Exception exception) {\n"
           ]
         }, 
         {
-          "locn": "-184,10 +184,10", 
+          "locn": "-38,8 +38,8", 
           "lines": [
+            "         this.exception = exception;\n", 
+            "     }\n", 
             " \n", 
-            "             log.info(\"Saved response to file : \" + tempFile.getAbsolutePath());\n", 
+            "-    public boolean gotResponse() {\n", 
+            "-        return gotResponse;\n", 
+            "+    public boolean responseReceived() {\n", 
+            "+        return responseReceived;\n", 
+            "     }\n", 
             " \n", 
-            "-            clientResult.setGotResponse(true);\n", 
-            "+            clientResult.setResponseReceived(true);\n", 
-            "         } catch (Exception e) {\n", 
-            "             log.error(\"Error invoking service\", e);\n", 
-            "-            clientResult.setGotResponse(false);\n", 
-            "+            clientResult.setResponseReceived(false);\n", 
-            "             clientResult.setException(e);\n", 
-            "         }\n", 
-            " \n"
+            "     public Exception getException() {\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/MTOMSwASampleClient.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/MTOMSwASampleClient.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SampleClientResult.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SampleClientResult.java"
     }, 
     {
       "chunks": [
@@ -564,6 +491,46 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/StockQuoteSampleClient.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/StockQuoteSampleClient.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-114,10 +114,10", 
+          "lines": [
+            "             dest.close();\n", 
+            "             log.info(\"Saved response to file : \" + tempFile.getAbsolutePath());\n", 
+            " \n", 
+            "-            clientResult.setGotResponse(true);\n", 
+            "+            clientResult.setResponseReceived(true);\n", 
+            "         } catch (Exception e) {\n", 
+            "             log.error(\"Error invoking service\", e);\n", 
+            "-            clientResult.setGotResponse(false);\n", 
+            "+            clientResult.setResponseReceived(false);\n", 
+            "             clientResult.setException(e);\n", 
+            "         }\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-184,10 +184,10", 
+          "lines": [
+            " \n", 
+            "             log.info(\"Saved response to file : \" + tempFile.getAbsolutePath());\n", 
+            " \n", 
+            "-            clientResult.setGotResponse(true);\n", 
+            "+            clientResult.setResponseReceived(true);\n", 
+            "         } catch (Exception e) {\n", 
+            "             log.error(\"Error invoking service\", e);\n", 
+            "-            clientResult.setGotResponse(false);\n", 
+            "+            clientResult.setResponseReceived(false);\n", 
+            "             clientResult.setException(e);\n", 
+            "         }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/MTOMSwASampleClient.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/MTOMSwASampleClient.java"
     }, 
     {
       "chunks": [
@@ -1053,361 +1020,6 @@
         {
           "locn": "-27,9 +27,9", 
           "lines": [
-            " public class Sample0 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample0.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample0() {\n", 
-            "         super(0);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-41,8 +41,8", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Smart Client mode\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-51,8 +51,8", 
-          "lines": [
-            "         String prxUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Using Synapse as a HTTP Proxy\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,9 +27,9", 
-          "lines": [
-            " public class Sample1 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample1.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample1() {\n", 
-            "         super(1);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-40,8 +40,8", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Dumb Client mode\");\n", 
-            "-        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,9 +27,9", 
-          "lines": [
-            " public class Sample2 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample2.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample2() {\n", 
-            "         super(2);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-41,10 +41,10", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            " \n", 
-            "         log.info(\"Running test: CBR with the Switch-case mediator, using message properties\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,9 +27,9", 
-          "lines": [
-            " public class Sample3 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample3.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample3() {\n", 
-            "         super(3);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-41,8 +41,8", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,9 +28,9", 
-          "lines": [
-            " public class Sample4 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample4.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample4() {\n", 
-            "         super(4);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-42,16 +42,18", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Introduction to error handling\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertTrue(\"Did not get the correct response\", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "+\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
-            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
-            "         Exception resultEx = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\" , resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n", 
-            "         assertTrue(\"Did not receive expected error\", resultEx instanceof AxisFault);\n", 
-            "+\n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"SUN\" ,null);\n", 
-            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
-            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
-            "         Exception resultEx2 = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\" , resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,9 +29,9", 
-          "lines": [
-            " public class Sample5 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample5.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample5() {\n", 
-            "         super(5);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-43,11 +43,10", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280\";\n", 
-            "         String expectedError_MSFT = \"bogus\";\n", 
-            "         String expectedError_SUN = \"Connection refused\";\n", 
-            "-        String expectedError_IBM = \"The input stream for an incoming message is null\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
-            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
-            "         Exception resultEx = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
-          ]
-        }, 
-        {
-          "locn": "-55,7 +54,7", 
-          "lines": [
-            "         assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError_MSFT)!=-1);\n", 
-            " \n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"SUN\" ,null);\n", 
-            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
-            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
-            "         resultEx = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
-          ]
-        }, 
-        {
-          "locn": "-63,7 +62,7", 
-          "lines": [
-            "         assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError_SUN)!=-1);\n", 
-            " \n", 
-            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
-            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
-            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
-            "         resultEx = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,9 +27,9", 
-          "lines": [
-            " public class Sample6 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample6.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample6() {\n", 
-            "         super(6);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-40,8 +40,8", 
-          "lines": [
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Dumb Client mode  \");\n", 
-            "-        result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n", 
-            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n", 
-            "+        assertResponseReceived(result);\n", 
-            "     }\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,9 +28,9", 
-          "lines": [
-            " public class Sample7 extends SynapseTestCase {\n", 
-            " \n", 
-            "     private static final Log log = LogFactory.getLog(Sample7.class);\n", 
-            "-    SampleClientResult result;\n", 
-            "-    StockQuoteSampleClient client;\n", 
-            " \n", 
-            "+    private StockQuoteSampleClient client;\n", 
-            "+\n", 
-            "     public Sample7() {\n", 
-            "         super(7);\n", 
-            "         client = getStockQuoteClient();\n"
-          ]
-        }, 
-        {
-          "locn": "-43,8 +43,8", 
-          "lines": [
-            "         String expectedError = \"Invalid custom quote request\";\n", 
-            " \n", 
-            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
-            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n", 
-            "-        assertFalse(\"Should not get a response\", result.gotResponse());\n", 
-            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n", 
-            "+        assertFalse(\"Should not get a response\", result.responseReceived());\n", 
-            "         Exception resultEx = result.getException();\n", 
-            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-27,9 +27,9", 
-          "lines": [
             " public class Sample8 extends SynapseTestCase {\n", 
             " \n", 
             "     private static final Log log = LogFactory.getLog(Sample8.class);\n", 
@@ -1550,6 +1162,47 @@
         {
           "locn": "-27,8 +27,7", 
           "lines": [
+            " public class Sample12 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample12.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample12() {\n", 
+            "         super(12);\n"
+          ]
+        }, 
+        {
+          "locn": "-35,14 +34,13", 
+          "lines": [
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testFireAndForget() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: One way messaging / fireAndForget through Synapse\");\n", 
+            "-        result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.placeOrder(addUrl, trpUrl, null, \"IBM\");\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample12.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,8 +27,7", 
+          "lines": [
             " public class Sample13 extends SynapseTestCase {\n", 
             " \n", 
             "     private static final Log log = LogFactory.getLog(Sample13.class);\n", 
@@ -1579,6 +1232,167 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,9 +27,9", 
+          "lines": [
+            " public class Sample2 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample2.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample2() {\n", 
+            "         super(2);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-41,10 +41,10", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            " \n", 
+            "         log.info(\"Running test: CBR with the Switch-case mediator, using message properties\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample2.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,9 +28,9", 
+          "lines": [
+            " public class Sample4 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample4.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample4() {\n", 
+            "         super(4);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-42,16 +42,18", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Introduction to error handling\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Did not get the correct response\", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "+\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
+            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
+            "         Exception resultEx = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\" , resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n", 
+            "         assertTrue(\"Did not receive expected error\", resultEx instanceof AxisFault);\n", 
+            "+\n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"SUN\" ,null);\n", 
+            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
+            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
+            "         Exception resultEx2 = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\" , resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample4.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,9 +27,9", 
+          "lines": [
+            " public class Sample6 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample6.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample6() {\n", 
+            "         super(6);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-40,8 +40,8", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Dumb Client mode  \");\n", 
+            "-        result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, null ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample6.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,8 +27,7", 
+          "lines": [
+            " public class Sample15 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample15.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample15() {\n", 
+            "         super(15);\n"
+          ]
+        }, 
+        {
+          "locn": "-40,8 +39,8", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Message Enrichment through Synapse\");\n", 
+            "-        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
     }, 
     {
       "chunks": [
@@ -1618,44 +1432,231 @@
     {
       "chunks": [
         {
-          "locn": "-25,13 +25,13", 
+          "locn": "-27,9 +27,9", 
           "lines": [
-            "  */\n", 
-            " public class SampleClientResult {\n", 
+            " public class Sample0 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private boolean gotResponse;\n", 
-            "+    private boolean responseReceived;\n", 
-            "     private boolean isFinished;\n", 
-            "     private Exception exception;\n", 
-            "     private Properties clientProperties = new Properties();\n", 
+            "     private static final Log log = LogFactory.getLog(Sample0.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
             " \n", 
-            "-    public void setGotResponse(boolean gotResponse) {\n", 
-            "-        this.gotResponse = gotResponse;\n", 
-            "+    public void setResponseReceived(boolean responseReceived) {\n", 
-            "+        this.responseReceived = responseReceived;\n", 
-            "     }\n", 
-            " \n", 
-            "     public void setException(Exception exception) {\n"
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample0() {\n", 
+            "         super(0);\n", 
+            "         client = getStockQuoteClient();\n"
           ]
         }, 
         {
-          "locn": "-38,8 +38,8", 
+          "locn": "-41,8 +41,8", 
           "lines": [
-            "         this.exception = exception;\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Smart Client mode\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
             "     }\n", 
             " \n", 
-            "-    public boolean gotResponse() {\n", 
-            "-        return gotResponse;\n", 
-            "+    public boolean responseReceived() {\n", 
-            "+        return responseReceived;\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-51,8 +51,8", 
+          "lines": [
+            "         String prxUrl = \"http://localhost:8280/\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Using Synapse as a HTTP Proxy\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, null, prxUrl, \"IBM\", null);\n", 
+            "+        assertResponseReceived(result);\n", 
             "     }\n", 
             " \n", 
-            "     public Exception getException() {\n"
+            " }\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SampleClientResult.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SampleClientResult.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample0.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,9 +27,9", 
+          "lines": [
+            " public class Sample1 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample1.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample1() {\n", 
+            "         super(1);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-40,8 +40,8", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280/services/StockQuote\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Dumb Client mode\");\n", 
+            "-        result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(null, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample1.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-27,9 +27,9", 
+          "lines": [
+            " public class Sample3 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample3.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample3() {\n", 
+            "         super(3);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-41,8 +41,8", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Local Registry entry definitions, reusable endpoints and sequences\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertTrue(\"Client did not run successfully \", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "+        assertResponseReceived(result);\n", 
+            "     }\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample3.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-29,9 +29,9", 
+          "lines": [
+            " public class Sample5 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample5.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample5() {\n", 
+            "         super(5);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-43,11 +43,10", 
+          "lines": [
+            "         String trpUrl = \"http://localhost:8280\";\n", 
+            "         String expectedError_MSFT = \"bogus\";\n", 
+            "         String expectedError_SUN = \"Connection refused\";\n", 
+            "-        String expectedError_IBM = \"The input stream for an incoming message is null\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"MSFT\" ,null);\n", 
+            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
+            "         Exception resultEx = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
+          ]
+        }, 
+        {
+          "locn": "-55,7 +54,7", 
+          "lines": [
+            "         assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError_MSFT)!=-1);\n", 
+            " \n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"SUN\" ,null);\n", 
+            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
+            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
+            "         resultEx = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
+          ]
+        }, 
+        {
+          "locn": "-63,7 +62,7", 
+          "lines": [
+            "         assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError_SUN)!=-1);\n", 
+            " \n", 
+            "         result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\" ,null);\n", 
+            "-        assertFalse(\"Must not get a response\", result.gotResponse());\n", 
+            "+        assertFalse(\"Must not get a response\", result.responseReceived());\n", 
+            "         resultEx = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,9 +28,9", 
+          "lines": [
+            " public class Sample7 extends SynapseTestCase {\n", 
+            " \n", 
+            "     private static final Log log = LogFactory.getLog(Sample7.class);\n", 
+            "-    SampleClientResult result;\n", 
+            "-    StockQuoteSampleClient client;\n", 
+            " \n", 
+            "+    private StockQuoteSampleClient client;\n", 
+            "+\n", 
+            "     public Sample7() {\n", 
+            "         super(7);\n", 
+            "         client = getStockQuoteClient();\n"
+          ]
+        }, 
+        {
+          "locn": "-43,8 +43,8", 
+          "lines": [
+            "         String expectedError = \"Invalid custom quote request\";\n", 
+            " \n", 
+            "         log.info(\"Running test: Creating SOAP fault messages and changing the direction of a message\");\n", 
+            "-        result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n", 
+            "-        assertFalse(\"Should not get a response\", result.gotResponse());\n", 
+            "+        SampleClientResult result = client.requestStandardQuote(addUrl, trpUrl, null, \"IBM\",null);\n", 
+            "+        assertFalse(\"Should not get a response\", result.responseReceived());\n", 
+            "         Exception resultEx = result.getException();\n", 
+            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
     }
   ], 
   "id": "1211785"

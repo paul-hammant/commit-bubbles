@@ -1,5 +1,6 @@
 {
   "when": "2012-09-23T06:49:21-04:00", 
+  "message": "SYNAPSE-905: Changed the stock quote sample service so that it uses a single namespace again. Also fixed the samples to be compatible with the changed service and to produce messages that conform to the schema. This change corresponds to solution (2) in the issue description.\n", 
   "who": "veithen", 
   "changes": [
     {
@@ -139,243 +140,777 @@
     {
       "chunks": [
         {
-          "locn": "-106,7 +106,7", 
+          "locn": "-24,75 +24,71", 
           "lines": [
-            " Connection: Keep-Alive\n", 
+            "     </properties>\n", 
+            "     <body>\n", 
+            "         <section name=\"Sample 410: Distributed Transactions Management with the Transaction Mediator\">\n", 
+            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"\n", 
+            "-             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
+            "-             xsi:schemaLocation=\"http://ws.apache.org/ns/synapse http://synapse.apache.org/ns/2010/04/configuration/synapse_config.xsd\"&gt;\n", 
+            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
             " \n", 
-            " 2b3\n", 
-            "-&lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples/xsd&quot;&gt;\n", 
-            "+&lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples&quot;&gt;\n", 
-            "    &lt;ns:return&gt;\n", 
-            "       &lt;ns:change&gt;3.7730036841862384&lt;/ns:change&gt;\n", 
-            "       &lt;ns:earnings&gt;-9.950236235550818&lt;/ns:earnings&gt;\n"
+            "-    &lt;sequence name=\"myFaultHandler\"&gt;\n", 
+            "-        &lt;log level=\"custom\"&gt;\n", 
+            "-            &lt;property name=\"text\" value=\"** Rollback Transaction**\"/&gt;\n", 
+            "-        &lt;/log&gt;\n", 
+            "-        &lt;transaction action=\"rollback\"/&gt;\n", 
+            "-        &lt;send/&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "+<sequence name=\"myFaultHandler\">\n", 
+            "+    <log level=\"custom\">\n", 
+            "+        <property name=\"text\" value=\"** Rollback Transaction**\"/>\n", 
+            "+    </log>\n", 
+            "+    <transaction action=\"rollback\"/>\n", 
+            "+    <send/>\n", 
+            "+</sequence>\n", 
+            " \n", 
+            "-    &lt;sequence name=\"main\" onError=\"myFaultHandler\"&gt;\n", 
+            "-        &lt;in&gt;\n", 
+            "-            &lt;send&gt;\n", 
+            "-                &lt;endpoint&gt;\n", 
+            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-                &lt;/endpoint&gt;\n", 
+            "-            &lt;/send&gt;\n", 
+            "-        &lt;/in&gt;\n", 
+            "+<sequence name=\"main\" onError=\"myFaultHandler\">\n", 
+            "+    <in>\n", 
+            "+        <send>\n", 
+            "+            <endpoint>\n", 
+            "+                <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+            </endpoint>\n", 
+            "+        </send>\n", 
+            "+    </in>\n", 
+            " \n", 
+            "-        &lt;out&gt;\n", 
+            "-            &lt;transaction action=\"new\"/&gt;\n", 
+            "+    <out>\n", 
+            "+        <transaction action=\"new\"/>\n", 
+            " \n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Reporting to the Database esbdb**\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;dsName&gt;java:jdbc/XADerbyDS&lt;/dsName&gt;\n", 
+            "-                        &lt;icClass&gt;org.jnp.interfaces.NamingContextFactory&lt;/icClass&gt;\n", 
+            "-                        &lt;url&gt;localhost:1099&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;delete from company where name =?&lt;/sql&gt;\n", 
+            "-                    &lt;parameter expression=\"//m0:return/m1:symbol/child::text()\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               type=\"VARCHAR\"/&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dbreport&gt;\n", 
+            "+        <log level=\"custom\">\n", 
+            "+            <property name=\"text\" value=\"** Reporting to the Database esbdb**\"/>\n", 
+            "+        </log>\n", 
+            "+        <dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+            <connection>\n", 
+            "+                <pool>\n", 
+            "+                    <dsName>java:jdbc/XADerbyDS</dsName>\n", 
+            "+                    <icClass>org.jnp.interfaces.NamingContextFactory</icClass>\n", 
+            "+                    <url>localhost:1099</url>\n", 
+            "+                    <user>synapse</user>\n", 
+            "+                    <password>synapse</password>\n", 
+            "+                </pool>\n", 
+            "+            </connection>\n", 
+            "+            <statement>\n", 
+            "+                <sql>delete from company where name =?</sql>\n", 
+            "+                <parameter expression=\"//m0:return/m0:symbol/child::text()\"\n", 
+            "+                           xmlns:m0=\"http://services.samples\"\n", 
+            "+                           type=\"VARCHAR\"/>\n", 
+            "+            </statement>\n", 
+            "+        </dbreport>\n", 
+            " \n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Reporting to the Database esbdb1**\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;dsName&gt;java:jdbc/XADerbyDS1&lt;/dsName&gt;\n", 
+            "-                        &lt;icClass&gt;org.jnp.interfaces.NamingContextFactory&lt;/icClass&gt;\n", 
+            "-                        &lt;url&gt;localhost:1099&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;INSERT into company values ('IBM','c4',12.0)&lt;/sql&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dbreport&gt;\n", 
+            "-            &lt;transaction action=\"commit\"/&gt;\n", 
+            "-            &lt;send/&gt;\n", 
+            "-        &lt;/out&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "-\n", 
+            "-&lt;/definitions&gt;</div>\n", 
+            "+        <log level=\"custom\">\n", 
+            "+            <property name=\"text\" value=\"** Reporting to the Database esbdb1**\"/>\n", 
+            "+        </log>\n", 
+            "+        <dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+            <connection>\n", 
+            "+                <pool>\n", 
+            "+                    <dsName>java:jdbc/XADerbyDS1</dsName>\n", 
+            "+                    <icClass>org.jnp.interfaces.NamingContextFactory</icClass>\n", 
+            "+                    <url>localhost:1099</url>\n", 
+            "+                    <user>synapse</user>\n", 
+            "+                    <password>synapse</password>\n", 
+            "+                </pool>\n", 
+            "+            </connection>\n", 
+            "+            <statement>\n", 
+            "+                <sql> INSERT into company values ('IBM','c4',12.0)</sql>\n", 
+            "+            </statement>\n", 
+            "+        </dbreport>\n", 
+            "+        <transaction action=\"commit\"/>\n", 
+            "+        <send/>\n", 
+            "+    </out>\n", 
+            "+</sequence>\n", 
+            "+</definitions>]]></div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            "                     Demonstrate how to manage complex distributed transactions using the transaction\n"
           ]
         }
       ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample152.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample152.xml"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample410.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample410.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-24,52 +24,51", 
+          "locn": "-24,43 +24,42", 
           "lines": [
             "     </properties>\n", 
             "     <body>\n", 
-            "         <section name=\"Sample 390: Introduction to the XQuery Mediator\">\n", 
+            "         <section name=\"Sample 851: Introduction to Synapse Splitter and Aggregator eip function templates\">\n", 
+            "-            <div class=\"xmlConf\">&lt;!-- Introduction to Synapse Splitter and Aggregator eip function templates --&gt;\n", 
+            "-&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "-&lt;import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" /&gt;\n", 
+            "- &lt;proxy name=\"StockQuoteProxy\" transports=\"https http\" startOnLoad=\"true\" trace=\"disable\"&gt;\n", 
+            "-        &lt;target&gt;\n", 
+            "-        &lt;inSequence&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"splitterAggrigator\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;call-template target=\"synapse.lang.eip.splitter\"&gt;\n", 
+            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"iterate_exp\" value=\"{{//m0:getQuote/m0:request}}\"/&gt;\n", 
+            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"attach_path\" value=\"{{//m0:getQuote}}\"/&gt;\n", 
+            "-                &lt;with-param name=\"attach_path_enabled\" value=\"true\"/&gt;\n", 
+            "-                &lt;with-param name=\"endpoint_uri\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-            &lt;/call-template&gt;\n", 
+            "-        &lt;/inSequence&gt;\n", 
+            "-        &lt;outSequence&gt;\n", 
+            "-            &lt;call-template target=\"synapse.lang.eip.aggregator\"&gt;\n", 
+            "-                &lt;with-param name=\"sequence_ref\" value=\"enr\"/&gt;\n", 
+            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/&gt;\n", 
+            "-                &lt;with-param name=\"oncomplete_seq_enabled\" value=\"true\"/&gt;\n", 
+            "-            &lt;/call-template&gt;\n", 
+            "-        &lt;/outSequence&gt;\n", 
+            "-    &lt;/target&gt;\n", 
+            "-    &lt;/proxy&gt;\n", 
+            "-&lt;sequence xmlns=\"http://ws.apache.org/ns/synapse\" name=\"enr\"&gt;\n", 
+            "-    &lt;log level=\"custom\"&gt;\n", 
+            "-        &lt;property name=\"text\" value=\"seqhit\"/&gt;\n", 
+            "-    &lt;/log&gt;\n", 
+            "-    &lt;enrich&gt;\n", 
+            "-        &lt;source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/&gt;\n", 
+            "-        &lt;target type=\"body\"/&gt;\n", 
+            "-    &lt;/enrich&gt;\n", 
+            "-    &lt;send/&gt;\n", 
+            "-&lt;/sequence&gt;\n", 
+            "-&lt;/definitions&gt;</div>\n", 
+            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
+            "+ <proxy name=\"StockQuoteProxy\" transports=\"https http\" startOnLoad=\"true\" trace=\"disable\">\n", 
+            "+        <target>\n", 
+            "+        <inSequence>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\" value=\"splitterAggrigator\"/>\n", 
+            "+            </log>\n", 
+            "+            <call-template target=\"synapse.lang.eip.splitter\">\n", 
+            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"iterate_exp\" value=\"{{//m0:getQuote/m0:request}}\"/>\n", 
+            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"attach_path\" value=\"{{//m0:getQuote}}\"/>\n", 
+            "+                <with-param name=\"attach_path_enabled\" value=\"true\"/>\n", 
+            "+                <with-param name=\"endpoint_uri\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+            </call-template>\n", 
+            "+        </inSequence>\n", 
+            "+        <outSequence>\n", 
+            "+            <call-template target=\"synapse.lang.eip.aggregator\">\n", 
+            "+                <with-param name=\"sequence_ref\" value=\"enr\"/>\n", 
+            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/>\n", 
+            "+                <with-param name=\"oncomplete_seq_enabled\" value=\"true\"/>\n", 
+            "+            </call-template>\n", 
+            "+        </outSequence>\n", 
+            "+    </target>\n", 
+            "+    </proxy>\n", 
+            "+<sequence xmlns=\"http://ws.apache.org/ns/synapse\" name=\"enr\">\n", 
+            "+    <log level=\"custom\">\n", 
+            "+        <property name=\"text\" value=\"seqhit\"/>\n", 
+            "+    </log>\n", 
+            "+    <enrich>\n", 
+            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
+            "+        <target type=\"body\"/>\n", 
+            "+    </enrich>\n", 
+            "+    <send/>\n", 
+            "+</sequence>\n", 
+            "+</definitions>]]></div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            " This sample is an introduction to Synapse Splitter and Aggregator eip function templates. This showcase the combined functionality of Splitter and Aggregator patterns.\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample851.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample851.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-172,7 +172,7", 
+          "lines": [
+            "         &lt;/wsrm:SequenceAcknowledgement&gt;\n", 
+            "     &lt;/soapenv:Header&gt;\n", 
+            "     &lt;soapenv:Body&gt;\n", 
+            "-        &lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples/xsd&quot;&gt;\n", 
+            "+        &lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples&quot;&gt;\n", 
+            " ...</div>\n", 
+            "                 <p>\n", 
+            "                     Now both Synapse and the server are done with the actual message exchange. Then\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample101.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample101.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-18,13 +18,10", 
+          "lines": [
+            "  */\n", 
+            " package samples.services;\n", 
+            " \n", 
+            "-import javax.xml.bind.annotation.XmlAccessOrder;\n", 
+            "-import javax.xml.bind.annotation.XmlAccessorOrder;\n", 
+            " import javax.xml.bind.annotation.XmlElement;\n", 
+            " import javax.xml.bind.annotation.XmlType;\n", 
+            " \n", 
+            " @XmlType(name=\"GetQuoteResponse\")\n", 
+            "-@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)\n", 
+            " public class GetQuoteResponse {\n", 
+            "     private double change;\n", 
+            "     private double earnings;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponse.java", 
+      "from": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponse.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-22,6 +22,10", 
+          "lines": [
+            "         \r\n", 
+            "         <module ref=\"sandesha2\"/>\r\n", 
+            "         \r\n", 
+            "+        <schema> \r\n", 
+            "+            <mapping package=\"samples.services\" namespace=\"http://services.samples\"/> \r\n", 
+            "+        </schema>\r\n", 
+            "+         \r\n", 
+            "         <messageReceivers>\r\n", 
+            "             <messageReceiver mep=\"http://www.w3.org/ns/wsdl/in-only\"\r\n", 
+            "                              class=\"org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver\" />\r\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/samples/services/ReliableStockQuoteService/conf/services.xml", 
+      "from": "java/modules/samples/services/ReliableStockQuoteService/conf/services.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-181,7 +181,7", 
+          "lines": [
+            "     public static String parseStandardQuoteResponse(OMElement result) throws Exception {\n", 
+            " \n", 
+            "         AXIOMXPath xPath = new AXIOMXPath(\"//ns:last\");\n", 
+            "-        xPath.addNamespace(\"ns\",\"http://services.samples/xsd\");\n", 
+            "+        xPath.addNamespace(\"ns\",\"http://services.samples\");\n", 
+            "         OMElement last = (OMElement) xPath.selectSingleNode(result);\n", 
+            "         if (last != null) {\n", 
+            "             return last.getText();\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/samples/src/main/java/samples/common/StockQuoteHandler.java", 
+      "from": "java/modules/samples/src/main/java/samples/common/StockQuoteHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-24,70 +24,67", 
+          "lines": [
+            "     </properties>\n", 
+            "     <body>\n", 
+            "         <section name=\"Sample 362: Perform Database Lookups and Updates in the Same Mediation Sequence\">\n", 
             "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
             "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
             " \n", 
-            "-    &lt;!-- the SimpleURLRegistry allows access to a URL based registry (e.g. file:/// or http://) --&gt;\n", 
-            "-    &lt;registry provider=\"org.apache.synapse.registry.url.SimpleURLRegistry\"&gt;\n", 
-            "-        &lt;!-- the root property of the simple URL registry helps resolve a resource URL as root + key --&gt;\n", 
-            "-        &lt;parameter name=\"root\"&gt;file:repository/conf/sample/resources/&lt;/parameter&gt;\n", 
-            "-        &lt;!-- all resources loaded from the URL registry would be cached for this number of milli seconds --&gt;\n", 
-            "-        &lt;parameter name=\"cachableDuration\"&gt;15000&lt;/parameter&gt;\n", 
-            "-    &lt;/registry&gt;\n", 
-            "+    <!-- the SimpleURLRegistry allows access to a URL based registry (e.g. file:/// or http://) -->\n", 
-            "+    <registry provider=\"org.apache.synapse.registry.url.SimpleURLRegistry\">\n", 
-            "+        <!-- the root property of the simple URL registry helps resolve a resource URL as root + key -->\n", 
-            "+        <parameter name=\"root\">file:repository/conf/sample/resources/</parameter>\n", 
-            "+        <!-- all resources loaded from the URL registry would be cached for this number of milli seconds -->\n", 
-            "+        <parameter name=\"cachableDuration\">15000</parameter>\n", 
-            "+    </registry>\n", 
+            "-    &lt;sequence name=\"main\"&gt;\n", 
+            "-        &lt;in&gt;\n", 
+            "-            &lt;send&gt;\n", 
+            "-                &lt;endpoint&gt;\n", 
+            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-                &lt;/endpoint&gt;\n", 
+            "-            &lt;/send&gt;\n", 
+            "-        &lt;/in&gt;\n", 
+            "+    <sequence name=\"main\">\n", 
+            "+        <in>\n", 
+            "+            <send>\n", 
+            "+                <endpoint>\n", 
+            "+                    <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+                </endpoint>\n", 
+            "+            </send>\n", 
+            "+        </in>\n", 
             " \n", 
-            "-    &lt;localEntry key=\"xquery-key-req\"\n", 
-            "-                src=\"file:repository/conf/sample/resources/xquery/xquery_req.xq\"/&gt;\n", 
-            "+    <localEntry key=\"xquery-key-req\"\n", 
-            "+                src=\"file:repository/conf/sample/resources/xquery/xquery_req.xq\"/>\n", 
+            "-        &lt;out&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Reporting to the Database **\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "+        <out>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\" value=\"** Reporting to the Database **\"/>\n", 
+            "+            </log>\n", 
             " \n", 
-            "-    &lt;proxy name=\"StockQuoteProxy\"&gt;\n", 
-            "-        &lt;target&gt;\n", 
-            "-            &lt;inSequence&gt;\n", 
-            "-                &lt;property name=\"body\" expression=\"$body/child::*[position()=1]\"/&gt;\n", 
-            "-                &lt;xquery key=\"xquery-key-req\"&gt;\n", 
-            "-                    &lt;variable name=\"payload\" type=\"ELEMENT\"/&gt;\n", 
-            "-                &lt;/xquery&gt;\n", 
-            "-                &lt;send&gt;\n", 
-            "-                    &lt;endpoint&gt;\n", 
-            "-                        &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-                    &lt;/endpoint&gt;\n", 
-            "-                &lt;/send&gt;\n", 
-            "-            &lt;/inSequence&gt;\n", 
-            "-            &lt;outSequence&gt;\n", 
-            "-                &lt;out&gt;\n", 
-            "-                    &lt;xquery key=\"xquery/xquery_res.xq\"&gt;\n", 
-            "-                        &lt;variable name=\"payload\" type=\"ELEMENT\"/&gt;\n", 
-            "-                        &lt;variable xmlns:m0=\"http://services.samples\"\n", 
-            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"code\" type=\"STRING\"\n", 
-            "-                                  expression=\"self::node()//m0:return/ax21:symbol/child::text()\"/&gt;\n", 
-            "-                        &lt;variable xmlns:m0=\"http://services.samples\"\n", 
-            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"price\"\n", 
-            "-                                  type=\"DOUBLE\"\n", 
-            "-                                  expression=\"self::node()//m0:return/ax21:last/child::text()\"/&gt;\n", 
-            "-                    &lt;/xquery&gt;\n", 
-            "-                    &lt;send/&gt;\n", 
-            "-                &lt;/out&gt;\n", 
-            "-            &lt;/outSequence&gt;\n", 
-            "-        &lt;/target&gt;\n", 
-            "-        &lt;publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/&gt;\n", 
-            "-    &lt;/proxy&gt;\n", 
-            "+    <proxy name=\"StockQuoteProxy\">\n", 
-            "+        <target>\n", 
-            "+            <inSequence>\n", 
-            "+                <property name=\"body\" expression=\"$body/child::*[position()=1]\"/>\n", 
-            "+                <xquery key=\"xquery-key-req\">\n", 
-            "+                    <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
-            "+                </xquery>\n", 
-            "+                <send>\n", 
-            "+                    <endpoint>\n", 
-            "+                        <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+                    </endpoint>\n", 
-            "+                </send>\n", 
-            "+            </inSequence>\n", 
-            "+            <outSequence>\n", 
-            "+                <out>\n", 
-            "+                    <xquery key=\"xquery/xquery_res.xq\">\n", 
-            "+                        <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
-            "+                        <variable xmlns:m0=\"http://services.samples\"\n", 
-            "+                                  name=\"code\" type=\"STRING\"\n", 
-            "+                                  expression=\"self::node()//m0:return/m0:symbol/child::text()\"/>\n", 
-            "+                        <variable xmlns:m0=\"http://services.samples\"\n", 
-            "+                                  name=\"price\" type=\"DOUBLE\"\n", 
-            "+                                  expression=\"self::node()//m0:return/m0:last/child::text()\"/>\n", 
-            "+                    </xquery>\n", 
-            "+                    <send/>\n", 
-            "+                </out>\n", 
-            "+            </outSequence>\n", 
-            "+        </target>\n", 
-            "+        <publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/>\n", 
-            "+    </proxy>\n", 
+            "-            &lt;dbreport&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;driver&gt;org.apache.derby.jdbc.ClientDriver&lt;/driver&gt;\n", 
+            "-                        &lt;url&gt;jdbc:derby://localhost:1527/synapsedb;create=false&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;update company set price=? where name =?&lt;/sql&gt;\n", 
+            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/&gt;\n", 
+            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dbreport&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Looking up from the Database **\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;dblookup&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;driver&gt;org.apache.derby.jdbc.ClientDriver&lt;/driver&gt;\n", 
+            "-                        &lt;url&gt;jdbc:derby://localhost:1527/synapsedb;create=false&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;select * from company where name =?&lt;/sql&gt;\n", 
+            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
+            "-                    &lt;result name=\"stock_price\" column=\"price\"/&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dblookup&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\"\n", 
+            "-                          expression=\"fn:concat('Stock price - ',get-property('stock_price'))\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;send/&gt;\n", 
+            "-        &lt;/out&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "+            <dbreport>\n", 
+            "+                <connection>\n", 
+            "+                    <pool>\n", 
+            "+                        <driver>org.apache.derby.jdbc.ClientDriver</driver>\n", 
+            "+                        <url>jdbc:derby://localhost:1527/synapsedb;create=false</url>\n", 
+            "+                        <user>synapse</user>\n", 
+            "+                        <password>synapse</password>\n", 
+            "+                    </pool>\n", 
+            "+                </connection>\n", 
+            "+                <statement>\n", 
+            "+                    <sql>update company set price=? where name =?</sql>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                </statement>\n", 
+            "+            </dbreport>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\" value=\"** Looking up from the Database **\"/>\n", 
+            "+            </log>\n", 
+            "+            <dblookup>\n", 
+            "+                <connection>\n", 
+            "+                    <pool>\n", 
+            "+                        <driver>org.apache.derby.jdbc.ClientDriver</driver>\n", 
+            "+                        <url>jdbc:derby://localhost:1527/synapsedb;create=false</url>\n", 
+            "+                        <user>synapse</user>\n", 
+            "+                        <password>synapse</password>\n", 
+            "+                    </pool>\n", 
+            "+                </connection>\n", 
+            "+                <statement>\n", 
+            "+                    <sql>select * from company where name =?</sql>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                    <result name=\"stock_price\" column=\"price\"/>\n", 
+            "+                </statement>\n", 
+            "+            </dblookup>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\"\n", 
+            "+                          expression=\"fn:concat('Stock price - ',get-property('stock_price'))\"/>\n", 
+            "+            </log>\n", 
+            "+            <send/>\n", 
+            "+        </out>\n", 
+            "+    </sequence>\n", 
             " \n", 
             "-&lt;/definitions&gt;</div>\n", 
             "+</definitions>]]></div>\n", 
             "             <subsection name=\"Objective\">\n", 
             "                 <p>\n", 
-            "                     Demonstrate how to use the XQuery mediator for message content transformations\n"
+            "                     <a href=\"sample360.html\">Sample 360</a> and <a href=\"sample361.html\">sample 361</a>\n"
           ]
         }
       ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample390.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample390.xml"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample362.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample362.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-135,12 +135,12", 
+          "locn": "-24,70 +24,67", 
           "lines": [
-            "                     First create a sample input file named stockQuoteReq.xml with the following\n", 
-            "                     content.\n", 
-            "                 </p>\n", 
-            "-                <div class=\"xmlConf\">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:ser=&quot;http://services.samples&quot; xmlns:xsd=&quot;http://services.samples/xsd&quot;&gt;\n", 
-            "+                <div class=\"xmlConf\">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:ser=&quot;http://services.samples&quot;&gt;\n", 
-            "    &lt;soap:Header/&gt;\n", 
-            "    &lt;soap:Body&gt;\n", 
-            "       &lt;ser:getQuote&gt;\n", 
-            "          &lt;ser:request&gt;\n", 
-            "-            &lt;xsd:symbol&gt;IBM&lt;/xsd:symbol&gt;\n", 
-            "+            &lt;ser:symbol&gt;IBM&lt;/ser:symbol&gt;\n", 
-            "          &lt;/ser:request&gt;\n", 
-            "       &lt;/ser:getQuote&gt;\n", 
-            "    &lt;/soap:Body&gt;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample157.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample157.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,7 +28,7", 
-          "lines": [
-            "                 mc.setTo(mc.getReplyTo());\n", 
-            "                 mc.setProperty(\"RESPONSE\", \"true\");\n", 
-            "                 mc.setPayloadXML(\n", 
-            "-                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples/xsd\"&gt;\n", 
-            "+                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples\"&gt;\n", 
-            "                 &lt;ns:return&gt;\n", 
-            "                 &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
-            "                 &lt;/ns:return&gt;\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_352.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_352.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-46,8 +46,8", 
-          "lines": [
+            "     </properties>\n", 
+            "     <body>\n", 
+            "         <section name=\"Sample 364: Executing Database Stored Procedures\">\n", 
+            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
             " \n", 
+            "-    &lt;sequence name=\"main\"&gt;\n", 
+            "-        &lt;in&gt;\n", 
+            "-            &lt;send&gt;\n", 
+            "-                &lt;endpoint&gt;\n", 
+            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-                &lt;/endpoint&gt;\n", 
+            "-            &lt;/send&gt;\n", 
+            "-        &lt;/in&gt;\n", 
+            "+    <sequence name=\"main\">\n", 
+            "+        <in>\n", 
+            "+            <send>\n", 
+            "+                <endpoint>\n", 
+            "+                    <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+                </endpoint>\n", 
+            "+            </send>\n", 
+            "+        </in>\n", 
             " \n", 
-            "     <sequence name=\"SimpleServiceSeq\">\n", 
-            "-        <property name=\"SECURE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ax21:last\"\n", 
-            "-                xmlns:ns=\"http://services.samples\" xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
-            "+        <property name=\"SECURE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ns:last\"\n", 
-            "+                xmlns:ns=\"http://services.samples\"/>\n", 
-            "         <log level=\"custom\">\n", 
-            "             <property name=\"SecureStockQuoteService-Amount\" expression=\"get-property('SECURE_SER_AMT')\"/>\n", 
-            "         </log>\n"
-          ]
-        }, 
-        {
-          "locn": "-67,8 +67,8", 
-          "lines": [
-            "     </sequence>\n", 
+            "-        &lt;out&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Reporting to the Database **\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "+        <out>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\" value=\"** Reporting to the Database **\"/>\n", 
+            "+            </log>\n", 
             " \n", 
-            "     <sequence name=\"ClientOutSeq\">\n", 
-            "-        <property name=\"SIMPLE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ax21:last\"\n", 
-            "-                       xmlns:ns=\"http://services.samples\" xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
-            "+        <property name=\"SIMPLE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ns:last\"\n", 
-            "+                       xmlns:ns=\"http://services.samples\"/>\n", 
-            "         <log level=\"custom\">\n", 
-            "             <property name=\"SimpleStockQuoteService-Amount\" expression=\"get-property('SIMPLE_SER_AMT')\"/>\n", 
-            "         </log>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_156.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_156.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-112,11 +112,9", 
-          "lines": [
-            "                 <statement>\n", 
-            "                     <sql>update company set price=? where name =?</sql>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-            &lt;dbreport&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;driver&gt;com.mysql.jdbc.Driver&lt;/driver&gt;\n", 
+            "-                        &lt;url&gt;jdbc:mysql://localhost:3306/synapsedb&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;user&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;password&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;call updateCompany(?,?)&lt;/sql&gt;\n", 
+            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
             "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/&gt;\n", 
+            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dbreport&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\" value=\"** Looking up from the Database **\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;dblookup&gt;\n", 
+            "-                &lt;connection&gt;\n", 
+            "-                    &lt;pool&gt;\n", 
+            "-                        &lt;driver&gt;com.mysql.jdbc.Driver&lt;/driver&gt;\n", 
+            "-                        &lt;url&gt;jdbc:mysql://localhost:3306/synapsedb&lt;/url&gt;\n", 
+            "-                        &lt;user&gt;user&lt;/user&gt;\n", 
+            "-                        &lt;password&gt;password&lt;/password&gt;\n", 
+            "-                    &lt;/pool&gt;\n", 
+            "-                &lt;/connection&gt;\n", 
+            "-                &lt;statement&gt;\n", 
+            "-                    &lt;sql&gt;call getCompany(?)&lt;/sql&gt;\n", 
+            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
+            "-                    &lt;result name=\"stock_prize\" column=\"price\"/&gt;\n", 
+            "-                &lt;/statement&gt;\n", 
+            "-            &lt;/dblookup&gt;\n", 
+            "-            &lt;log level=\"custom\"&gt;\n", 
+            "-                &lt;property name=\"text\"\n", 
+            "-                          expression=\"fn:concat('Stock Prize - ',get-property('stock_prize'))\"/&gt;\n", 
+            "-            &lt;/log&gt;\n", 
+            "-            &lt;send/&gt;\n", 
+            "-        &lt;/out&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "+            <dbreport>\n", 
+            "+                <connection>\n", 
+            "+                    <pool>\n", 
+            "+                        <driver>com.mysql.jdbc.Driver</driver>\n", 
+            "+                        <url>jdbc:mysql://localhost:3306/synapsedb</url>\n", 
+            "+                        <user>user</user>\n", 
+            "+                        <password>password</password>\n", 
+            "+                    </pool>\n", 
+            "+                </connection>\n", 
+            "+                <statement>\n", 
+            "+                    <sql>call updateCompany(?,?)</sql>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
             "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
             "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                 </statement>\n", 
-            "             </dbreport>\n", 
-            "             <log level=\"custom\">\n"
-          ]
-        }, 
-        {
-          "locn": "-131,8 +129,7", 
-          "lines": [
-            "                 <statement>\n", 
-            "                     <sql>select * from company where name =?</sql>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                </statement>\n", 
+            "+            </dbreport>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\" value=\"** Looking up from the Database **\"/>\n", 
+            "+            </log>\n", 
+            "+            <dblookup>\n", 
+            "+                <connection>\n", 
+            "+                    <pool>\n", 
+            "+                        <driver>com.mysql.jdbc.Driver</driver>\n", 
+            "+                        <url>jdbc:mysql://localhost:3306/synapsedb</url>\n", 
+            "+                        <user>user</user>\n", 
+            "+                        <password>password</password>\n", 
+            "+                    </pool>\n", 
+            "+                </connection>\n", 
+            "+                <statement>\n", 
+            "+                    <sql>call getCompany(?)</sql>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
             "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                     <result name=\"stock_price\" column=\"price\"/>\n", 
-            "                 </statement>\n", 
-            "             </dblookup>\n"
+            "+                    <result name=\"stock_prize\" column=\"price\"/>\n", 
+            "+                </statement>\n", 
+            "+            </dblookup>\n", 
+            "+            <log level=\"custom\">\n", 
+            "+                <property name=\"text\"\n", 
+            "+                          expression=\"fn:concat('Stock Prize - ',get-property('stock_prize'))\"/>\n", 
+            "+            </log>\n", 
+            "+            <send/>\n", 
+            "+        </out>\n", 
+            "+    </sequence>\n", 
+            " \n", 
+            "-&lt;/definitions&gt;</div>\n", 
+            "+</definitions>]]></div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            "                     Demonstrate how to invoke a database stored procedure from Synapse\n"
           ]
         }
       ], 
-      "to": "java/repository/conf/sample/synapse_sample_363.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_363.xml"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample364.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample364.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-104,7 +104,7", 
+          "lines": [
+            "                     with the following payload.\n", 
+            "                 </p>\n", 
+            "                 <div class=\"xmlConf\">&lt;getQuote xmlns=&quot;http://services.samples&quot;&gt;\n", 
+            "-   &lt;request xmlns=&quot;http://services.samples/xsd&quot;&gt;\n", 
+            "+   &lt;request&gt;\n", 
+            "        &lt;symbol&gt;IBM&lt;/symbol&gt;\n", 
+            "    &lt;/request&gt;\n", 
+            " &lt;/getQuote&gt;</div>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-24,28 +24,27", 
+          "lines": [
+            "     </properties>\n", 
+            "     <body>\n", 
+            "         <section name=\"Sample 853: Introduction to Synapse Scatter-Gather eip function template\">\n", 
+            "-            <div class=\"xmlConf\">&lt;!-- Introduction to Synapse Scatter-Gather eip function template --&gt;\n", 
+            "-&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "-&lt;import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" /&gt;\n", 
+            "-&lt;sequence name=\"enr\"&gt;\n", 
+            "-        &lt;log level=\"custom\"&gt;\n", 
+            "-            &lt;property name=\"text\" value=\"seqhit\"/&gt;\n", 
+            "-        &lt;/log&gt;\n", 
+            "-        &lt;enrich&gt;\n", 
+            "-            &lt;source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/&gt;\n", 
+            "-            &lt;target type=\"body\"/&gt;\n", 
+            "-        &lt;/enrich&gt;\n", 
+            "-        &lt;send/&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "-    &lt;sequence name=\"main\"&gt;\n", 
+            "-        &lt;call-template target=\"synapse.lang.eip.scatter_gather\"&gt;\n", 
+            "-            &lt;with-param name=\"sequence_ref\" value=\"enr\"/&gt;\n", 
+            "-            &lt;with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/&gt;\n", 
+            "-            &lt;with-param name=\"oncomplete_seq_enabled\" value=\"true\"/&gt;\n", 
+            "-            &lt;with-param name=\"recipient_list\" value=\"http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-        &lt;/call-template&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "-&lt;/definitions&gt;</div>\n", 
+            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
+            "+<sequence name=\"enr\">\n", 
+            "+        <log level=\"custom\">\n", 
+            "+            <property name=\"text\" value=\"seqhit\"/>\n", 
+            "+        </log>\n", 
+            "+        <enrich>\n", 
+            "+            <source xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
+            "+            <target type=\"body\"/>\n", 
+            "+        </enrich>\n", 
+            "+        <send/>\n", 
+            "+    </sequence>\n", 
+            "+    <sequence name=\"main\">\n", 
+            "+        <call-template target=\"synapse.lang.eip.scatter_gather\">\n", 
+            "+            <with-param name=\"sequence_ref\" value=\"enr\"/>\n", 
+            "+            <with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/>\n", 
+            "+            <with-param name=\"oncomplete_seq_enabled\" value=\"true\"/>\n", 
+            "+            <with-param name=\"recipient_list\" value=\"http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\"/>\n", 
+            "+        </call-template>\n", 
+            "+    </sequence>\n", 
+            "+</definitions>]]></div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            " This sample is an introduction to Synapse Scatter-Gather eip function template. Scatter-Gather pattern broadcasts a message to multiple recipients and re-aggregates the responses back into a single message and send back to client or mediates to the defined target sequence.\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample853.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample853.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-114,7 +114,7", 
+          "lines": [
+            "     public boolean mediate(MessageContext mc) {\n", 
+            " \n", 
+            "         String price= mc.getEnvelope().getBody().getFirstElement().getFirstElement().\n", 
+            "-                getFirstChildWithName(new QName(&quot;http://services.samples/xsd&quot;,&quot;last&quot;)).getText();\n", 
+            "+                getFirstChildWithName(new QName(&quot;http://services.samples&quot;,&quot;last&quot;)).getText();\n", 
+            " \n", 
+            "         //converting String properties into integers\n", 
+            "         int discount=Integer.parseInt(discountFactor);\n"
+          ]
+        }, 
+        {
+          "locn": "-133,7 +133,7", 
+          "lines": [
+            "         String discountedPrice = lastPrice.toString();\n", 
+            " \n", 
+            "         mc.getEnvelope().getBody().getFirstElement().getFirstElement().getFirstChildWithName\n", 
+            "-                (new QName(&quot;http://services.samples/xsd&quot;,&quot;last&quot;)).setText(discountedPrice);\n", 
+            "+                (new QName(&quot;http://services.samples&quot;,&quot;last&quot;)).setText(discountedPrice);\n", 
+            " \n", 
+            "         System.out.println(&quot;Quote value discounted.&quot;);\n", 
+            "         System.out.println(&quot;Original price: &quot; + price);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample380.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample380.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-24,6 +24,7", 
+          "lines": [
+            "     <task class=\"org.apache.synapse.startup.tasks.MessageInjector\" name=\"CheckPrice\">\n", 
+            "         <property name=\"to\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "         <property name=\"soapAction\" value=\"urn:getQuote\"/>\n", 
+            "+        <property name=\"format\" value=\"soap11\"/>\n", 
+            "         <property name=\"message\">\n", 
+            "             <m0:getQuote xmlns:m0=\"http://services.samples\">\n", 
+            "                 <m0:request>\n"
+          ]
+        }, 
+        {
+          "locn": "-40,15 +41,12", 
+          "lines": [
+            "         </in>\n", 
+            "         <out>\n", 
+            "             <log level=\"custom\">\n", 
+            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
+            "-                          xmlns:ns=\"http://services.samples\" name=\"Stock_Quote_on\"\n", 
+            "-                          expression=\"//ns:return/ax21:lastTradeTimestamp/child::text()\"/>\n", 
+            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
+            "-                          xmlns:ns=\"http://services.samples\" name=\"For_the_organization\"\n", 
+            "-                          expression=\"//ns:return/ax21:name/child::text()\"/>\n", 
+            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
+            "-                          xmlns:ns=\"http://services.samples\" name=\"Last_Value\"\n", 
+            "-                          expression=\"//ns:return/ax21:last/child::text()\"/>\n", 
+            "+                <property xmlns:ns=\"http://services.samples\" name=\"Stock_Quote_on\"\n", 
+            "+                          expression=\"//ns:return/ns:lastTradeTimestamp/child::text()\"/>\n", 
+            "+                <property xmlns:ns=\"http://services.samples\" name=\"For_the_organization\"\n", 
+            "+                          expression=\"//ns:return/ns:name/child::text()\"/>\n", 
+            "+                <property xmlns:ns=\"http://services.samples\" name=\"Last_Value\"\n", 
+            "+                          expression=\"//ns:return/ns:last/child::text()\"/>\n", 
+            "             </log>\n", 
+            "         </out>\n", 
+            "     </sequence>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_300.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_300.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-1,10 +1,9", 
+          "lines": [
+            " <x><![CDATA[\n", 
+            "   declare namespace ns=\"http://services.samples\";\n", 
+            "-  declare namespace m1=\"http://services.samples/xsd\";\n", 
+            "   declare variable $payload as document-node() external;\n", 
+            "   declare variable $commission as document-node() external;\n", 
+            "-  <m0:return xmlns:m0=\"http://services.samples/xsd\">\n", 
+            "-  \t<m0:symbol>{$payload//ns:return/m1:symbol/child::text()}</m0:symbol>\n", 
+            "-  \t<m0:last>{$payload//ns:return/m1:last/child::text()+ $commission//commission/vendor[@symbol=$payload//ns:return/m1:symbol/child::text()]}</m0:last>\n", 
+            "+  <m0:return xmlns:m0=\"http://services.samples\">\n", 
+            "+  \t<m0:symbol>{$payload//ns:return/ns:symbol/child::text()}</m0:symbol>\n", 
+            "+  \t<m0:last>{$payload//ns:return/ns:last/child::text()+ $commission//commission/vendor[@symbol=$payload//ns:return/ns:symbol/child::text()]}</m0:last>\n", 
+            "   </m0:return>  \n", 
+            " ]]></x>\n", 
+            "\\ No newline at end of file\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/resources/xquery/xquery_commisson.xq", 
+      "from": "java/repository/conf/sample/resources/xquery/xquery_commisson.xq"
     }, 
     {
       "chunks": [
@@ -409,116 +944,6 @@
       ], 
       "to": "java/repository/conf/sample/resources/transform/transform_back.xslt", 
       "from": "java/repository/conf/sample/resources/transform/transform_back.xslt"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,7 +28,7", 
-          "lines": [
-            "             var args = mc.getPayloadXML().toString().split(\" \");\n", 
-            "             mc.setPayloadXML(\n", 
-            "             &lt;placeOrder xmlns=\"http://services.samples\"&gt;\n", 
-            "-            &lt;order xmlns=\"http://services.samples/xsd\"&gt;\n", 
-            "+            &lt;order&gt;\n", 
-            "             &lt;price&gt;{args[0]}&lt;/price&gt;\n", 
-            "             &lt;quantity&gt;{args[1]}&lt;/quantity&gt;\n", 
-            "             &lt;symbol&gt;{args[2]}&lt;/symbol&gt;\n"
-          ]
-        }, 
-        {
-          "locn": "-77,7 +77,7", 
-          "lines": [
-            "                 <bytesMessage>application/octet-stream</bytesMessage>\n", 
-            "             </rules>\n", 
-            "         </parameter>\n", 
-            "-        <parameter name=\"Wrapper\">{http://services.samples/xsd}element</parameter>\n", 
-            "+        <parameter name=\"Wrapper\">{http://synapse.apache.org/userguide/samples/}element</parameter>\n", 
-            "     </proxy>\n", 
-            " \n", 
-            "     <proxy name=\"JMSTextProxy\" transports=\"jms\">\n"
-          ]
-        }, 
-        {
-          "locn": "-87,7 +87,7", 
-          "lines": [
-            "                 <textMessage>text/plain</textMessage>\n", 
-            "             </rules>\n", 
-            "         </parameter>\n", 
-            "-        <parameter name=\"Wrapper\">{http://services.samples/xsd}text</parameter>\n", 
-            "+        <parameter name=\"Wrapper\">{http://synapse.apache.org/userguide/samples/}text</parameter>\n", 
-            "     </proxy>\n", 
-            " \n", 
-            "     <proxy name=\"JMSPoxProxy\" transports=\"jms\">\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_252.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_252.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-45,12 +45,10", 
-          "lines": [
-            "                 </connection>\n", 
-            "                 <statement>\n", 
-            "                     <sql>update company set price=? where name =?</sql>\n", 
-            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                 </statement>\n", 
-            "             </dbreport>\n", 
-            "             <send/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_361.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_361.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-47,11 +47,9", 
-          "lines": [
-            "                 <statement>\n", 
-            "                     <sql>call updateCompany(?,?)</sql>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                 </statement>\n", 
-            "             </dbreport>\n", 
-            "             <log level=\"custom\">\n"
-          ]
-        }, 
-        {
-          "locn": "-69,8 +67,7", 
-          "lines": [
-            "                 <statement>\n", 
-            "                     <sql>call getCompany(?)</sql>\n", 
-            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                     <result name=\"stock_prize\" column=\"price\"/>\n", 
-            "                 </statement>\n", 
-            "             </dblookup>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_364.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_364.xml"
     }, 
     {
       "chunks": [
@@ -1077,53 +1502,400 @@
     {
       "chunks": [
         {
-          "locn": "-46,7 +46,7", 
+          "locn": "-28,7 +28,7", 
           "lines": [
-            "     public boolean mediate(MessageContext mc) {\n", 
-            " \n", 
-            "         String price= mc.getEnvelope().getBody().getFirstElement().getFirstElement().\n", 
-            "-                getFirstChildWithName(new QName(\"http://services.samples/xsd\",\"last\")).getText();\n", 
-            "+                getFirstChildWithName(new QName(\"http://services.samples\",\"last\")).getText();\n", 
-            " \n", 
-            "         //converting String properties into integers\n", 
-            "         int discount=Integer.parseInt(discountFactor);\n"
-          ]
-        }, 
-        {
-          "locn": "-65,7 +65,7", 
-          "lines": [
-            "         String discountedPrice = lastPrice.toString();\n", 
-            " \n", 
-            "         mc.getEnvelope().getBody().getFirstElement().getFirstElement().getFirstChildWithName\n", 
-            "-                (new QName(\"http://services.samples/xsd\",\"last\")).setText(discountedPrice);\n", 
-            "+                (new QName(\"http://services.samples\",\"last\")).setText(discountedPrice);\n", 
-            " \n", 
-            "         System.out.println(\"Quote value discounted.\");\n", 
-            "         System.out.println(\"Original price: \" + price);\n"
+            "                 mc.setTo(mc.getReplyTo());\n", 
+            "                 mc.setProperty(\"RESPONSE\", \"true\");\n", 
+            "                 mc.setPayloadXML(\n", 
+            "-                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples/xsd\"&gt;\n", 
+            "+                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples\"&gt;\n", 
+            "                 &lt;ns:return&gt;\n", 
+            "                 &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
+            "                 &lt;/ns:return&gt;\n"
           ]
         }
       ], 
-      "to": "java/modules/samples/src/main/java/samples/mediators/DiscountQuoteMediator.java", 
-      "from": "java/modules/samples/src/main/java/samples/mediators/DiscountQuoteMediator.java"
+      "to": "java/repository/conf/sample/synapse_sample_352.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_352.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-181,7 +181,7", 
+          "locn": "-46,8 +46,8", 
           "lines": [
-            "     public static String parseStandardQuoteResponse(OMElement result) throws Exception {\n", 
             " \n", 
-            "         AXIOMXPath xPath = new AXIOMXPath(\"//ns:last\");\n", 
-            "-        xPath.addNamespace(\"ns\",\"http://services.samples/xsd\");\n", 
-            "+        xPath.addNamespace(\"ns\",\"http://services.samples\");\n", 
-            "         OMElement last = (OMElement) xPath.selectSingleNode(result);\n", 
-            "         if (last != null) {\n", 
-            "             return last.getText();\n"
+            " \n", 
+            "     <sequence name=\"SimpleServiceSeq\">\n", 
+            "-        <property name=\"SECURE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ax21:last\"\n", 
+            "-                xmlns:ns=\"http://services.samples\" xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
+            "+        <property name=\"SECURE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ns:last\"\n", 
+            "+                xmlns:ns=\"http://services.samples\"/>\n", 
+            "         <log level=\"custom\">\n", 
+            "             <property name=\"SecureStockQuoteService-Amount\" expression=\"get-property('SECURE_SER_AMT')\"/>\n", 
+            "         </log>\n"
+          ]
+        }, 
+        {
+          "locn": "-67,8 +67,8", 
+          "lines": [
+            "     </sequence>\n", 
+            " \n", 
+            "     <sequence name=\"ClientOutSeq\">\n", 
+            "-        <property name=\"SIMPLE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ax21:last\"\n", 
+            "-                       xmlns:ns=\"http://services.samples\" xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
+            "+        <property name=\"SIMPLE_SER_AMT\" expression=\"//ns:getQuoteResponse/ns:return/ns:last\"\n", 
+            "+                       xmlns:ns=\"http://services.samples\"/>\n", 
+            "         <log level=\"custom\">\n", 
+            "             <property name=\"SimpleStockQuoteService-Amount\" expression=\"get-property('SIMPLE_SER_AMT')\"/>\n", 
+            "         </log>\n"
           ]
         }
       ], 
-      "to": "java/modules/samples/src/main/java/samples/common/StockQuoteHandler.java", 
-      "from": "java/modules/samples/src/main/java/samples/common/StockQuoteHandler.java"
+      "to": "java/repository/conf/sample/synapse_sample_156.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_156.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-50,12 +50,11", 
+          "lines": [
+            "                     <xquery key=\"xquery/xquery_res.xq\">\n", 
+            "                         <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
+            "                         <variable xmlns:m0=\"http://services.samples\"\n", 
+            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"code\" type=\"STRING\"\n", 
+            "-                                  expression=\"self::node()//m0:return/ax21:symbol/child::text()\"/>\n", 
+            "+                                  name=\"code\" type=\"STRING\"\n", 
+            "+                                  expression=\"self::node()//m0:return/m0:symbol/child::text()\"/>\n", 
+            "                         <variable xmlns:m0=\"http://services.samples\"\n", 
+            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"price\"\n", 
+            "-                                  type=\"DOUBLE\"\n", 
+            "-                                  expression=\"self::node()//m0:return/ax21:last/child::text()\"/>\n", 
+            "+                                  name=\"price\" type=\"DOUBLE\"\n", 
+            "+                                  expression=\"self::node()//m0:return/m0:last/child::text()\"/>\n", 
+            "                     </xquery>\n", 
+            "                     <send/>\n", 
+            "                 </out>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_390.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_390.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-53,9 +53,8", 
+          "lines": [
+            "             <header xmlns:urn=\"http://synapse.apache.org\" name=\"urn:lastTradeTimestamp\" value=\"foo\"/>\n", 
+            "             <enrich>\n", 
+            "                 <source type=\"custom\"\n", 
+            "-                        xpath=\"//ns:getQuoteResponse/ns:return/ax21:lastTradeTimestamp\"\n", 
+            "-                        xmlns:ns=\"http://services.samples\"\n", 
+            "-                        xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
+            "+                        xpath=\"//ns:getQuoteResponse/ns:return/ns:lastTradeTimestamp\"\n", 
+            "+                        xmlns:ns=\"http://services.samples\"/>\n", 
+            "                 <target xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
+            "                         xmlns:urn=\"http://synapse.apache.org\"\n", 
+            "                         xpath=\"/soapenv:Envelope/soapenv:Header/urn:lastTradeTimestamp\"/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_15.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_15.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-47,8 +47,8", 
+          "lines": [
+            "                     </m:CheckPriceResponse>\n", 
+            "                 </format>\n", 
+            "                 <args>\n", 
+            "-                    <arg xmlns:m0=\"http://services.samples/xsd\" expression=\"//m0:symbol\"/>\n", 
+            "-                    <arg xmlns:m0=\"http://services.samples/xsd\" expression=\"//m0:last\"/>\n", 
+            "+                    <arg xmlns:m0=\"http://services.samples\" expression=\"//m0:symbol\"/>\n", 
+            "+                    <arg xmlns:m0=\"http://services.samples\" expression=\"//m0:last\"/>\n", 
+            "                 </args>\n", 
+            "             </payloadFactory>\n", 
+            "         </out>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_17.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_17.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-45,12 +45,10", 
+          "lines": [
+            "                 </connection>\n", 
+            "                 <statement>\n", 
+            "                     <sql>update company set price=? where name =?</sql>\n", 
+            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                 </statement>\n", 
+            "             </dbreport>\n", 
+            "             <send/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_361.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_361.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-46,12 +46,10", 
+          "lines": [
+            "                 </connection>\n", 
+            "                 <statement>\n", 
+            "                     <sql>update company set price=? where name =?</sql>\n", 
+            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                 </statement>\n", 
+            "             </dbreport>\n", 
+            "             <log level=\"custom\">\n"
+          ]
+        }, 
+        {
+          "locn": "-68,9 +66,8", 
+          "lines": [
+            "                 </connection>\n", 
+            "                 <statement>\n", 
+            "                     <sql>select * from company where name =?</sql>\n", 
+            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               xmlns:m0=\"http://services.samples\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                     <result name=\"stock_price\" column=\"price\"/>\n", 
+            "                 </statement>\n", 
+            "             </dblookup>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_362.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_362.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-112,11 +112,9", 
+          "lines": [
+            "                 <statement>\n", 
+            "                     <sql>update company set price=? where name =?</sql>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                 </statement>\n", 
+            "             </dbreport>\n", 
+            "             <log level=\"custom\">\n"
+          ]
+        }, 
+        {
+          "locn": "-131,8 +129,7", 
+          "lines": [
+            "                 <statement>\n", 
+            "                     <sql>select * from company where name =?</sql>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                     <result name=\"stock_price\" column=\"price\"/>\n", 
+            "                 </statement>\n", 
+            "             </dblookup>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_363.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_363.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-47,11 +47,9", 
+          "lines": [
+            "                 <statement>\n", 
+            "                     <sql>call updateCompany(?,?)</sql>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                 </statement>\n", 
+            "             </dbreport>\n", 
+            "             <log level=\"custom\">\n"
+          ]
+        }, 
+        {
+          "locn": "-69,8 +67,7", 
+          "lines": [
+            "                 <statement>\n", 
+            "                     <sql>call getCompany(?)</sql>\n", 
+            "                     <parameter xmlns:m0=\"http://services.samples\"\n", 
+            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
+            "                     <result name=\"stock_prize\" column=\"price\"/>\n", 
+            "                 </statement>\n", 
+            "             </dblookup>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_364.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_364.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-57,8 +57,8", 
+          "lines": [
+            "             </connection>\n", 
+            "             <statement>\n", 
+            "                 <sql>delete from company where name =?</sql>\n", 
+            "-                <parameter expression=\"//m0:return/m1:symbol/child::text()\"\n", 
+            "-                           xmlns:m0=\"http://services.samples\" xmlns:m1=\"http://services.samples/xsd\"\n", 
+            "+                <parameter expression=\"//m0:return/m0:symbol/child::text()\"\n", 
+            "+                           xmlns:m0=\"http://services.samples\"\n", 
+            "                            type=\"VARCHAR\"/>\n", 
+            "             </statement>\n", 
+            "         </dbreport>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_410.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_410.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,7 +28,7", 
+          "lines": [
+            "             var args = mc.getPayloadXML().toString().split(\" \");\n", 
+            "             mc.setPayloadXML(\n", 
+            "             &lt;placeOrder xmlns=\"http://services.samples\"&gt;\n", 
+            "-            &lt;order xmlns=\"http://services.samples/xsd\"&gt;\n", 
+            "+            &lt;order&gt;\n", 
+            "             &lt;price&gt;{args[0]}&lt;/price&gt;\n", 
+            "             &lt;quantity&gt;{args[1]}&lt;/quantity&gt;\n", 
+            "             &lt;symbol&gt;{args[2]}&lt;/symbol&gt;\n"
+          ]
+        }, 
+        {
+          "locn": "-77,7 +77,7", 
+          "lines": [
+            "                 <bytesMessage>application/octet-stream</bytesMessage>\n", 
+            "             </rules>\n", 
+            "         </parameter>\n", 
+            "-        <parameter name=\"Wrapper\">{http://services.samples/xsd}element</parameter>\n", 
+            "+        <parameter name=\"Wrapper\">{http://synapse.apache.org/userguide/samples/}element</parameter>\n", 
+            "     </proxy>\n", 
+            " \n", 
+            "     <proxy name=\"JMSTextProxy\" transports=\"jms\">\n"
+          ]
+        }, 
+        {
+          "locn": "-87,7 +87,7", 
+          "lines": [
+            "                 <textMessage>text/plain</textMessage>\n", 
+            "             </rules>\n", 
+            "         </parameter>\n", 
+            "-        <parameter name=\"Wrapper\">{http://services.samples/xsd}text</parameter>\n", 
+            "+        <parameter name=\"Wrapper\">{http://synapse.apache.org/userguide/samples/}text</parameter>\n", 
+            "     </proxy>\n", 
+            " \n", 
+            "     <proxy name=\"JMSPoxProxy\" transports=\"jms\">\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_252.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_252.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-48,8 +48,8", 
+          "lines": [
+            "         <property name=\"text\" value=\"seqhit\"/>\n", 
+            "     </log>\n", 
+            "     <enrich>\n", 
+            "-        <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
+            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
+            "         <target type=\"body\"/>\n", 
+            "     </enrich>\n", 
+            "     <send/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_851.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_851.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-37,8 +37,8", 
+          "lines": [
+            "         <property name=\"text\" value=\"seqhit\"/>\n", 
+            "     </log>\n", 
+            "     <enrich>\n", 
+            "-        <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
+            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
+            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
+            "         <target type=\"body\"/>\n", 
+            "     </enrich>\n", 
+            "     <send/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_852.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_852.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,7 +26,7", 
+          "lines": [
+            "             <property name=\"text\" value=\"seqhit\"/>\n", 
+            "         </log>\n", 
+            "         <enrich>\n", 
+            "-            <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
+            "+            <source xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
+            "             <target type=\"body\"/>\n", 
+            "         </enrich>\n", 
+            "         <send/>\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/synapse_sample_853.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_853.xml"
     }, 
     {
       "chunks": [
@@ -1165,82 +1937,6 @@
       ], 
       "to": "java/modules/samples/services/SimpleStockQuoteService/conf/services.xml", 
       "from": "java/modules/samples/services/SimpleStockQuoteService/conf/services.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-18,13 +18,10", 
-          "lines": [
-            "  */\n", 
-            " package samples.services;\n", 
-            " \n", 
-            "-import javax.xml.bind.annotation.XmlAccessOrder;\n", 
-            "-import javax.xml.bind.annotation.XmlAccessorOrder;\n", 
-            " import javax.xml.bind.annotation.XmlElement;\n", 
-            " import javax.xml.bind.annotation.XmlType;\n", 
-            " \n", 
-            " @XmlType(name=\"GetQuoteResponse\")\n", 
-            "-@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)\n", 
-            " public class GetQuoteResponse {\n", 
-            "     private double change;\n", 
-            "     private double earnings;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponse.java", 
-      "from": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponse.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,41", 
-          "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+package samples.services;\n", 
-            "+\n", 
-            "+import javax.xml.bind.annotation.XmlElement;\n", 
-            "+import javax.xml.bind.annotation.XmlRootElement;\n", 
-            "+import javax.xml.bind.annotation.XmlType;\n", 
-            "+\n", 
-            "+import samples.services.GetQuoteResponse;\n", 
-            "+\n", 
-            "+@XmlRootElement(name=\"getQuoteResponse\")\n", 
-            "+@XmlType(name=\"\")\n", 
-            "+public class GetQuoteResponseWrapper {\n", 
-            "+    // TODO: using _return as field name triggers a bug in Axis2!!!!\n", 
-            "+    private GetQuoteResponse fReturn;\n", 
-            "+\n", 
-            "+    @XmlElement(required=true)\n", 
-            "+    public GetQuoteResponse getReturn() {\n", 
-            "+        return fReturn;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void setReturn(GetQuoteResponse _return) {\n", 
-            "+        this.fReturn = _return;\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponseWrapper.java", 
-      "from": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponseWrapper.java"
     }, 
     {
       "chunks": [
@@ -1502,23 +2198,86 @@
     {
       "chunks": [
         {
-          "locn": "-22,6 +22,10", 
+          "locn": "-0,0 +1,41", 
           "lines": [
-            "         \r\n", 
-            "         <module ref=\"sandesha2\"/>\r\n", 
-            "         \r\n", 
-            "+        <schema> \r\n", 
-            "+            <mapping package=\"samples.services\" namespace=\"http://services.samples\"/> \r\n", 
-            "+        </schema>\r\n", 
-            "+         \r\n", 
-            "         <messageReceivers>\r\n", 
-            "             <messageReceiver mep=\"http://www.w3.org/ns/wsdl/in-only\"\r\n", 
-            "                              class=\"org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver\" />\r\n"
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+package samples.services;\n", 
+            "+\n", 
+            "+import javax.xml.bind.annotation.XmlElement;\n", 
+            "+import javax.xml.bind.annotation.XmlRootElement;\n", 
+            "+import javax.xml.bind.annotation.XmlType;\n", 
+            "+\n", 
+            "+import samples.services.GetQuoteResponse;\n", 
+            "+\n", 
+            "+@XmlRootElement(name=\"getQuoteResponse\")\n", 
+            "+@XmlType(name=\"\")\n", 
+            "+public class GetQuoteResponseWrapper {\n", 
+            "+    // TODO: using _return as field name triggers a bug in Axis2!!!!\n", 
+            "+    private GetQuoteResponse fReturn;\n", 
+            "+\n", 
+            "+    @XmlElement(required=true)\n", 
+            "+    public GetQuoteResponse getReturn() {\n", 
+            "+        return fReturn;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void setReturn(GetQuoteResponse _return) {\n", 
+            "+        this.fReturn = _return;\n", 
+            "+    }\n", 
+            "+}\n"
           ]
         }
       ], 
-      "to": "java/modules/samples/services/ReliableStockQuoteService/conf/services.xml", 
-      "from": "java/modules/samples/services/ReliableStockQuoteService/conf/services.xml"
+      "to": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponseWrapper.java", 
+      "from": "java/modules/samples/services/JAXWSStockQuoteService/src/samples/services/GetQuoteResponseWrapper.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-46,7 +46,7", 
+          "lines": [
+            "     public boolean mediate(MessageContext mc) {\n", 
+            " \n", 
+            "         String price= mc.getEnvelope().getBody().getFirstElement().getFirstElement().\n", 
+            "-                getFirstChildWithName(new QName(\"http://services.samples/xsd\",\"last\")).getText();\n", 
+            "+                getFirstChildWithName(new QName(\"http://services.samples\",\"last\")).getText();\n", 
+            " \n", 
+            "         //converting String properties into integers\n", 
+            "         int discount=Integer.parseInt(discountFactor);\n"
+          ]
+        }, 
+        {
+          "locn": "-65,7 +65,7", 
+          "lines": [
+            "         String discountedPrice = lastPrice.toString();\n", 
+            " \n", 
+            "         mc.getEnvelope().getBody().getFirstElement().getFirstElement().getFirstChildWithName\n", 
+            "-                (new QName(\"http://services.samples/xsd\",\"last\")).setText(discountedPrice);\n", 
+            "+                (new QName(\"http://services.samples\",\"last\")).setText(discountedPrice);\n", 
+            " \n", 
+            "         System.out.println(\"Quote value discounted.\");\n", 
+            "         System.out.println(\"Original price: \" + price);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/samples/src/main/java/samples/mediators/DiscountQuoteMediator.java", 
+      "from": "java/modules/samples/src/main/java/samples/mediators/DiscountQuoteMediator.java"
     }, 
     {
       "chunks": [
@@ -1609,144 +2368,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample361.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample361.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,70 +24,67", 
-          "lines": [
-            "     </properties>\n", 
-            "     <body>\n", 
-            "         <section name=\"Sample 362: Perform Database Lookups and Updates in the Same Mediation Sequence\">\n", 
-            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            " \n", 
-            "-    &lt;sequence name=\"main\"&gt;\n", 
-            "-        &lt;in&gt;\n", 
-            "-            &lt;send&gt;\n", 
-            "-                &lt;endpoint&gt;\n", 
-            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-                &lt;/endpoint&gt;\n", 
-            "-            &lt;/send&gt;\n", 
-            "-        &lt;/in&gt;\n", 
-            "+    <sequence name=\"main\">\n", 
-            "+        <in>\n", 
-            "+            <send>\n", 
-            "+                <endpoint>\n", 
-            "+                    <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+                </endpoint>\n", 
-            "+            </send>\n", 
-            "+        </in>\n", 
-            " \n", 
-            "-        &lt;out&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Reporting to the Database **\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "+        <out>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\" value=\"** Reporting to the Database **\"/>\n", 
-            "+            </log>\n", 
-            " \n", 
-            "-            &lt;dbreport&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;driver&gt;org.apache.derby.jdbc.ClientDriver&lt;/driver&gt;\n", 
-            "-                        &lt;url&gt;jdbc:derby://localhost:1527/synapsedb;create=false&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;update company set price=? where name =?&lt;/sql&gt;\n", 
-            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/&gt;\n", 
-            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dbreport&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Looking up from the Database **\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;dblookup&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;driver&gt;org.apache.derby.jdbc.ClientDriver&lt;/driver&gt;\n", 
-            "-                        &lt;url&gt;jdbc:derby://localhost:1527/synapsedb;create=false&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;select * from company where name =?&lt;/sql&gt;\n", 
-            "-                    &lt;parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
-            "-                    &lt;result name=\"stock_price\" column=\"price\"/&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dblookup&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\"\n", 
-            "-                          expression=\"fn:concat('Stock price - ',get-property('stock_price'))\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;send/&gt;\n", 
-            "-        &lt;/out&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "+            <dbreport>\n", 
-            "+                <connection>\n", 
-            "+                    <pool>\n", 
-            "+                        <driver>org.apache.derby.jdbc.ClientDriver</driver>\n", 
-            "+                        <url>jdbc:derby://localhost:1527/synapsedb;create=false</url>\n", 
-            "+                        <user>synapse</user>\n", 
-            "+                        <password>synapse</password>\n", 
-            "+                    </pool>\n", 
-            "+                </connection>\n", 
-            "+                <statement>\n", 
-            "+                    <sql>update company set price=? where name =?</sql>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                </statement>\n", 
-            "+            </dbreport>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\" value=\"** Looking up from the Database **\"/>\n", 
-            "+            </log>\n", 
-            "+            <dblookup>\n", 
-            "+                <connection>\n", 
-            "+                    <pool>\n", 
-            "+                        <driver>org.apache.derby.jdbc.ClientDriver</driver>\n", 
-            "+                        <url>jdbc:derby://localhost:1527/synapsedb;create=false</url>\n", 
-            "+                        <user>synapse</user>\n", 
-            "+                        <password>synapse</password>\n", 
-            "+                    </pool>\n", 
-            "+                </connection>\n", 
-            "+                <statement>\n", 
-            "+                    <sql>select * from company where name =?</sql>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                    <result name=\"stock_price\" column=\"price\"/>\n", 
-            "+                </statement>\n", 
-            "+            </dblookup>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\"\n", 
-            "+                          expression=\"fn:concat('Stock price - ',get-property('stock_price'))\"/>\n", 
-            "+            </log>\n", 
-            "+            <send/>\n", 
-            "+        </out>\n", 
-            "+    </sequence>\n", 
-            " \n", 
-            "-&lt;/definitions&gt;</div>\n", 
-            "+</definitions>]]></div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            "                     <a href=\"sample360.html\">Sample 360</a> and <a href=\"sample361.html\">sample 361</a>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample362.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample362.xml"
     }, 
     {
       "chunks": [
@@ -2014,290 +2635,6 @@
     {
       "chunks": [
         {
-          "locn": "-24,70 +24,67", 
-          "lines": [
-            "     </properties>\n", 
-            "     <body>\n", 
-            "         <section name=\"Sample 364: Executing Database Stored Procedures\">\n", 
-            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            " \n", 
-            "-    &lt;sequence name=\"main\"&gt;\n", 
-            "-        &lt;in&gt;\n", 
-            "-            &lt;send&gt;\n", 
-            "-                &lt;endpoint&gt;\n", 
-            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-                &lt;/endpoint&gt;\n", 
-            "-            &lt;/send&gt;\n", 
-            "-        &lt;/in&gt;\n", 
-            "+    <sequence name=\"main\">\n", 
-            "+        <in>\n", 
-            "+            <send>\n", 
-            "+                <endpoint>\n", 
-            "+                    <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+                </endpoint>\n", 
-            "+            </send>\n", 
-            "+        </in>\n", 
-            " \n", 
-            "-        &lt;out&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Reporting to the Database **\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "+        <out>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\" value=\"** Reporting to the Database **\"/>\n", 
-            "+            </log>\n", 
-            " \n", 
-            "-            &lt;dbreport&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;driver&gt;com.mysql.jdbc.Driver&lt;/driver&gt;\n", 
-            "-                        &lt;url&gt;jdbc:mysql://localhost:3306/synapsedb&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;user&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;password&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;call updateCompany(?,?)&lt;/sql&gt;\n", 
-            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/&gt;\n", 
-            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dbreport&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Looking up from the Database **\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;dblookup&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;driver&gt;com.mysql.jdbc.Driver&lt;/driver&gt;\n", 
-            "-                        &lt;url&gt;jdbc:mysql://localhost:3306/synapsedb&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;user&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;password&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;call getCompany(?)&lt;/sql&gt;\n", 
-            "-                    &lt;parameter xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/&gt;\n", 
-            "-                    &lt;result name=\"stock_prize\" column=\"price\"/&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dblookup&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\"\n", 
-            "-                          expression=\"fn:concat('Stock Prize - ',get-property('stock_prize'))\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;send/&gt;\n", 
-            "-        &lt;/out&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "+            <dbreport>\n", 
-            "+                <connection>\n", 
-            "+                    <pool>\n", 
-            "+                        <driver>com.mysql.jdbc.Driver</driver>\n", 
-            "+                        <url>jdbc:mysql://localhost:3306/synapsedb</url>\n", 
-            "+                        <user>user</user>\n", 
-            "+                        <password>password</password>\n", 
-            "+                    </pool>\n", 
-            "+                </connection>\n", 
-            "+                <statement>\n", 
-            "+                    <sql>call updateCompany(?,?)</sql>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                </statement>\n", 
-            "+            </dbreport>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\" value=\"** Looking up from the Database **\"/>\n", 
-            "+            </log>\n", 
-            "+            <dblookup>\n", 
-            "+                <connection>\n", 
-            "+                    <pool>\n", 
-            "+                        <driver>com.mysql.jdbc.Driver</driver>\n", 
-            "+                        <url>jdbc:mysql://localhost:3306/synapsedb</url>\n", 
-            "+                        <user>user</user>\n", 
-            "+                        <password>password</password>\n", 
-            "+                    </pool>\n", 
-            "+                </connection>\n", 
-            "+                <statement>\n", 
-            "+                    <sql>call getCompany(?)</sql>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                    <result name=\"stock_prize\" column=\"price\"/>\n", 
-            "+                </statement>\n", 
-            "+            </dblookup>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\"\n", 
-            "+                          expression=\"fn:concat('Stock Prize - ',get-property('stock_prize'))\"/>\n", 
-            "+            </log>\n", 
-            "+            <send/>\n", 
-            "+        </out>\n", 
-            "+    </sequence>\n", 
-            " \n", 
-            "-&lt;/definitions&gt;</div>\n", 
-            "+</definitions>]]></div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            "                     Demonstrate how to invoke a database stored procedure from Synapse\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample364.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample364.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,75 +24,71", 
-          "lines": [
-            "     </properties>\n", 
-            "     <body>\n", 
-            "         <section name=\"Sample 410: Distributed Transactions Management with the Transaction Mediator\">\n", 
-            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"\n", 
-            "-             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n", 
-            "-             xsi:schemaLocation=\"http://ws.apache.org/ns/synapse http://synapse.apache.org/ns/2010/04/configuration/synapse_config.xsd\"&gt;\n", 
-            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            " \n", 
-            "-    &lt;sequence name=\"myFaultHandler\"&gt;\n", 
-            "-        &lt;log level=\"custom\"&gt;\n", 
-            "-            &lt;property name=\"text\" value=\"** Rollback Transaction**\"/&gt;\n", 
-            "-        &lt;/log&gt;\n", 
-            "-        &lt;transaction action=\"rollback\"/&gt;\n", 
-            "-        &lt;send/&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "+<sequence name=\"myFaultHandler\">\n", 
-            "+    <log level=\"custom\">\n", 
-            "+        <property name=\"text\" value=\"** Rollback Transaction**\"/>\n", 
-            "+    </log>\n", 
-            "+    <transaction action=\"rollback\"/>\n", 
-            "+    <send/>\n", 
-            "+</sequence>\n", 
-            " \n", 
-            "-    &lt;sequence name=\"main\" onError=\"myFaultHandler\"&gt;\n", 
-            "-        &lt;in&gt;\n", 
-            "-            &lt;send&gt;\n", 
-            "-                &lt;endpoint&gt;\n", 
-            "-                    &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-                &lt;/endpoint&gt;\n", 
-            "-            &lt;/send&gt;\n", 
-            "-        &lt;/in&gt;\n", 
-            "+<sequence name=\"main\" onError=\"myFaultHandler\">\n", 
-            "+    <in>\n", 
-            "+        <send>\n", 
-            "+            <endpoint>\n", 
-            "+                <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+            </endpoint>\n", 
-            "+        </send>\n", 
-            "+    </in>\n", 
-            " \n", 
-            "-        &lt;out&gt;\n", 
-            "-            &lt;transaction action=\"new\"/&gt;\n", 
-            "+    <out>\n", 
-            "+        <transaction action=\"new\"/>\n", 
-            " \n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Reporting to the Database esbdb**\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;dsName&gt;java:jdbc/XADerbyDS&lt;/dsName&gt;\n", 
-            "-                        &lt;icClass&gt;org.jnp.interfaces.NamingContextFactory&lt;/icClass&gt;\n", 
-            "-                        &lt;url&gt;localhost:1099&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;delete from company where name =?&lt;/sql&gt;\n", 
-            "-                    &lt;parameter expression=\"//m0:return/m1:symbol/child::text()\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               type=\"VARCHAR\"/&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dbreport&gt;\n", 
-            "+        <log level=\"custom\">\n", 
-            "+            <property name=\"text\" value=\"** Reporting to the Database esbdb**\"/>\n", 
-            "+        </log>\n", 
-            "+        <dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+            <connection>\n", 
-            "+                <pool>\n", 
-            "+                    <dsName>java:jdbc/XADerbyDS</dsName>\n", 
-            "+                    <icClass>org.jnp.interfaces.NamingContextFactory</icClass>\n", 
-            "+                    <url>localhost:1099</url>\n", 
-            "+                    <user>synapse</user>\n", 
-            "+                    <password>synapse</password>\n", 
-            "+                </pool>\n", 
-            "+            </connection>\n", 
-            "+            <statement>\n", 
-            "+                <sql>delete from company where name =?</sql>\n", 
-            "+                <parameter expression=\"//m0:return/m0:symbol/child::text()\"\n", 
-            "+                           xmlns:m0=\"http://services.samples\"\n", 
-            "+                           type=\"VARCHAR\"/>\n", 
-            "+            </statement>\n", 
-            "+        </dbreport>\n", 
-            " \n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"** Reporting to the Database esbdb1**\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "-                &lt;connection&gt;\n", 
-            "-                    &lt;pool&gt;\n", 
-            "-                        &lt;dsName&gt;java:jdbc/XADerbyDS1&lt;/dsName&gt;\n", 
-            "-                        &lt;icClass&gt;org.jnp.interfaces.NamingContextFactory&lt;/icClass&gt;\n", 
-            "-                        &lt;url&gt;localhost:1099&lt;/url&gt;\n", 
-            "-                        &lt;user&gt;synapse&lt;/user&gt;\n", 
-            "-                        &lt;password&gt;synapse&lt;/password&gt;\n", 
-            "-                    &lt;/pool&gt;\n", 
-            "-                &lt;/connection&gt;\n", 
-            "-                &lt;statement&gt;\n", 
-            "-                    &lt;sql&gt;INSERT into company values ('IBM','c4',12.0)&lt;/sql&gt;\n", 
-            "-                &lt;/statement&gt;\n", 
-            "-            &lt;/dbreport&gt;\n", 
-            "-            &lt;transaction action=\"commit\"/&gt;\n", 
-            "-            &lt;send/&gt;\n", 
-            "-        &lt;/out&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "-\n", 
-            "-&lt;/definitions&gt;</div>\n", 
-            "+        <log level=\"custom\">\n", 
-            "+            <property name=\"text\" value=\"** Reporting to the Database esbdb1**\"/>\n", 
-            "+        </log>\n", 
-            "+        <dbreport useTransaction=\"true\" xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+            <connection>\n", 
-            "+                <pool>\n", 
-            "+                    <dsName>java:jdbc/XADerbyDS1</dsName>\n", 
-            "+                    <icClass>org.jnp.interfaces.NamingContextFactory</icClass>\n", 
-            "+                    <url>localhost:1099</url>\n", 
-            "+                    <user>synapse</user>\n", 
-            "+                    <password>synapse</password>\n", 
-            "+                </pool>\n", 
-            "+            </connection>\n", 
-            "+            <statement>\n", 
-            "+                <sql> INSERT into company values ('IBM','c4',12.0)</sql>\n", 
-            "+            </statement>\n", 
-            "+        </dbreport>\n", 
-            "+        <transaction action=\"commit\"/>\n", 
-            "+        <send/>\n", 
-            "+    </out>\n", 
-            "+</sequence>\n", 
-            "+</definitions>]]></div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            "                     Demonstrate how to manage complex distributed transactions using the transaction\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample410.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample410.xml"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-24,83 +24,83", 
           "lines": [
             "     </properties>\n", 
@@ -2518,115 +2855,6 @@
     {
       "chunks": [
         {
-          "locn": "-104,7 +104,7", 
-          "lines": [
-            "                     with the following payload.\n", 
-            "                 </p>\n", 
-            "                 <div class=\"xmlConf\">&lt;getQuote xmlns=&quot;http://services.samples&quot;&gt;\n", 
-            "-   &lt;request xmlns=&quot;http://services.samples/xsd&quot;&gt;\n", 
-            "+   &lt;request&gt;\n", 
-            "        &lt;symbol&gt;IBM&lt;/symbol&gt;\n", 
-            "    &lt;/request&gt;\n", 
-            " &lt;/getQuote&gt;</div>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,43 +24,42", 
-          "lines": [
-            "     </properties>\n", 
-            "     <body>\n", 
-            "         <section name=\"Sample 851: Introduction to Synapse Splitter and Aggregator eip function templates\">\n", 
-            "-            <div class=\"xmlConf\">&lt;!-- Introduction to Synapse Splitter and Aggregator eip function templates --&gt;\n", 
-            "-&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "-&lt;import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" /&gt;\n", 
-            "- &lt;proxy name=\"StockQuoteProxy\" transports=\"https http\" startOnLoad=\"true\" trace=\"disable\"&gt;\n", 
-            "-        &lt;target&gt;\n", 
-            "-        &lt;inSequence&gt;\n", 
-            "-            &lt;log level=\"custom\"&gt;\n", 
-            "-                &lt;property name=\"text\" value=\"splitterAggrigator\"/&gt;\n", 
-            "-            &lt;/log&gt;\n", 
-            "-            &lt;call-template target=\"synapse.lang.eip.splitter\"&gt;\n", 
-            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"iterate_exp\" value=\"{{//m0:getQuote/m0:request}}\"/&gt;\n", 
-            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"attach_path\" value=\"{{//m0:getQuote}}\"/&gt;\n", 
-            "-                &lt;with-param name=\"attach_path_enabled\" value=\"true\"/&gt;\n", 
-            "-                &lt;with-param name=\"endpoint_uri\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-            &lt;/call-template&gt;\n", 
-            "-        &lt;/inSequence&gt;\n", 
-            "-        &lt;outSequence&gt;\n", 
-            "-            &lt;call-template target=\"synapse.lang.eip.aggregator\"&gt;\n", 
-            "-                &lt;with-param name=\"sequence_ref\" value=\"enr\"/&gt;\n", 
-            "-                &lt;with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/&gt;\n", 
-            "-                &lt;with-param name=\"oncomplete_seq_enabled\" value=\"true\"/&gt;\n", 
-            "-            &lt;/call-template&gt;\n", 
-            "-        &lt;/outSequence&gt;\n", 
-            "-    &lt;/target&gt;\n", 
-            "-    &lt;/proxy&gt;\n", 
-            "-&lt;sequence xmlns=\"http://ws.apache.org/ns/synapse\" name=\"enr\"&gt;\n", 
-            "-    &lt;log level=\"custom\"&gt;\n", 
-            "-        &lt;property name=\"text\" value=\"seqhit\"/&gt;\n", 
-            "-    &lt;/log&gt;\n", 
-            "-    &lt;enrich&gt;\n", 
-            "-        &lt;source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/&gt;\n", 
-            "-        &lt;target type=\"body\"/&gt;\n", 
-            "-    &lt;/enrich&gt;\n", 
-            "-    &lt;send/&gt;\n", 
-            "-&lt;/sequence&gt;\n", 
-            "-&lt;/definitions&gt;</div>\n", 
-            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
-            "+ <proxy name=\"StockQuoteProxy\" transports=\"https http\" startOnLoad=\"true\" trace=\"disable\">\n", 
-            "+        <target>\n", 
-            "+        <inSequence>\n", 
-            "+            <log level=\"custom\">\n", 
-            "+                <property name=\"text\" value=\"splitterAggrigator\"/>\n", 
-            "+            </log>\n", 
-            "+            <call-template target=\"synapse.lang.eip.splitter\">\n", 
-            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"iterate_exp\" value=\"{{//m0:getQuote/m0:request}}\"/>\n", 
-            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"attach_path\" value=\"{{//m0:getQuote}}\"/>\n", 
-            "+                <with-param name=\"attach_path_enabled\" value=\"true\"/>\n", 
-            "+                <with-param name=\"endpoint_uri\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "+            </call-template>\n", 
-            "+        </inSequence>\n", 
-            "+        <outSequence>\n", 
-            "+            <call-template target=\"synapse.lang.eip.aggregator\">\n", 
-            "+                <with-param name=\"sequence_ref\" value=\"enr\"/>\n", 
-            "+                <with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/>\n", 
-            "+                <with-param name=\"oncomplete_seq_enabled\" value=\"true\"/>\n", 
-            "+            </call-template>\n", 
-            "+        </outSequence>\n", 
-            "+    </target>\n", 
-            "+    </proxy>\n", 
-            "+<sequence xmlns=\"http://ws.apache.org/ns/synapse\" name=\"enr\">\n", 
-            "+    <log level=\"custom\">\n", 
-            "+        <property name=\"text\" value=\"seqhit\"/>\n", 
-            "+    </log>\n", 
-            "+    <enrich>\n", 
-            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
-            "+        <target type=\"body\"/>\n", 
-            "+    </enrich>\n", 
-            "+    <send/>\n", 
-            "+</sequence>\n", 
-            "+</definitions>]]></div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            " This sample is an introduction to Synapse Splitter and Aggregator eip function templates. This showcase the combined functionality of Splitter and Aggregator patterns.\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample851.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample851.xml"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-24,32 +24,31", 
           "lines": [
             "     </properties>\n", 
@@ -2691,85 +2919,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample852.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample852.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,28 +24,27", 
-          "lines": [
-            "     </properties>\n", 
-            "     <body>\n", 
-            "         <section name=\"Sample 853: Introduction to Synapse Scatter-Gather eip function template\">\n", 
-            "-            <div class=\"xmlConf\">&lt;!-- Introduction to Synapse Scatter-Gather eip function template --&gt;\n", 
-            "-&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            "-&lt;import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" /&gt;\n", 
-            "-&lt;sequence name=\"enr\"&gt;\n", 
-            "-        &lt;log level=\"custom\"&gt;\n", 
-            "-            &lt;property name=\"text\" value=\"seqhit\"/&gt;\n", 
-            "-        &lt;/log&gt;\n", 
-            "-        &lt;enrich&gt;\n", 
-            "-            &lt;source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/&gt;\n", 
-            "-            &lt;target type=\"body\"/&gt;\n", 
-            "-        &lt;/enrich&gt;\n", 
-            "-        &lt;send/&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "-    &lt;sequence name=\"main\"&gt;\n", 
-            "-        &lt;call-template target=\"synapse.lang.eip.scatter_gather\"&gt;\n", 
-            "-            &lt;with-param name=\"sequence_ref\" value=\"enr\"/&gt;\n", 
-            "-            &lt;with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/&gt;\n", 
-            "-            &lt;with-param name=\"oncomplete_seq_enabled\" value=\"true\"/&gt;\n", 
-            "-            &lt;with-param name=\"recipient_list\" value=\"http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\"/&gt;\n", 
-            "-        &lt;/call-template&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "-&lt;/definitions&gt;</div>\n", 
-            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
-            "+<sequence name=\"enr\">\n", 
-            "+        <log level=\"custom\">\n", 
-            "+            <property name=\"text\" value=\"seqhit\"/>\n", 
-            "+        </log>\n", 
-            "+        <enrich>\n", 
-            "+            <source xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
-            "+            <target type=\"body\"/>\n", 
-            "+        </enrich>\n", 
-            "+        <send/>\n", 
-            "+    </sequence>\n", 
-            "+    <sequence name=\"main\">\n", 
-            "+        <call-template target=\"synapse.lang.eip.scatter_gather\">\n", 
-            "+            <with-param name=\"sequence_ref\" value=\"enr\"/>\n", 
-            "+            <with-param xmlns:m0=\"http://services.samples\" name=\"aggregator_exp\" value=\"{{//m0:return}}\"/>\n", 
-            "+            <with-param name=\"oncomplete_seq_enabled\" value=\"true\"/>\n", 
-            "+            <with-param name=\"recipient_list\" value=\"http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\"/>\n", 
-            "+        </call-template>\n", 
-            "+    </sequence>\n", 
-            "+</definitions>]]></div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            " This sample is an introduction to Synapse Scatter-Gather eip function template. Scatter-Gather pattern broadcasts a message to multiple recipients and re-aggregates the responses back into a single message and send back to client or mediates to the defined target sequence.\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample853.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample853.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-172,7 +172,7", 
-          "lines": [
-            "         &lt;/wsrm:SequenceAcknowledgement&gt;\n", 
-            "     &lt;/soapenv:Header&gt;\n", 
-            "     &lt;soapenv:Body&gt;\n", 
-            "-        &lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples/xsd&quot;&gt;\n", 
-            "+        &lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples&quot;&gt;\n", 
-            " ...</div>\n", 
-            "                 <p>\n", 
-            "                     Now both Synapse and the server are done with the actual message exchange. Then\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample101.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample101.xml"
     }, 
     {
       "chunks": [
@@ -2856,85 +3005,150 @@
     {
       "chunks": [
         {
-          "locn": "-114,7 +114,7", 
+          "locn": "-106,7 +106,7", 
           "lines": [
-            "     public boolean mediate(MessageContext mc) {\n", 
+            " Connection: Keep-Alive\n", 
             " \n", 
-            "         String price= mc.getEnvelope().getBody().getFirstElement().getFirstElement().\n", 
-            "-                getFirstChildWithName(new QName(&quot;http://services.samples/xsd&quot;,&quot;last&quot;)).getText();\n", 
-            "+                getFirstChildWithName(new QName(&quot;http://services.samples&quot;,&quot;last&quot;)).getText();\n", 
-            " \n", 
-            "         //converting String properties into integers\n", 
-            "         int discount=Integer.parseInt(discountFactor);\n"
-          ]
-        }, 
-        {
-          "locn": "-133,7 +133,7", 
-          "lines": [
-            "         String discountedPrice = lastPrice.toString();\n", 
-            " \n", 
-            "         mc.getEnvelope().getBody().getFirstElement().getFirstElement().getFirstChildWithName\n", 
-            "-                (new QName(&quot;http://services.samples/xsd&quot;,&quot;last&quot;)).setText(discountedPrice);\n", 
-            "+                (new QName(&quot;http://services.samples&quot;,&quot;last&quot;)).setText(discountedPrice);\n", 
-            " \n", 
-            "         System.out.println(&quot;Quote value discounted.&quot;);\n", 
-            "         System.out.println(&quot;Original price: &quot; + price);\n"
+            " 2b3\n", 
+            "-&lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples/xsd&quot;&gt;\n", 
+            "+&lt;ns:getQuoteResponse xmlns:ns=&quot;http://services.samples&quot;&gt;\n", 
+            "    &lt;ns:return&gt;\n", 
+            "       &lt;ns:change&gt;3.7730036841862384&lt;/ns:change&gt;\n", 
+            "       &lt;ns:earnings&gt;-9.950236235550818&lt;/ns:earnings&gt;\n"
           ]
         }
       ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample380.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample380.xml"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample152.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample152.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-24,26 +24,26", 
+          "locn": "-135,12 +135,12", 
+          "lines": [
+            "                     First create a sample input file named stockQuoteReq.xml with the following\n", 
+            "                     content.\n", 
+            "                 </p>\n", 
+            "-                <div class=\"xmlConf\">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:ser=&quot;http://services.samples&quot; xmlns:xsd=&quot;http://services.samples/xsd&quot;&gt;\n", 
+            "+                <div class=\"xmlConf\">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:ser=&quot;http://services.samples&quot;&gt;\n", 
+            "    &lt;soap:Header/&gt;\n", 
+            "    &lt;soap:Body&gt;\n", 
+            "       &lt;ser:getQuote&gt;\n", 
+            "          &lt;ser:request&gt;\n", 
+            "-            &lt;xsd:symbol&gt;IBM&lt;/xsd:symbol&gt;\n", 
+            "+            &lt;ser:symbol&gt;IBM&lt;/ser:symbol&gt;\n", 
+            "          &lt;/ser:request&gt;\n", 
+            "       &lt;/ser:getQuote&gt;\n", 
+            "    &lt;/soap:Body&gt;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample157.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample157.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-24,52 +24,51", 
           "lines": [
             "     </properties>\n", 
             "     <body>\n", 
-            "         <section name=\"Sample 352: Accessing the Synapse MessageContext API Through Scripts\">\n", 
+            "         <section name=\"Sample 390: Introduction to the XQuery Mediator\">\n", 
             "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
             "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
             " \n", 
-            "-    &lt;sequence name=\"main\"&gt;\n", 
-            "-        &lt;in&gt;\n", 
-            "-            &lt;!-- change the MessageContext into a response and set a response payload --&gt;\n", 
-            "-            &lt;script language=\"js\"&gt;\n", 
-            "+    <sequence name=\"main\">\n", 
-            "+        <in>\n", 
-            "+            <!-- change the MessageContext into a response and set a response payload -->\n", 
-            "+            <script language=\"js\">\n", 
-            "                 mc.setTo(mc.getReplyTo());\n", 
-            "                 mc.setProperty(\"RESPONSE\", \"true\");\n", 
-            "                 mc.setPayloadXML(\n", 
-            "-                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples/xsd\"&gt;\n", 
-            "-                    &lt;ns:return&gt;\n", 
-            "-                        &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
-            "-                    &lt;/ns:return&gt;\n", 
-            "+                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples\"&gt;\n", 
-            "+                &lt;ns:return&gt;\n", 
-            "+                &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
-            "+                &lt;/ns:return&gt;\n", 
-            "                 &lt;/ns:getQuoteResponse&gt;);\n", 
-            "-            &lt;/script&gt;\n", 
-            "-        &lt;/in&gt;\n", 
-            "-        &lt;send/&gt;\n", 
-            "-    &lt;/sequence&gt;\n", 
-            "+            </script>\n", 
-            "+        </in>\n", 
-            "+        <send/>\n", 
-            "+    </sequence>\n", 
+            "-    &lt;!-- the SimpleURLRegistry allows access to a URL based registry (e.g. file:/// or http://) --&gt;\n", 
+            "-    &lt;registry provider=\"org.apache.synapse.registry.url.SimpleURLRegistry\"&gt;\n", 
+            "-        &lt;!-- the root property of the simple URL registry helps resolve a resource URL as root + key --&gt;\n", 
+            "-        &lt;parameter name=\"root\"&gt;file:repository/conf/sample/resources/&lt;/parameter&gt;\n", 
+            "-        &lt;!-- all resources loaded from the URL registry would be cached for this number of milli seconds --&gt;\n", 
+            "-        &lt;parameter name=\"cachableDuration\"&gt;15000&lt;/parameter&gt;\n", 
+            "-    &lt;/registry&gt;\n", 
+            "+    <!-- the SimpleURLRegistry allows access to a URL based registry (e.g. file:/// or http://) -->\n", 
+            "+    <registry provider=\"org.apache.synapse.registry.url.SimpleURLRegistry\">\n", 
+            "+        <!-- the root property of the simple URL registry helps resolve a resource URL as root + key -->\n", 
+            "+        <parameter name=\"root\">file:repository/conf/sample/resources/</parameter>\n", 
+            "+        <!-- all resources loaded from the URL registry would be cached for this number of milli seconds -->\n", 
+            "+        <parameter name=\"cachableDuration\">15000</parameter>\n", 
+            "+    </registry>\n", 
+            " \n", 
+            "-    &lt;localEntry key=\"xquery-key-req\"\n", 
+            "-                src=\"file:repository/conf/sample/resources/xquery/xquery_req.xq\"/&gt;\n", 
+            "+    <localEntry key=\"xquery-key-req\"\n", 
+            "+                src=\"file:repository/conf/sample/resources/xquery/xquery_req.xq\"/>\n", 
+            " \n", 
+            "-    &lt;proxy name=\"StockQuoteProxy\"&gt;\n", 
+            "-        &lt;target&gt;\n", 
+            "-            &lt;inSequence&gt;\n", 
+            "-                &lt;property name=\"body\" expression=\"$body/child::*[position()=1]\"/&gt;\n", 
+            "-                &lt;xquery key=\"xquery-key-req\"&gt;\n", 
+            "-                    &lt;variable name=\"payload\" type=\"ELEMENT\"/&gt;\n", 
+            "-                &lt;/xquery&gt;\n", 
+            "-                &lt;send&gt;\n", 
+            "-                    &lt;endpoint&gt;\n", 
+            "-                        &lt;address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/&gt;\n", 
+            "-                    &lt;/endpoint&gt;\n", 
+            "-                &lt;/send&gt;\n", 
+            "-            &lt;/inSequence&gt;\n", 
+            "-            &lt;outSequence&gt;\n", 
+            "-                &lt;out&gt;\n", 
+            "-                    &lt;xquery key=\"xquery/xquery_res.xq\"&gt;\n", 
+            "-                        &lt;variable name=\"payload\" type=\"ELEMENT\"/&gt;\n", 
+            "-                        &lt;variable xmlns:m0=\"http://services.samples\"\n", 
+            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"code\" type=\"STRING\"\n", 
+            "-                                  expression=\"self::node()//m0:return/ax21:symbol/child::text()\"/&gt;\n", 
+            "-                        &lt;variable xmlns:m0=\"http://services.samples\"\n", 
+            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"price\"\n", 
+            "-                                  type=\"DOUBLE\"\n", 
+            "-                                  expression=\"self::node()//m0:return/ax21:last/child::text()\"/&gt;\n", 
+            "-                    &lt;/xquery&gt;\n", 
+            "-                    &lt;send/&gt;\n", 
+            "-                &lt;/out&gt;\n", 
+            "-            &lt;/outSequence&gt;\n", 
+            "-        &lt;/target&gt;\n", 
+            "-        &lt;publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/&gt;\n", 
+            "-    &lt;/proxy&gt;\n", 
+            "+    <proxy name=\"StockQuoteProxy\">\n", 
+            "+        <target>\n", 
+            "+            <inSequence>\n", 
+            "+                <property name=\"body\" expression=\"$body/child::*[position()=1]\"/>\n", 
+            "+                <xquery key=\"xquery-key-req\">\n", 
+            "+                    <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
+            "+                </xquery>\n", 
+            "+                <send>\n", 
+            "+                    <endpoint>\n", 
+            "+                        <address uri=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
+            "+                    </endpoint>\n", 
+            "+                </send>\n", 
+            "+            </inSequence>\n", 
+            "+            <outSequence>\n", 
+            "+                <out>\n", 
+            "+                    <xquery key=\"xquery/xquery_res.xq\">\n", 
+            "+                        <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
+            "+                        <variable xmlns:m0=\"http://services.samples\"\n", 
+            "+                                  name=\"code\" type=\"STRING\"\n", 
+            "+                                  expression=\"self::node()//m0:return/m0:symbol/child::text()\"/>\n", 
+            "+                        <variable xmlns:m0=\"http://services.samples\"\n", 
+            "+                                  name=\"price\" type=\"DOUBLE\"\n", 
+            "+                                  expression=\"self::node()//m0:return/m0:last/child::text()\"/>\n", 
+            "+                    </xquery>\n", 
+            "+                    <send/>\n", 
+            "+                </out>\n", 
+            "+            </outSequence>\n", 
+            "+        </target>\n", 
+            "+        <publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/>\n", 
+            "+    </proxy>\n", 
             " \n", 
             "-&lt;/definitions&gt;</div>\n", 
             "+</definitions>]]></div>\n", 
             "             <subsection name=\"Objective\">\n", 
             "                 <p>\n", 
-            "                     Demonstrate how to access various methods on the Synapse MessageContext API\n"
+            "                     Demonstrate how to use the XQuery mediator for message content transformations\n"
           ]
         }
       ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample352.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample352.xml"
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample390.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample390.xml"
     }, 
     {
       "chunks": [
@@ -3107,6 +3321,57 @@
     {
       "chunks": [
         {
+          "locn": "-24,26 +24,26", 
+          "lines": [
+            "     </properties>\n", 
+            "     <body>\n", 
+            "         <section name=\"Sample 352: Accessing the Synapse MessageContext API Through Scripts\">\n", 
+            "-            <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            "+            <div class=\"xmlConf\"><![CDATA[<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            " \n", 
+            "-    &lt;sequence name=\"main\"&gt;\n", 
+            "-        &lt;in&gt;\n", 
+            "-            &lt;!-- change the MessageContext into a response and set a response payload --&gt;\n", 
+            "-            &lt;script language=\"js\"&gt;\n", 
+            "+    <sequence name=\"main\">\n", 
+            "+        <in>\n", 
+            "+            <!-- change the MessageContext into a response and set a response payload -->\n", 
+            "+            <script language=\"js\">\n", 
+            "                 mc.setTo(mc.getReplyTo());\n", 
+            "                 mc.setProperty(\"RESPONSE\", \"true\");\n", 
+            "                 mc.setPayloadXML(\n", 
+            "-                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples/xsd\"&gt;\n", 
+            "-                    &lt;ns:return&gt;\n", 
+            "-                        &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
+            "-                    &lt;/ns:return&gt;\n", 
+            "+                &lt;ns:getQuoteResponse xmlns:ns=\"http://services.samples\"&gt;\n", 
+            "+                &lt;ns:return&gt;\n", 
+            "+                &lt;ns:last&gt;99.9&lt;/ns:last&gt;\n", 
+            "+                &lt;/ns:return&gt;\n", 
+            "                 &lt;/ns:getQuoteResponse&gt;);\n", 
+            "-            &lt;/script&gt;\n", 
+            "-        &lt;/in&gt;\n", 
+            "-        &lt;send/&gt;\n", 
+            "-    &lt;/sequence&gt;\n", 
+            "+            </script>\n", 
+            "+        </in>\n", 
+            "+        <send/>\n", 
+            "+    </sequence>\n", 
+            " \n", 
+            "-&lt;/definitions&gt;</div>\n", 
+            "+</definitions>]]></div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            "                     Demonstrate how to access various methods on the Synapse MessageContext API\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample352.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample352.xml"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-254,51 +254,46", 
           "lines": [
             "                     as \"DEBUG\" instead of INFO, you will see even more information as follows after\n", 
@@ -3202,270 +3467,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/quick_start.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/quick_start.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-50,12 +50,11", 
-          "lines": [
-            "                     <xquery key=\"xquery/xquery_res.xq\">\n", 
-            "                         <variable name=\"payload\" type=\"ELEMENT\"/>\n", 
-            "                         <variable xmlns:m0=\"http://services.samples\"\n", 
-            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"code\" type=\"STRING\"\n", 
-            "-                                  expression=\"self::node()//m0:return/ax21:symbol/child::text()\"/>\n", 
-            "+                                  name=\"code\" type=\"STRING\"\n", 
-            "+                                  expression=\"self::node()//m0:return/m0:symbol/child::text()\"/>\n", 
-            "                         <variable xmlns:m0=\"http://services.samples\"\n", 
-            "-                                  xmlns:ax21=\"http://services.samples/xsd\" name=\"price\"\n", 
-            "-                                  type=\"DOUBLE\"\n", 
-            "-                                  expression=\"self::node()//m0:return/ax21:last/child::text()\"/>\n", 
-            "+                                  name=\"price\" type=\"DOUBLE\"\n", 
-            "+                                  expression=\"self::node()//m0:return/m0:last/child::text()\"/>\n", 
-            "                     </xquery>\n", 
-            "                     <send/>\n", 
-            "                 </out>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_390.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_390.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-46,12 +46,10", 
-          "lines": [
-            "                 </connection>\n", 
-            "                 <statement>\n", 
-            "                     <sql>update company set price=? where name =?</sql>\n", 
-            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:last/child::text()\" type=\"DOUBLE\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                 </statement>\n", 
-            "             </dbreport>\n", 
-            "             <log level=\"custom\">\n"
-          ]
-        }, 
-        {
-          "locn": "-68,9 +66,8", 
-          "lines": [
-            "                 </connection>\n", 
-            "                 <statement>\n", 
-            "                     <sql>select * from company where name =?</sql>\n", 
-            "-                    <parameter xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "-                               xmlns:m0=\"http://services.samples\"\n", 
-            "-                               expression=\"//m0:return/m1:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "+                    <parameter xmlns:m0=\"http://services.samples\"\n", 
-            "+                               expression=\"//m0:return/m0:symbol/child::text()\" type=\"VARCHAR\"/>\n", 
-            "                     <result name=\"stock_price\" column=\"price\"/>\n", 
-            "                 </statement>\n", 
-            "             </dblookup>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_362.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_362.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-57,8 +57,8", 
-          "lines": [
-            "             </connection>\n", 
-            "             <statement>\n", 
-            "                 <sql>delete from company where name =?</sql>\n", 
-            "-                <parameter expression=\"//m0:return/m1:symbol/child::text()\"\n", 
-            "-                           xmlns:m0=\"http://services.samples\" xmlns:m1=\"http://services.samples/xsd\"\n", 
-            "+                <parameter expression=\"//m0:return/m0:symbol/child::text()\"\n", 
-            "+                           xmlns:m0=\"http://services.samples\"\n", 
-            "                            type=\"VARCHAR\"/>\n", 
-            "             </statement>\n", 
-            "         </dbreport>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_410.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_410.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-1,10 +1,9", 
-          "lines": [
-            " <x><![CDATA[\n", 
-            "   declare namespace ns=\"http://services.samples\";\n", 
-            "-  declare namespace m1=\"http://services.samples/xsd\";\n", 
-            "   declare variable $payload as document-node() external;\n", 
-            "   declare variable $commission as document-node() external;\n", 
-            "-  <m0:return xmlns:m0=\"http://services.samples/xsd\">\n", 
-            "-  \t<m0:symbol>{$payload//ns:return/m1:symbol/child::text()}</m0:symbol>\n", 
-            "-  \t<m0:last>{$payload//ns:return/m1:last/child::text()+ $commission//commission/vendor[@symbol=$payload//ns:return/m1:symbol/child::text()]}</m0:last>\n", 
-            "+  <m0:return xmlns:m0=\"http://services.samples\">\n", 
-            "+  \t<m0:symbol>{$payload//ns:return/ns:symbol/child::text()}</m0:symbol>\n", 
-            "+  \t<m0:last>{$payload//ns:return/ns:last/child::text()+ $commission//commission/vendor[@symbol=$payload//ns:return/ns:symbol/child::text()]}</m0:last>\n", 
-            "   </m0:return>  \n", 
-            " ]]></x>\n", 
-            "\\ No newline at end of file\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/resources/xquery/xquery_commisson.xq", 
-      "from": "java/repository/conf/sample/resources/xquery/xquery_commisson.xq"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-48,8 +48,8", 
-          "lines": [
-            "         <property name=\"text\" value=\"seqhit\"/>\n", 
-            "     </log>\n", 
-            "     <enrich>\n", 
-            "-        <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
-            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
-            "         <target type=\"body\"/>\n", 
-            "     </enrich>\n", 
-            "     <send/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_851.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_851.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-53,9 +53,8", 
-          "lines": [
-            "             <header xmlns:urn=\"http://synapse.apache.org\" name=\"urn:lastTradeTimestamp\" value=\"foo\"/>\n", 
-            "             <enrich>\n", 
-            "                 <source type=\"custom\"\n", 
-            "-                        xpath=\"//ns:getQuoteResponse/ns:return/ax21:lastTradeTimestamp\"\n", 
-            "-                        xmlns:ns=\"http://services.samples\"\n", 
-            "-                        xmlns:ax21=\"http://services.samples/xsd\"/>\n", 
-            "+                        xpath=\"//ns:getQuoteResponse/ns:return/ns:lastTradeTimestamp\"\n", 
-            "+                        xmlns:ns=\"http://services.samples\"/>\n", 
-            "                 <target xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n", 
-            "                         xmlns:urn=\"http://synapse.apache.org\"\n", 
-            "                         xpath=\"/soapenv:Envelope/soapenv:Header/urn:lastTradeTimestamp\"/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_15.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_15.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,6 +24,7", 
-          "lines": [
-            "     <task class=\"org.apache.synapse.startup.tasks.MessageInjector\" name=\"CheckPrice\">\n", 
-            "         <property name=\"to\" value=\"http://localhost:9000/services/SimpleStockQuoteService\"/>\n", 
-            "         <property name=\"soapAction\" value=\"urn:getQuote\"/>\n", 
-            "+        <property name=\"format\" value=\"soap11\"/>\n", 
-            "         <property name=\"message\">\n", 
-            "             <m0:getQuote xmlns:m0=\"http://services.samples\">\n", 
-            "                 <m0:request>\n"
-          ]
-        }, 
-        {
-          "locn": "-40,15 +41,12", 
-          "lines": [
-            "         </in>\n", 
-            "         <out>\n", 
-            "             <log level=\"custom\">\n", 
-            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
-            "-                          xmlns:ns=\"http://services.samples\" name=\"Stock_Quote_on\"\n", 
-            "-                          expression=\"//ns:return/ax21:lastTradeTimestamp/child::text()\"/>\n", 
-            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
-            "-                          xmlns:ns=\"http://services.samples\" name=\"For_the_organization\"\n", 
-            "-                          expression=\"//ns:return/ax21:name/child::text()\"/>\n", 
-            "-                <property xmlns:ax21=\"http://services.samples/xsd\"\n", 
-            "-                          xmlns:ns=\"http://services.samples\" name=\"Last_Value\"\n", 
-            "-                          expression=\"//ns:return/ax21:last/child::text()\"/>\n", 
-            "+                <property xmlns:ns=\"http://services.samples\" name=\"Stock_Quote_on\"\n", 
-            "+                          expression=\"//ns:return/ns:lastTradeTimestamp/child::text()\"/>\n", 
-            "+                <property xmlns:ns=\"http://services.samples\" name=\"For_the_organization\"\n", 
-            "+                          expression=\"//ns:return/ns:name/child::text()\"/>\n", 
-            "+                <property xmlns:ns=\"http://services.samples\" name=\"Last_Value\"\n", 
-            "+                          expression=\"//ns:return/ns:last/child::text()\"/>\n", 
-            "             </log>\n", 
-            "         </out>\n", 
-            "     </sequence>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_300.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_300.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-37,8 +37,8", 
-          "lines": [
-            "         <property name=\"text\" value=\"seqhit\"/>\n", 
-            "     </log>\n", 
-            "     <enrich>\n", 
-            "-        <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "-                xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
-            "+        <source xmlns:m0=\"http://services.samples\" clone=\"true\"\n", 
-            "+                xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
-            "         <target type=\"body\"/>\n", 
-            "     </enrich>\n", 
-            "     <send/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_852.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_852.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-47,8 +47,8", 
-          "lines": [
-            "                     </m:CheckPriceResponse>\n", 
-            "                 </format>\n", 
-            "                 <args>\n", 
-            "-                    <arg xmlns:m0=\"http://services.samples/xsd\" expression=\"//m0:symbol\"/>\n", 
-            "-                    <arg xmlns:m0=\"http://services.samples/xsd\" expression=\"//m0:last\"/>\n", 
-            "+                    <arg xmlns:m0=\"http://services.samples\" expression=\"//m0:symbol\"/>\n", 
-            "+                    <arg xmlns:m0=\"http://services.samples\" expression=\"//m0:last\"/>\n", 
-            "                 </args>\n", 
-            "             </payloadFactory>\n", 
-            "         </out>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_17.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_17.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,7 +26,7", 
-          "lines": [
-            "             <property name=\"text\" value=\"seqhit\"/>\n", 
-            "         </log>\n", 
-            "         <enrich>\n", 
-            "-            <source xmlns:m1=\"http://services.samples/xsd\" xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m1:last &lt;= m1:last) and not(following-sibling::m0:return/m1:last &lt; m1:last)]\"/>\n", 
-            "+            <source xmlns:m0=\"http://services.samples\" clone=\"true\" xpath=\"//m0:return[not(preceding-sibling::m0:return/m0:last &lt;= m0:last) and not(following-sibling::m0:return/m0:last &lt; m0:last)]\"/>\n", 
-            "             <target type=\"body\"/>\n", 
-            "         </enrich>\n", 
-            "         <send/>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_853.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_853.xml"
     }, 
     {
       "chunks": [], 

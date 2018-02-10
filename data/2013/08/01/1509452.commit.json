@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T18:03:03-04:00", 
+  "message": "added initial ha implementations.", 
   "who": "rajikak", 
   "changes": [
     {
@@ -437,59 +438,6 @@
     {
       "chunks": [
         {
-          "locn": "-168,28 +168,6", 
-          "lines": [
-            "         }\n", 
-            " \n", 
-            "         try {\n", 
-            "-            Integer initialReconectionDuration = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION,\n", 
-            "-                    svcParam, conFacParam);\n", 
-            "-            if (initialReconectionDuration != null) {\n", 
-            "-                pt.setInitialReconnectDuration(initialReconectionDuration);\n", 
-            "-            }\n", 
-            "-        } catch (AMQPTransportException e) {\n", 
-            "-            throw new AxisFault(\"Could not assign the initial re-connection duration\", e);\n", 
-            "-        }\n", 
-            "-\n", 
-            "-        try {\n", 
-            "-            Integer reconnectionFactor = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "-                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR,\n", 
-            "-                    svcParam, conFacParam);\n", 
-            "-            if (reconnectionFactor != null) {\n", 
-            "-                pt.setReconnectionFactor(reconnectionFactor);\n", 
-            "-            }\n", 
-            "-        } catch (AMQPTransportException e) {\n", 
-            "-            throw new AxisFault(\"Could not assign reconnection factor\", e);\n", 
-            "-        }\n", 
-            "-\n", 
-            "-        try {\n", 
-            "             Integer dispatchingTask = AMQPTransportUtils.getOptionalIntParameter(\n", 
-            "                     AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE,\n", 
-            "                     svcParam, conFacParam);\n"
-          ]
-        }, 
-        {
-          "locn": "-251,9 +229,6", 
-          "lines": [
-            "                     \"Is queue restricted: '\" + pt.isQueueRestricted() + \"'\\n\" +\n", 
-            "                     \"Is queue auto deleted: '\" + pt.isQueueAutoDelete() + \"'\\n\" +\n", 
-            "                     \"Is blocking mode: '\" + pt.isBlockingMode() + \"'\\n\" +\n", 
-            "-                    \"Initial re-connection duration: '\" + pt.getInitialReconnectDuration() + \"(ms)'\\n\" +\n", 
-            "-                    \"Re-connection progression factor: '\" + pt.getReconnectionFactor() + \"'\\n\" +\n", 
-            "-                    \"Maximum re-connection duration: '\" + pt.getMaxReconnectionDuration() + \"'\\n\" +\n", 
-            "                     \"Number of concurrent consumers: '\" + pt.getNoOfConcurrentConsumers() + \"'\\n\" +\n", 
-            "                     \"Number of dispatching task: '\" + pt.getNoOfDispatchingTask() + \"'\");\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
-      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-151,25 +151,6", 
           "lines": [
             "     private int noOfConcurrentConsumers = 2;\n", 
@@ -572,6 +520,59 @@
       ], 
       "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java", 
       "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTask.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-168,28 +168,6", 
+          "lines": [
+            "         }\n", 
+            " \n", 
+            "         try {\n", 
+            "-            Integer initialReconectionDuration = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_INITIAL_RE_CONNECTION_DURATION,\n", 
+            "-                    svcParam, conFacParam);\n", 
+            "-            if (initialReconectionDuration != null) {\n", 
+            "-                pt.setInitialReconnectDuration(initialReconectionDuration);\n", 
+            "-            }\n", 
+            "-        } catch (AMQPTransportException e) {\n", 
+            "-            throw new AxisFault(\"Could not assign the initial re-connection duration\", e);\n", 
+            "-        }\n", 
+            "-\n", 
+            "-        try {\n", 
+            "-            Integer reconnectionFactor = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "-                    AMQPTransportConstant.PARAMETER_RE_CONNECTION_PROGRESSION_FACTOR,\n", 
+            "-                    svcParam, conFacParam);\n", 
+            "-            if (reconnectionFactor != null) {\n", 
+            "-                pt.setReconnectionFactor(reconnectionFactor);\n", 
+            "-            }\n", 
+            "-        } catch (AMQPTransportException e) {\n", 
+            "-            throw new AxisFault(\"Could not assign reconnection factor\", e);\n", 
+            "-        }\n", 
+            "-\n", 
+            "-        try {\n", 
+            "             Integer dispatchingTask = AMQPTransportUtils.getOptionalIntParameter(\n", 
+            "                     AMQPTransportConstant.PARAMETER_DISPATCHING_TASK_SIZE,\n", 
+            "                     svcParam, conFacParam);\n"
+          ]
+        }, 
+        {
+          "locn": "-251,9 +229,6", 
+          "lines": [
+            "                     \"Is queue restricted: '\" + pt.isQueueRestricted() + \"'\\n\" +\n", 
+            "                     \"Is queue auto deleted: '\" + pt.isQueueAutoDelete() + \"'\\n\" +\n", 
+            "                     \"Is blocking mode: '\" + pt.isBlockingMode() + \"'\\n\" +\n", 
+            "-                    \"Initial re-connection duration: '\" + pt.getInitialReconnectDuration() + \"(ms)'\\n\" +\n", 
+            "-                    \"Re-connection progression factor: '\" + pt.getReconnectionFactor() + \"'\\n\" +\n", 
+            "-                    \"Maximum re-connection duration: '\" + pt.getMaxReconnectionDuration() + \"'\\n\" +\n", 
+            "                     \"Number of concurrent consumers: '\" + pt.getNoOfConcurrentConsumers() + \"'\\n\" +\n", 
+            "                     \"Number of dispatching task: '\" + pt.getNoOfDispatchingTask() + \"'\");\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java", 
+      "from": "java/modules/transports/optional/amqp/src/main/java/org/apache/synapse/transport/amqp/pollingtask/AMQPTransportPollingTaskFactory.java"
     }, 
     {
       "chunks": [

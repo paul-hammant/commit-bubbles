@@ -1,5 +1,6 @@
 {
   "when": "2013-07-20T16:10:47-04:00", 
+  "message": "Applying the patch for SYNAPSE-940. Fail safe mode for APIs.", 
   "who": "hiranya", 
   "changes": [
     {

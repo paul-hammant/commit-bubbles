@@ -1,5 +1,6 @@
 {
   "when": "2011-11-30T08:46:04-05:00", 
+  "message": "applying the patchfor SYNAPSE-804", 
   "who": "charith", 
   "changes": [
     {

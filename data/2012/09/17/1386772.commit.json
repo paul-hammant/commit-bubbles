@@ -1,5 +1,6 @@
 {
   "when": "2012-09-17T15:03:07-04:00", 
+  "message": "Ensure that the correct message receiver is used for oneWayUploadUsingMTOM.", 
   "who": "veithen", 
   "changes": [
     {

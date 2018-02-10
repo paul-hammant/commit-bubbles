@@ -1,25 +1,8 @@
 {
   "when": "2012-01-13T00:25:15-05:00", 
+  "message": "Shutting down the schedulers initiated by the scheduled processors", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-186,6 +186,7", 
-          "lines": [
-            "     public void destroy() {\n", 
-            "         try {\n", 
-            "             scheduler.deleteJob(name + \"-trigger\",SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
-            "+            scheduler.shutdown(true);\n", 
-            "         } catch (SchedulerException e) {\n", 
-            "             log.error(\"Error while destroying the task \" + e);\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/ScheduledMessageProcessor.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/ScheduledMessageProcessor.java"
-    }, 
     {
       "chunks": [
         {
@@ -53,6 +36,24 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ScheduledMessageForwardingProcessor.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-186,6 +186,7", 
+          "lines": [
+            "     public void destroy() {\n", 
+            "         try {\n", 
+            "             scheduler.deleteJob(name + \"-trigger\",SCHEDULED_MESSAGE_PROCESSOR_GROUP);\n", 
+            "+            scheduler.shutdown(true);\n", 
+            "         } catch (SchedulerException e) {\n", 
+            "             log.error(\"Error while destroying the task \" + e);\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/ScheduledMessageProcessor.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/ScheduledMessageProcessor.java"
     }
   ], 
   "id": "1230903"

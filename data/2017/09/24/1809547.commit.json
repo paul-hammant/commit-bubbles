@@ -1,5 +1,6 @@
 {
   "when": "2017-09-24T15:49:18-04:00", 
+  "message": "Typo correction and handling non-sql exception", 
   "who": "vanji", 
   "changes": [
     {

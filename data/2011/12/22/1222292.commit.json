@@ -1,5 +1,6 @@
 {
   "when": "2011-12-22T10:51:46-05:00", 
+  "message": "Documentation update", 
   "who": "hiranya", 
   "changes": [
     {
@@ -132,21 +133,109 @@
     {
       "chunks": [
         {
-          "locn": "-24,7 +24,7", 
+          "locn": "-39,14 +39,15", 
           "lines": [
-            "         <title>Apache Synapse - Transports Catalog</title>\n", 
-            "     </properties>\n", 
-            " \t<body>\n", 
-            "-\t\t<section name=\"Introduction\" id=\"Introduction\">\n", 
-            "+\t\t<section name=\"Transports Catalog\" id=\"Introduction\">\n", 
-            " \t\t\t<p>\n", 
-            "                 The Synapse project has developed a set of transport implementations that provide\n", 
-            "                 protocol support and/or features that go beyond what is provided out of the box by\n"
+            "             <item name=\"Installation Guide\" href=\"userguide/installation.html\"/>\n", 
+            "             <item name=\"Quick Start Guide\" href=\"userguide/quick_start.html\"/>\n", 
+            "             <item name=\"Samples Setup Guide\" href=\"userguide/samples/setup/index.html\"/>\n", 
+            "-            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
+            "             <item name=\"Samples Catalog\" href=\"userguide/samples.html\"/>\n", 
+            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
+            "+            <item name=\"Mediators Catalog\" href=\"userguide/mediators.html\"/>\n", 
+            "+            <item name=\"Transports Catalog\" href=\"userguide/transports.html\"/>\n", 
+            "+            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
+            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n", 
+            "             <item name=\"Deployment\" href=\"userguide/deployment.html\"/>\n", 
+            "-            <item name=\"Transport\" href=\"userguide/transports.html\"/>\n", 
+            "             <item name=\"Javadocs\" href=\"apidocs/\"/>\n", 
+            "-            <item name=\"FAQ\" href=\"apidocs/\"/>\n", 
+            "+            <item name=\"FAQ\" href=\"userguide/faq.html\"/>\n", 
+            "         </menu>\n", 
+            "         <menu name=\"Developer Resources\">\n", 
+            "             <item name=\"Developer Guide \" href=\"developer-guide.html\"/>\n"
+          ]
+        }, 
+        {
+          "locn": "-55,7 +56,7", 
+          "lines": [
+            "             <item name=\"How to Contribute\"/>\n", 
+            "         </menu>\n", 
+            "         <menu name=\"Project Details\">\n", 
+            "-            <item name=\"Overview\" href=\"project-details.html\"/>\n", 
+            "+            <item name=\"Overview\" href=\"project-info.html\"/>\n", 
+            "             <item name=\"Mailing Lists\" href=\"mail-lists.html\"/>\n", 
+            "             <item name=\"Source Repository\" href=\"source-repository.html\"/>\n", 
+            "             <item name=\"Issue Tracking\" href=\"issue-tracking.html\"/>\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/transports.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/transports.xml"
+      "to": "scratch/hiranya/website/src/site/site.xml", 
+      "from": "scratch/hiranya/website/src/site/site.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-35,11 +35,11", 
+          "lines": [
+            "                     <th>Release Date</th>\n", 
+            "                     <th>Release Note</th>\n", 
+            "                 </tr>\n", 
+            "-                <th>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/2.1/download.cgi\">2.1</a></td>\n", 
+            "                     <td>22-Dec-2011</td>\n", 
+            "                     <td>View</td>\n", 
+            "-                </th>\n", 
+            "+                </tr>\n", 
+            "             </table>\n", 
+            "         </section>\n", 
+            "         <section name=\"Download Previous Releases\">\n"
+          ]
+        }, 
+        {
+          "locn": "-48,26 +48,26", 
+          "lines": [
+            "                     <th>Version</th>\n", 
+            "                     <th>Release Date</th>\n", 
+            "                 </tr>\n", 
+            "-                <th>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/2.0.0/download.cgi\">2.0.0</a></td>\n", 
+            "                     <td>30-Nov-2010</td>\n", 
+            "-                </th>\n", 
+            "-                <th>\n", 
+            "+                </tr>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/1.2/download.cgi\">1.2</a></td>\n", 
+            "                     <td>9-Jun-2008</td>\n", 
+            "-                </th>\n", 
+            "-                <th>\n", 
+            "+                </tr>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/1.1.1/download.cgi\">1.1.1</a></td>\n", 
+            "                     <td>28-Jan-2008</td>\n", 
+            "-                </th>\n", 
+            "-                <th>\n", 
+            "+                </tr>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/1.1/download.cgi\">1.1</a></td>\n", 
+            "                     <td>12-Nov-2007</td>\n", 
+            "-                </th>\n", 
+            "-                <th>\n", 
+            "+                </tr>\n", 
+            "+                <tr>\n", 
+            "                     <td><a href=\"download/2.0.0/download.cgi\">1.0</a></td>\n", 
+            "                     <td>08-Jun-2007</td>\n", 
+            "-                </th>\n", 
+            "+                </tr>\n", 
+            "             </table>\n", 
+            "         </section>\n", 
+            "     </body>\n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/download.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/download.xml"
     }, 
     {
       "chunks": [
@@ -186,6 +275,26 @@
       ], 
       "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml", 
       "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-78,6 +78,9", 
+          "lines": [
+            " \t\t\t\t\t\t<a class=\"externalLink\" href=\"http://jettison.codehaus.org/Download\">jettison.jar</a>\n", 
+            " \t\t\t\t\t</li>\n", 
+            " \t\t\t\t</ul>\n", 
+            "+                <p>\n", 
+            "+                    Jettison 1.1 is recommended.\n", 
+            "+                </p>\n", 
+            " \t\t\t\t<p>\n", 
+            "       \t\t\tHaving deployed the necessary libraries you should now register the JSON message\n", 
+            "       \t\t\tbuilder and formatter with Synapse. Open up 'repository/conf/axis2.xml' file\n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/setup/script.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/setup/script.xml"
     }, 
     {
       "chunks": [
@@ -697,26 +806,6 @@
     {
       "chunks": [
         {
-          "locn": "-78,6 +78,9", 
-          "lines": [
-            " \t\t\t\t\t\t<a class=\"externalLink\" href=\"http://jettison.codehaus.org/Download\">jettison.jar</a>\n", 
-            " \t\t\t\t\t</li>\n", 
-            " \t\t\t\t</ul>\n", 
-            "+                <p>\n", 
-            "+                    Jettison 1.1 is recommended.\n", 
-            "+                </p>\n", 
-            " \t\t\t\t<p>\n", 
-            "       \t\t\tHaving deployed the necessary libraries you should now register the JSON message\n", 
-            "       \t\t\tbuilder and formatter with Synapse. Open up 'repository/conf/axis2.xml' file\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/setup/script.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/setup/script.xml"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-3,6 +3,12", 
           "lines": [
             "         <title>Apache Synapse - Mediators Catalog</title>\n", 
@@ -740,109 +829,21 @@
     {
       "chunks": [
         {
-          "locn": "-35,11 +35,11", 
+          "locn": "-24,7 +24,7", 
           "lines": [
-            "                     <th>Release Date</th>\n", 
-            "                     <th>Release Note</th>\n", 
-            "                 </tr>\n", 
-            "-                <th>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/2.1/download.cgi\">2.1</a></td>\n", 
-            "                     <td>22-Dec-2011</td>\n", 
-            "                     <td>View</td>\n", 
-            "-                </th>\n", 
-            "+                </tr>\n", 
-            "             </table>\n", 
-            "         </section>\n", 
-            "         <section name=\"Download Previous Releases\">\n"
-          ]
-        }, 
-        {
-          "locn": "-48,26 +48,26", 
-          "lines": [
-            "                     <th>Version</th>\n", 
-            "                     <th>Release Date</th>\n", 
-            "                 </tr>\n", 
-            "-                <th>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/2.0.0/download.cgi\">2.0.0</a></td>\n", 
-            "                     <td>30-Nov-2010</td>\n", 
-            "-                </th>\n", 
-            "-                <th>\n", 
-            "+                </tr>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/1.2/download.cgi\">1.2</a></td>\n", 
-            "                     <td>9-Jun-2008</td>\n", 
-            "-                </th>\n", 
-            "-                <th>\n", 
-            "+                </tr>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/1.1.1/download.cgi\">1.1.1</a></td>\n", 
-            "                     <td>28-Jan-2008</td>\n", 
-            "-                </th>\n", 
-            "-                <th>\n", 
-            "+                </tr>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/1.1/download.cgi\">1.1</a></td>\n", 
-            "                     <td>12-Nov-2007</td>\n", 
-            "-                </th>\n", 
-            "-                <th>\n", 
-            "+                </tr>\n", 
-            "+                <tr>\n", 
-            "                     <td><a href=\"download/2.0.0/download.cgi\">1.0</a></td>\n", 
-            "                     <td>08-Jun-2007</td>\n", 
-            "-                </th>\n", 
-            "+                </tr>\n", 
-            "             </table>\n", 
-            "         </section>\n", 
-            "     </body>\n"
+            "         <title>Apache Synapse - Transports Catalog</title>\n", 
+            "     </properties>\n", 
+            " \t<body>\n", 
+            "-\t\t<section name=\"Introduction\" id=\"Introduction\">\n", 
+            "+\t\t<section name=\"Transports Catalog\" id=\"Introduction\">\n", 
+            " \t\t\t<p>\n", 
+            "                 The Synapse project has developed a set of transport implementations that provide\n", 
+            "                 protocol support and/or features that go beyond what is provided out of the box by\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/download.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/download.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-39,14 +39,15", 
-          "lines": [
-            "             <item name=\"Installation Guide\" href=\"userguide/installation.html\"/>\n", 
-            "             <item name=\"Quick Start Guide\" href=\"userguide/quick_start.html\"/>\n", 
-            "             <item name=\"Samples Setup Guide\" href=\"userguide/samples/setup/index.html\"/>\n", 
-            "-            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
-            "             <item name=\"Samples Catalog\" href=\"userguide/samples.html\"/>\n", 
-            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
-            "+            <item name=\"Mediators Catalog\" href=\"userguide/mediators.html\"/>\n", 
-            "+            <item name=\"Transports Catalog\" href=\"userguide/transports.html\"/>\n", 
-            "+            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
-            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n", 
-            "             <item name=\"Deployment\" href=\"userguide/deployment.html\"/>\n", 
-            "-            <item name=\"Transport\" href=\"userguide/transports.html\"/>\n", 
-            "             <item name=\"Javadocs\" href=\"apidocs/\"/>\n", 
-            "-            <item name=\"FAQ\" href=\"apidocs/\"/>\n", 
-            "+            <item name=\"FAQ\" href=\"userguide/faq.html\"/>\n", 
-            "         </menu>\n", 
-            "         <menu name=\"Developer Resources\">\n", 
-            "             <item name=\"Developer Guide \" href=\"developer-guide.html\"/>\n"
-          ]
-        }, 
-        {
-          "locn": "-55,7 +56,7", 
-          "lines": [
-            "             <item name=\"How to Contribute\"/>\n", 
-            "         </menu>\n", 
-            "         <menu name=\"Project Details\">\n", 
-            "-            <item name=\"Overview\" href=\"project-details.html\"/>\n", 
-            "+            <item name=\"Overview\" href=\"project-info.html\"/>\n", 
-            "             <item name=\"Mailing Lists\" href=\"mail-lists.html\"/>\n", 
-            "             <item name=\"Source Repository\" href=\"source-repository.html\"/>\n", 
-            "             <item name=\"Issue Tracking\" href=\"issue-tracking.html\"/>\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/site.xml", 
-      "from": "scratch/hiranya/website/src/site/site.xml"
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/transports.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/transports.xml"
     }
   ], 
   "id": "1222292"

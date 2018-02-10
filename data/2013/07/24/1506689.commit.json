@@ -1,24 +1,54 @@
 {
   "when": "2013-07-24T16:11:35-04:00", 
+  "message": "Not trying to send a fault for connections that are already done", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-34,6 +34,7", 
+          "locn": "-21,6 +21,7", 
           "lines": [
-            "  * This stores connections for a particular host + port.\n", 
-            "  */\n", 
-            " public class HostConnections {\n", 
-            "+\n", 
-            "     private static final Log log = LogFactory.getLog(HostConnections.class);\n", 
-            "     // host\n", 
-            "     private String host;\n"
+            " \n", 
+            " import org.apache.axiom.soap.SOAPEnvelope;\n", 
+            " import org.apache.axis2.AxisFault;\n", 
+            "+import org.apache.axis2.Constants;\n", 
+            " import org.apache.axis2.context.MessageContext;\n", 
+            " import org.apache.axis2.engine.MessageReceiver;\n", 
+            " import org.apache.axis2.util.MessageContextBuilder;\n"
+          ]
+        }, 
+        {
+          "locn": "-59,7 +60,10", 
+          "lines": [
+            "         }\n", 
+            " \n", 
+            "         if (mc.getAxisOperation() == null ||\n", 
+            "-                mc.getAxisOperation().getMessageReceiver() == null) {\n", 
+            "+                mc.getAxisOperation().getMessageReceiver() == null ||\n", 
+            "+                (mc.getOperationContext() != null &&\n", 
+            "+                        Constants.VALUE_TRUE.equals(mc.getOperationContext().getProperty(\n", 
+            "+                                Constants.RESPONSE_WRITTEN)))) {\n", 
+            "             return;\n", 
+            "         }\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-77,7 +81,7", 
+          "lines": [
+            "                     SOAPEnvelope envelope = faultMessageContext.getEnvelope();\n", 
+            " \n", 
+            "                     if (log.isDebugEnabled()) {\n", 
+            "-                        log.debug(\"Sending Fault for Request with Message ID : \"\n", 
+            "+                        log.debug(\"Sending fault for request with message ID : \"\n", 
+            "                                 + mc.getMessageID());\n", 
+            "                     }\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java"
     }, 
     {
       "chunks": [
@@ -37,6 +67,24 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/TargetConnections.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-34,6 +34,7", 
+          "lines": [
+            "  * This stores connections for a particular host + port.\n", 
+            "  */\n", 
+            " public class HostConnections {\n", 
+            "+\n", 
+            "     private static final Log log = LogFactory.getLog(HostConnections.class);\n", 
+            "     // host\n", 
+            "     private String host;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/connections/HostConnections.java"
     }, 
     {
       "chunks": [
@@ -99,53 +147,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-21,6 +21,7", 
-          "lines": [
-            " \n", 
-            " import org.apache.axiom.soap.SOAPEnvelope;\n", 
-            " import org.apache.axis2.AxisFault;\n", 
-            "+import org.apache.axis2.Constants;\n", 
-            " import org.apache.axis2.context.MessageContext;\n", 
-            " import org.apache.axis2.engine.MessageReceiver;\n", 
-            " import org.apache.axis2.util.MessageContextBuilder;\n"
-          ]
-        }, 
-        {
-          "locn": "-59,7 +60,10", 
-          "lines": [
-            "         }\n", 
-            " \n", 
-            "         if (mc.getAxisOperation() == null ||\n", 
-            "-                mc.getAxisOperation().getMessageReceiver() == null) {\n", 
-            "+                mc.getAxisOperation().getMessageReceiver() == null ||\n", 
-            "+                (mc.getOperationContext() != null &&\n", 
-            "+                        Constants.VALUE_TRUE.equals(mc.getOperationContext().getProperty(\n", 
-            "+                                Constants.RESPONSE_WRITTEN)))) {\n", 
-            "             return;\n", 
-            "         }\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-77,7 +81,7", 
-          "lines": [
-            "                     SOAPEnvelope envelope = faultMessageContext.getEnvelope();\n", 
-            " \n", 
-            "                     if (log.isDebugEnabled()) {\n", 
-            "-                        log.debug(\"Sending Fault for Request with Message ID : \"\n", 
-            "+                        log.debug(\"Sending fault for request with message ID : \"\n", 
-            "                                 + mc.getMessageID());\n", 
-            "                     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java"
     }, 
     {
       "chunks": [

@@ -1,7 +1,61 @@
 {
   "when": "2016-05-29T15:28:02-04:00", 
+  "message": "correcting code styles for the fix SYNAPSE-1025", 
   "who": "dushan", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-40,8 +40,8", 
+          "lines": [
+            " \n", 
+            "     private Pipe pipe = null;\n", 
+            " \n", 
+            "-    /** Transport headers */\n", 
+            "-    private Map<String, TreeSet<String>> headers = new HashMap<String, TreeSet<String>>();\n", 
+            "+\t/** Transport headers */\n", 
+            "+\tprivate Map<String, TreeSet<String>> headers = new HashMap<String, TreeSet<String>>();\n", 
+            " \n", 
+            "     /** Status of the response */\n", 
+            "     private int status = HttpStatus.SC_OK;\n"
+          ]
+        }, 
+        {
+          "locn": "-122,17 +122,17", 
+          "lines": [
+            " \n", 
+            "         response.setEntity(entity);\n", 
+            " \n", 
+            "-        // set any transport headers\n", 
+            "-        Set<Map.Entry<String, TreeSet<String>>> entries = headers.entrySet();\n", 
+            "+\t\t// set any transport headers\n", 
+            "+\t\tSet<Map.Entry<String, TreeSet<String>>> entries = headers.entrySet();\n", 
+            " \n", 
+            "-        for (Map.Entry<String, TreeSet<String>> entry : entries) {\n", 
+            "-            if (entry.getKey() != null) {     \n", 
+            "-            \tIterator<String> i = entry.getValue().iterator();\n", 
+            "-                while(i.hasNext()) {\n", 
+            "-                \tresponse.addHeader(entry.getKey(), i.next());\n", 
+            "-                }   \n", 
+            "-            }\n", 
+            "-        }\n", 
+            "+\t\tfor (Map.Entry<String, TreeSet<String>> entry : entries) {\n", 
+            "+\t\t\tif (entry.getKey() != null) {\n", 
+            "+\t\t\t\tIterator<String> i = entry.getValue().iterator();\n", 
+            "+\t\t\t\twhile (i.hasNext()) {\n", 
+            "+\t\t\t\t\tresponse.addHeader(entry.getKey(), i.next());\n", 
+            "+\t\t\t\t}\n", 
+            "+\t\t\t}\n", 
+            "+\t\t}\n", 
+            "         \n", 
+            " \n", 
+            "         SourceContext.updateState(conn, ProtocolState.RESPONSE_HEAD);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
+    }, 
     {
       "chunks": [
         {
@@ -266,59 +320,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceRequest.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-40,8 +40,8", 
-          "lines": [
-            " \n", 
-            "     private Pipe pipe = null;\n", 
-            " \n", 
-            "-    /** Transport headers */\n", 
-            "-    private Map<String, TreeSet<String>> headers = new HashMap<String, TreeSet<String>>();\n", 
-            "+\t/** Transport headers */\n", 
-            "+\tprivate Map<String, TreeSet<String>> headers = new HashMap<String, TreeSet<String>>();\n", 
-            " \n", 
-            "     /** Status of the response */\n", 
-            "     private int status = HttpStatus.SC_OK;\n"
-          ]
-        }, 
-        {
-          "locn": "-122,17 +122,17", 
-          "lines": [
-            " \n", 
-            "         response.setEntity(entity);\n", 
-            " \n", 
-            "-        // set any transport headers\n", 
-            "-        Set<Map.Entry<String, TreeSet<String>>> entries = headers.entrySet();\n", 
-            "+\t\t// set any transport headers\n", 
-            "+\t\tSet<Map.Entry<String, TreeSet<String>>> entries = headers.entrySet();\n", 
-            " \n", 
-            "-        for (Map.Entry<String, TreeSet<String>> entry : entries) {\n", 
-            "-            if (entry.getKey() != null) {     \n", 
-            "-            \tIterator<String> i = entry.getValue().iterator();\n", 
-            "-                while(i.hasNext()) {\n", 
-            "-                \tresponse.addHeader(entry.getKey(), i.next());\n", 
-            "-                }   \n", 
-            "-            }\n", 
-            "-        }\n", 
-            "+\t\tfor (Map.Entry<String, TreeSet<String>> entry : entries) {\n", 
-            "+\t\t\tif (entry.getKey() != null) {\n", 
-            "+\t\t\t\tIterator<String> i = entry.getValue().iterator();\n", 
-            "+\t\t\t\twhile (i.hasNext()) {\n", 
-            "+\t\t\t\t\tresponse.addHeader(entry.getKey(), i.next());\n", 
-            "+\t\t\t\t}\n", 
-            "+\t\t\t}\n", 
-            "+\t\t}\n", 
-            "         \n", 
-            " \n", 
-            "         SourceContext.updateState(conn, ProtocolState.RESPONSE_HEAD);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceResponse.java"
     }, 
     {
       "chunks": [

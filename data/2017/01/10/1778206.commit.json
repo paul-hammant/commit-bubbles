@@ -1,5 +1,6 @@
 {
   "when": "2017-01-10T16:33:19-05:00", 
+  "message": "Remove unused filter.properties.", 
   "who": "veithen", 
   "changes": [
     {

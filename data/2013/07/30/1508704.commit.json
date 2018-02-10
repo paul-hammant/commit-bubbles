@@ -1,5 +1,6 @@
 {
   "when": "2013-07-30T21:41:52-04:00", 
+  "message": "Some cleanup and refactoring", 
   "who": "hiranya", 
   "changes": [
     {
@@ -92,25 +93,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/crl/CRLVerifier.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/crl/CRLVerifier.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-19,7 +19,7", 
-          "lines": [
-            " \n", 
-            " package org.apache.synapse.transport.utils.sslcert.cache;\n", 
-            " \n", 
-            "-public class CacheController implements CacheControllerMBean{\n", 
-            "+public class CacheController implements CacheControllerMBean {\n", 
-            " \n", 
-            "     private ManageableCache cache;\n", 
-            "     private CacheManager cacheManager;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java"
     }, 
     {
       "chunks": [
@@ -269,6 +251,25 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheManager.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-19,7 +19,7", 
+          "lines": [
+            " \n", 
+            " package org.apache.synapse.transport.utils.sslcert.cache;\n", 
+            " \n", 
+            "-public class CacheController implements CacheControllerMBean{\n", 
+            "+public class CacheController implements CacheControllerMBean {\n", 
+            " \n", 
+            "     private ManageableCache cache;\n", 
+            "     private CacheManager cacheManager;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/sslcert/cache/CacheController.java"
     }, 
     {
       "chunks": [

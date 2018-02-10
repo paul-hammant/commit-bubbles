@@ -1,5 +1,6 @@
 {
   "when": "2015-09-07T02:57:42-04:00", 
+  "message": "Stabilize the build:\n* Remove reference to internal Axiom implementation class.\n* Correct the Woden version.\n* Modify RevocationVerificationTest so that it gives meaningful diagnostic information when it fails.\n", 
   "who": "veithen", 
   "changes": [
     {

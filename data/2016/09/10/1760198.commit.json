@@ -1,89 +1,8 @@
 {
   "when": "2016-09-10T13:51:28-04:00", 
+  "message": "Fix for SYNAPSE-974 by chanaka", 
   "who": "isudana", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-52,12 +52,12", 
-          "lines": [
-            "         &lt;/target&gt;\n", 
-            "         &lt;publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/&gt;\n", 
-            " \n", 
-            "-        &lt;parameter name=\"transport.mail.Address\"&gt;synapse.demo.1@gmail.com&lt;/parameter&gt;\n", 
-            "+        &lt;parameter name=\"transport.mail.Address\"&gt;synapse.demo.mail1@gmail.com&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"transport.mail.Protocol\"&gt;pop3&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"transport.PollInterval\"&gt;5&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"mail.pop3.host\"&gt;pop.gmail.com&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"mail.pop3.port\"&gt;995&lt;/parameter&gt;\n", 
-            "-        &lt;parameter name=\"mail.pop3.user\"&gt;synapse.demo.1&lt;/parameter&gt;\n", 
-            "+        &lt;parameter name=\"mail.pop3.user\"&gt;synapse.demo.mail1&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"mail.pop3.password\"&gt;mailpassword&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"mail.pop3.socketFactory.class\"&gt;javax.net.ssl.SSLSocketFactory&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=\"mail.pop3.socketFactory.fallback\"&gt;false&lt;/parameter&gt;\n"
-          ]
-        }, 
-        {
-          "locn": "-100,7 +100,7", 
-          "lines": [
-            "             </subsection>\n", 
-            "             <subsection name=\"Executing the Client\">\n", 
-            "                 <p>\n", 
-            "-                    Send an e-mail to <a href=\"mailto:synapse.demo.1@gmail.com\">synapse.demo.1@gmail.com</a>\n", 
-            "+                    Send an e-mail to <a href=\"mailto:synapse.demo.mail1@gmail.com\">synapse.demo.mail1@gmail.com</a>\n", 
-            "                     with the following payload.\n", 
-            "                 </p>\n", 
-            "                 <div class=\"xmlConf\">&lt;getQuote xmlns=&quot;http://services.samples&quot;&gt;\n"
-          ]
-        }, 
-        {
-          "locn": "-130,4 +130,4", 
-          "lines": [
-            "         </section>\n", 
-            "         <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n", 
-            "     </body>\n", 
-            "-</document>\n", 
-            "\\ No newline at end of file\n", 
-            "+</document>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-45,9 +45,9", 
-          "lines": [
-            "         &lt;parameter name=&quot;mail.smtp.port&quot;&gt;587&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=&quot;mail.smtp.starttls.enable&quot;&gt;true&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=&quot;mail.smtp.auth&quot;&gt;true&lt;/parameter&gt;\n", 
-            "-        &lt;parameter name=&quot;mail.smtp.user&quot;&gt;synapse.demo.0&lt;/parameter&gt;\n", 
-            "+        &lt;parameter name=&quot;mail.smtp.user&quot;&gt;synapse.demo.mail1&lt;/parameter&gt;\n", 
-            "         &lt;parameter name=&quot;mail.smtp.password&quot;&gt;mailpassword&lt;/parameter&gt;\n", 
-            "-        &lt;parameter name=&quot;mail.smtp.from&quot;&gt;synapse.demo.0@gmail.com&lt;/parameter&gt;\n", 
-            "+        &lt;parameter name=&quot;mail.smtp.from&quot;&gt;synapse.demo.mail1@gmail.com&lt;/parameter&gt;\n", 
-            " &lt;/transportSender&gt;</div>\n", 
-            " \t\t\t</p>\n", 
-            " \t\t</section>\n"
-          ]
-        }, 
-        {
-          "locn": "-62,4 +62,4", 
-          "lines": [
-            " \t\t\t<div class=\"xmlConf\">&lt;transportReceiver name=&quot;mailto&quot; class=&quot;org.apache.axis2.transport.mail.MailTransportListener&quot;&gt;&lt;/transportReceiver&gt;</div>\n", 
-            " \t\t</section>\n", 
-            " \t</body>\n", 
-            "-</document>\n", 
-            "\\ No newline at end of file\n", 
-            "+</document>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/mail.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/mail.xml"
-    }, 
     {
       "chunks": [
         {
@@ -171,6 +90,88 @@
       ], 
       "to": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml", 
       "from": "java/modules/packaging/package-archetype/src/main/resources/archetype-resources/repository/conf/axis2.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-52,12 +52,12", 
+          "lines": [
+            "         &lt;/target&gt;\n", 
+            "         &lt;publishWSDL uri=\"file:repository/conf/sample/resources/proxy/sample_proxy_1.wsdl\"/&gt;\n", 
+            " \n", 
+            "-        &lt;parameter name=\"transport.mail.Address\"&gt;synapse.demo.1@gmail.com&lt;/parameter&gt;\n", 
+            "+        &lt;parameter name=\"transport.mail.Address\"&gt;synapse.demo.mail1@gmail.com&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"transport.mail.Protocol\"&gt;pop3&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"transport.PollInterval\"&gt;5&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"mail.pop3.host\"&gt;pop.gmail.com&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"mail.pop3.port\"&gt;995&lt;/parameter&gt;\n", 
+            "-        &lt;parameter name=\"mail.pop3.user\"&gt;synapse.demo.1&lt;/parameter&gt;\n", 
+            "+        &lt;parameter name=\"mail.pop3.user\"&gt;synapse.demo.mail1&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"mail.pop3.password\"&gt;mailpassword&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"mail.pop3.socketFactory.class\"&gt;javax.net.ssl.SSLSocketFactory&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=\"mail.pop3.socketFactory.fallback\"&gt;false&lt;/parameter&gt;\n"
+          ]
+        }, 
+        {
+          "locn": "-100,7 +100,7", 
+          "lines": [
+            "             </subsection>\n", 
+            "             <subsection name=\"Executing the Client\">\n", 
+            "                 <p>\n", 
+            "-                    Send an e-mail to <a href=\"mailto:synapse.demo.1@gmail.com\">synapse.demo.1@gmail.com</a>\n", 
+            "+                    Send an e-mail to <a href=\"mailto:synapse.demo.mail1@gmail.com\">synapse.demo.mail1@gmail.com</a>\n", 
+            "                     with the following payload.\n", 
+            "                 </p>\n", 
+            "                 <div class=\"xmlConf\">&lt;getQuote xmlns=&quot;http://services.samples&quot;&gt;\n"
+          ]
+        }, 
+        {
+          "locn": "-130,4 +130,4", 
+          "lines": [
+            "         </section>\n", 
+            "         <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n", 
+            "     </body>\n", 
+            "-</document>\n", 
+            "\\ No newline at end of file\n", 
+            "+</document>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample256.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-45,9 +45,9", 
+          "lines": [
+            "         &lt;parameter name=&quot;mail.smtp.port&quot;&gt;587&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=&quot;mail.smtp.starttls.enable&quot;&gt;true&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=&quot;mail.smtp.auth&quot;&gt;true&lt;/parameter&gt;\n", 
+            "-        &lt;parameter name=&quot;mail.smtp.user&quot;&gt;synapse.demo.0&lt;/parameter&gt;\n", 
+            "+        &lt;parameter name=&quot;mail.smtp.user&quot;&gt;synapse.demo.mail1&lt;/parameter&gt;\n", 
+            "         &lt;parameter name=&quot;mail.smtp.password&quot;&gt;mailpassword&lt;/parameter&gt;\n", 
+            "-        &lt;parameter name=&quot;mail.smtp.from&quot;&gt;synapse.demo.0@gmail.com&lt;/parameter&gt;\n", 
+            "+        &lt;parameter name=&quot;mail.smtp.from&quot;&gt;synapse.demo.mail1@gmail.com&lt;/parameter&gt;\n", 
+            " &lt;/transportSender&gt;</div>\n", 
+            " \t\t\t</p>\n", 
+            " \t\t</section>\n"
+          ]
+        }, 
+        {
+          "locn": "-62,4 +62,4", 
+          "lines": [
+            " \t\t\t<div class=\"xmlConf\">&lt;transportReceiver name=&quot;mailto&quot; class=&quot;org.apache.axis2.transport.mail.MailTransportListener&quot;&gt;&lt;/transportReceiver&gt;</div>\n", 
+            " \t\t</section>\n", 
+            " \t</body>\n", 
+            "-</document>\n", 
+            "\\ No newline at end of file\n", 
+            "+</document>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/mail.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/setup/mail.xml"
     }, 
     {
       "chunks": [

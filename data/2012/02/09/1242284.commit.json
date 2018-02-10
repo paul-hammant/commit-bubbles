@@ -1,5 +1,6 @@
 {
   "when": "2012-02-09T06:35:24-05:00", 
+  "message": "commting patch for Synapse 842", 
   "who": "uswick", 
   "changes": [
     {

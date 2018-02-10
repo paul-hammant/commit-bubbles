@@ -1,5 +1,6 @@
 {
   "when": "2016-12-28T05:57:56-05:00", 
+  "message": "Documentation patch by Chanaka Fernando SYNAPSE-1081", 
   "who": "ravi", 
   "changes": [
     {

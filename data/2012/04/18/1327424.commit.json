@@ -1,5 +1,6 @@
 {
   "when": "2012-04-18T04:33:11-04:00", 
+  "message": "fixed SYNAPSE-845", 
   "who": "miyuru", 
   "changes": [
     {

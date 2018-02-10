@@ -1,29 +1,8 @@
 {
   "when": "2011-12-26T10:31:00-05:00", 
+  "message": "1. Reducing DBCP version to support JDK 5\n2. Adding Xerces as a test dependency to core (needed for validate and few other mediator tests)\n3. Removing some Java6 code from integration module\n\n", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-231,5 +231,11", 
-          "lines": [
-            "             <artifactId>synapse-vfs-transport</artifactId>\n", 
-            "             <scope>test</scope>\n", 
-            "         </dependency>\n", 
-            "+\t<dependency>\n", 
-            "+\t    <!-- Required for validate mediator tests on JDK 5 -->\n", 
-            "+            <groupId>xerces</groupId>\n", 
-            "+            <artifactId>xercesImpl</artifactId>\n", 
-            "+\t    <scope>test</scope>\n", 
-            "+        </dependency>\n", 
-            "     </dependencies>\n", 
-            " </project>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/pom.xml", 
-      "from": "java/modules/core/pom.xml"
-    }, 
     {
       "chunks": [
         {
@@ -126,6 +105,28 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-231,5 +231,11", 
+          "lines": [
+            "             <artifactId>synapse-vfs-transport</artifactId>\n", 
+            "             <scope>test</scope>\n", 
+            "         </dependency>\n", 
+            "+\t<dependency>\n", 
+            "+\t    <!-- Required for validate mediator tests on JDK 5 -->\n", 
+            "+            <groupId>xerces</groupId>\n", 
+            "+            <artifactId>xercesImpl</artifactId>\n", 
+            "+\t    <scope>test</scope>\n", 
+            "+        </dependency>\n", 
+            "     </dependencies>\n", 
+            " </project>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/pom.xml", 
+      "from": "java/modules/core/pom.xml"
     }, 
     {
       "chunks": [

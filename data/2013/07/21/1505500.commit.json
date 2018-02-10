@@ -1,41 +1,72 @@
 {
   "when": "2013-07-21T19:05:04-04:00", 
+  "message": "Adding sample250 (JMS to HTTP switching) to the integration test suite.", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,24", 
+          "locn": "-22,6 +22,7", 
           "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>250</sampleID>\n", 
-            "+    <sampleName>JMS to HTTP</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_jms.xml</axis2Xml>\n", 
-            "+        <synapseXml>repository/conf/sample/synapse_sample_250.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <jmsBroker id='0'>\n", 
-            "+            <providerURL>tcp://localhost:61616</providerURL>\n", 
-            "+            <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
-            "+        </jmsBroker>\n", 
-            "+        <axis2Server id='1'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+            <counterEnabled>true</counterEnabled>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
+            " import junit.framework.TestSuite;\n", 
+            " import org.apache.commons.logging.Log;\n", 
+            " import org.apache.commons.logging.LogFactory;\n", 
+            "+import org.apache.synapse.samples.framework.tests.Sample250;\n", 
+            " import org.apache.synapse.samples.framework.tests.advanced.*;\n", 
+            " import org.apache.synapse.samples.framework.tests.endpoint.*;\n", 
+            " import org.apache.synapse.samples.framework.tests.message.*;\n"
+          ]
+        }, 
+        {
+          "locn": "-203,6 +204,9", 
+          "lines": [
+            "         sampleClassRepo.put(\"156\", Sample156.class);\n", 
+            "         sampleClassRepo.put(\"157\", Sample157.class);\n", 
+            " \n", 
+            "+        //Transport switching\n", 
+            "+        sampleClassRepo.put(\"250\", Sample250.class);\n", 
+            "+\n", 
+            "         //Advanced\n", 
+            "         sampleClassRepo.put(\"350\", Sample350.class);\n", 
+            "         sampleClassRepo.put(\"351\", Sample351.class);\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/resources/sample250.xml", 
-      "from": "java/modules/integration/src/test/resources/sample250.xml"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-356,6 +356,8", 
+          "lines": [
+            "                     SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_HTTP_PORT);\n", 
+            "             String axis2HttpsPort = axis2Properties.getProperty(\n", 
+            "                     SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_HTTPS_PORT);\n", 
+            "+            String counterEnabled = axis2Properties.getProperty(\n", 
+            "+                    SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_COUNTER_ENABLED);\n", 
+            " \n", 
+            "             configuration.getAxis2Config(serverName).setServerName(serverName);\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-377,6 +379,9", 
+          "lines": [
+            " \n", 
+            "             configuration.getAxis2Config(serverName).setHttpPort(axis2HttpPort);\n", 
+            "             configuration.getAxis2Config(serverName).setHttpsPort(axis2HttpsPort);\n", 
+            "+            if (Boolean.parseBoolean(counterEnabled)) {\n", 
+            "+                configuration.getAxis2Config(serverName).setCounterEnabled(true);\n", 
+            "+            }\n", 
+            " \n", 
+            "             backendServerControllers.add(new Axis2BackEndServerController(serverName,\n", 
+            "                     configuration.getAxis2Config(serverName)));\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
     }, 
     {
       "chunks": [
@@ -385,67 +416,37 @@
     {
       "chunks": [
         {
-          "locn": "-22,6 +22,7", 
+          "locn": "-0,0 +1,24", 
           "lines": [
-            " import junit.framework.TestSuite;\n", 
-            " import org.apache.commons.logging.Log;\n", 
-            " import org.apache.commons.logging.LogFactory;\n", 
-            "+import org.apache.synapse.samples.framework.tests.Sample250;\n", 
-            " import org.apache.synapse.samples.framework.tests.advanced.*;\n", 
-            " import org.apache.synapse.samples.framework.tests.endpoint.*;\n", 
-            " import org.apache.synapse.samples.framework.tests.message.*;\n"
-          ]
-        }, 
-        {
-          "locn": "-203,6 +204,9", 
-          "lines": [
-            "         sampleClassRepo.put(\"156\", Sample156.class);\n", 
-            "         sampleClassRepo.put(\"157\", Sample157.class);\n", 
-            " \n", 
-            "+        //Transport switching\n", 
-            "+        sampleClassRepo.put(\"250\", Sample250.class);\n", 
-            "+\n", 
-            "         //Advanced\n", 
-            "         sampleClassRepo.put(\"350\", Sample350.class);\n", 
-            "         sampleClassRepo.put(\"351\", Sample351.class);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-356,6 +356,8", 
-          "lines": [
-            "                     SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_HTTP_PORT);\n", 
-            "             String axis2HttpsPort = axis2Properties.getProperty(\n", 
-            "                     SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_HTTPS_PORT);\n", 
-            "+            String counterEnabled = axis2Properties.getProperty(\n", 
-            "+                    SampleConfigConstants.TAG_BE_SERVER_CONF_AXIS2_COUNTER_ENABLED);\n", 
-            " \n", 
-            "             configuration.getAxis2Config(serverName).setServerName(serverName);\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-377,6 +379,9", 
-          "lines": [
-            " \n", 
-            "             configuration.getAxis2Config(serverName).setHttpPort(axis2HttpPort);\n", 
-            "             configuration.getAxis2Config(serverName).setHttpsPort(axis2HttpsPort);\n", 
-            "+            if (Boolean.parseBoolean(counterEnabled)) {\n", 
-            "+                configuration.getAxis2Config(serverName).setCounterEnabled(true);\n", 
-            "+            }\n", 
-            " \n", 
-            "             backendServerControllers.add(new Axis2BackEndServerController(serverName,\n", 
-            "                     configuration.getAxis2Config(serverName)));\n"
+            "+<synapseSample>\n", 
+            "+    <sampleID>250</sampleID>\n", 
+            "+    <sampleName>JMS to HTTP</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_jms.xml</axis2Xml>\n", 
+            "+        <synapseXml>repository/conf/sample/synapse_sample_250.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <jmsBroker id='0'>\n", 
+            "+            <providerURL>tcp://localhost:61616</providerURL>\n", 
+            "+            <initialNamingFactory>org.apache.activemq.jndi.ActiveMQInitialContextFactory</initialNamingFactory>\n", 
+            "+        </jmsBroker>\n", 
+            "+        <axis2Server id='1'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+            <counterEnabled>true</counterEnabled>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
+      "to": "java/modules/integration/src/test/resources/sample250.xml", 
+      "from": "java/modules/integration/src/test/resources/sample250.xml"
     }
   ], 
   "id": "1505500"

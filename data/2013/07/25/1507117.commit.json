@@ -1,5 +1,6 @@
 {
   "when": "2013-07-25T16:42:05-04:00", 
+  "message": "Implementing a custom SSL client connection factory to support custom SSL profiles for outgoing HTTPS requests.", 
   "who": "hiranya", 
   "changes": [
     {

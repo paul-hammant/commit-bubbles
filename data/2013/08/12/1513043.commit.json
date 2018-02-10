@@ -1,36 +1,8 @@
 {
   "when": "2013-08-12T01:46:56-04:00", 
+  "message": "Fixing a bug in the pass thru http sender (transport was setting the RESPONSE_WRITTEN property to true on outgoing requests). Cleaned up some unused configurations.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-320,13 +320,14", 
-          "lines": [
-            "             } else {\n", 
-            "                 handleException(\"No valid destination EPR to send message\");\n", 
-            "             }\n", 
-            "-        }\n", 
-            " \n", 
-            "-        if (msgContext.getOperationContext() != null) {\n", 
-            "-            msgContext.getOperationContext().setProperty(\n", 
-            "-                Constants.RESPONSE_WRITTEN, Constants.VALUE_TRUE);\n", 
-            "+            if (msgContext.getOperationContext() != null) {\n", 
-            "+                msgContext.getOperationContext().setProperty(\n", 
-            "+                        Constants.RESPONSE_WRITTEN, Constants.VALUE_TRUE);\n", 
-            "+            }\n", 
-            "         }\n", 
-            " \n", 
-            "+\n", 
-            "         return InvocationResponse.CONTINUE;\n", 
-            "     }\n", 
-            "     \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
-    }, 
     {
       "chunks": [
         {
@@ -80,6 +52,35 @@
       ], 
       "to": "java/repository/conf/axis2.xml", 
       "from": "java/repository/conf/axis2.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-320,13 +320,14", 
+          "lines": [
+            "             } else {\n", 
+            "                 handleException(\"No valid destination EPR to send message\");\n", 
+            "             }\n", 
+            "-        }\n", 
+            " \n", 
+            "-        if (msgContext.getOperationContext() != null) {\n", 
+            "-            msgContext.getOperationContext().setProperty(\n", 
+            "-                Constants.RESPONSE_WRITTEN, Constants.VALUE_TRUE);\n", 
+            "+            if (msgContext.getOperationContext() != null) {\n", 
+            "+                msgContext.getOperationContext().setProperty(\n", 
+            "+                        Constants.RESPONSE_WRITTEN, Constants.VALUE_TRUE);\n", 
+            "+            }\n", 
+            "         }\n", 
+            " \n", 
+            "+\n", 
+            "         return InvocationResponse.CONTINUE;\n", 
+            "     }\n", 
+            "     \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
     }
   ], 
   "id": "1513043"

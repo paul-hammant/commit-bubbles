@@ -1,5 +1,6 @@
 {
   "when": "2016-12-31T07:32:53-05:00", 
+  "message": "Moving patch jar creation into target. This causes mvn release:prepare to fail the second time after a dryRun", 
   "who": "ravi", 
   "changes": [
     {

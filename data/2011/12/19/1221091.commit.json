@@ -1,5 +1,6 @@
 {
   "when": "2011-12-19T22:49:40-05:00", 
+  "message": "committing samples related to Recipient List..jira- SYNAPSE-808", 
   "who": "uswick", 
   "changes": [
     {
@@ -277,6 +278,18 @@
     {
       "chunks": [
         {
+          "locn": "-0,0 +1,1", 
+          "lines": [
+            "+http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/sample/resources/recipients/EP_LIST", 
+      "from": "java/repository/conf/sample/resources/recipients/EP_LIST"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-0,0 +1,55", 
           "lines": [
             "+<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n", 
@@ -478,18 +491,6 @@
       ], 
       "to": "java/repository/conf/sample/synapse_sample_63.xml", 
       "from": "java/repository/conf/sample/synapse_sample_63.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,1", 
-          "lines": [
-            "+http://localhost:9001/services/SimpleStockQuoteService,http://localhost:9002/services/SimpleStockQuoteService,http://localhost:9003/services/SimpleStockQuoteService\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/resources/recipients/EP_LIST", 
-      "from": "java/repository/conf/sample/resources/recipients/EP_LIST"
     }
   ], 
   "id": "1221091"

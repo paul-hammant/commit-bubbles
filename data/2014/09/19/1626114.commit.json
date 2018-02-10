@@ -1,7 +1,26 @@
 {
   "when": "2014-09-19T00:07:32-04:00", 
+  "message": "Resolving SYNAPSE-964 Adding documentation for XPath functions", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-42,6 +42,7", 
+          "lines": [
+            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
+            "             <item name=\"Mediators Catalog\" href=\"userguide/mediators.html\"/>\n", 
+            "             <item name=\"Transports Catalog\" href=\"userguide/transports.html\"/>\n", 
+            "+            <item name=\"XPath functions and Variables\" href=\"userguide/xpath.html\"/>\n", 
+            "             <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
+            "             <item name=\"Synapse Template Libraries\" href=\"userguide/template_library.html\"/>\n", 
+            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/site.xml", 
+      "from": "java/modules/documentation/src/site/site.xml"
+    }, 
     {
       "chunks": [
         {
@@ -267,24 +286,6 @@
       ], 
       "to": "java/modules/documentation/src/site/xdoc/userguide/xpath.xml", 
       "from": "java/modules/documentation/src/site/xdoc/userguide/xpath.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-42,6 +42,7", 
-          "lines": [
-            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
-            "             <item name=\"Mediators Catalog\" href=\"userguide/mediators.html\"/>\n", 
-            "             <item name=\"Transports Catalog\" href=\"userguide/transports.html\"/>\n", 
-            "+            <item name=\"XPath functions and Variables\" href=\"userguide/xpath.html\"/>\n", 
-            "             <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
-            "             <item name=\"Synapse Template Libraries\" href=\"userguide/template_library.html\"/>\n", 
-            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/site.xml", 
-      "from": "java/modules/documentation/src/site/site.xml"
     }
   ], 
   "id": "1626114"

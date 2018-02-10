@@ -1,5 +1,6 @@
 {
   "when": "2013-08-01T17:52:25-04:00", 
+  "message": "Declaring javamail as a dependency. NHTTP and VFS transport has compile time dependencies on it.", 
   "who": "hiranya", 
   "changes": [
     {

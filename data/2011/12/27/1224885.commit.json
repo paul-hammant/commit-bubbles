@@ -1,5 +1,6 @@
 {
   "when": "2011-12-27T04:39:05-05:00", 
+  "message": "Commenting out 2 failing tests - Need to patch the JDK on Jenkins builder before we can enable these", 
   "who": "hiranya", 
   "changes": [
     {

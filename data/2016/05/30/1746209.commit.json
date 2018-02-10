@@ -1,27 +1,8 @@
 {
   "when": "2016-05-30T22:04:27-04:00", 
+  "message": "Implementing deactivate sequence for forwarding jobs; Applied patch from SYNAPSE-1020", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-55,5 +55,9", 
-          "lines": [
-            "      */\n", 
-            "     public static final String FAULT_SEQUENCE = \"message.processor.fault.sequence\";\n", 
-            " \n", 
-            "+    /**\n", 
-            "+     * used for forward in case of scheduled message processor deactivation\n", 
-            "+     */\n", 
-            "+    public static final String DEACTIVATE_SEQUENCE = \"message.processor.deactivate.sequence\";\n", 
-            " \n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingProcessorConstants.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingProcessorConstants.java"
-    }, 
     {
       "chunks": [
         {
@@ -77,6 +58,26 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingJob.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingJob.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-55,5 +55,9", 
+          "lines": [
+            "      */\n", 
+            "     public static final String FAULT_SEQUENCE = \"message.processor.fault.sequence\";\n", 
+            " \n", 
+            "+    /**\n", 
+            "+     * used for forward in case of scheduled message processor deactivation\n", 
+            "+     */\n", 
+            "+    public static final String DEACTIVATE_SEQUENCE = \"message.processor.deactivate.sequence\";\n", 
+            " \n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingProcessorConstants.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/message/processors/forward/ForwardingProcessorConstants.java"
     }
   ], 
   "id": "1746209"

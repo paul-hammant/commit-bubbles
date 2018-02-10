@@ -1,5 +1,6 @@
 {
   "when": "2012-05-15T16:57:03-04:00", 
+  "message": "Eliminated a dependency on the bug described in AXIOM-422; the children of a SOAPHeaderBlock should be plain OMElements, not SOAPHeaderBlocks.", 
   "who": "veithen", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2015-08-29T17:28:31-04:00", 
+  "message": "Fix the AspectJ configuration.", 
   "who": "veithen", 
   "changes": [
     {

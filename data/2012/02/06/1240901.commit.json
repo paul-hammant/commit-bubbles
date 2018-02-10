@@ -1,44 +1,8 @@
 {
   "when": "2012-02-06T02:24:57-05:00", 
+  "message": "committing synapse lib changes wrt classloading. enable to load lib based classes on demand ", 
   "who": "uswick", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-23,6 +23,7", 
-          "lines": [
-            " import org.apache.axiom.om.OMElement;\n", 
-            " import org.apache.axiom.om.OMNode;\n", 
-            " import org.apache.synapse.Mediator;\n", 
-            "+import org.apache.synapse.SynapseConstants;\n", 
-            " import org.apache.synapse.SynapseException;\n", 
-            " import org.apache.synapse.commons.util.PropertyHelper;\n", 
-            " import org.apache.synapse.mediators.ext.ClassMediator;\n"
-          ]
-        }, 
-        {
-          "locn": "-59,7 +60,13", 
-          "lines": [
-            "         Class clazz = null;\n", 
-            "         Mediator m = null;\n", 
-            "         try {\n", 
-            "-            clazz = getClass().getClassLoader().loadClass(\n", 
-            "+            ClassLoader classMediatorLoader = null;\n", 
-            "+            if(properties != null){\n", 
-            "+                classMediatorLoader = (ClassLoader) properties.get(SynapseConstants.SYNAPSE_LIB_LOADER);\n", 
-            "+            }\n", 
-            "+            classMediatorLoader = classMediatorLoader != null ? classMediatorLoader :\n", 
-            "+                                  getClass().getClassLoader();\n", 
-            "+            clazz = classMediatorLoader.loadClass(\n", 
-            "                     name.getAttributeValue());\n", 
-            "             m = (Mediator) clazz.newInstance();\n", 
-            "         } catch (Exception e) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/ClassMediatorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/ClassMediatorFactory.java"
-    }, 
     {
       "chunks": [
         {
@@ -291,6 +255,43 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/SynapseConstants.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/SynapseConstants.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-23,6 +23,7", 
+          "lines": [
+            " import org.apache.axiom.om.OMElement;\n", 
+            " import org.apache.axiom.om.OMNode;\n", 
+            " import org.apache.synapse.Mediator;\n", 
+            "+import org.apache.synapse.SynapseConstants;\n", 
+            " import org.apache.synapse.SynapseException;\n", 
+            " import org.apache.synapse.commons.util.PropertyHelper;\n", 
+            " import org.apache.synapse.mediators.ext.ClassMediator;\n"
+          ]
+        }, 
+        {
+          "locn": "-59,7 +60,13", 
+          "lines": [
+            "         Class clazz = null;\n", 
+            "         Mediator m = null;\n", 
+            "         try {\n", 
+            "-            clazz = getClass().getClassLoader().loadClass(\n", 
+            "+            ClassLoader classMediatorLoader = null;\n", 
+            "+            if(properties != null){\n", 
+            "+                classMediatorLoader = (ClassLoader) properties.get(SynapseConstants.SYNAPSE_LIB_LOADER);\n", 
+            "+            }\n", 
+            "+            classMediatorLoader = classMediatorLoader != null ? classMediatorLoader :\n", 
+            "+                                  getClass().getClassLoader();\n", 
+            "+            clazz = classMediatorLoader.loadClass(\n", 
+            "                     name.getAttributeValue());\n", 
+            "             m = (Mediator) clazz.newInstance();\n", 
+            "         } catch (Exception e) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/ClassMediatorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/ClassMediatorFactory.java"
     }, 
     {
       "chunks": [

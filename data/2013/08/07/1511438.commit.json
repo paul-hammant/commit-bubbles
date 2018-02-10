@@ -1,5 +1,6 @@
 {
   "when": "2013-08-07T15:09:36-04:00", 
+  "message": "Updating documentation on OCSP/CRL - Applying patch from SYNAPSE-963", 
   "who": "hiranya", 
   "changes": [
     {

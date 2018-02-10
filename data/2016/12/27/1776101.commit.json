@@ -1,5 +1,6 @@
 {
   "when": "2016-12-27T05:15:38-05:00", 
+  "message": "Fix for SYNAPSE-1014\n-----------------------\nPorting fix from https://github.com/wso2/wso2-synapse/commit/fbc829ae1e52c552aa348967db929fa21a8cf1f6 by Isuru Ranawaka", 
   "who": "isudana", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2016-11-06T10:01:33-05:00", 
+  "message": "fix for SYNAPSE-1060", 
   "who": "isudana", 
   "changes": [
     {
@@ -24,26 +25,6 @@
     {
       "chunks": [
         {
-          "locn": "-81,7 +81,8", 
-          "lines": [
-            "         if (value != null) {\n", 
-            "             propMediator.setValue(value.getAttributeValue(), dataType);\n", 
-            "         } else if (valueElement != null) {\n", 
-            "-            propMediator.setValueElement(valueElement);\n", 
-            "+            propMediator.setValueElement(valueElement.cloneOMElement()); // Need to clone,\n", 
-            "+            // otherwise same reference getting modified at the message flow\n", 
-            "         } else if (expression != null) {\n", 
-            "             try {\n", 
-            "                 propMediator.setExpression(SynapseXPathFactory.getSynapseXPath(elem, ATT_EXPRN),\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/PropertyMediatorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/PropertyMediatorFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-288,7 +288,8", 
           "lines": [
             "         if (value != null) {\n", 
@@ -60,6 +41,26 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-81,7 +81,8", 
+          "lines": [
+            "         if (value != null) {\n", 
+            "             propMediator.setValue(value.getAttributeValue(), dataType);\n", 
+            "         } else if (valueElement != null) {\n", 
+            "-            propMediator.setValueElement(valueElement);\n", 
+            "+            propMediator.setValueElement(valueElement.cloneOMElement()); // Need to clone,\n", 
+            "+            // otherwise same reference getting modified at the message flow\n", 
+            "         } else if (expression != null) {\n", 
+            "             try {\n", 
+            "                 propMediator.setExpression(SynapseXPathFactory.getSynapseXPath(elem, ATT_EXPRN),\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/PropertyMediatorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/PropertyMediatorFactory.java"
     }
   ], 
   "id": "1768346"

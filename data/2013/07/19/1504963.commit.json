@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T14:46:49-04:00", 
+  "message": "Applying the patches for SYNAPSE-882", 
   "who": "hiranya", 
   "changes": [
     {
@@ -270,44 +271,6 @@
     {
       "chunks": [
         {
-          "locn": "-40,7 +40,7", 
-          "lines": [
-            " \n", 
-            "     public void testSerializationScenario2() {\n", 
-            "         String xml = \"<rewrite xmlns=\\\"http://ws.apache.org/ns/synapse\\\">\" +\n", 
-            "-                \"<rewriterule><condition><match xmlns=\\\"\\\" type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
-            "+                \"<rewriterule><condition><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
-            "                 \"</condition><action fragment=\\\"protocol\\\" value=\\\"https\\\" type=\\\"set\\\"/>\" +\n", 
-            "                 \"<action fragment=\\\"host\\\" value=\\\"www.test.com\\\" type=\\\"set\\\"/><action \" +\n", 
-            "                 \"fragment=\\\"port\\\" value=\\\"9090\\\" type=\\\"set\\\"/><action fragment=\\\"path\\\" \" +\n"
-          ]
-        }, 
-        {
-          "locn": "-52,12 +52,12", 
-          "lines": [
-            "     public void testSerializationScenario3() {\n", 
-            "         String xml = \"<rewrite xmlns=\\\"http://ws.apache.org/ns/synapse\\\"><rewriterule>\" +\n", 
-            "                 \"<action fragment=\\\"full\\\" value=\\\"http://localhost:8080/synapse\\\" type=\\\"set\\\"/></rewriterule>\" +\n", 
-            "-                \"<rewriterule><condition><match xmlns=\\\"\\\" type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
-            "+                \"<rewriterule><condition><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
-            "                 \"</condition><action fragment=\\\"protocol\\\" value=\\\"https\\\" type=\\\"set\\\"/>\" +\n", 
-            "                 \"<action fragment=\\\"host\\\" value=\\\"www.test.com\\\" type=\\\"set\\\"/>\" +\n", 
-            "                 \"<action fragment=\\\"port\\\" xpath=\\\"get-property('port')\\\" type=\\\"set\\\"/>\" +\n", 
-            "                 \"<action fragment=\\\"path\\\" value=\\\"/services\\\" type=\\\"prepend\\\"/></rewriterule><rewriterule>\" +\n", 
-            "-                \"<condition><and xmlns=\\\"\\\"><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"www.test.com\\\"/>\" +\n", 
-            "+                \"<condition><and><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"www.test.com\\\"/>\" +\n", 
-            "                 \"<equal type=\\\"url\\\" source=\\\"port\\\" value=\\\"9090\\\"/></and></condition>\" +\n", 
-            "                 \"<action fragment=\\\"path\\\" regex=\\\".*/FooService\\\" type=\\\"replace\\\" \" +\n", 
-            "                 \"value=\\\"/BarService\\\"/></rewriterule>\" +\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/URLRewriteMediatorSerializationTest.java", 
-      "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/URLRewriteMediatorSerializationTest.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-32,7 +32,7", 
           "lines": [
             " \n", 
@@ -362,6 +325,44 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/ConditionalRouterMediatorSerializationTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/ConditionalRouterMediatorSerializationTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-40,7 +40,7", 
+          "lines": [
+            " \n", 
+            "     public void testSerializationScenario2() {\n", 
+            "         String xml = \"<rewrite xmlns=\\\"http://ws.apache.org/ns/synapse\\\">\" +\n", 
+            "-                \"<rewriterule><condition><match xmlns=\\\"\\\" type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
+            "+                \"<rewriterule><condition><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
+            "                 \"</condition><action fragment=\\\"protocol\\\" value=\\\"https\\\" type=\\\"set\\\"/>\" +\n", 
+            "                 \"<action fragment=\\\"host\\\" value=\\\"www.test.com\\\" type=\\\"set\\\"/><action \" +\n", 
+            "                 \"fragment=\\\"port\\\" value=\\\"9090\\\" type=\\\"set\\\"/><action fragment=\\\"path\\\" \" +\n"
+          ]
+        }, 
+        {
+          "locn": "-52,12 +52,12", 
+          "lines": [
+            "     public void testSerializationScenario3() {\n", 
+            "         String xml = \"<rewrite xmlns=\\\"http://ws.apache.org/ns/synapse\\\"><rewriterule>\" +\n", 
+            "                 \"<action fragment=\\\"full\\\" value=\\\"http://localhost:8080/synapse\\\" type=\\\"set\\\"/></rewriterule>\" +\n", 
+            "-                \"<rewriterule><condition><match xmlns=\\\"\\\" type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
+            "+                \"<rewriterule><condition><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"localhost\\\"/>\" +\n", 
+            "                 \"</condition><action fragment=\\\"protocol\\\" value=\\\"https\\\" type=\\\"set\\\"/>\" +\n", 
+            "                 \"<action fragment=\\\"host\\\" value=\\\"www.test.com\\\" type=\\\"set\\\"/>\" +\n", 
+            "                 \"<action fragment=\\\"port\\\" xpath=\\\"get-property('port')\\\" type=\\\"set\\\"/>\" +\n", 
+            "                 \"<action fragment=\\\"path\\\" value=\\\"/services\\\" type=\\\"prepend\\\"/></rewriterule><rewriterule>\" +\n", 
+            "-                \"<condition><and xmlns=\\\"\\\"><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"www.test.com\\\"/>\" +\n", 
+            "+                \"<condition><and><match type=\\\"url\\\" source=\\\"host\\\" regex=\\\"www.test.com\\\"/>\" +\n", 
+            "                 \"<equal type=\\\"url\\\" source=\\\"port\\\" value=\\\"9090\\\"/></and></condition>\" +\n", 
+            "                 \"<action fragment=\\\"path\\\" regex=\\\".*/FooService\\\" type=\\\"replace\\\" \" +\n", 
+            "                 \"value=\\\"/BarService\\\"/></rewriterule>\" +\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/URLRewriteMediatorSerializationTest.java", 
+      "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/URLRewriteMediatorSerializationTest.java"
     }
   ], 
   "id": "1504963"

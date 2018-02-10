@@ -1,5 +1,6 @@
 {
   "when": "2011-12-26T10:39:39-05:00", 
+  "message": "Changing reports plugin version to 2.2 - Previous version causes the maven to throw out an error everytime the dependency report is generated - Known issue in the plugin v2.1.2", 
   "who": "hiranya", 
   "changes": [
     {

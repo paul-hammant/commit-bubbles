@@ -1,5 +1,6 @@
 {
   "when": "2013-08-03T20:36:25-04:00", 
+  "message": "adding sample throttle mediator serialization test", 
   "who": "hiranya", 
   "changes": [
     {

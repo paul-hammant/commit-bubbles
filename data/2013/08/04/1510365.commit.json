@@ -1,7 +1,27 @@
 {
   "when": "2013-08-04T22:47:13-04:00", 
+  "message": "Added a serialization test case for APIs with handlers", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-115,7 +115,7", 
+          "lines": [
+            "         assertTrue(!observer.tracker.get(type).contains(name));\n", 
+            "     }\n", 
+            " \n", 
+            "-    private class SimpleSynapseObserver implements SynapseObserver {\n", 
+            "+    private class SimpleSynapseObserver extends AbstractSynapseObserver {\n", 
+            " \n", 
+            "         private Map<Integer, Set<String>> tracker = new HashMap<Integer, Set<String>>();\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/java/org/apache/synapse/config/SynapseObserverTest.java", 
+      "from": "java/modules/core/src/test/java/org/apache/synapse/config/SynapseObserverTest.java"
+    }, 
     {
       "chunks": [
         {
@@ -76,25 +96,6 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/rest/TestHandler.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/rest/TestHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-115,7 +115,7", 
-          "lines": [
-            "         assertTrue(!observer.tracker.get(type).contains(name));\n", 
-            "     }\n", 
-            " \n", 
-            "-    private class SimpleSynapseObserver implements SynapseObserver {\n", 
-            "+    private class SimpleSynapseObserver extends AbstractSynapseObserver {\n", 
-            " \n", 
-            "         private Map<Integer, Set<String>> tracker = new HashMap<Integer, Set<String>>();\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/java/org/apache/synapse/config/SynapseObserverTest.java", 
-      "from": "java/modules/core/src/test/java/org/apache/synapse/config/SynapseObserverTest.java"
     }
   ], 
   "id": "1510365"

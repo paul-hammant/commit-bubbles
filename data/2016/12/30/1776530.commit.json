@@ -1,5 +1,6 @@
 {
   "when": "2016-12-30T03:58:05-05:00", 
+  "message": "Why are we explicitly deleting artifacts from target folder during install phase? This is causing mvn deploy to fail.", 
   "who": "ravi", 
   "changes": [
     {

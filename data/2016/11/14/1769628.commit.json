@@ -1,5 +1,6 @@
 {
   "when": "2016-11-14T08:50:54-05:00", 
+  "message": "Loopback mediator implementation by Vanji - SYNAPSE-1052", 
   "who": "isudana", 
   "changes": [
     {
@@ -70,6 +71,59 @@
     {
       "chunks": [
         {
+          "locn": "-0,0 +1,42", 
+          "lines": [
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+package org.apache.synapse.config.xml;\n", 
+            "+\n", 
+            "+import org.apache.axiom.om.OMElement;\n", 
+            "+import org.apache.synapse.Mediator;\n", 
+            "+import org.apache.synapse.mediators.builtin.LoopbackMediator;\n", 
+            "+\n", 
+            "+import javax.xml.namespace.QName;\n", 
+            "+import java.util.Properties;\n", 
+            "+\n", 
+            "+public class LoopbackMediatorFactory extends AbstractMediatorFactory {\n", 
+            "+\n", 
+            "+    private static final QName LoopBack_Q = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"loopback\");\n", 
+            "+\n", 
+            "+    @Override\n", 
+            "+    protected Mediator createSpecificMediator(OMElement elem, Properties properties) {\n", 
+            "+        Mediator loopBackMediator = new LoopbackMediator();\n", 
+            "+        processAuditStatus(loopBackMediator, elem);\n", 
+            "+        return loopBackMediator;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public QName getTagQName() {\n", 
+            "+        return LoopBack_Q;\n", 
+            "+    }\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-72,7 +72,8", 
           "lines": [
             "         PayloadFactoryMediatorSerializer.class,\n", 
@@ -86,6 +140,26 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorSerializerFinder.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorSerializerFinder.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-85,7 +85,8", 
+          "lines": [
+            "         PayloadFactoryMediatorFactory.class,\n", 
+            "         BeanMediatorFactory.class,\n", 
+            "         EJBMediatorFactory.class,\n", 
+            "-        RespondMediatorFactory.class\n", 
+            "+        RespondMediatorFactory.class,\n", 
+            "+        LoopbackMediatorFactory.class\n", 
+            "     };\n", 
+            " \n", 
+            "     private final static MediatorFactoryFinder instance  = new MediatorFactoryFinder();\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorFactoryFinder.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorFactoryFinder.java"
     }, 
     {
       "chunks": [
@@ -140,79 +214,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorSerializer.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,42", 
-          "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+package org.apache.synapse.config.xml;\n", 
-            "+\n", 
-            "+import org.apache.axiom.om.OMElement;\n", 
-            "+import org.apache.synapse.Mediator;\n", 
-            "+import org.apache.synapse.mediators.builtin.LoopbackMediator;\n", 
-            "+\n", 
-            "+import javax.xml.namespace.QName;\n", 
-            "+import java.util.Properties;\n", 
-            "+\n", 
-            "+public class LoopbackMediatorFactory extends AbstractMediatorFactory {\n", 
-            "+\n", 
-            "+    private static final QName LoopBack_Q = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"loopback\");\n", 
-            "+\n", 
-            "+    @Override\n", 
-            "+    protected Mediator createSpecificMediator(OMElement elem, Properties properties) {\n", 
-            "+        Mediator loopBackMediator = new LoopbackMediator();\n", 
-            "+        processAuditStatus(loopBackMediator, elem);\n", 
-            "+        return loopBackMediator;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public QName getTagQName() {\n", 
-            "+        return LoopBack_Q;\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/LoopbackMediatorFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-85,7 +85,8", 
-          "lines": [
-            "         PayloadFactoryMediatorFactory.class,\n", 
-            "         BeanMediatorFactory.class,\n", 
-            "         EJBMediatorFactory.class,\n", 
-            "-        RespondMediatorFactory.class\n", 
-            "+        RespondMediatorFactory.class,\n", 
-            "+        LoopbackMediatorFactory.class\n", 
-            "     };\n", 
-            " \n", 
-            "     private final static MediatorFactoryFinder instance  = new MediatorFactoryFinder();\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorFactoryFinder.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorFactoryFinder.java"
     }
   ], 
   "id": "1769628"

@@ -1,42 +1,8 @@
 {
   "when": "2013-07-22T17:49:10-04:00", 
+  "message": "Applying the patch for SYNAPSE-951 with a test case. Bug fix in endpoint serializer - adding a stray responseAction element.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-118,14 +118,17", 
-          "lines": [
-            "             duration.setText(Long.toString(endpointDefinition.getTimeoutDuration()));\n", 
-            "             timeout.addChild(duration);\n", 
-            " \n", 
-            "-            OMElement action = fac.createOMElement(\"responseAction\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
-            "-            if (endpointDefinition.getTimeoutAction() == SynapseConstants.DISCARD) {\n", 
-            "-                action.setText(\"discard\");\n", 
-            "-            } else if (endpointDefinition.getTimeoutAction()\n", 
-            "-                    == SynapseConstants.DISCARD_AND_FAULT) {\n", 
-            "-                action.setText(\"fault\");\n", 
-            "+            if (endpointDefinition.getTimeoutAction() != SynapseConstants.NONE) {\n", 
-            "+                OMElement action = fac.createOMElement(\"responseAction\",\n", 
-            "+                        SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
-            "+                if (endpointDefinition.getTimeoutAction() == SynapseConstants.DISCARD) {\n", 
-            "+                    action.setText(\"discard\");\n", 
-            "+                } else if (endpointDefinition.getTimeoutAction()\n", 
-            "+                        == SynapseConstants.DISCARD_AND_FAULT) {\n", 
-            "+                    action.setText(\"fault\");\n", 
-            "+                }\n", 
-            "+                timeout.addChild(action);\n", 
-            "             }\n", 
-            "-            timeout.addChild(action);\n", 
-            "         }\n", 
-            " \n", 
-            "         if (endpointDefinition.getInitialSuspendDuration() != -1 ||\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointDefinitionSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointDefinitionSerializer.java"
-    }, 
     {
       "chunks": [
         {
@@ -72,6 +38,41 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializationTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializationTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-118,14 +118,17", 
+          "lines": [
+            "             duration.setText(Long.toString(endpointDefinition.getTimeoutDuration()));\n", 
+            "             timeout.addChild(duration);\n", 
+            " \n", 
+            "-            OMElement action = fac.createOMElement(\"responseAction\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            "-            if (endpointDefinition.getTimeoutAction() == SynapseConstants.DISCARD) {\n", 
+            "-                action.setText(\"discard\");\n", 
+            "-            } else if (endpointDefinition.getTimeoutAction()\n", 
+            "-                    == SynapseConstants.DISCARD_AND_FAULT) {\n", 
+            "-                action.setText(\"fault\");\n", 
+            "+            if (endpointDefinition.getTimeoutAction() != SynapseConstants.NONE) {\n", 
+            "+                OMElement action = fac.createOMElement(\"responseAction\",\n", 
+            "+                        SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            "+                if (endpointDefinition.getTimeoutAction() == SynapseConstants.DISCARD) {\n", 
+            "+                    action.setText(\"discard\");\n", 
+            "+                } else if (endpointDefinition.getTimeoutAction()\n", 
+            "+                        == SynapseConstants.DISCARD_AND_FAULT) {\n", 
+            "+                    action.setText(\"fault\");\n", 
+            "+                }\n", 
+            "+                timeout.addChild(action);\n", 
+            "             }\n", 
+            "-            timeout.addChild(action);\n", 
+            "         }\n", 
+            " \n", 
+            "         if (endpointDefinition.getInitialSuspendDuration() != -1 ||\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointDefinitionSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointDefinitionSerializer.java"
     }
   ], 
   "id": "1505827"

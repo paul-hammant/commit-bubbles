@@ -1,5 +1,6 @@
 {
   "when": "2013-11-23T16:45:05-05:00", 
+  "message": "Use standard name for log4j property file to make it easier to run the tests in an IDE such as Eclipse (which doesn't take into account the configuration of the maven-surefire-plugin).", 
   "who": "veithen", 
   "changes": [
     {

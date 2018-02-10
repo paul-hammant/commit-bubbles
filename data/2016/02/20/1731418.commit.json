@@ -1,5 +1,6 @@
 {
   "when": "2016-02-20T11:17:57-05:00", 
+  "message": "Moving error infromation of Subscription from SubscriptionMessageBuilder to SynapseSubscription - static variables are not suitable for storing error information as error information must be per subscription based and not something applicable globally for all the subscriptions", 
   "who": "isudana", 
   "changes": [
     {

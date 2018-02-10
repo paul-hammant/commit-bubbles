@@ -1,5 +1,6 @@
 {
   "when": "2013-08-07T20:39:37-04:00", 
+  "message": "Using CDATA selectively when parsing FIX messages. Patch applied from SYNAPSE-650 with some modifications", 
   "who": "hiranya", 
   "changes": [
     {

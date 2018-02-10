@@ -1,5 +1,6 @@
 {
   "when": "2016-06-07T09:13:32-04:00", 
+  "message": "Patch by Isuru Janith Ranawaka that fixes send mediator inside a fault mediator from hanging when SSL exception occurs. SYNAPSE-1039", 
   "who": "ravi", 
   "changes": [
     {

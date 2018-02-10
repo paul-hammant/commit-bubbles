@@ -1,7 +1,45 @@
 {
   "when": "2012-09-23T03:05:54-04:00", 
+  "message": "Applied Sagara's patches for SYNAPSE-910 and SYNAPSE-912 to make Synapse compatible with the latest Axis2 trunk.\n", 
   "who": "veithen", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-28,6 +28,7", 
+          "lines": [
+            " \n", 
+            "     &lt;sequence name=\"main\"&gt;\n", 
+            "         &lt;!-- filtering of messages with XPath and regex matches --&gt;\n", 
+            "+        &lt;header name=\"Action\" value=\"urn:getQuote\"/&gt;\n", 
+            "         &lt;filter source=\"get-property('To')\" regex=\".*/StockQuote.*\"&gt;\n", 
+            "             &lt;then&gt;\n", 
+            "                 &lt;send&gt;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample50.xml", 
+      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample50.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-253,7 +253,7", 
+          "lines": [
+            "         }\n", 
+            " \n", 
+            "         if (msgContext.isSOAP11() && soapAction != null &&\n", 
+            "-                soapAction.length() > 0) {\n", 
+            "+                soapAction.length() >= 0) {\n", 
+            "             Header existingHeader =\n", 
+            "                     httpRequest.getFirstHeader(HTTPConstants.HEADER_SOAP_ACTION);\n", 
+            "             if (existingHeader != null) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Axis2HttpRequest.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Axis2HttpRequest.java"
+    }, 
     {
       "chunks": [
         {
@@ -37,25 +75,6 @@
     {
       "chunks": [
         {
-          "locn": "-253,7 +253,7", 
-          "lines": [
-            "         }\n", 
-            " \n", 
-            "         if (msgContext.isSOAP11() && soapAction != null &&\n", 
-            "-                soapAction.length() > 0) {\n", 
-            "+                soapAction.length() >= 0) {\n", 
-            "             Header existingHeader =\n", 
-            "                     httpRequest.getFirstHeader(HTTPConstants.HEADER_SOAP_ACTION);\n", 
-            "             if (existingHeader != null) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Axis2HttpRequest.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/Axis2HttpRequest.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-26,7 +26,7", 
           "lines": [
             " import org.apache.axis2.description.Parameter;\n", 
@@ -84,24 +103,6 @@
       ], 
       "to": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportSender.java", 
       "from": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,6 +28,7", 
-          "lines": [
-            " \n", 
-            "     &lt;sequence name=\"main\"&gt;\n", 
-            "         &lt;!-- filtering of messages with XPath and regex matches --&gt;\n", 
-            "+        &lt;header name=\"Action\" value=\"urn:getQuote\"/&gt;\n", 
-            "         &lt;filter source=\"get-property('To')\" regex=\".*/StockQuote.*\"&gt;\n", 
-            "             &lt;then&gt;\n", 
-            "                 &lt;send&gt;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/documentation/src/site/xdoc/userguide/samples/sample50.xml", 
-      "from": "java/modules/documentation/src/site/xdoc/userguide/samples/sample50.xml"
     }, 
     {
       "chunks": [

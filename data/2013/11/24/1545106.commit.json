@@ -1,5 +1,6 @@
 {
   "when": "2013-11-24T18:14:04-05:00", 
+  "message": "* Not setting the http.socket.rcv-buffer-size and http.socket.snd-buffer-size properties unless the user has specified them explicitly. This will cause Synapse to use platform defaults when appropriate. (see the thread: HTTP Core Performance and Reactor Buffer Size)\n* Updated the relevant documentation and test cases.\n* Changed the EchoHttpServerController to reuse server sockets when appopriate.\n\n", 
   "who": "hiranya", 
   "changes": [
     {
@@ -97,6 +98,24 @@
     {
       "chunks": [
         {
+          "locn": "-7,3 +7,7", 
+          "lines": [
+            " http.socket.buffer-size=8192\n", 
+            " http.tcp.nodelay=true\n", 
+            " http.nio.interest-ops-queueing=false\n", 
+            "+\n", 
+            "+http.socket.rcv-buffer-size=8192\n", 
+            "+http.socket.snd-buffer-size=8192\n", 
+            "+\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/test/resources/test-http.properties", 
+      "from": "java/modules/transports/core/nhttp/src/test/resources/test-http.properties"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-36,8 +36,6", 
           "lines": [
             "         IOReactorConfig reactorConfig = config.getListeningReactorConfig();\n", 
@@ -175,24 +194,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/config/HttpTransportConfigurationTest.java", 
       "from": "java/modules/transports/core/nhttp/src/test/java/org/apache/synapse/transport/utils/config/HttpTransportConfigurationTest.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-7,3 +7,7", 
-          "lines": [
-            " http.socket.buffer-size=8192\n", 
-            " http.tcp.nodelay=true\n", 
-            " http.nio.interest-ops-queueing=false\n", 
-            "+\n", 
-            "+http.socket.rcv-buffer-size=8192\n", 
-            "+http.socket.snd-buffer-size=8192\n", 
-            "+\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/test/resources/test-http.properties", 
-      "from": "java/modules/transports/core/nhttp/src/test/resources/test-http.properties"
     }, 
     {
       "chunks": [

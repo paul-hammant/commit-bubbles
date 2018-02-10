@@ -1,7 +1,80 @@
 {
   "when": "2011-12-07T02:32:27-05:00", 
+  "message": "Cleaned up the recipient list endpoint source", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-74,10 +74,10", 
+          "lines": [
+            "                         \"httpsPort\", null, String.valueOf(member.getHttpsPort())));\n", 
+            "                 recipientListElement.addChild(memberEle);\n", 
+            "             }\n", 
+            "-        }else{\n", 
+            "+        } else {\n", 
+            "             OMElement dynamicEpEle = fac.createOMElement(\n", 
+            "                     \"endpoints\", SynapseConstants.SYNAPSE_OMNAMESPACE, recipientListElement);\n", 
+            "-            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(),\n", 
+            "+            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEndpointSet(),\n", 
+            "                     \"value\", dynamicEpEle);\n", 
+            "             dynamicEpEle.addAttribute(fac.createOMAttribute(\"max-cache\", null,\n", 
+            "                     String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-121,15 +121,15", 
+          "lines": [
+            "                 if (name != null) {\n", 
+            "                     recipientListEndpoint.setName(name.getAttributeValue());\n", 
+            "                 }\n", 
+            "-                recipientListEndpoint.setDynamicEnpointSet(dynamicEndpointSet);\n", 
+            "+                recipientListEndpoint.setDynamicEndpointSet(dynamicEndpointSet);\n", 
+            "             }\n", 
+            " \n", 
+            "             if (recipientListEndpoint.getChildren() == null && \n", 
+            "             \t\trecipientListEndpoint.getMembers() == null &&\n", 
+            "-                    recipientListEndpoint.getDynamicEnpointSet() == null) {\n", 
+            "-                String msg = \"Invalid Synapse configuration.\\n\"\n", 
+            "-                    + \"A RecipientListEndpoint must have child/member elements, but the RecipientListEndpoint \"\n", 
+            "-                    + \"'\" + recipientListEndpoint.getName() + \"' does not have any child/member/dynamic endpoint elements.\";\n", 
+            "+                    recipientListEndpoint.getDynamicEndpointSet() == null) {\n", 
+            "+                String msg = \"A RecipientListEndpoint must have child/member elements, but the \" +\n", 
+            "+                        \"RecipientListEndpoint \" + \"'\" + recipientListEndpoint.getName() + \"' \" +\n", 
+            "+                        \"does not have any child/member/dynamic endpoint elements.\";\n", 
+            "                 log.error(msg);\n", 
+            "                 throw new SynapseException(msg);\n", 
+            "             }\n"
+          ]
+        }, 
+        {
+          "locn": "-149,12 +149,7", 
+          "lines": [
+            "         \n", 
+            "         for(Iterator memberIter = loadbalanceElement.getChildrenWithName(MEMBER);\n", 
+            "             memberIter.hasNext();){\n", 
+            "-        \t\n", 
+            "-        \tif(log.isDebugEnabled()){\n", 
+            "-        \t\tlog.debug(\"Getting Members..\");\n", 
+            "-        \t}\n", 
+            "-        \t\n", 
+            "-            OMElement memberEle = (OMElement) memberIter.next();\n", 
+            "+        \tOMElement memberEle = (OMElement) memberIter.next();\n", 
+            "             Member member = new Member(memberEle.getAttributeValue(new QName(\"hostName\")), -1);\n", 
+            "             String http = memberEle.getAttributeValue(new QName(\"httpPort\"));\n", 
+            "             if (http != null) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointFactory.java"
+    }, 
     {
       "chunks": [
         {
@@ -211,78 +284,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-74,10 +74,10", 
-          "lines": [
-            "                         \"httpsPort\", null, String.valueOf(member.getHttpsPort())));\n", 
-            "                 recipientListElement.addChild(memberEle);\n", 
-            "             }\n", 
-            "-        }else{\n", 
-            "+        } else {\n", 
-            "             OMElement dynamicEpEle = fac.createOMElement(\n", 
-            "                     \"endpoints\", SynapseConstants.SYNAPSE_OMNAMESPACE, recipientListElement);\n", 
-            "-            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(),\n", 
-            "+            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEndpointSet(),\n", 
-            "                     \"value\", dynamicEpEle);\n", 
-            "             dynamicEpEle.addAttribute(fac.createOMAttribute(\"max-cache\", null,\n", 
-            "                     String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-121,15 +121,15", 
-          "lines": [
-            "                 if (name != null) {\n", 
-            "                     recipientListEndpoint.setName(name.getAttributeValue());\n", 
-            "                 }\n", 
-            "-                recipientListEndpoint.setDynamicEnpointSet(dynamicEndpointSet);\n", 
-            "+                recipientListEndpoint.setDynamicEndpointSet(dynamicEndpointSet);\n", 
-            "             }\n", 
-            " \n", 
-            "             if (recipientListEndpoint.getChildren() == null && \n", 
-            "             \t\trecipientListEndpoint.getMembers() == null &&\n", 
-            "-                    recipientListEndpoint.getDynamicEnpointSet() == null) {\n", 
-            "-                String msg = \"Invalid Synapse configuration.\\n\"\n", 
-            "-                    + \"A RecipientListEndpoint must have child/member elements, but the RecipientListEndpoint \"\n", 
-            "-                    + \"'\" + recipientListEndpoint.getName() + \"' does not have any child/member/dynamic endpoint elements.\";\n", 
-            "+                    recipientListEndpoint.getDynamicEndpointSet() == null) {\n", 
-            "+                String msg = \"A RecipientListEndpoint must have child/member elements, but the \" +\n", 
-            "+                        \"RecipientListEndpoint \" + \"'\" + recipientListEndpoint.getName() + \"' \" +\n", 
-            "+                        \"does not have any child/member/dynamic endpoint elements.\";\n", 
-            "                 log.error(msg);\n", 
-            "                 throw new SynapseException(msg);\n", 
-            "             }\n"
-          ]
-        }, 
-        {
-          "locn": "-149,12 +149,7", 
-          "lines": [
-            "         \n", 
-            "         for(Iterator memberIter = loadbalanceElement.getChildrenWithName(MEMBER);\n", 
-            "             memberIter.hasNext();){\n", 
-            "-        \t\n", 
-            "-        \tif(log.isDebugEnabled()){\n", 
-            "-        \t\tlog.debug(\"Getting Members..\");\n", 
-            "-        \t}\n", 
-            "-        \t\n", 
-            "-            OMElement memberEle = (OMElement) memberIter.next();\n", 
-            "+        \tOMElement memberEle = (OMElement) memberIter.next();\n", 
-            "             Member member = new Member(memberEle.getAttributeValue(new QName(\"hostName\")), -1);\n", 
-            "             String http = memberEle.getAttributeValue(new QName(\"httpPort\"));\n", 
-            "             if (http != null) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointFactory.java"
     }
   ], 
   "id": "1211317"

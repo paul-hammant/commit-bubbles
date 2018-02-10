@@ -1,5 +1,6 @@
 {
   "when": "2011-12-26T06:59:01-05:00", 
+  "message": "Upgrading javadoc plugin to latest stable - This fixes the last build break at Jenkins", 
   "who": "hiranya", 
   "changes": [
     {

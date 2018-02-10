@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T14:25:13-04:00", 
+  "message": "Applying the patch for SYNAPSE-911 with a test case. This patch adds support for selecting XML attributes in the enrich mediator using the target custom XPath", 
   "who": "hiranya", 
   "changes": [
     {

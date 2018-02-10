@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T14:29:42-04:00", 
+  "message": "Applying the patch for SYNAPSE-895; Logging a warning when a VFS proxy is configured without the file URI parameter.", 
   "who": "hiranya", 
   "changes": [
     {

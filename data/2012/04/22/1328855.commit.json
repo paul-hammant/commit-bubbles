@@ -1,5 +1,6 @@
 {
   "when": "2012-04-22T07:50:14-04:00", 
+  "message": "Adding unit tests for PayloadFactory mediator", 
   "who": "sadeep", 
   "changes": [
     {

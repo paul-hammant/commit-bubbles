@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T22:50:24-04:00", 
+  "message": "Cleaned up the logging related code in the integration test suite.", 
   "who": "hiranya", 
   "changes": [
     {
@@ -24,17 +25,132 @@
           "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample460 extends SynapseTestCase {\n", 
+            " public class Sample390 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample460.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample390.class);\n", 
             "     SampleClientResult result;\n", 
             "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample391 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample391.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-35,7 +33,6", 
+          "lines": [
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testExternalXQuery() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample59 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample59.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample59() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample451 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample451.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java"
     }, 
     {
       "chunks": [
@@ -92,22 +208,34 @@
           "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample362 extends SynapseTestCase {\n", 
+            " public class Sample353 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample362.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample353.class);\n", 
             "     SampleClientResult result;\n", 
             "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
+        }, 
+        {
+          "locn": "-35,7 +33,6", 
+          "lines": [
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testScriptMediationWithRuby() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n"
+          ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-16,10 +16,9", 
+          "locn": "-16,11 +16,10", 
           "lines": [
             "  *  specific language governing permissions and limitations\n", 
             "  *  under the License.\n", 
@@ -115,6 +243,7 @@
             "+\n", 
             " package org.apache.synapse.samples.framework.tests.advanced;\n", 
             " \n", 
+            " import org.apache.axis2.AxisFault;\n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
             " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
@@ -123,20 +252,46 @@
           ]
         }, 
         {
-          "locn": "-26,7 +25,6", 
+          "locn": "-27,7 +26,6", 
           "lines": [
             " \n", 
-            " public class Sample390 extends SynapseTestCase {\n", 
+            " public class Sample371 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample390.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample371.class);\n", 
             "     SampleClientResult result;\n", 
             "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
+        }, 
+        {
+          "locn": "-36,7 +34,6", 
+          "lines": [
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testRestrictedThrottling() {\n", 
+            "         String addUrl = \"http://localhost:8280/\";\n", 
+            "         String expectedError = \"Access Denied\";\n"
+          ]
+        }, 
+        {
+          "locn": "-54,7 +51,8", 
+          "lines": [
+            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
+            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n", 
+            "         assertTrue(\"Did not receive expected error\", resultEx instanceof AxisFault);\n", 
+            "-        assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError) != -1);\n", 
+            "+        assertTrue(\"Did not receive expected error\",\n", 
+            "+                resultEx.getMessage().indexOf(expectedError) != -1);\n", 
+            " \n", 
+            "     }\n", 
+            " \n"
+          ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample390.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java"
     }, 
     {
       "chunks": [
@@ -171,299 +326,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample452.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.message;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample13 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample13.class);\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample13() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample420 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample420.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-35,7 +33,6", 
-          "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testCache() {\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-18,8 +18,6", 
-          "lines": [
-            "  */\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +24,6", 
-          "lines": [
-            " \n", 
-            " public class Sample431 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample431.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample450 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample450.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample450.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample450.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample360 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample360.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample352 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample352.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample353 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample353.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-35,7 +33,6", 
-          "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testScriptMediationWithRuby() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280/\";\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample353.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample380 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample380.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java"
     }, 
     {
       "chunks": [
@@ -510,6 +372,51 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample354.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,18 +25,14", 
+          "lines": [
+            " \n", 
+            " public class Sample58 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample58.class);\n", 
+            "-\n", 
+            "     private SampleClientResult result;\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "-\n", 
+            "     public Sample58() {\n", 
+            "         super(58);\n", 
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testStaticLB() {\n", 
+            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java"
     }, 
     {
       "chunks": [
@@ -691,398 +598,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample153 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample153.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample153() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,22 +16,16", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
-            " \n", 
-            "-import java.util.concurrent.CountDownLatch;\n", 
-            "-\n", 
-            " public class Sample154 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample154.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            "-    CountDownLatch latch;\n", 
-            " \n", 
-            "     public Sample154() {\n", 
-            "         super(154);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample155 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample155.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample155() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample156 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample156.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample156() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-18,8 +18,6", 
-          "lines": [
-            "  */\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.http.HttpEntity;\n", 
-            " import org.apache.http.HttpHeaders;\n", 
-            " import org.apache.http.HttpResponse;\n"
-          ]
-        }, 
-        {
-          "locn": "-35,8 +33,6", 
-          "lines": [
-            " \n", 
-            " public class Sample157 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample157.class);\n", 
-            "-\n", 
-            "     private String requestXml;\n", 
-            "     private HttpClient httpclient;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample157.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample157.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,11 +16,10", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.http.HttpStatus;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n"
-          ]
-        }, 
-        {
-          "locn": "-30,8 +29,6", 
-          "lines": [
-            " \n", 
-            " public class Sample150 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample150.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample150() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample151 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample151.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample151() {\n"
-          ]
-        }, 
-        {
-          "locn": "-35,7 +32,6", 
-          "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testCustomSequencesEndpointsWithProxy() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy1\";\n", 
-            "         String addUrl2 = \"http://localhost:8280/services/StockQuoteProxy2\";\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,11 +16,10", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
-            " \n", 
-            " import org.apache.commons.io.FilenameUtils;\n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-27,8 +26,6", 
-          "lines": [
-            " \n", 
-            " public class Sample152 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample152.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample152() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.qos;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample100 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample100.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.qos;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample101 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample101.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.message;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,7 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample16 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample16.class);\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample16() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
     }, 
     {
       "chunks": [
@@ -1636,6 +1151,40 @@
           "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
+            " public class Sample13 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample13.class);\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample13() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample13.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.message;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
             " public class Sample15 extends SynapseTestCase {\n", 
             " \n", 
             "-    private static final Log log = LogFactory.getLog(Sample15.class);\n", 
@@ -1647,6 +1196,86 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample15.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.message;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample16 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample16.class);\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample16() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample16.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample420 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample420.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-35,7 +33,6", 
+          "lines": [
+            "         client = getStockQuoteClient();\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testCache() {\n", 
+            "         String trpUrl = \"http://localhost:8280/\";\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample420.java"
     }, 
     {
       "chunks": [
@@ -1681,6 +1310,37 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample430.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-18,8 +18,6", 
+          "lines": [
+            "  */\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +24,6", 
+          "lines": [
+            " \n", 
+            " public class Sample431 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample431.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample431.java"
     }, 
     {
       "chunks": [
@@ -1750,6 +1410,40 @@
           "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
+            " public class Sample450 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample450.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample450.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample450.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
             " public class Sample351 extends SynapseTestCase {\n", 
             " \n", 
             "-    private static final Log log = LogFactory.getLog(Sample351.class);\n", 
@@ -1784,17 +1478,85 @@
           "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample451 extends SynapseTestCase {\n", 
+            " public class Sample360 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample451.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample360.class);\n", 
             "     SampleClientResult result;\n", 
             "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample451.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample360.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample460 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample460.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample460.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample352 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample352.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample352.java"
     }, 
     {
       "chunks": [
@@ -1833,7 +1595,7 @@
     {
       "chunks": [
         {
-          "locn": "-16,11 +16,10", 
+          "locn": "-16,10 +16,9", 
           "lines": [
             "  *  specific language governing permissions and limitations\n", 
             "  *  under the License.\n", 
@@ -1841,7 +1603,6 @@
             "+\n", 
             " package org.apache.synapse.samples.framework.tests.advanced;\n", 
             " \n", 
-            " import org.apache.axis2.AxisFault;\n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
             " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
@@ -1850,46 +1611,54 @@
           ]
         }, 
         {
-          "locn": "-27,7 +26,6", 
+          "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample371 extends SynapseTestCase {\n", 
+            " public class Sample362 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample371.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample362.class);\n", 
             "     SampleClientResult result;\n", 
             "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
-        }, 
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample362.java"
+    }, 
+    {
+      "chunks": [
         {
-          "locn": "-36,7 +34,6", 
+          "locn": "-16,10 +16,9", 
           "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
             " \n", 
-            "-\n", 
-            "     public void testRestrictedThrottling() {\n", 
-            "         String addUrl = \"http://localhost:8280/\";\n", 
-            "         String expectedError = \"Access Denied\";\n"
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
           ]
         }, 
         {
-          "locn": "-54,7 +51,8", 
+          "locn": "-26,7 +25,6", 
           "lines": [
-            "         assertNotNull(\"Did not receive expected error\", resultEx);\n", 
-            "         log.info(\"Got an error as expected: \" + resultEx.getMessage());\n", 
-            "         assertTrue(\"Did not receive expected error\", resultEx instanceof AxisFault);\n", 
-            "-        assertTrue(\"Did not receive expected error\", resultEx.getMessage().indexOf(expectedError) != -1);\n", 
-            "+        assertTrue(\"Did not receive expected error\",\n", 
-            "+                resultEx.getMessage().indexOf(expectedError) != -1);\n", 
             " \n", 
-            "     }\n", 
+            " public class Sample380 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample380.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample371.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample380.java"
     }, 
     {
       "chunks": [
@@ -1948,7 +1717,7 @@
             "  *  under the License.\n", 
             "  */\n", 
             "+\n", 
-            " package org.apache.synapse.samples.framework.tests.advanced;\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
             " \n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
@@ -1958,32 +1727,126 @@
           ]
         }, 
         {
-          "locn": "-26,7 +25,6", 
+          "locn": "-26,8 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample391 extends SynapseTestCase {\n", 
+            " public class Sample57 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample391.class);\n", 
-            "     SampleClientResult result;\n", 
-            "     StockQuoteSampleClient client;\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-35,7 +33,6", 
-          "lines": [
-            "         client = getStockQuoteClient();\n", 
-            "     }\n", 
-            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample57.class);\n", 
             "-\n", 
-            "     public void testExternalXQuery() {\n", 
-            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "     private SampleClientResult result;\n", 
+            "     private StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/advanced/Sample391.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample50 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample50.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample50() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample52 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample52.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample52() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample56 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample56.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample56() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
     }, 
     {
       "chunks": [
@@ -2078,41 +1941,6 @@
           "locn": "-26,8 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample50 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample50.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample50() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample50.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
             " public class Sample54 extends SynapseTestCase {\n", 
             " \n", 
             "-    private static final Log log = LogFactory.getLog(Sample54.class);\n", 
@@ -2125,41 +1953,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample54.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-16,10 +16,9", 
-          "lines": [
-            "  *  specific language governing permissions and limitations\n", 
-            "  *  under the License.\n", 
-            "  */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
-            " \n", 
-            "-import org.apache.commons.logging.Log;\n", 
-            "-import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
-            " \n", 
-            " public class Sample59 extends SynapseTestCase {\n", 
-            " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample59.class);\n", 
-            "-\n", 
-            "     private StockQuoteSampleClient client;\n", 
-            " \n", 
-            "     public Sample59() {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample59.java"
     }, 
     {
       "chunks": [
@@ -2206,7 +1999,7 @@
             "  *  under the License.\n", 
             "  */\n", 
             "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
             " \n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
@@ -2216,101 +2009,310 @@
           ]
         }, 
         {
-          "locn": "-26,18 +25,14", 
+          "locn": "-26,8 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample58 extends SynapseTestCase {\n", 
+            " public class Sample153 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample58.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample153.class);\n", 
             "-\n", 
-            "     private SampleClientResult result;\n", 
             "     private StockQuoteSampleClient client;\n", 
             " \n", 
+            "     public Sample153() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample153.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-18,8 +18,6", 
+          "lines": [
+            "  */\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.http.HttpEntity;\n", 
+            " import org.apache.http.HttpHeaders;\n", 
+            " import org.apache.http.HttpResponse;\n"
+          ]
+        }, 
+        {
+          "locn": "-35,8 +33,6", 
+          "lines": [
+            " \n", 
+            " public class Sample157 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample157.class);\n", 
             "-\n", 
-            "     public Sample58() {\n", 
-            "         super(58);\n", 
+            "     private String requestXml;\n", 
+            "     private HttpClient httpclient;\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample157.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample157.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,11 +16,10", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
+            " \n", 
+            " import org.apache.commons.io.FilenameUtils;\n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-27,8 +26,6", 
+          "lines": [
+            " \n", 
+            " public class Sample152 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample152.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample152() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample152.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample156 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample156.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample156() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample156.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample151 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample151.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample151() {\n"
+          ]
+        }, 
+        {
+          "locn": "-35,7 +32,6", 
+          "lines": [
             "         client = getStockQuoteClient();\n", 
             "     }\n", 
             " \n", 
             "-\n", 
-            "     public void testStaticLB() {\n", 
-            "         final String addUrl = \"http://localhost:8280/services/LBService1\";\n", 
+            "     public void testCustomSequencesEndpointsWithProxy() {\n", 
+            "         String addUrl = \"http://localhost:8280/services/StockQuoteProxy1\";\n", 
+            "         String addUrl2 = \"http://localhost:8280/services/StockQuoteProxy2\";\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample151.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,8 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample155 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample155.class);\n", 
+            "-\n", 
+            "     private StockQuoteSampleClient client;\n", 
+            " \n", 
+            "     public Sample155() {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample155.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-16,10 +16,9", 
+          "lines": [
+            "  *  specific language governing permissions and limitations\n", 
+            "  *  under the License.\n", 
+            "  */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.tests.qos;\n", 
+            " \n", 
+            "-import org.apache.commons.logging.Log;\n", 
+            "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+          ]
+        }, 
+        {
+          "locn": "-26,7 +25,6", 
+          "lines": [
+            " \n", 
+            " public class Sample101 extends SynapseTestCase {\n", 
+            " \n", 
+            "-    private static final Log log = LogFactory.getLog(Sample101.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample58.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample101.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-16,10 +16,9", 
+          "locn": "-16,11 +16,10", 
           "lines": [
             "  *  specific language governing permissions and limitations\n", 
             "  *  under the License.\n", 
             "  */\n", 
             "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
             " \n", 
+            " import org.apache.axiom.om.OMElement;\n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.http.HttpStatus;\n", 
             " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
-            " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
+            " import org.apache.synapse.samples.framework.SynapseTestCase;\n"
           ]
         }, 
         {
-          "locn": "-26,8 +25,6", 
+          "locn": "-30,8 +29,6", 
           "lines": [
             " \n", 
-            " public class Sample52 extends SynapseTestCase {\n", 
+            " public class Sample150 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample52.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample150.class);\n", 
             "-\n", 
             "     private StockQuoteSampleClient client;\n", 
             " \n", 
-            "     public Sample52() {\n"
+            "     public Sample150() {\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample52.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-16,10 +16,9", 
+          "locn": "-16,22 +16,16", 
           "lines": [
             "  *  specific language governing permissions and limitations\n", 
             "  *  under the License.\n", 
             "  */\n", 
             "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " package org.apache.synapse.samples.framework.tests.proxy;\n", 
             " \n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
             " import org.apache.synapse.samples.framework.SampleClientResult;\n", 
             " import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n"
-          ]
-        }, 
-        {
-          "locn": "-26,8 +25,6", 
-          "lines": [
+            " import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
             " \n", 
-            " public class Sample56 extends SynapseTestCase {\n", 
+            "-import java.util.concurrent.CountDownLatch;\n", 
+            "-\n", 
+            " public class Sample154 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample56.class);\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample154.class);\n", 
             "-\n", 
             "     private StockQuoteSampleClient client;\n", 
+            "-    CountDownLatch latch;\n", 
             " \n", 
-            "     public Sample56() {\n"
+            "     public Sample154() {\n", 
+            "         super(154);\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample56.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample154.java"
     }, 
     {
       "chunks": [
@@ -2321,7 +2323,7 @@
             "  *  under the License.\n", 
             "  */\n", 
             "+\n", 
-            " package org.apache.synapse.samples.framework.tests.endpoint;\n", 
+            " package org.apache.synapse.samples.framework.tests.qos;\n", 
             " \n", 
             "-import org.apache.commons.logging.Log;\n", 
             "-import org.apache.commons.logging.LogFactory;\n", 
@@ -2331,21 +2333,20 @@
           ]
         }, 
         {
-          "locn": "-26,8 +25,6", 
+          "locn": "-26,7 +25,6", 
           "lines": [
             " \n", 
-            " public class Sample57 extends SynapseTestCase {\n", 
+            " public class Sample100 extends SynapseTestCase {\n", 
             " \n", 
-            "-    private static final Log log = LogFactory.getLog(Sample57.class);\n", 
-            "-\n", 
-            "     private SampleClientResult result;\n", 
-            "     private StockQuoteSampleClient client;\n", 
+            "-    private static final Log log = LogFactory.getLog(Sample100.class);\n", 
+            "     SampleClientResult result;\n", 
+            "     StockQuoteSampleClient client;\n", 
             " \n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/endpoint/Sample57.java"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/qos/Sample100.java"
     }
   ], 
   "id": "1505584"

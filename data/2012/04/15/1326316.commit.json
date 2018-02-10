@@ -1,5 +1,6 @@
 {
   "when": "2012-04-15T08:16:36-04:00", 
+  "message": "Fixing java.util.ConcurrentModificationException caused by wrong usage of Axiom API\n", 
   "who": "sadeep", 
   "changes": [
     {

@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T14:01:47-04:00", 
+  "message": "Fixing SYNAPSE-866; Logging a more general error message with the full stack trace in case of IllegalStateExceptions", 
   "who": "hiranya", 
   "changes": [
     {

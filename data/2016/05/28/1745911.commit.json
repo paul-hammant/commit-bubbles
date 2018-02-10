@@ -1,5 +1,6 @@
 {
   "when": "2016-05-28T13:45:02-04:00", 
+  "message": "applying refactored patch by buddhima for SYNAPSE-1021 improvement", 
   "who": "isudana", 
   "changes": [
     {
@@ -185,54 +186,6 @@
     {
       "chunks": [
         {
-          "locn": "-47,10 +47,15", 
-          "lines": [
-            "     public static final String SCOPE_TRANSPORT = \"transport\";\n", 
-            "     /** The scope name for registry properties */\n", 
-            "     public static final String SCOPE_REGISTRY = \"registry\";\n", 
-            "-\n", 
-            "     /** The scope name for the system properties  */\n", 
-            "     public static final String SCOPE_SYSTEM = \"system\";\n", 
-            " \n", 
-            "+    //-- HeaderMediator --\n", 
-            "+    /** The scope name for SOAP headers */\n", 
-            "+    public static final String HEADER_SCOPE_SOAP = \"soap\";\n", 
-            "+    /** The scope name for Transport headers */\n", 
-            "+    public static final String HEADER_SCOPE_TRANSPORT = \"transport\";\n", 
-            "+\n", 
-            "     public static final String KEY = \"key\";\n", 
-            "     public static final String RECEIVE = \"receive\";\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/XMLConfigConstants.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/XMLConfigConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-76,6 +76,10", 
-          "lines": [
-            "             }\n", 
-            "         }\n", 
-            " \n", 
-            "+        if (mediator.getScope() != null) {\n", 
-            "+            header.addAttribute(fac.createOMAttribute(\"scope\", nullNS, mediator.getScope()));\n", 
-            "+        }\n", 
-            "+\n", 
-            "         if (mediator.hasEmbeddedXml()) {\n", 
-            "             for (OMElement e : mediator.getEmbeddedXml()) {\n", 
-            "                 header.addChild(e);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-48,6 +48,7", 
           "lines": [
             " \n", 
@@ -358,6 +311,75 @@
     {
       "chunks": [
         {
+          "locn": "-47,10 +47,15", 
+          "lines": [
+            "     public static final String SCOPE_TRANSPORT = \"transport\";\n", 
+            "     /** The scope name for registry properties */\n", 
+            "     public static final String SCOPE_REGISTRY = \"registry\";\n", 
+            "-\n", 
+            "     /** The scope name for the system properties  */\n", 
+            "     public static final String SCOPE_SYSTEM = \"system\";\n", 
+            " \n", 
+            "+    //-- HeaderMediator --\n", 
+            "+    /** The scope name for SOAP headers */\n", 
+            "+    public static final String HEADER_SCOPE_SOAP = \"soap\";\n", 
+            "+    /** The scope name for Transport headers */\n", 
+            "+    public static final String HEADER_SCOPE_TRANSPORT = \"transport\";\n", 
+            "+\n", 
+            "     public static final String KEY = \"key\";\n", 
+            "     public static final String RECEIVE = \"receive\";\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/XMLConfigConstants.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/XMLConfigConstants.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-76,6 +76,10", 
+          "lines": [
+            "             }\n", 
+            "         }\n", 
+            " \n", 
+            "+        if (mediator.getScope() != null) {\n", 
+            "+            header.addAttribute(fac.createOMAttribute(\"scope\", nullNS, mediator.getScope()));\n", 
+            "+        }\n", 
+            "+\n", 
+            "         if (mediator.hasEmbeddedXml()) {\n", 
+            "             for (OMElement e : mediator.getEmbeddedXml()) {\n", 
+            "                 header.addChild(e);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-45,4 +45,10", 
+          "lines": [
+            "         assertTrue(serialization(inputXml, headerMediatorFactory, headerMediatorSerializer));\n", 
+            "         assertTrue(serialization(inputXml, headerMediatorSerializer));\n", 
+            "     }\n", 
+            "+\n", 
+            "+    public void testHeaderMediatorSerializationSenarioThree() throws Exception {\n", 
+            "+        String inputXml = \"<header xmlns=\\\"http://ws.apache.org/ns/synapse\\\" name=\\\"User-Agent\\\" value=\\\"SynapseUser\\\" scope=\\\"transport\\\"/>\";\n", 
+            "+        assertTrue(serialization(inputXml, headerMediatorFactory, headerMediatorSerializer));\n", 
+            "+        assertTrue(serialization(inputXml, headerMediatorSerializer));\n", 
+            "+    }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorSerializationTest.java", 
+      "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorSerializationTest.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-122,4 +122,40", 
           "lines": [
             "         }\n", 
@@ -405,27 +427,6 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorConfigurationTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorConfigurationTest.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-45,4 +45,10", 
-          "lines": [
-            "         assertTrue(serialization(inputXml, headerMediatorFactory, headerMediatorSerializer));\n", 
-            "         assertTrue(serialization(inputXml, headerMediatorSerializer));\n", 
-            "     }\n", 
-            "+\n", 
-            "+    public void testHeaderMediatorSerializationSenarioThree() throws Exception {\n", 
-            "+        String inputXml = \"<header xmlns=\\\"http://ws.apache.org/ns/synapse\\\" name=\\\"User-Agent\\\" value=\\\"SynapseUser\\\" scope=\\\"transport\\\"/>\";\n", 
-            "+        assertTrue(serialization(inputXml, headerMediatorFactory, headerMediatorSerializer));\n", 
-            "+        assertTrue(serialization(inputXml, headerMediatorSerializer));\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorSerializationTest.java", 
-      "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/HeaderMediatorSerializationTest.java"
     }, 
     {
       "chunks": [

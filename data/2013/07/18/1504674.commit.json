@@ -1,7 +1,27 @@
 {
   "when": "2013-07-18T17:40:26-04:00", 
+  "message": "Applying the patch for SYNAPSE-847; Getting rid of redundant code to close the file input stream. This is taken care of by the FileObject.close() method. Also using an AutoCloseInputStream so that the input stream will be closed early if Synapse consumes it entirely.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-58,7 +58,7", 
+          "lines": [
+            "                             !org.apache.commons.io.output,\n", 
+            "                             org.apache.commons.io.output; version=0.0.0,\n", 
+            "                             org.apache.commons.vfs2.*; version=0.0.0,\n", 
+            "-\t\t\t\t\t\t\torg.apache.commons.io; version=0.0.0,\n", 
+            "+\t\t\t\t\t\t\torg.apache.commons.io.*; version=0.0.0,\n", 
+            "                             *; resolution:=optional\n", 
+            "                         </Import-Package>\n", 
+            "                     </instructions>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/vfs/pom.xml", 
+      "from": "java/modules/transports/core/vfs/pom.xml"
+    }, 
     {
       "chunks": [
         {
@@ -71,25 +91,6 @@
       ], 
       "to": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportListener.java", 
       "from": "java/modules/transports/core/vfs/src/main/java/org/apache/synapse/transport/vfs/VFSTransportListener.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-58,7 +58,7", 
-          "lines": [
-            "                             !org.apache.commons.io.output,\n", 
-            "                             org.apache.commons.io.output; version=0.0.0,\n", 
-            "                             org.apache.commons.vfs2.*; version=0.0.0,\n", 
-            "-\t\t\t\t\t\t\torg.apache.commons.io; version=0.0.0,\n", 
-            "+\t\t\t\t\t\t\torg.apache.commons.io.*; version=0.0.0,\n", 
-            "                             *; resolution:=optional\n", 
-            "                         </Import-Package>\n", 
-            "                     </instructions>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/vfs/pom.xml", 
-      "from": "java/modules/transports/core/vfs/pom.xml"
     }
   ], 
   "id": "1504674"

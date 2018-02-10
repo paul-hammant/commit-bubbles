@@ -1,40 +1,65 @@
 {
   "when": "2011-12-08T06:01:42-05:00", 
+  "message": "Adding qos samples", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-24,6 +24,8", 
+          "locn": "-0,0 +1,18", 
           "lines": [
-            " import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.tests.endpoint.*;\n", 
-            " import org.apache.synapse.samples.framework.tests.message.*;\n", 
-            "+import org.apache.synapse.samples.framework.tests.qos.Sample100;\n", 
-            "+import org.apache.synapse.samples.framework.tests.qos.Sample101;\n", 
-            " \n", 
-            " import java.util.ArrayList;\n", 
-            " import java.util.HashMap;\n"
-          ]
-        }, 
-        {
-          "locn": "-182,5 +184,9", 
-          "lines": [
-            "         //sampleClassRepo.put(\"57\", Sample57.class);  //intermittently fail\n", 
-            "         sampleClassRepo.put(\"58\", Sample58.class);\n", 
-            "         sampleClassRepo.put(\"59\", Sample59.class);\n", 
-            "+\n", 
-            "+        //QoS\n", 
-            "+        sampleClassRepo.put(\"100\", Sample100.class);\n", 
-            "+        sampleClassRepo.put(\"101\", Sample101.class);\n", 
-            "     }\n", 
-            " }\n", 
-            "\\ No newline at end of file\n"
+            "+<synapseSample>\n", 
+            "+    <sampleID>100</sampleID>\n", 
+            "+    <sampleName>Using WS-Security for outgoing messages</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>repository/conf/sample/synapse_sample_100.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <axis2Server id='0'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
+      "to": "java/modules/integration/src/test/resources/sample100.xml", 
+      "from": "java/modules/integration/src/test/resources/sample100.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,18", 
+          "lines": [
+            "+<synapseSample>\n", 
+            "+    <sampleID>101</sampleID>\n", 
+            "+    <sampleName>Reliable message exchange between Synapse and the back-end server using WS-ReliableMessaging</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>repository/conf/sample/synapse_sample_101.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <axis2Server id='0'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample101.xml", 
+      "from": "java/modules/integration/src/test/resources/sample101.xml"
     }, 
     {
       "chunks": [
@@ -184,60 +209,36 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,18", 
+          "locn": "-24,6 +24,8", 
           "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>100</sampleID>\n", 
-            "+    <sampleName>Using WS-Security for outgoing messages</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>repository/conf/sample/synapse_sample_100.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <axis2Server id='0'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
+            " import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.tests.endpoint.*;\n", 
+            " import org.apache.synapse.samples.framework.tests.message.*;\n", 
+            "+import org.apache.synapse.samples.framework.tests.qos.Sample100;\n", 
+            "+import org.apache.synapse.samples.framework.tests.qos.Sample101;\n", 
+            " \n", 
+            " import java.util.ArrayList;\n", 
+            " import java.util.HashMap;\n"
           ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample100.xml", 
-      "from": "java/modules/integration/src/test/resources/sample100.xml"
-    }, 
-    {
-      "chunks": [
+        }, 
         {
-          "locn": "-0,0 +1,18", 
+          "locn": "-182,5 +184,9", 
           "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>101</sampleID>\n", 
-            "+    <sampleName>Reliable message exchange between Synapse and the back-end server using WS-ReliableMessaging</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>repository/conf/sample/synapse_sample_101.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <axis2Server id='0'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+\t<clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
+            "         //sampleClassRepo.put(\"57\", Sample57.class);  //intermittently fail\n", 
+            "         sampleClassRepo.put(\"58\", Sample58.class);\n", 
+            "         sampleClassRepo.put(\"59\", Sample59.class);\n", 
+            "+\n", 
+            "+        //QoS\n", 
+            "+        sampleClassRepo.put(\"100\", Sample100.class);\n", 
+            "+        sampleClassRepo.put(\"101\", Sample101.class);\n", 
+            "     }\n", 
+            " }\n", 
+            "\\ No newline at end of file\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/resources/sample101.xml", 
-      "from": "java/modules/integration/src/test/resources/sample101.xml"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
     }
   ], 
   "id": "1211825"

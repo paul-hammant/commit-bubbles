@@ -1,5 +1,6 @@
 {
   "when": "2016-05-22T11:18:14-04:00", 
+  "message": "updating axis2 and axiom versions", 
   "who": "isudana", 
   "changes": [
     {

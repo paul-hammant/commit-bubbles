@@ -1,7 +1,54 @@
 {
   "when": "2013-08-02T20:37:18-04:00", 
+  "message": "Adding a JMX MBean to monitor the synapse call back store - SYNAPSE-528", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-348,6 +348,9", 
+          "lines": [
+            "         } catch (IOException e) {\r\n", 
+            "             log.error(\"Error while initializing SNMP\", e);\r\n", 
+            "         }\r\n", 
+            "+\r\n", 
+            "+        SynapseCallbackReceiver.getInstance().init(serverContextInformation.getSynapseConfiguration(),\r\n", 
+            "+                serverContextInformation);\r\n", 
+            "     }\r\n", 
+            " \r\n", 
+            "     /**\r\n"
+          ]
+        }, 
+        {
+          "locn": "-459,6 +462,8", 
+          "lines": [
+            "                     }\r\n", 
+            "                 }\r\n", 
+            "             }\r\n", 
+            "+\r\n", 
+            "+            SynapseCallbackReceiver.getInstance().destroy();\r\n", 
+            "         } catch (AxisFault e) {\r\n", 
+            "             log.error(\"Error stopping the Axis2 Environment\");\r\n", 
+            "         }\r\n"
+          ]
+        }, 
+        {
+          "locn": "-621,7 +626,7", 
+          "lines": [
+            "             }\r\n", 
+            "             int pendingTransportThreads = pendingListenerThreads + pendingSenderThreads;\r\n", 
+            " \r\n", 
+            "-            int pendingCallbacks = serverContextInformation.getCallbackCount();\r\n", 
+            "+            int pendingCallbacks = SynapseCallbackReceiver.getInstance().getCallbackCount();\r\n", 
+            "             if (pendingCallbacks > 0) {\r\n", 
+            "                 log.info(\"Waiting for: \" + pendingCallbacks + \" callbacks/replies..\");\r\n", 
+            "             }\r\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java"
+    }, 
     {
       "chunks": [
         {
@@ -340,52 +387,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/SynapseCallbackReceiver.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/SynapseCallbackReceiver.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-348,6 +348,9", 
-          "lines": [
-            "         } catch (IOException e) {\r\n", 
-            "             log.error(\"Error while initializing SNMP\", e);\r\n", 
-            "         }\r\n", 
-            "+\r\n", 
-            "+        SynapseCallbackReceiver.getInstance().init(serverContextInformation.getSynapseConfiguration(),\r\n", 
-            "+                serverContextInformation);\r\n", 
-            "     }\r\n", 
-            " \r\n", 
-            "     /**\r\n"
-          ]
-        }, 
-        {
-          "locn": "-459,6 +462,8", 
-          "lines": [
-            "                     }\r\n", 
-            "                 }\r\n", 
-            "             }\r\n", 
-            "+\r\n", 
-            "+            SynapseCallbackReceiver.getInstance().destroy();\r\n", 
-            "         } catch (AxisFault e) {\r\n", 
-            "             log.error(\"Error stopping the Axis2 Environment\");\r\n", 
-            "         }\r\n"
-          ]
-        }, 
-        {
-          "locn": "-621,7 +626,7", 
-          "lines": [
-            "             }\r\n", 
-            "             int pendingTransportThreads = pendingListenerThreads + pendingSenderThreads;\r\n", 
-            " \r\n", 
-            "-            int pendingCallbacks = serverContextInformation.getCallbackCount();\r\n", 
-            "+            int pendingCallbacks = SynapseCallbackReceiver.getInstance().getCallbackCount();\r\n", 
-            "             if (pendingCallbacks > 0) {\r\n", 
-            "                 log.info(\"Waiting for: \" + pendingCallbacks + \" callbacks/replies..\");\r\n", 
-            "             }\r\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java"
     }
   ], 
   "id": "1509920"

@@ -1,5 +1,6 @@
 {
   "when": "2012-06-12T02:23:38-04:00", 
+  "message": "Preventing the fault mediator from changing its status at runtime", 
   "who": "hiranya", 
   "changes": [
     {

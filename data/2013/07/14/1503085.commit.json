@@ -1,5 +1,6 @@
 {
   "when": "2013-07-14T20:00:49-04:00", 
+  "message": "Some refactoring and cleanup", 
   "who": "hiranya", 
   "changes": [
     {
@@ -40,6 +41,39 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/RelayUtils.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/util/RelayUtils.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-1,3 +1,22", 
+          "lines": [
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            " package org.apache.synapse.samples.framework.clients;\n", 
+            " \n", 
+            " import org.apache.axiom.om.OMElement;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/HttpResponse.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/HttpResponse.java"
     }, 
     {
       "chunks": [
@@ -139,39 +173,6 @@
             "+ *\n", 
             "+ *  Unless required by applicable law or agreed to in writing,\n", 
             "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+\n", 
-            " package org.apache.synapse.samples.framework.clients;\n", 
-            " \n", 
-            " import org.apache.axiom.om.OMElement;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/HttpResponse.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/clients/HttpResponse.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-1,3 +1,22", 
-          "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
             "+ *  \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
             "+ *  KIND, either express or implied.  See the License for the\n", 
             "+ *  specific language governing permissions and limitations\n", 
@@ -186,25 +187,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/rest/Sample800.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/rest/Sample800.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-146,7 +146,7", 
-          "lines": [
-            "                 messageContext.getEnvelope().getOrCreateHeader();\n", 
-            "             }\n", 
-            " \n", 
-            "-            Axis2FlexibleMEPClient.clearSecurtityProperties(messageContext.getOptions());\n", 
-            "+            Axis2FlexibleMEPClient.clearSecurityProperties(messageContext.getOptions());\n", 
-            " \n", 
-            "            // report stats for any component at response sending check point\n", 
-            "             StatisticsReporter.reportForAllOnResponseSent(smc);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java"
     }, 
     {
       "chunks": [
@@ -268,6 +250,25 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2FlexibleMEPClient.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-146,7 +146,7", 
+          "lines": [
+            "                 messageContext.getEnvelope().getOrCreateHeader();\n", 
+            "             }\n", 
+            " \n", 
+            "-            Axis2FlexibleMEPClient.clearSecurtityProperties(messageContext.getOptions());\n", 
+            "+            Axis2FlexibleMEPClient.clearSecurityProperties(messageContext.getOptions());\n", 
+            " \n", 
+            "            // report stats for any component at response sending check point\n", 
+            "             StatisticsReporter.reportForAllOnResponseSent(smc);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/core/axis2/Axis2Sender.java"
     }
   ], 
   "id": "1503085"

@@ -1,5 +1,6 @@
 {
   "when": "2016-10-02T10:43:35-04:00", 
+  "message": "fixing thread blocking issue when a connectivity issue with the backend", 
   "who": "isudana", 
   "changes": [
     {

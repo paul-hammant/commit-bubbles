@@ -1,5 +1,6 @@
 {
   "when": "2016-05-29T11:54:01-04:00", 
+  "message": "SYNAPSE-1027: Fix a performance regression caused by pass through related code. Patch provided by Auke Schrijnen. Also update the Axis2 version to 1.7.3-SNAPSHOT since the unit test depends on a fix in the Axis2 transport testkit.\n", 
   "who": "veithen", 
   "changes": [
     {

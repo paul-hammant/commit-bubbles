@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T15:31:38-04:00", 
+  "message": "Applying the patch for SYNAPSE-950. Handling the NO_ENTITY_BODY property in the pass thru http sender.", 
   "who": "hiranya", 
   "changes": [
     {

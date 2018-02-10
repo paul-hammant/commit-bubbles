@@ -1,31 +1,8 @@
 {
   "when": "2011-12-13T04:34:05-05:00", 
+  "message": "Migrating to commons-vfs2 and adding synapse patches to vfs 2.0", 
   "who": "kasun", 
   "changes": [
-    {
-      "chunks": [], 
-      "to": "java/modules/patches/jars/commons-vfs2-2.0-vfs-178.jar", 
-      "from": "java/modules/patches/jars/commons-vfs2-2.0-vfs-178.jar"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-197,7 +197,7", 
-          "lines": [
-            "         </dependency>\n", 
-            "         <dependency>\n", 
-            "             <groupId>org.apache.commons</groupId>\n", 
-            "-            <artifactId>commons-vfs</artifactId>\n", 
-            "+            <artifactId>commons-vfs2</artifactId>\n", 
-            "             <version>${commons.vfs.version}</version>\n", 
-            "             <scope>test</scope>\n", 
-            "         </dependency>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/pom.xml", 
-      "from": "java/modules/core/pom.xml"
-    }, 
     {
       "chunks": [
         {
@@ -299,6 +276,30 @@
       ], 
       "to": "java/modules/transports/core/vfs/pom.xml", 
       "from": "java/modules/transports/core/vfs/pom.xml"
+    }, 
+    {
+      "chunks": [], 
+      "to": "java/modules/patches/jars/commons-vfs2-2.0-vfs-178.jar", 
+      "from": "java/modules/patches/jars/commons-vfs2-2.0-vfs-178.jar"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-197,7 +197,7", 
+          "lines": [
+            "         </dependency>\n", 
+            "         <dependency>\n", 
+            "             <groupId>org.apache.commons</groupId>\n", 
+            "-            <artifactId>commons-vfs</artifactId>\n", 
+            "+            <artifactId>commons-vfs2</artifactId>\n", 
+            "             <version>${commons.vfs.version}</version>\n", 
+            "             <scope>test</scope>\n", 
+            "         </dependency>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/pom.xml", 
+      "from": "java/modules/core/pom.xml"
     }, 
     {
       "chunks": [

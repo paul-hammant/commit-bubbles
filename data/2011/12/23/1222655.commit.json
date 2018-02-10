@@ -1,5 +1,6 @@
 {
   "when": "2011-12-23T07:18:52-05:00", 
+  "message": "Upgrading throttle version used - SYNAPSE-788", 
   "who": "hiranya", 
   "changes": [
     {
@@ -20,6 +21,32 @@
       ], 
       "to": "java/src/site/xdoc/Synapse_Samples.xml", 
       "from": "java/src/site/xdoc/Synapse_Samples.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-42,6 +42,15", 
+          "lines": [
+            "             server = new NetworkServerControl\n", 
+            "                     (InetAddress.getByName(\"localhost\"), 1527);\n", 
+            "             server.start(null);\n", 
+            "+            while (true) {\n", 
+            "+                try {\n", 
+            "+                    server.ping();\n", 
+            "+                    break;\n", 
+            "+                } catch (Exception ignored) {\n", 
+            "+                    log.info(\"Waiting for Derby server to start...\");\n", 
+            "+                    Thread.sleep(2000);\n", 
+            "+                }\n", 
+            "+            }\n", 
+            "             log.info(\"Derby is successfully started.\");\n", 
+            " \n", 
+            "         } catch (Exception e) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/DerbyServerController.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/DerbyServerController.java"
     }, 
     {
       "chunks": [
@@ -98,32 +125,6 @@
       ], 
       "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/throttle/ThrottleMediator.java", 
       "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/throttle/ThrottleMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-42,6 +42,15", 
-          "lines": [
-            "             server = new NetworkServerControl\n", 
-            "                     (InetAddress.getByName(\"localhost\"), 1527);\n", 
-            "             server.start(null);\n", 
-            "+            while (true) {\n", 
-            "+                try {\n", 
-            "+                    server.ping();\n", 
-            "+                    break;\n", 
-            "+                } catch (Exception ignored) {\n", 
-            "+                    log.info(\"Waiting for Derby server to start...\");\n", 
-            "+                    Thread.sleep(2000);\n", 
-            "+                }\n", 
-            "+            }\n", 
-            "             log.info(\"Derby is successfully started.\");\n", 
-            " \n", 
-            "         } catch (Exception e) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/DerbyServerController.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/DerbyServerController.java"
     }, 
     {
       "chunks": [

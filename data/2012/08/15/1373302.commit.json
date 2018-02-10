@@ -1,66 +1,50 @@
 {
   "when": "2012-08-15T06:03:18-04:00", 
+  "message": "commiting patches SYNAPSE-898,SYNAPSE-884, SYNAPSE-897 SYNAPSE-899, SYNAPSE-901", 
   "who": "uswick", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-96,6 +96,25", 
+          "locn": "-0,0 +1,32", 
           "lines": [
-            "                             </descriptors>\n", 
-            "                         </configuration>\n", 
-            "                     </execution>\n", 
-            "+                     <execution>\n", 
-            "+                        <id>eip-library-assembly</id>\n", 
-            "+                        <phase>generate-test-resources</phase>\n", 
-            "+                        <goals>\n", 
-            "+                            <goal>attached</goal>\n", 
-            "+                        </goals>\n", 
-            "+                        <configuration>\n", 
-            "+                            <finalName>synapse-eip-lib</finalName>\n", 
-            "+                            <filters>\n", 
-            "+                                <filter>\n", 
-            "+                                    ${basedir}/src/test/resources/synapse-libraries/assembly/filter.properties\n", 
-            "+                                </filter>\n", 
-            "+                            </filters>\n", 
-            "+                            <descriptors>\n", 
-            "+                                <descriptor>src/test/resources/synapse-libraries/assembly/assemble-eip-lib.xml\n", 
-            "+                                </descriptor>\n", 
-            "+                            </descriptors>\n", 
-            "+                        </configuration>\n", 
-            "+                    </execution>\n", 
-            "                 </executions>\n", 
-            "             </plugin>\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-115,6 +134,7", 
-          "lines": [
-            "                                 <mkdir dir=\"target/test_repos/client/modules\"/>\n", 
-            "                                 <mkdir dir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
-            "                                 <copy file=\"target/synapse-test-lib.zip\" todir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
-            "+                                <copy file=\"target/synapse-eip-lib.zip\" todir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
-            "                             </tasks>\n", 
-            "                         </configuration>\n", 
-            "                         <goals>\n"
-          ]
-        }, 
-        {
-          "locn": "-127,6 +147,7", 
-          "lines": [
-            "                         <configuration>\n", 
-            "                             <tasks>\n", 
-            "                                 <delete file=\"target/synapse-test-lib.zip\"/>\n", 
-            "+                                <delete file=\"target/synapse-eip-lib.zip\"/>\n", 
-            "                             </tasks>\n", 
-            "                         </configuration>\n", 
-            "                         <goals>\n"
+            "+<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n", 
+            "+<!--\n", 
+            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
+            "+  ~  distributed with this work for additional information\n", 
+            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
+            "+  ~  \"License\"); you may not use this file except in compliance\n", 
+            "+  ~  with the License.  You may obtain a copy of the License at\n", 
+            "+  ~\n", 
+            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+  ~\n", 
+            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
+            "+  ~  software distributed under the License is distributed on an\n", 
+            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+  ~  KIND, either express or implied.  See the License for the\n", 
+            "+  ~  specific language governing permissions and limitations\n", 
+            "+  ~  under the License.\n", 
+            "+  -->\n", 
+            "+        \n", 
+            "+<!-- Introduction to Synapse Recipient List eip function template -->\n", 
+            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
+            "+   <sequence name=\"main\">\n", 
+            "+    <property name=\"OUT_ONLY\" value=\"true\"/>\n", 
+            "+                <property name=\"FORCE_SC_ACCEPTED\" value=\"true\" scope=\"axis2\"/>\n", 
+            "+    <call-template target=\"synapse.lang.eip.recipient_list\">\n", 
+            "+        <with-param name=\"recipient_list\" value=\"http://localhost:9000/services/SimpleStockQuoteService,http://localhost:9001/services/SimpleStockQuoteService\"/>\n", 
+            "+    </call-template>\n", 
+            "+    <drop/>\n", 
+            "+</sequence>\n", 
+            "+</definitions>\n"
           ]
         }
       ], 
-      "to": "java/modules/core/pom.xml", 
-      "from": "java/modules/core/pom.xml"
+      "to": "java/repository/conf/sample/synapse_sample_857.xml", 
+      "from": "java/repository/conf/sample/synapse_sample_857.xml"
     }, 
     {
       "chunks": [
@@ -407,49 +391,6 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,32", 
-          "lines": [
-            "+<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n", 
-            "+<!--\n", 
-            "+  ~  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+  ~  or more contributor license agreements.  See the NOTICE file\n", 
-            "+  ~  distributed with this work for additional information\n", 
-            "+  ~  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+  ~  to you under the Apache License, Version 2.0 (the\n", 
-            "+  ~  \"License\"); you may not use this file except in compliance\n", 
-            "+  ~  with the License.  You may obtain a copy of the License at\n", 
-            "+  ~\n", 
-            "+  ~   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+  ~\n", 
-            "+  ~  Unless required by applicable law or agreed to in writing,\n", 
-            "+  ~  software distributed under the License is distributed on an\n", 
-            "+  ~   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+  ~  KIND, either express or implied.  See the License for the\n", 
-            "+  ~  specific language governing permissions and limitations\n", 
-            "+  ~  under the License.\n", 
-            "+  -->\n", 
-            "+        \n", 
-            "+<!-- Introduction to Synapse Recipient List eip function template -->\n", 
-            "+<definitions xmlns=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+<import xmlns=\"http://ws.apache.org/ns/synapse\" name=\"EipLibrary\" package=\"synapse.lang.eip\" />\n", 
-            "+   <sequence name=\"main\">\n", 
-            "+    <property name=\"OUT_ONLY\" value=\"true\"/>\n", 
-            "+                <property name=\"FORCE_SC_ACCEPTED\" value=\"true\" scope=\"axis2\"/>\n", 
-            "+    <call-template target=\"synapse.lang.eip.recipient_list\">\n", 
-            "+        <with-param name=\"recipient_list\" value=\"http://localhost:9000/services/SimpleStockQuoteService,http://localhost:9001/services/SimpleStockQuoteService\"/>\n", 
-            "+    </call-template>\n", 
-            "+    <drop/>\n", 
-            "+</sequence>\n", 
-            "+</definitions>\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/sample/synapse_sample_857.xml", 
-      "from": "java/repository/conf/sample/synapse_sample_857.xml"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-18,7 +18,10", 
           "lines": [
             "  */\n", 
@@ -615,96 +556,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/template/TemplateMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-128,7 +128,7", 
-          "lines": [
-            "                 attachPathValue, e);\n", 
-            "         }\n", 
-            " \n", 
-            "-        boolean asynchronous = true;\n", 
-            "+        boolean asynchronous = false;\n", 
-            "         OMAttribute asynchronousAttr = elem.getAttribute(ATT_SEQUENCIAL);\n", 
-            "         if (asynchronousAttr != null && asynchronousAttr.getAttributeValue().equals(\"true\")) {\n", 
-            "             asynchronous = false;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IterateMediatorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IterateMediatorFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,17 +20,17", 
-          "lines": [
-            " \n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            " import org.apache.synapse.Mediator;\n", 
-            "+import org.apache.synapse.mediators.TemplateParameter;\n", 
-            " import org.apache.synapse.mediators.template.TemplateMediator;\n", 
-            " \n", 
-            " import java.util.Collection;\n", 
-            "-import java.util.Iterator;\n", 
-            " import java.util.List;\n", 
-            " \n", 
-            " /**\n", 
-            "  *  Serializer class for Template to serialize into a  configuration as follows\n", 
-            "  * <template name=\"simple_func\">\n", 
-            "-\t    <parameter name=\"p1\"/>\n", 
-            "-        <parameter name=\"p2\"/>*\n", 
-            "+\t    <parameter name=\"p1\" [default=\"value|expression\"] [optional=(true|false)]/>\n", 
-            "+        <parameter name=\"p2\" [default=\"value|expression\"] [optional=(true|false)]/>*\n", 
-            "         <mediator/>+\n", 
-            "     </template>\n", 
-            "  */\n"
-          ]
-        }, 
-        {
-          "locn": "-47,6 +47,7", 
-          "lines": [
-            "         if (mediator.getName() != null) {\n", 
-            "             templateElem.addAttribute(fac.createOMAttribute(\n", 
-            "                     \"name\", nullNS, mediator.getName()));\n", 
-            "+            //serialize parameters\n", 
-            "             serializeParams(templateElem,mediator);\n", 
-            "             serializeBody(templateElem, mediator.getList());\n", 
-            "             saveTracingState(templateElem, mediator);\n"
-          ]
-        }, 
-        {
-          "locn": "-55,14 +56,16", 
-          "lines": [
-            "         return templateElem;\n", 
-            "     }\n", 
-            " \n", 
-            "+     /**\n", 
-            "+     * Serialize parameters for the template mediator specified\n", 
-            "+     *\n", 
-            "+     * @param templateElem the OMElement that specifies the template configuration\n", 
-            "+     * @param mediator the TemplateMediator\n", 
-            "+     */\n", 
-            "     private void serializeParams(OMElement templateElem, TemplateMediator mediator) {\n", 
-            "-        Collection<String> params = mediator.getParameters();\n", 
-            "-        for (String param : params) {\n", 
-            "-            if (param != null && !\"\".equals(param)) {\n", 
-            "-                OMElement paramEl = fac.createOMElement(\"parameter\", synNS);\n", 
-            "-                paramEl.addAttribute(fac.createOMAttribute(\"name\", nullNS, param));\n", 
-            "-                templateElem.addChild(paramEl);\n", 
-            "-            }\n", 
-            "+        Collection<TemplateParameter> params = mediator.getParameters();\n", 
-            "+        if (params != null && params.size() > 0) {\n", 
-            "+               TemplateParameterSerializer.serializeTemplateParameters(templateElem,mediator.getParameters());\n", 
-            "         }\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateMediatorSerializer.java"
     }, 
     {
       "chunks": [
@@ -1082,6 +933,156 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateParameterSerializer.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateParameterSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-128,7 +128,7", 
+          "lines": [
+            "                 attachPathValue, e);\n", 
+            "         }\n", 
+            " \n", 
+            "-        boolean asynchronous = true;\n", 
+            "+        boolean asynchronous = false;\n", 
+            "         OMAttribute asynchronousAttr = elem.getAttribute(ATT_SEQUENCIAL);\n", 
+            "         if (asynchronousAttr != null && asynchronousAttr.getAttributeValue().equals(\"true\")) {\n", 
+            "             asynchronous = false;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IterateMediatorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IterateMediatorFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-20,17 +20,17", 
+          "lines": [
+            " \n", 
+            " import org.apache.axiom.om.OMElement;\n", 
+            " import org.apache.synapse.Mediator;\n", 
+            "+import org.apache.synapse.mediators.TemplateParameter;\n", 
+            " import org.apache.synapse.mediators.template.TemplateMediator;\n", 
+            " \n", 
+            " import java.util.Collection;\n", 
+            "-import java.util.Iterator;\n", 
+            " import java.util.List;\n", 
+            " \n", 
+            " /**\n", 
+            "  *  Serializer class for Template to serialize into a  configuration as follows\n", 
+            "  * <template name=\"simple_func\">\n", 
+            "-\t    <parameter name=\"p1\"/>\n", 
+            "-        <parameter name=\"p2\"/>*\n", 
+            "+\t    <parameter name=\"p1\" [default=\"value|expression\"] [optional=(true|false)]/>\n", 
+            "+        <parameter name=\"p2\" [default=\"value|expression\"] [optional=(true|false)]/>*\n", 
+            "         <mediator/>+\n", 
+            "     </template>\n", 
+            "  */\n"
+          ]
+        }, 
+        {
+          "locn": "-47,6 +47,7", 
+          "lines": [
+            "         if (mediator.getName() != null) {\n", 
+            "             templateElem.addAttribute(fac.createOMAttribute(\n", 
+            "                     \"name\", nullNS, mediator.getName()));\n", 
+            "+            //serialize parameters\n", 
+            "             serializeParams(templateElem,mediator);\n", 
+            "             serializeBody(templateElem, mediator.getList());\n", 
+            "             saveTracingState(templateElem, mediator);\n"
+          ]
+        }, 
+        {
+          "locn": "-55,14 +56,16", 
+          "lines": [
+            "         return templateElem;\n", 
+            "     }\n", 
+            " \n", 
+            "+     /**\n", 
+            "+     * Serialize parameters for the template mediator specified\n", 
+            "+     *\n", 
+            "+     * @param templateElem the OMElement that specifies the template configuration\n", 
+            "+     * @param mediator the TemplateMediator\n", 
+            "+     */\n", 
+            "     private void serializeParams(OMElement templateElem, TemplateMediator mediator) {\n", 
+            "-        Collection<String> params = mediator.getParameters();\n", 
+            "-        for (String param : params) {\n", 
+            "-            if (param != null && !\"\".equals(param)) {\n", 
+            "-                OMElement paramEl = fac.createOMElement(\"parameter\", synNS);\n", 
+            "-                paramEl.addAttribute(fac.createOMAttribute(\"name\", nullNS, param));\n", 
+            "-                templateElem.addChild(paramEl);\n", 
+            "-            }\n", 
+            "+        Collection<TemplateParameter> params = mediator.getParameters();\n", 
+            "+        if (params != null && params.size() > 0) {\n", 
+            "+               TemplateParameterSerializer.serializeTemplateParameters(templateElem,mediator.getParameters());\n", 
+            "         }\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/TemplateMediatorSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-96,6 +96,25", 
+          "lines": [
+            "                             </descriptors>\n", 
+            "                         </configuration>\n", 
+            "                     </execution>\n", 
+            "+                     <execution>\n", 
+            "+                        <id>eip-library-assembly</id>\n", 
+            "+                        <phase>generate-test-resources</phase>\n", 
+            "+                        <goals>\n", 
+            "+                            <goal>attached</goal>\n", 
+            "+                        </goals>\n", 
+            "+                        <configuration>\n", 
+            "+                            <finalName>synapse-eip-lib</finalName>\n", 
+            "+                            <filters>\n", 
+            "+                                <filter>\n", 
+            "+                                    ${basedir}/src/test/resources/synapse-libraries/assembly/filter.properties\n", 
+            "+                                </filter>\n", 
+            "+                            </filters>\n", 
+            "+                            <descriptors>\n", 
+            "+                                <descriptor>src/test/resources/synapse-libraries/assembly/assemble-eip-lib.xml\n", 
+            "+                                </descriptor>\n", 
+            "+                            </descriptors>\n", 
+            "+                        </configuration>\n", 
+            "+                    </execution>\n", 
+            "                 </executions>\n", 
+            "             </plugin>\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-115,6 +134,7", 
+          "lines": [
+            "                                 <mkdir dir=\"target/test_repos/client/modules\"/>\n", 
+            "                                 <mkdir dir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
+            "                                 <copy file=\"target/synapse-test-lib.zip\" todir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
+            "+                                <copy file=\"target/synapse-eip-lib.zip\" todir=\"target/test_repos/synapse/synapse-libraries\"/>\n", 
+            "                             </tasks>\n", 
+            "                         </configuration>\n", 
+            "                         <goals>\n"
+          ]
+        }, 
+        {
+          "locn": "-127,6 +147,7", 
+          "lines": [
+            "                         <configuration>\n", 
+            "                             <tasks>\n", 
+            "                                 <delete file=\"target/synapse-test-lib.zip\"/>\n", 
+            "+                                <delete file=\"target/synapse-eip-lib.zip\"/>\n", 
+            "                             </tasks>\n", 
+            "                         </configuration>\n", 
+            "                         <goals>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/pom.xml", 
+      "from": "java/modules/core/pom.xml"
     }, 
     {
       "chunks": [

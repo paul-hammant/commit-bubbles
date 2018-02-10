@@ -1,5 +1,6 @@
 {
   "when": "2012-04-03T02:11:33-04:00", 
+  "message": "Making the MBean names unique so they work in situations where multiple NHTTP listeners are exposed", 
   "who": "hiranya", 
   "changes": [
     {

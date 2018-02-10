@@ -1,5 +1,6 @@
 {
   "when": "2016-02-20T12:15:55-05:00", 
+  "message": "updating site plugin version to fix a build failure", 
   "who": "isudana", 
   "changes": [
     {

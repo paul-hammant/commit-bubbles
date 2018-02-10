@@ -1,5 +1,6 @@
 {
   "when": "2014-09-19T00:18:15-04:00", 
+  "message": "Fixing SYNAPSE-933 Applying patch from Jeewantha with some changes", 
   "who": "hiranya", 
   "changes": [
     {

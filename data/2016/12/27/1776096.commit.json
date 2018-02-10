@@ -1,5 +1,6 @@
 {
   "when": "2016-12-27T04:06:54-05:00", 
+  "message": "Move logging package to conn package - no logic changes", 
   "who": "isudana", 
   "changes": [
     {
@@ -1597,6 +1598,85 @@
     {
       "chunks": [
         {
+          "locn": "-29,7 +29,7", 
+          "lines": [
+            " import org.apache.http.nio.reactor.IOEventDispatch;\n", 
+            " import org.apache.http.nio.reactor.IOSession;\n", 
+            " import org.apache.http.nio.reactor.ssl.SSLSetupHandler;\n", 
+            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
+            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
+            " import org.apache.synapse.transport.utils.sslcert.CertificateVerificationConfig;\n", 
+            " import org.apache.synapse.transport.utils.sslcert.CertificateVerificationException;\n", 
+            " import org.apache.synapse.transport.utils.sslcert.adaptor.SynapseAdaptorForOcspCrl;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,7 +28,7", 
+          "lines": [
+            " import org.apache.http.nio.reactor.IOEventDispatch;\n", 
+            " import org.apache.http.nio.reactor.IOSession;\n", 
+            " import org.apache.http.nio.reactor.ssl.SSLSetupHandler;\n", 
+            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
+            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
+            " \n", 
+            " import javax.net.ssl.*;\n", 
+            " import javax.xml.namespace.QName;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLListener.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLListener.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-63,10 +63,9", 
+          "lines": [
+            " import org.apache.synapse.transport.passthru.jmx.TransportView;\n", 
+            " import org.apache.synapse.transport.passthru.util.PassThroughTransportUtils;\n", 
+            " import org.apache.synapse.transport.passthru.util.SourceResponseFactory;\n", 
+            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
+            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
+            " \n", 
+            " import javax.net.ssl.SSLContext;\n", 
+            "-import java.io.ByteArrayOutputStream;\n", 
+            " import java.io.IOException;\n", 
+            " import java.io.OutputStream;\n", 
+            " import java.net.MalformedURLException;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-49,7 +49,7", 
+          "lines": [
+            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
+            " import org.apache.synapse.transport.passthru.jmx.PassThroughTransportMetricsCollector;\n", 
+            " import org.apache.synapse.transport.passthru.jmx.TransportView;\n", 
+            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
+            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
+            " \n", 
+            " import javax.net.ssl.SSLContext;\n", 
+            " import java.io.IOException;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-59,7 +59,7", 
           "lines": [
             " import org.apache.synapse.transport.nhttp.util.MessageFormatterDecoratorFactory;\n", 
@@ -1669,130 +1749,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLListener.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/HttpCoreNIOSSLListener.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,113", 
-          "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+\n", 
-            "+package org.apache.synapse.transport.utils.conn.logging;\n", 
-            "+\n", 
-            "+import org.apache.commons.logging.Log;\n", 
-            "+\n", 
-            "+import java.nio.ByteBuffer;\n", 
-            "+\n", 
-            "+/**\n", 
-            "+ * A utility for logging wire-level information of HTTP connections.\n", 
-            "+ */\n", 
-            "+public class Wire {\n", 
-            "+\n", 
-            "+    private final Log log;\n", 
-            "+\n", 
-            "+    public Wire(final Log log) {\n", 
-            "+        this.log = log;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    private void wire(final String header, final byte[] b, int pos, int off) {\n", 
-            "+        StringBuilder builder = new StringBuilder();\n", 
-            "+        for (int i = 0; i < off; i++) {\n", 
-            "+            int ch = b[pos + i];\n", 
-            "+            if (ch == 13) {\n", 
-            "+                builder.append(\"[\\\\r]\");\n", 
-            "+            } else if (ch == 10) {\n", 
-            "+                builder.append(\"[\\\\n]\\\"\");\n", 
-            "+                builder.insert(0, \"\\\"\");\n", 
-            "+                builder.insert(0, header);\n", 
-            "+                this.log.debug(builder.toString());\n", 
-            "+                builder.setLength(0);\n", 
-            "+            } else if ((ch < 32) || (ch > 127)) {\n", 
-            "+                builder.append(\"[0x\");\n", 
-            "+                builder.append(Integer.toHexString(ch));\n", 
-            "+                builder.append(\"]\");\n", 
-            "+            } else {\n", 
-            "+                builder.append((char) ch);\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "+        if (builder.length() > 0) {\n", 
-            "+            builder.append('\\\"');\n", 
-            "+            builder.insert(0, '\\\"');\n", 
-            "+            builder.insert(0, header);\n", 
-            "+            this.log.debug(builder.toString());\n", 
-            "+        }\n", 
-            "+    }\n", 
-            "+\n", 
-            "+\n", 
-            "+    public boolean isEnabled() {\n", 
-            "+        return this.log.isDebugEnabled();\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void output(final byte[] b, int pos, int off) {\n", 
-            "+        wire(\"<< \", b, pos, off);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void input(final byte[] b, int pos, int off) {\n", 
-            "+        wire(\">> \", b, pos, off);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void output(byte[] b) {\n", 
-            "+        output(b, 0, b.length);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void input(byte[] b) {\n", 
-            "+        input(b, 0, b.length);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void output(int b) {\n", 
-            "+        output(new byte[] {(byte) b});\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void input(int b) {\n", 
-            "+        input(new byte[] {(byte) b});\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void output(final ByteBuffer b) {\n", 
-            "+        if (b.hasArray()) {\n", 
-            "+            output(b.array(), b.arrayOffset() + b.position(), b.remaining());\n", 
-            "+        } else {\n", 
-            "+            byte[] tmp = new byte[b.remaining()];\n", 
-            "+            b.get(tmp);\n", 
-            "+            output(tmp);\n", 
-            "+        }\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void input(final ByteBuffer b) {\n", 
-            "+        if (b.hasArray()) {\n", 
-            "+            input(b.array(), b.arrayOffset() + b.position(), b.remaining());\n", 
-            "+        } else {\n", 
-            "+            byte[] tmp = new byte[b.remaining()];\n", 
-            "+            b.get(tmp);\n", 
-            "+            input(tmp);\n", 
-            "+        }\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/conn/logging/Wire.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/conn/logging/Wire.java"
     }, 
     {
       "chunks": [
@@ -3265,81 +3221,126 @@
     {
       "chunks": [
         {
-          "locn": "-49,7 +49,7", 
+          "locn": "-0,0 +1,113", 
           "lines": [
-            " import org.apache.synapse.transport.passthru.config.SourceConfiguration;\n", 
-            " import org.apache.synapse.transport.passthru.jmx.PassThroughTransportMetricsCollector;\n", 
-            " import org.apache.synapse.transport.passthru.jmx.TransportView;\n", 
-            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
-            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
-            " \n", 
-            " import javax.net.ssl.SSLContext;\n", 
-            " import java.io.IOException;\n"
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            "+package org.apache.synapse.transport.utils.conn.logging;\n", 
+            "+\n", 
+            "+import org.apache.commons.logging.Log;\n", 
+            "+\n", 
+            "+import java.nio.ByteBuffer;\n", 
+            "+\n", 
+            "+/**\n", 
+            "+ * A utility for logging wire-level information of HTTP connections.\n", 
+            "+ */\n", 
+            "+public class Wire {\n", 
+            "+\n", 
+            "+    private final Log log;\n", 
+            "+\n", 
+            "+    public Wire(final Log log) {\n", 
+            "+        this.log = log;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    private void wire(final String header, final byte[] b, int pos, int off) {\n", 
+            "+        StringBuilder builder = new StringBuilder();\n", 
+            "+        for (int i = 0; i < off; i++) {\n", 
+            "+            int ch = b[pos + i];\n", 
+            "+            if (ch == 13) {\n", 
+            "+                builder.append(\"[\\\\r]\");\n", 
+            "+            } else if (ch == 10) {\n", 
+            "+                builder.append(\"[\\\\n]\\\"\");\n", 
+            "+                builder.insert(0, \"\\\"\");\n", 
+            "+                builder.insert(0, header);\n", 
+            "+                this.log.debug(builder.toString());\n", 
+            "+                builder.setLength(0);\n", 
+            "+            } else if ((ch < 32) || (ch > 127)) {\n", 
+            "+                builder.append(\"[0x\");\n", 
+            "+                builder.append(Integer.toHexString(ch));\n", 
+            "+                builder.append(\"]\");\n", 
+            "+            } else {\n", 
+            "+                builder.append((char) ch);\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "+        if (builder.length() > 0) {\n", 
+            "+            builder.append('\\\"');\n", 
+            "+            builder.insert(0, '\\\"');\n", 
+            "+            builder.insert(0, header);\n", 
+            "+            this.log.debug(builder.toString());\n", 
+            "+        }\n", 
+            "+    }\n", 
+            "+\n", 
+            "+\n", 
+            "+    public boolean isEnabled() {\n", 
+            "+        return this.log.isDebugEnabled();\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void output(final byte[] b, int pos, int off) {\n", 
+            "+        wire(\"<< \", b, pos, off);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void input(final byte[] b, int pos, int off) {\n", 
+            "+        wire(\">> \", b, pos, off);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void output(byte[] b) {\n", 
+            "+        output(b, 0, b.length);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void input(byte[] b) {\n", 
+            "+        input(b, 0, b.length);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void output(int b) {\n", 
+            "+        output(new byte[] {(byte) b});\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void input(int b) {\n", 
+            "+        input(new byte[] {(byte) b});\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void output(final ByteBuffer b) {\n", 
+            "+        if (b.hasArray()) {\n", 
+            "+            output(b.array(), b.arrayOffset() + b.position(), b.remaining());\n", 
+            "+        } else {\n", 
+            "+            byte[] tmp = new byte[b.remaining()];\n", 
+            "+            b.get(tmp);\n", 
+            "+            output(tmp);\n", 
+            "+        }\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void input(final ByteBuffer b) {\n", 
+            "+        if (b.hasArray()) {\n", 
+            "+            input(b.array(), b.arrayOffset() + b.position(), b.remaining());\n", 
+            "+        } else {\n", 
+            "+            byte[] tmp = new byte[b.remaining()];\n", 
+            "+            b.get(tmp);\n", 
+            "+            input(tmp);\n", 
+            "+        }\n", 
+            "+    }\n", 
+            "+}\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,7 +29,7", 
-          "lines": [
-            " import org.apache.http.nio.reactor.IOEventDispatch;\n", 
-            " import org.apache.http.nio.reactor.IOSession;\n", 
-            " import org.apache.http.nio.reactor.ssl.SSLSetupHandler;\n", 
-            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
-            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
-            " import org.apache.synapse.transport.utils.sslcert.CertificateVerificationConfig;\n", 
-            " import org.apache.synapse.transport.utils.sslcert.CertificateVerificationException;\n", 
-            " import org.apache.synapse.transport.utils.sslcert.adaptor.SynapseAdaptorForOcspCrl;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLSender.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,7 +28,7", 
-          "lines": [
-            " import org.apache.http.nio.reactor.IOEventDispatch;\n", 
-            " import org.apache.http.nio.reactor.IOSession;\n", 
-            " import org.apache.http.nio.reactor.ssl.SSLSetupHandler;\n", 
-            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
-            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
-            " \n", 
-            " import javax.net.ssl.*;\n", 
-            " import javax.xml.namespace.QName;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLListener.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSSLListener.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-63,10 +63,9", 
-          "lines": [
-            " import org.apache.synapse.transport.passthru.jmx.TransportView;\n", 
-            " import org.apache.synapse.transport.passthru.util.PassThroughTransportUtils;\n", 
-            " import org.apache.synapse.transport.passthru.util.SourceResponseFactory;\n", 
-            "-import org.apache.synapse.transport.utils.logging.LoggingUtils;\n", 
-            "+import org.apache.synapse.transport.utils.conn.logging.LoggingUtils;\n", 
-            " \n", 
-            " import javax.net.ssl.SSLContext;\n", 
-            "-import java.io.ByteArrayOutputStream;\n", 
-            " import java.io.IOException;\n", 
-            " import java.io.OutputStream;\n", 
-            " import java.net.MalformedURLException;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/conn/logging/Wire.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/conn/logging/Wire.java"
     }
   ], 
   "id": "1776096"

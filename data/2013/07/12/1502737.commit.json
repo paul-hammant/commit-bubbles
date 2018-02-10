@@ -1,39 +1,8 @@
 {
   "when": "2013-07-12T22:55:02-04:00", 
+  "message": "Code cleanup and refactoring", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-195,7 +195,7", 
-          "lines": [
-            "     </transportReceiver>\n", 
-            " \n", 
-            "     <!-- the non blocking https transport based on HttpCore + SSL-NIO extensions -->\n", 
-            "-    <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.nhttp.HttpCoreNIOSSLListener\">\n", 
-            "+    <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLListener\">\n", 
-            "         <parameter name=\"port\" locked=\"false\">8243</parameter>\n", 
-            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
-            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">http://apachehost:port/somepath</parameter-->\n"
-          ]
-        }, 
-        {
-          "locn": "-274,7 +274,7", 
-          "lines": [
-            "         <parameter name=\"http.proxyPort\" locked=\"false\">3128</parameter>\n", 
-            "         <parameter name=\"http.nonProxyHosts\" locked=\"false\">localhost|moon|sun</parameter-->\n", 
-            "     </transportSender>\n", 
-            "-    <transportSender name=\"https\" class=\"org.apache.synapse.transport.nhttp.HttpCoreNIOSSLSender\">\n", 
-            "+    <transportSender name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLSender\">\n", 
-            "         <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
-            "         <parameter name=\"warnOnHTTP500\" locked=\"false\">*</parameter>\n", 
-            "         <parameter name=\"keystore\" locked=\"false\">\n"
-          ]
-        }
-      ], 
-      "to": "java/repository/conf/axis2.xml", 
-      "from": "java/repository/conf/axis2.xml"
-    }, 
     {
       "chunks": [
         {
@@ -324,6 +293,40 @@
     {
       "chunks": [
         {
+          "locn": "-31,6 +31,7", 
+          "lines": [
+            "  * In a Single TCP Connection there can be multiple HTTP Requests.\n", 
+            "  */\n", 
+            " public class SourceContext {\n", 
+            "+\n", 
+            "     public static final String CONNECTION_INFORMATION = \"CONNECTION_INFORMATION\";\n", 
+            " \n", 
+            "     private SourceConfiguration sourceConfiguration;\n"
+          ]
+        }, 
+        {
+          "locn": "-195,11 +196,4", 
+          "lines": [
+            "     public static SourceContext get(NHttpConnection conn) {\n", 
+            "         return (SourceContext) conn.getContext().getAttribute(CONNECTION_INFORMATION);\n", 
+            "     }\n", 
+            "-\n", 
+            "-    public static Lock getLock(NHttpConnection conn) {\n", 
+            "-        SourceContext info = (SourceContext)\n", 
+            "-                conn.getContext().getAttribute(CONNECTION_INFORMATION);\n", 
+            "-\n", 
+            "-        return info != null ? info.getLock() : null;\n", 
+            "-    }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceContext.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceContext.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-34,27 +34,36", 
           "lines": [
             "  * This class represents a response coming from the target server.\n", 
@@ -437,40 +440,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetResponse.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-31,6 +31,7", 
-          "lines": [
-            "  * In a Single TCP Connection there can be multiple HTTP Requests.\n", 
-            "  */\n", 
-            " public class SourceContext {\n", 
-            "+\n", 
-            "     public static final String CONNECTION_INFORMATION = \"CONNECTION_INFORMATION\";\n", 
-            " \n", 
-            "     private SourceConfiguration sourceConfiguration;\n"
-          ]
-        }, 
-        {
-          "locn": "-195,11 +196,4", 
-          "lines": [
-            "     public static SourceContext get(NHttpConnection conn) {\n", 
-            "         return (SourceContext) conn.getContext().getAttribute(CONNECTION_INFORMATION);\n", 
-            "     }\n", 
-            "-\n", 
-            "-    public static Lock getLock(NHttpConnection conn) {\n", 
-            "-        SourceContext info = (SourceContext)\n", 
-            "-                conn.getContext().getAttribute(CONNECTION_INFORMATION);\n", 
-            "-\n", 
-            "-        return info != null ? info.getLock() : null;\n", 
-            "-    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceContext.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceContext.java"
     }, 
     {
       "chunks": [
@@ -1094,6 +1063,42 @@
     {
       "chunks": [
         {
+          "locn": "-30,8 +30,9", 
+          "lines": [
+            " import org.apache.synapse.transport.passthru.config.TargetConfiguration;\n", 
+            " \n", 
+            " public class TargetErrorHandler {\n", 
+            "-    private Log log = LogFactory.getLog(TargetErrorHandler.class);\n", 
+            " \n", 
+            "+    private static final Log log = LogFactory.getLog(TargetErrorHandler.class);\n", 
+            "+\n", 
+            "     private TargetConfiguration targetConfiguration = null;\n", 
+            " \n", 
+            "     public TargetErrorHandler(TargetConfiguration targetConfiguration) {\n"
+          ]
+        }, 
+        {
+          "locn": "-62,10 +63,6", 
+          "lines": [
+            "             return;\n", 
+            "         }\n", 
+            " \n", 
+            "-//        if (mc.getOperationContext().isComplete()) {\n", 
+            "-//            return;\n", 
+            "-//        } ? why we ignoring this..\n", 
+            "-\n", 
+            "         targetConfiguration.getWorkerPool().execute(new Runnable() {\n", 
+            "             public void run() {\n", 
+            "                 MessageReceiver mr = mc.getAxisOperation().getMessageReceiver();\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-23,12 +23,10", 
           "lines": [
             " import org.apache.http.nio.entity.ContentOutputStream;\n", 
@@ -1353,42 +1358,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/SourceHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-30,8 +30,9", 
-          "lines": [
-            " import org.apache.synapse.transport.passthru.config.TargetConfiguration;\n", 
-            " \n", 
-            " public class TargetErrorHandler {\n", 
-            "-    private Log log = LogFactory.getLog(TargetErrorHandler.class);\n", 
-            " \n", 
-            "+    private static final Log log = LogFactory.getLog(TargetErrorHandler.class);\n", 
-            "+\n", 
-            "     private TargetConfiguration targetConfiguration = null;\n", 
-            " \n", 
-            "     public TargetErrorHandler(TargetConfiguration targetConfiguration) {\n"
-          ]
-        }, 
-        {
-          "locn": "-62,10 +63,6", 
-          "lines": [
-            "             return;\n", 
-            "         }\n", 
-            " \n", 
-            "-//        if (mc.getOperationContext().isComplete()) {\n", 
-            "-//            return;\n", 
-            "-//        } ? why we ignoring this..\n", 
-            "-\n", 
-            "         targetConfiguration.getWorkerPool().execute(new Runnable() {\n", 
-            "             public void run() {\n", 
-            "                 MessageReceiver mr = mc.getAxisOperation().getMessageReceiver();\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/TargetErrorHandler.java"
     }, 
     {
       "chunks": [
@@ -1910,6 +1879,38 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample5.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-195,7 +195,7", 
+          "lines": [
+            "     </transportReceiver>\n", 
+            " \n", 
+            "     <!-- the non blocking https transport based on HttpCore + SSL-NIO extensions -->\n", 
+            "-    <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.nhttp.HttpCoreNIOSSLListener\">\n", 
+            "+    <transportReceiver name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLListener\">\n", 
+            "         <parameter name=\"port\" locked=\"false\">8243</parameter>\n", 
+            "         <!--parameter name=\"bind-address\" locked=\"false\">hostname or IP address</parameter-->\n", 
+            "         <!--parameter name=\"WSDLEPRPrefix\" locked=\"false\">http://apachehost:port/somepath</parameter-->\n"
+          ]
+        }, 
+        {
+          "locn": "-274,7 +274,7", 
+          "lines": [
+            "         <parameter name=\"http.proxyPort\" locked=\"false\">3128</parameter>\n", 
+            "         <parameter name=\"http.nonProxyHosts\" locked=\"false\">localhost|moon|sun</parameter-->\n", 
+            "     </transportSender>\n", 
+            "-    <transportSender name=\"https\" class=\"org.apache.synapse.transport.nhttp.HttpCoreNIOSSLSender\">\n", 
+            "+    <transportSender name=\"https\" class=\"org.apache.synapse.transport.passthru.PassThroughHttpSSLSender\">\n", 
+            "         <parameter name=\"non-blocking\" locked=\"false\">true</parameter>\n", 
+            "         <parameter name=\"warnOnHTTP500\" locked=\"false\">*</parameter>\n", 
+            "         <parameter name=\"keystore\" locked=\"false\">\n"
+          ]
+        }
+      ], 
+      "to": "java/repository/conf/axis2.xml", 
+      "from": "java/repository/conf/axis2.xml"
     }
   ], 
   "id": "1502737"

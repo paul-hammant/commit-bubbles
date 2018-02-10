@@ -1,5 +1,6 @@
 {
   "when": "2012-08-05T09:09:50-04:00", 
+  "message": "adding Message Processor serialization test", 
   "who": "charith", 
   "changes": [
     {

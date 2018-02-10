@@ -1,45 +1,8 @@
 {
   "when": "2013-07-19T17:52:03-04:00", 
+  "message": "Applying the patch for SYNAPSE-877, Appling XQuery transformations on empty SOAP body. Added a test case to verify the fix.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-382,6 +382,27", 
-          "lines": [
-            "                         ((OMElement) destination).setText(\n", 
-            "                                 String.valueOf(xqItem.getItemAsString()));\n", 
-            "                     }\n", 
-            "+                } else if (target.getXPath() == null) {\n", 
-            "+                    //In the case soap body doesn't have the first element --> Empty soap body\n", 
-            "+                    destination = synCtx.getEnvelope().getBody();\n", 
-            "+                    if (synLog.isTraceOrDebugEnabled()) {\n", 
-            "+                        synLog.traceOrDebug(\"The target node \" + destination);\n", 
-            "+                    }\n", 
-            "+\n", 
-            "+                    //If the result is XML\n", 
-            "+                    if (XQItemType.XQITEMKIND_DOCUMENT_ELEMENT == itemKind ||\n", 
-            "+                            XQItemType.XQITEMKIND_ELEMENT == itemKind ||\n", 
-            "+                            XQItemType.XQITEMKIND_DOCUMENT == itemKind) {\n", 
-            "+                        StAXOMBuilder builder = new StAXOMBuilder(\n", 
-            "+                                XMLInputFactory.newInstance().createXMLStreamReader(\n", 
-            "+                                        new StringReader(xqItem.getItemAsString())));\n", 
-            "+                        OMElement resultOM = builder.getDocumentElement();\n", 
-            "+                        if (resultOM != null) {\n", 
-            "+                            ((OMElement) destination).addChild(resultOM);\n", 
-            "+                        }\n", 
-            "+                    }\n", 
-            "+                    //No else part since soap body could have only XML part not text values\n", 
-            "+\n", 
-            "                 }\n", 
-            "                 break;   // Only take the *first* value of the result sequence\n", 
-            "             }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/xquery/XQueryMediator.java", 
-      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/xquery/XQueryMediator.java"
-    }, 
     {
       "chunks": [
         {
@@ -79,6 +42,44 @@
       ], 
       "to": "java/modules/extensions/src/test/java/org/apache/synapse/mediators/xquery/XQueryMediatorTest.java", 
       "from": "java/modules/extensions/src/test/java/org/apache/synapse/mediators/xquery/XQueryMediatorTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-382,6 +382,27", 
+          "lines": [
+            "                         ((OMElement) destination).setText(\n", 
+            "                                 String.valueOf(xqItem.getItemAsString()));\n", 
+            "                     }\n", 
+            "+                } else if (target.getXPath() == null) {\n", 
+            "+                    //In the case soap body doesn't have the first element --> Empty soap body\n", 
+            "+                    destination = synCtx.getEnvelope().getBody();\n", 
+            "+                    if (synLog.isTraceOrDebugEnabled()) {\n", 
+            "+                        synLog.traceOrDebug(\"The target node \" + destination);\n", 
+            "+                    }\n", 
+            "+\n", 
+            "+                    //If the result is XML\n", 
+            "+                    if (XQItemType.XQITEMKIND_DOCUMENT_ELEMENT == itemKind ||\n", 
+            "+                            XQItemType.XQITEMKIND_ELEMENT == itemKind ||\n", 
+            "+                            XQItemType.XQITEMKIND_DOCUMENT == itemKind) {\n", 
+            "+                        StAXOMBuilder builder = new StAXOMBuilder(\n", 
+            "+                                XMLInputFactory.newInstance().createXMLStreamReader(\n", 
+            "+                                        new StringReader(xqItem.getItemAsString())));\n", 
+            "+                        OMElement resultOM = builder.getDocumentElement();\n", 
+            "+                        if (resultOM != null) {\n", 
+            "+                            ((OMElement) destination).addChild(resultOM);\n", 
+            "+                        }\n", 
+            "+                    }\n", 
+            "+                    //No else part since soap body could have only XML part not text values\n", 
+            "+\n", 
+            "                 }\n", 
+            "                 break;   // Only take the *first* value of the result sequence\n", 
+            "             }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/xquery/XQueryMediator.java", 
+      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/xquery/XQueryMediator.java"
     }
   ], 
   "id": "1505038"

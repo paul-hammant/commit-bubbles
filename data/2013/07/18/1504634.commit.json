@@ -1,5 +1,6 @@
 {
   "when": "2013-07-18T16:19:35-04:00", 
+  "message": "Some changes related to SYNAPSE-851; Adding plain text formatter to the AxisConfig by default (we already add the plain text builder by default). In the VFS sender, setting the default output file name to response.dat for potential non-XML outputs.", 
   "who": "hiranya", 
   "changes": [
     {

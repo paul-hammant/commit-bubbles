@@ -1,7 +1,65 @@
 {
   "when": "2013-08-11T02:52:43-04:00", 
+  "message": "Some java docs to the new logging package", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-171,7 +171,7", 
+          "lines": [
+            "         targetConfiguration.setMetrics(metrics);\n", 
+            " \n", 
+            "         try {\n", 
+            "-            String prefix = namePrefix + \"-Sender I/O dispatcher\";\n", 
+            "+            String prefix = namePrefix + \"-PT-Sender I/O Dispatcher\";\n", 
+            " \n", 
+            "             ioReactor = new DefaultConnectingIOReactor(\n", 
+            "                             targetConfiguration.getReactorConfig(),\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-80,8 +80,10", 
+          "lines": [
+            " \n", 
+            "     /** The custom URI map for the services if there are any */\n", 
+            "     private Map<String, String> serviceNameToEPRMap = new HashMap<String, String>();\n", 
+            "+\n", 
+            "     /** The service name map for the custom URI if there are any */\n", 
+            "     private Map<String, String> eprToServiceNameMap = new HashMap<String, String>();\n", 
+            "+\n", 
+            "     /** the axis observer that gets notified of service life cycle events*/\n", 
+            "     private final AxisObserver axisObserver = new GenericAxisObserver();\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-137,10 +139,10", 
+          "lines": [
+            "         log.info(\"Starting pass-through \" + namePrefix + \" listener...\");\n", 
+            " \n", 
+            "         try {\n", 
+            "-            String prefix = namePrefix + \"-Listener I/O dispatcher\";\n", 
+            "+            String prefix = namePrefix + \"-PT-Listener I/O Dispatcher\";\n", 
+            "             ioReactor = new DefaultListeningIOReactor(\n", 
+            "                             sourceConfiguration.getReactorConfig(),\n", 
+            "-                            new NativeThreadFactory(new ThreadGroup(prefix + \" thread group\"), prefix));\n", 
+            "+                            new NativeThreadFactory(new ThreadGroup(prefix + \" Thread Group\"), prefix));\n", 
+            "             \n", 
+            "             ioReactor.setExceptionHandler(new IOReactorExceptionHandler() {\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java"
+    }, 
     {
       "chunks": [
         {
@@ -642,63 +700,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/logging/LoggingServerEventHandler.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/utils/logging/LoggingServerEventHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-80,8 +80,10", 
-          "lines": [
-            " \n", 
-            "     /** The custom URI map for the services if there are any */\n", 
-            "     private Map<String, String> serviceNameToEPRMap = new HashMap<String, String>();\n", 
-            "+\n", 
-            "     /** The service name map for the custom URI if there are any */\n", 
-            "     private Map<String, String> eprToServiceNameMap = new HashMap<String, String>();\n", 
-            "+\n", 
-            "     /** the axis observer that gets notified of service life cycle events*/\n", 
-            "     private final AxisObserver axisObserver = new GenericAxisObserver();\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-137,10 +139,10", 
-          "lines": [
-            "         log.info(\"Starting pass-through \" + namePrefix + \" listener...\");\n", 
-            " \n", 
-            "         try {\n", 
-            "-            String prefix = namePrefix + \"-Listener I/O dispatcher\";\n", 
-            "+            String prefix = namePrefix + \"-PT-Listener I/O Dispatcher\";\n", 
-            "             ioReactor = new DefaultListeningIOReactor(\n", 
-            "                             sourceConfiguration.getReactorConfig(),\n", 
-            "-                            new NativeThreadFactory(new ThreadGroup(prefix + \" thread group\"), prefix));\n", 
-            "+                            new NativeThreadFactory(new ThreadGroup(prefix + \" Thread Group\"), prefix));\n", 
-            "             \n", 
-            "             ioReactor.setExceptionHandler(new IOReactorExceptionHandler() {\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpListener.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-171,7 +171,7", 
-          "lines": [
-            "         targetConfiguration.setMetrics(metrics);\n", 
-            " \n", 
-            "         try {\n", 
-            "-            String prefix = namePrefix + \"-Sender I/O dispatcher\";\n", 
-            "+            String prefix = namePrefix + \"-PT-Sender I/O Dispatcher\";\n", 
-            " \n", 
-            "             ioReactor = new DefaultConnectingIOReactor(\n", 
-            "                             targetConfiguration.getReactorConfig(),\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
     }
   ], 
   "id": "1512883"

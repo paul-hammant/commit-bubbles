@@ -1,7 +1,95 @@
 {
   "when": "2013-07-14T01:32:22-04:00", 
+  "message": "Removing the context portion from the REST_URL_POSTFIX when mediating a request through an API", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-36,6 +36,8", 
+          "lines": [
+            "             }\n", 
+            "         } else if (urlMapping.startsWith(\"*.\")) {\n", 
+            "             extension = urlMapping.substring(1);\n", 
+            "+        } else if (urlMapping.length() > 1 && urlMapping.endsWith(\"/\")){\n", 
+            "+            exactMatch = urlMapping.substring(0, urlMapping.length() - 1);\n", 
+            "         } else {\n", 
+            "             exactMatch = urlMapping;\n", 
+            "         }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-39,7 +39,7", 
+          "lines": [
+            "         String pathStringAfterContext = path.substring(context.length());\n", 
+            " \n", 
+            "         //check if context can be invalid for path url and avoid matching a false version string\n", 
+            "-        if (pathStringAfterContext != null && !pathStringAfterContext.startsWith(\"/\")) {\n", 
+            "+        if (pathStringAfterContext == null || !pathStringAfterContext.startsWith(\"/\")) {\n", 
+            "             return false;\n", 
+            "         }\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-46,7 +46,7", 
+          "lines": [
+            "         //path after context will be starting from a \"/\" and compute index for next immediate \"/\"\n", 
+            "         int indexOfNextSlash = pathStringAfterContext.substring(1).indexOf(\"/\");\n", 
+            " \n", 
+            "-        String incomingVersionStr = null;\n", 
+            "+        String incomingVersionStr;\n", 
+            "         if (indexOfNextSlash != -1) {\n", 
+            "             incomingVersionStr = pathStringAfterContext.substring(1, indexOfNextSlash + 1);\n", 
+            "         } else {\n"
+          ]
+        }, 
+        {
+          "locn": "-65,31 +65,4", 
+          "lines": [
+            "     public String getVersionParam() {\n", 
+            "         return versionParam;\n", 
+            "     }\n", 
+            "-\n", 
+            "-/*\n", 
+            "-    public static void main(String[] args) {\n", 
+            "-        String version = \"1.0.0\";\n", 
+            "-//        String version = \"1.0.1\";\n", 
+            "-\n", 
+            "-//        String path = \"/test/1.0.1/foo/abc/\";\n", 
+            "-//        String path = \"/test/1.0/foo/abc/\";\n", 
+            "-//        String path = \"/test/1.0/foo/abc/abc='asasa'\";\n", 
+            "-        String path = \"/test11.0.0/1.0/foo/abc/abc='asasa'\";\n", 
+            "-\n", 
+            "-//        String context = \"/test\";\n", 
+            "-//        String context = \"/test123\";\n", 
+            "-        String context = \"/test\";\n", 
+            "-        String pathStringAfterContext = path.substring(context.length());\n", 
+            "-\n", 
+            "-        System.out.println(\"pathStringAfterContext : \" + pathStringAfterContext);\n", 
+            "-\n", 
+            "-        int indexOfNextSlash = pathStringAfterContext.substring(1).indexOf(\"/\");\n", 
+            "-        System.out.println(indexOfNextSlash);\n", 
+            "-        String incomingVersionStr = pathStringAfterContext.substring(1, indexOfNextSlash + 1);\n", 
+            "-        System.out.println(\"incomingVersionStr : \" + incomingVersionStr);\n", 
+            "-\n", 
+            "-        System.out.println(version.equals(incomingVersionStr));\n", 
+            "-    }\n", 
+            "-*/\n", 
+            "-\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/version/URLBasedVersionStrategy.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/version/URLBasedVersionStrategy.java"
+    }, 
     {
       "chunks": [
         {
@@ -99,93 +187,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/rest/API.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/rest/API.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-36,6 +36,8", 
-          "lines": [
-            "             }\n", 
-            "         } else if (urlMapping.startsWith(\"*.\")) {\n", 
-            "             extension = urlMapping.substring(1);\n", 
-            "+        } else if (urlMapping.length() > 1 && urlMapping.endsWith(\"/\")){\n", 
-            "+            exactMatch = urlMapping.substring(0, urlMapping.length() - 1);\n", 
-            "         } else {\n", 
-            "             exactMatch = urlMapping;\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/dispatch/URLMappingHelper.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-39,7 +39,7", 
-          "lines": [
-            "         String pathStringAfterContext = path.substring(context.length());\n", 
-            " \n", 
-            "         //check if context can be invalid for path url and avoid matching a false version string\n", 
-            "-        if (pathStringAfterContext != null && !pathStringAfterContext.startsWith(\"/\")) {\n", 
-            "+        if (pathStringAfterContext == null || !pathStringAfterContext.startsWith(\"/\")) {\n", 
-            "             return false;\n", 
-            "         }\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-46,7 +46,7", 
-          "lines": [
-            "         //path after context will be starting from a \"/\" and compute index for next immediate \"/\"\n", 
-            "         int indexOfNextSlash = pathStringAfterContext.substring(1).indexOf(\"/\");\n", 
-            " \n", 
-            "-        String incomingVersionStr = null;\n", 
-            "+        String incomingVersionStr;\n", 
-            "         if (indexOfNextSlash != -1) {\n", 
-            "             incomingVersionStr = pathStringAfterContext.substring(1, indexOfNextSlash + 1);\n", 
-            "         } else {\n"
-          ]
-        }, 
-        {
-          "locn": "-65,31 +65,4", 
-          "lines": [
-            "     public String getVersionParam() {\n", 
-            "         return versionParam;\n", 
-            "     }\n", 
-            "-\n", 
-            "-/*\n", 
-            "-    public static void main(String[] args) {\n", 
-            "-        String version = \"1.0.0\";\n", 
-            "-//        String version = \"1.0.1\";\n", 
-            "-\n", 
-            "-//        String path = \"/test/1.0.1/foo/abc/\";\n", 
-            "-//        String path = \"/test/1.0/foo/abc/\";\n", 
-            "-//        String path = \"/test/1.0/foo/abc/abc='asasa'\";\n", 
-            "-        String path = \"/test11.0.0/1.0/foo/abc/abc='asasa'\";\n", 
-            "-\n", 
-            "-//        String context = \"/test\";\n", 
-            "-//        String context = \"/test123\";\n", 
-            "-        String context = \"/test\";\n", 
-            "-        String pathStringAfterContext = path.substring(context.length());\n", 
-            "-\n", 
-            "-        System.out.println(\"pathStringAfterContext : \" + pathStringAfterContext);\n", 
-            "-\n", 
-            "-        int indexOfNextSlash = pathStringAfterContext.substring(1).indexOf(\"/\");\n", 
-            "-        System.out.println(indexOfNextSlash);\n", 
-            "-        String incomingVersionStr = pathStringAfterContext.substring(1, indexOfNextSlash + 1);\n", 
-            "-        System.out.println(\"incomingVersionStr : \" + incomingVersionStr);\n", 
-            "-\n", 
-            "-        System.out.println(version.equals(incomingVersionStr));\n", 
-            "-    }\n", 
-            "-*/\n", 
-            "-\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/rest/version/URLBasedVersionStrategy.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/rest/version/URLBasedVersionStrategy.java"
     }
   ], 
   "id": "1502938"

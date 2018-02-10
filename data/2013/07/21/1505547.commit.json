@@ -1,5 +1,6 @@
 {
   "when": "2013-07-21T20:16:29-04:00", 
+  "message": "Adding sample 251 (HTTP to JMS) to the integration test suite.", 
   "who": "hiranya", 
   "changes": [
     {
@@ -88,6 +89,118 @@
     {
       "chunks": [
         {
+          "locn": "-37,6 +37,7", 
+          "lines": [
+            " import java.io.InputStream;\n", 
+            " import java.util.ArrayList;\n", 
+            " import java.util.Iterator;\n", 
+            "+import java.util.List;\n", 
+            " import java.util.Properties;\n", 
+            " \n", 
+            " /**\n"
+          ]
+        }, 
+        {
+          "locn": "-498,4 +499,14", 
+          "lines": [
+            "     protected void assertResponseReceived(SampleClientResult result) {\n", 
+            "         assertTrue(\"Client did not receive the expected response\", result.responseReceived());\n", 
+            "     }\n", 
+            "+\n", 
+            "+    protected Axis2BackEndServerController getAxis2Server() {\n", 
+            "+        List<BackEndServerController> servers = getBackendServerControllers();\n", 
+            "+        for (BackEndServerController server : servers) {\n", 
+            "+            if (server instanceof Axis2BackEndServerController) {\n", 
+            "+                return (Axis2BackEndServerController) server;\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "+        return null;\n", 
+            "+    }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,26", 
+          "lines": [
+            "+package org.apache.synapse.samples.framework.tests.transport;\n", 
+            "+\n", 
+            "+import org.apache.synapse.samples.framework.*;\n", 
+            "+import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
+            "+\n", 
+            "+public class Sample251 extends SynapseTestCase {\n", 
+            "+\n", 
+            "+    public Sample251() {\n", 
+            "+        super(251);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void testPlaceOrder() throws Exception {\n", 
+            "+        Axis2BackEndServerController axis2Server = getAxis2Server();\n", 
+            "+        if (axis2Server == null) {\n", 
+            "+            fail(\"Failed to load the Axis2BackEndServerController\");\n", 
+            "+        }\n", 
+            "+\n", 
+            "+        assertEquals(0, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
+            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
+            "+        String trpUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
+            "+        SampleClientResult result = client.placeOrder(null, trpUrl, null, \"IBM\");\n", 
+            "+        assertResponseReceived(result);\n", 
+            "+        Thread.sleep(2000);\n", 
+            "+        assertEquals(1, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
+            "+    }\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample251.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample251.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,27", 
+          "lines": [
+            "+package org.apache.synapse.samples.framework.tests.transport;\n", 
+            "+\n", 
+            "+import org.apache.synapse.samples.framework.Axis2BackEndServerController;\n", 
+            "+import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
+            "+import org.apache.synapse.samples.framework.clients.JMSSampleClient;\n", 
+            "+\n", 
+            "+public class Sample250 extends SynapseTestCase {\n", 
+            "+\n", 
+            "+    public Sample250() {\n", 
+            "+        super(250);\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    public void testPlaceOrder() throws Exception {\n", 
+            "+        Axis2BackEndServerController axis2Server = getAxis2Server();\n", 
+            "+        if (axis2Server == null) {\n", 
+            "+            fail(\"Failed to load the Axis2BackEndServerController\");\n", 
+            "+        }\n", 
+            "+\n", 
+            "+        assertEquals(0, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
+            "+        JMSSampleClient client = new JMSSampleClient();\n", 
+            "+        client.connect(\"dynamicQueues/StockQuoteProxy\");\n", 
+            "+        client.sendAsPox(\"IBM\");\n", 
+            "+        Thread.sleep(2000);\n", 
+            "+        assertEquals(1, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
+            "+        client.shutdown();\n", 
+            "+    }\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample250.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample250.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-22,7 +22,7", 
           "lines": [
             " import junit.framework.TestSuite;\n", 
@@ -133,118 +246,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-37,6 +37,7", 
-          "lines": [
-            " import java.io.InputStream;\n", 
-            " import java.util.ArrayList;\n", 
-            " import java.util.Iterator;\n", 
-            "+import java.util.List;\n", 
-            " import java.util.Properties;\n", 
-            " \n", 
-            " /**\n"
-          ]
-        }, 
-        {
-          "locn": "-498,4 +499,14", 
-          "lines": [
-            "     protected void assertResponseReceived(SampleClientResult result) {\n", 
-            "         assertTrue(\"Client did not receive the expected response\", result.responseReceived());\n", 
-            "     }\n", 
-            "+\n", 
-            "+    protected Axis2BackEndServerController getAxis2Server() {\n", 
-            "+        List<BackEndServerController> servers = getBackendServerControllers();\n", 
-            "+        for (BackEndServerController server : servers) {\n", 
-            "+            if (server instanceof Axis2BackEndServerController) {\n", 
-            "+                return (Axis2BackEndServerController) server;\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "+        return null;\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/SynapseTestCase.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,27", 
-          "lines": [
-            "+package org.apache.synapse.samples.framework.tests.transport;\n", 
-            "+\n", 
-            "+import org.apache.synapse.samples.framework.Axis2BackEndServerController;\n", 
-            "+import org.apache.synapse.samples.framework.SynapseTestCase;\n", 
-            "+import org.apache.synapse.samples.framework.clients.JMSSampleClient;\n", 
-            "+\n", 
-            "+public class Sample250 extends SynapseTestCase {\n", 
-            "+\n", 
-            "+    public Sample250() {\n", 
-            "+        super(250);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void testPlaceOrder() throws Exception {\n", 
-            "+        Axis2BackEndServerController axis2Server = getAxis2Server();\n", 
-            "+        if (axis2Server == null) {\n", 
-            "+            fail(\"Failed to load the Axis2BackEndServerController\");\n", 
-            "+        }\n", 
-            "+\n", 
-            "+        assertEquals(0, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
-            "+        JMSSampleClient client = new JMSSampleClient();\n", 
-            "+        client.connect(\"dynamicQueues/StockQuoteProxy\");\n", 
-            "+        client.sendAsPox(\"IBM\");\n", 
-            "+        Thread.sleep(2000);\n", 
-            "+        assertEquals(1, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
-            "+        client.shutdown();\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample250.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample250.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,26", 
-          "lines": [
-            "+package org.apache.synapse.samples.framework.tests.transport;\n", 
-            "+\n", 
-            "+import org.apache.synapse.samples.framework.*;\n", 
-            "+import org.apache.synapse.samples.framework.clients.StockQuoteSampleClient;\n", 
-            "+\n", 
-            "+public class Sample251 extends SynapseTestCase {\n", 
-            "+\n", 
-            "+    public Sample251() {\n", 
-            "+        super(251);\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    public void testPlaceOrder() throws Exception {\n", 
-            "+        Axis2BackEndServerController axis2Server = getAxis2Server();\n", 
-            "+        if (axis2Server == null) {\n", 
-            "+            fail(\"Failed to load the Axis2BackEndServerController\");\n", 
-            "+        }\n", 
-            "+\n", 
-            "+        assertEquals(0, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
-            "+        StockQuoteSampleClient client = getStockQuoteClient();\n", 
-            "+        String trpUrl = \"http://localhost:8280/services/StockQuoteProxy\";\n", 
-            "+        SampleClientResult result = client.placeOrder(null, trpUrl, null, \"IBM\");\n", 
-            "+        assertResponseReceived(result);\n", 
-            "+        Thread.sleep(2000);\n", 
-            "+        assertEquals(1, axis2Server.getMessageCount(\"SimpleStockQuoteService\", \"placeOrder\"));\n", 
-            "+    }\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample251.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/transport/Sample251.java"
     }
   ], 
   "id": "1505547"

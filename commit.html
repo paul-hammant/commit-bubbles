@@ -129,6 +129,7 @@
     <table style="border: 0; width: auto">
         <tr><td style="text-align: right">Who:</td><td>{{commit.who}}</td></tr>
         <tr v-tooltip="commit.when"><td style="text-align: right">When:</td><td>{{commit.whenLocal}}</td></tr>
+        <tr><td style="text-align: right">Message:</td><td v-html="commit.message" /></tr>
     </table>
     <div style="padding-left: 30px" v-for="(change, changeNum) in commit.changes">
         <h2>Change number {{changeNum+1}}</h2>
@@ -144,7 +145,7 @@
                     <td style="text-align: right">To</td>
                     <td>Line</td>
                 </tr>
-                <tr style="padding-left: 30px; width: 100%" v-bind:style="{'background-color': line.col}"
+                <tr style="padding-left: 30px; width: 100%" :style="{'background-color': line.col}"
                     v-for="line in chunk.lines" track-by="$ix">
                     <td style="text-align: right">
                         {{line.fr}}
@@ -161,7 +162,7 @@
     </div>
 
     <h1>Debugging::::::</h1>
-    <pre>{{commit | pretty}}</pre>
+    <pre>{{commit}}</pre>
 
 </div>
 
@@ -170,6 +171,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://unpkg.com/v-tooltip"></script>
 <script>
+
+//    Vue.component('nl2br', Nl2br);
+
     v = new Vue({
         el: '#app',
         data: {

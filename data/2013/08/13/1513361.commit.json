@@ -1,5 +1,6 @@
 {
   "when": "2013-08-13T02:06:04-04:00", 
+  "message": "Changed the default Server header of the pt transport (to be consistent with user agent header) - Updated documentation", 
   "who": "hiranya", 
   "changes": [
     {

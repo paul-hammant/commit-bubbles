@@ -1,5 +1,6 @@
 {
   "when": "2013-08-11T15:12:06-04:00", 
+  "message": "Added the new http logging options to the log4j.properties file (commented out by default)", 
   "who": "hiranya", 
   "changes": [
     {

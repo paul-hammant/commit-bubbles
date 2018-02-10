@@ -1,5 +1,6 @@
 {
   "when": "2013-07-27T20:20:25-04:00", 
+  "message": "Adding sample300 (scheduled tasks) to the integration test suite.", 
   "who": "hiranya", 
   "changes": [
     {

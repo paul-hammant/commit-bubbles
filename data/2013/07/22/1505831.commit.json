@@ -1,5 +1,6 @@
 {
   "when": "2013-07-22T18:05:35-04:00", 
+  "message": "Refactored sample157 to use the BasicHttpClient", 
   "who": "hiranya", 
   "changes": [
     {

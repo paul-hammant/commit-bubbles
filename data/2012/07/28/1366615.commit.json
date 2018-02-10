@@ -1,5 +1,6 @@
 {
   "when": "2012-07-28T04:50:15-04:00", 
+  "message": "Fixed an issue in PayloadHelper#setXMLPayload that caused an error for SOAP envelopes having a body that is not completely built.\n", 
   "who": "veithen", 
   "changes": [
     {

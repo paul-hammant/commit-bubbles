@@ -1,73 +1,8 @@
 {
   "when": "2013-07-19T19:30:23-04:00", 
+  "message": "Applying the patch for SYNAPSE-841. Adding support for complex XML blocks in the header mediator.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-20,12 +20,16", 
-          "lines": [
-            " package org.apache.synapse.mediators.transform;\n", 
-            " \n", 
-            " import junit.framework.TestCase;\n", 
-            "+import org.apache.axiom.om.OMElement;\n", 
-            "+import org.apache.axiom.om.util.AXIOMUtil;\n", 
-            " import org.apache.synapse.MessageContext;\n", 
-            " import org.apache.synapse.SynapseConstants;\n", 
-            "+import org.apache.synapse.config.xml.HeaderMediatorFactory;\n", 
-            " import org.apache.synapse.mediators.TestUtils;\n", 
-            " import org.apache.synapse.util.xpath.SynapseXPath;\n", 
-            " \n", 
-            " import javax.xml.namespace.QName;\n", 
-            "+import java.util.Properties;\n", 
-            " \n", 
-            " public class HeaderMediatorTest extends TestCase {\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-86,4 +90,34", 
-          "lines": [
-            "             // This is expected\n", 
-            "         }\n", 
-            "     }\n", 
-            "+\n", 
-            "+    public void testEmbeddedXml() throws Exception {\n", 
-            "+        String simpleHeader = \"<header name=\\\"m:simpleHeader\\\" value=\\\"Simple Header\\\" xmlns:m=\\\"http://org.synapse.example\\\"/>\";\n", 
-            "+        String complexHeader = \"<header><m:complexHeader xmlns:m=\\\"http://org.synapse.example\\\"><property key=\\\"k1\\\" value=\\\"v1\\\"/><property key=\\\"k2\\\" value=\\\"v2\\\"/></m:complexHeader></header>\";\n", 
-            "+        String removeHeader = \"<header name=\\\"m:complexHeader\\\" action=\\\"remove\\\" xmlns:m=\\\"http://org.synapse.example\\\"/>\";\n", 
-            "+\n", 
-            "+        HeaderMediatorFactory fac = new HeaderMediatorFactory();\n", 
-            "+        // Adding headers.\n", 
-            "+        MessageContext synCtx = TestUtils.getTestContext(\"<empty/>\");\n", 
-            "+        HeaderMediator headerMediator = (HeaderMediator) fac.createMediator(\n", 
-            "+                AXIOMUtil.stringToOM(simpleHeader), new Properties());\n", 
-            "+        headerMediator.mediate(synCtx);\n", 
-            "+        OMElement result = synCtx.getEnvelope().getHeader().getFirstElement();\n", 
-            "+        assertEquals(\"simpleHeader\", result.getLocalName());\n", 
-            "+\n", 
-            "+        headerMediator = (HeaderMediator) fac.createMediator(\n", 
-            "+                AXIOMUtil.stringToOM(complexHeader), new Properties());\n", 
-            "+        headerMediator.mediate(synCtx);\n", 
-            "+        result = synCtx.getEnvelope().getHeader().getFirstChildWithName(\n", 
-            "+                new QName(\"http://org.synapse.example\", \"complexHeader\"));\n", 
-            "+        assertNotNull(result);\n", 
-            "+\n", 
-            "+        // Removing headers.\n", 
-            "+        headerMediator = (HeaderMediator) fac.createMediator(\n", 
-            "+                AXIOMUtil.stringToOM(removeHeader), new Properties());\n", 
-            "+        headerMediator.mediate(synCtx);\n", 
-            "+        result = synCtx.getEnvelope().getHeader().getFirstChildWithName(\n", 
-            "+                new QName(\"http://org.synapse.example\", \"complexHeader\"));\n", 
-            "+        assertNull(result);\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/HeaderMediatorTest.java", 
-      "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/HeaderMediatorTest.java"
-    }, 
     {
       "chunks": [
         {
@@ -167,6 +102,40 @@
     {
       "chunks": [
         {
+          "locn": "-36,6 +36,7", 
+          "lines": [
+            " \n", 
+            "         if (!(m instanceof HeaderMediator)) {\n", 
+            "             handleException(\"Unsupported mediator passed in for serialization : \" + m.getType());\n", 
+            "+            return null;\n", 
+            "         }\n", 
+            " \n", 
+            "         HeaderMediator mediator = (HeaderMediator) m;\n"
+          ]
+        }, 
+        {
+          "locn": "-75,6 +76,11", 
+          "lines": [
+            "             }\n", 
+            "         }\n", 
+            " \n", 
+            "+        if (mediator.hasEmbeddedXml()) {\n", 
+            "+            for (OMElement e : mediator.getEmbeddedXml()) {\n", 
+            "+                header.addChild(e);\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "         return header;\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
           "locn": "-28,6 +28,7", 
           "lines": [
             " import org.jaxen.JaxenException;\n", 
@@ -240,36 +209,68 @@
     {
       "chunks": [
         {
-          "locn": "-36,6 +36,7", 
+          "locn": "-20,12 +20,16", 
           "lines": [
+            " package org.apache.synapse.mediators.transform;\n", 
             " \n", 
-            "         if (!(m instanceof HeaderMediator)) {\n", 
-            "             handleException(\"Unsupported mediator passed in for serialization : \" + m.getType());\n", 
-            "+            return null;\n", 
-            "         }\n", 
+            " import junit.framework.TestCase;\n", 
+            "+import org.apache.axiom.om.OMElement;\n", 
+            "+import org.apache.axiom.om.util.AXIOMUtil;\n", 
+            " import org.apache.synapse.MessageContext;\n", 
+            " import org.apache.synapse.SynapseConstants;\n", 
+            "+import org.apache.synapse.config.xml.HeaderMediatorFactory;\n", 
+            " import org.apache.synapse.mediators.TestUtils;\n", 
+            " import org.apache.synapse.util.xpath.SynapseXPath;\n", 
             " \n", 
-            "         HeaderMediator mediator = (HeaderMediator) m;\n"
+            " import javax.xml.namespace.QName;\n", 
+            "+import java.util.Properties;\n", 
+            " \n", 
+            " public class HeaderMediatorTest extends TestCase {\n", 
+            " \n"
           ]
         }, 
         {
-          "locn": "-75,6 +76,11", 
+          "locn": "-86,4 +90,34", 
           "lines": [
-            "             }\n", 
+            "             // This is expected\n", 
             "         }\n", 
-            " \n", 
-            "+        if (mediator.hasEmbeddedXml()) {\n", 
-            "+            for (OMElement e : mediator.getEmbeddedXml()) {\n", 
-            "+                header.addChild(e);\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "         return header;\n", 
             "     }\n", 
-            " \n"
+            "+\n", 
+            "+    public void testEmbeddedXml() throws Exception {\n", 
+            "+        String simpleHeader = \"<header name=\\\"m:simpleHeader\\\" value=\\\"Simple Header\\\" xmlns:m=\\\"http://org.synapse.example\\\"/>\";\n", 
+            "+        String complexHeader = \"<header><m:complexHeader xmlns:m=\\\"http://org.synapse.example\\\"><property key=\\\"k1\\\" value=\\\"v1\\\"/><property key=\\\"k2\\\" value=\\\"v2\\\"/></m:complexHeader></header>\";\n", 
+            "+        String removeHeader = \"<header name=\\\"m:complexHeader\\\" action=\\\"remove\\\" xmlns:m=\\\"http://org.synapse.example\\\"/>\";\n", 
+            "+\n", 
+            "+        HeaderMediatorFactory fac = new HeaderMediatorFactory();\n", 
+            "+        // Adding headers.\n", 
+            "+        MessageContext synCtx = TestUtils.getTestContext(\"<empty/>\");\n", 
+            "+        HeaderMediator headerMediator = (HeaderMediator) fac.createMediator(\n", 
+            "+                AXIOMUtil.stringToOM(simpleHeader), new Properties());\n", 
+            "+        headerMediator.mediate(synCtx);\n", 
+            "+        OMElement result = synCtx.getEnvelope().getHeader().getFirstElement();\n", 
+            "+        assertEquals(\"simpleHeader\", result.getLocalName());\n", 
+            "+\n", 
+            "+        headerMediator = (HeaderMediator) fac.createMediator(\n", 
+            "+                AXIOMUtil.stringToOM(complexHeader), new Properties());\n", 
+            "+        headerMediator.mediate(synCtx);\n", 
+            "+        result = synCtx.getEnvelope().getHeader().getFirstChildWithName(\n", 
+            "+                new QName(\"http://org.synapse.example\", \"complexHeader\"));\n", 
+            "+        assertNotNull(result);\n", 
+            "+\n", 
+            "+        // Removing headers.\n", 
+            "+        headerMediator = (HeaderMediator) fac.createMediator(\n", 
+            "+                AXIOMUtil.stringToOM(removeHeader), new Properties());\n", 
+            "+        headerMediator.mediate(synCtx);\n", 
+            "+        result = synCtx.getEnvelope().getHeader().getFirstChildWithName(\n", 
+            "+                new QName(\"http://org.synapse.example\", \"complexHeader\"));\n", 
+            "+        assertNull(result);\n", 
+            "+    }\n", 
+            " }\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/HeaderMediatorSerializer.java"
+      "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/HeaderMediatorTest.java", 
+      "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/transform/HeaderMediatorTest.java"
     }
   ], 
   "id": "1505064"

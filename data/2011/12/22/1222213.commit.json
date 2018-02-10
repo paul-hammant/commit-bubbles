@@ -1,32 +1,55 @@
 {
   "when": "2011-12-22T08:14:20-05:00", 
+  "message": "Site updates", 
   "who": "hiranya", 
   "changes": [
     {
       "chunks": [
         {
-          "locn": "-36,12 +36,14", 
+          "locn": "-21,11 +21,11", 
           "lines": [
-            "             <item name=\"Installation Guide\" href=\"userguide/installation.html\"/>\n", 
-            "             <item name=\"Quick Start Guide\" href=\"userguide/quick_start.html\"/>\n", 
-            "             <item name=\"Samples Setup Guide\" href=\"userguide/samples/setup/index.html\"/>\n", 
-            "-            <item name=\"Extending the Service Bus\" href=\"userguide/extending.html\"/>\n", 
-            "+            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
-            "             <item name=\"Samples Catalog\" href=\"userguide/samples.html\"/>\n", 
-            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
-            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n", 
-            "             <item name=\"Deployment\" href=\"userguide/deployment.html\"/>\n", 
-            "             <item name=\"Transport\" href=\"userguide/transports.html\"/>\n", 
-            "+            <item name=\"Javadocs\" href=\"apidocs/\"/>\n", 
-            "+            <item name=\"FAQ\" href=\"apidocs/\"/>\n", 
-            "         </menu>\n", 
-            "         <menu name=\"Developer Resources\">\n", 
-            "             <item name=\"Checkout the Source\"/>\n"
+            " \n", 
+            " <document>\n", 
+            " \t<properties>\n", 
+            "-\t\t<title>Apache Synapse - Extending the Service Bus</title>\n", 
+            "+\t\t<title>Apache Synapse - Extending Synapse</title>\n", 
+            " \t</properties>\n", 
+            " \t<body>\n", 
+            " \t\t\t<div id=\"contentBox\">\n", 
+            "-\t\t\t\t   <section name=\"Apache Synapse ESB - Extending the Service Bus\">\n", 
+            "+\t\t\t\t   <section name=\"Apache Synapse ESB - Extending Synapse\">\n", 
+            " \t\t\t\t\t<p>\n", 
+            " \t\t\t\t\t\tApache Synapse provides a number of extension points so that\n", 
+            " \t\t\t\t\t\tusers can plug-in custom developed code to extend the\n"
+          ]
+        }, 
+        {
+          "locn": "-69,7 +69,6", 
+          "lines": [
+            " \t\t\t\t\t\t\tInterface\n", 
+            " \t\t\t\t\t\t</a>\n", 
+            " \t\t\t\t\t</h4>\n", 
+            "-\t\t\t\t\t<p></p>\n", 
+            " \t\t\t\t\t<div class=\"xmlConf\">package org.apache.synapse;\n", 
+            " \n", 
+            " import ...\n"
+          ]
+        }, 
+        {
+          "locn": "-365,7 +364,6", 
+          "lines": [
+            "      */\n", 
+            "     public QName getTagQName();\n", 
+            " }</div>\n", 
+            "-\t\t\t\t\t<p></p>\n", 
+            " \t\t\t\t\t<h4>\n", 
+            " \t\t\t\t\t\t<a class=\"externalLink\"\n", 
+            " \t\t\t\t\t\t\thref=\"http://svn.apache.org/viewvc/synapse/trunk/java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorSerializer.java?view=markup\">The\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/site.xml", 
-      "from": "scratch/hiranya/website/src/site/site.xml"
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/extending.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/extending.xml"
     }, 
     {
       "chunks": [
@@ -294,50 +317,28 @@
     {
       "chunks": [
         {
-          "locn": "-21,11 +21,11", 
+          "locn": "-36,12 +36,14", 
           "lines": [
-            " \n", 
-            " <document>\n", 
-            " \t<properties>\n", 
-            "-\t\t<title>Apache Synapse - Extending the Service Bus</title>\n", 
-            "+\t\t<title>Apache Synapse - Extending Synapse</title>\n", 
-            " \t</properties>\n", 
-            " \t<body>\n", 
-            " \t\t\t<div id=\"contentBox\">\n", 
-            "-\t\t\t\t   <section name=\"Apache Synapse ESB - Extending the Service Bus\">\n", 
-            "+\t\t\t\t   <section name=\"Apache Synapse ESB - Extending Synapse\">\n", 
-            " \t\t\t\t\t<p>\n", 
-            " \t\t\t\t\t\tApache Synapse provides a number of extension points so that\n", 
-            " \t\t\t\t\t\tusers can plug-in custom developed code to extend the\n"
-          ]
-        }, 
-        {
-          "locn": "-69,7 +69,6", 
-          "lines": [
-            " \t\t\t\t\t\t\tInterface\n", 
-            " \t\t\t\t\t\t</a>\n", 
-            " \t\t\t\t\t</h4>\n", 
-            "-\t\t\t\t\t<p></p>\n", 
-            " \t\t\t\t\t<div class=\"xmlConf\">package org.apache.synapse;\n", 
-            " \n", 
-            " import ...\n"
-          ]
-        }, 
-        {
-          "locn": "-365,7 +364,6", 
-          "lines": [
-            "      */\n", 
-            "     public QName getTagQName();\n", 
-            " }</div>\n", 
-            "-\t\t\t\t\t<p></p>\n", 
-            " \t\t\t\t\t<h4>\n", 
-            " \t\t\t\t\t\t<a class=\"externalLink\"\n", 
-            " \t\t\t\t\t\t\thref=\"http://svn.apache.org/viewvc/synapse/trunk/java/modules/core/src/main/java/org/apache/synapse/config/xml/MediatorSerializer.java?view=markup\">The\n"
+            "             <item name=\"Installation Guide\" href=\"userguide/installation.html\"/>\n", 
+            "             <item name=\"Quick Start Guide\" href=\"userguide/quick_start.html\"/>\n", 
+            "             <item name=\"Samples Setup Guide\" href=\"userguide/samples/setup/index.html\"/>\n", 
+            "-            <item name=\"Extending the Service Bus\" href=\"userguide/extending.html\"/>\n", 
+            "+            <item name=\"Extending Synapse\" href=\"userguide/extending.html\"/>\n", 
+            "             <item name=\"Samples Catalog\" href=\"userguide/samples.html\"/>\n", 
+            "             <item name=\"Configuration Language\" href=\"userguide/config.html\"/>\n", 
+            "             <item name=\"Upgrading\" href=\"userguide/upgrading.html\"/>\n", 
+            "             <item name=\"Deployment\" href=\"userguide/deployment.html\"/>\n", 
+            "             <item name=\"Transport\" href=\"userguide/transports.html\"/>\n", 
+            "+            <item name=\"Javadocs\" href=\"apidocs/\"/>\n", 
+            "+            <item name=\"FAQ\" href=\"apidocs/\"/>\n", 
+            "         </menu>\n", 
+            "         <menu name=\"Developer Resources\">\n", 
+            "             <item name=\"Checkout the Source\"/>\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/extending.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/extending.xml"
+      "to": "scratch/hiranya/website/src/site/site.xml", 
+      "from": "scratch/hiranya/website/src/site/site.xml"
     }
   ], 
   "id": "1222213"

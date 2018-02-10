@@ -1,7 +1,82 @@
 {
   "when": "2013-07-14T19:06:26-04:00", 
+  "message": "Adding sample 800 (REST APIs) to the integration test suite. Updated sample 150 (proxy services) to check for the WSDL of the proxy service.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,19", 
+          "lines": [
+            "+<synapseSample>\n", 
+            "+    <sampleID>800</sampleID>\n", 
+            "+    <sampleName>Introduction to REST APIs</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>repository/conf/sample/synapse_sample_800.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <axis2Server id='0'>\n", 
+            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
+            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        </axis2Server>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/sample800.xml", 
+      "from": "java/modules/integration/src/test/resources/sample800.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,6 +28,7", 
+          "lines": [
+            " import org.apache.synapse.samples.framework.tests.proxy.*;\n", 
+            " import org.apache.synapse.samples.framework.tests.qos.Sample100;\n", 
+            " import org.apache.synapse.samples.framework.tests.qos.Sample101;\n", 
+            "+import org.apache.synapse.samples.framework.tests.rest.Sample800;\n", 
+            " \n", 
+            " import java.util.ArrayList;\n", 
+            " import java.util.HashMap;\n"
+          ]
+        }, 
+        {
+          "locn": "-138,7 +139,7", 
+          "lines": [
+            "             }\n", 
+            "         } else {\n", 
+            "             suiteName = \"AllSamplesSuite\";\n", 
+            "-            for (int i = 0; i <= 600; i++) {\n", 
+            "+            for (int i = 0; i <= 1000; i++) {\n", 
+            "                 Class testClass = (Class) sampleClassRepo.get(Integer.toString(i));\n", 
+            "                 if (testClass != null) {\n", 
+            "                     suiteClassesList.add(testClass);\n"
+          ]
+        }, 
+        {
+          "locn": "-222,5 +223,7", 
+          "lines": [
+            "         sampleClassRepo.put(\"451\", Sample451.class);\n", 
+            "         sampleClassRepo.put(\"452\", Sample452.class);\n", 
+            "         sampleClassRepo.put(\"460\", Sample460.class);\n", 
+            "+\n", 
+            "+        sampleClassRepo.put(\"800\", Sample800.class);\n", 
+            "     }\n", 
+            " }\n", 
+            "\\ No newline at end of file\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
+    }, 
     {
       "chunks": [
         {
@@ -230,80 +305,6 @@
       ], 
       "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java", 
       "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/proxy/Sample150.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-28,6 +28,7", 
-          "lines": [
-            " import org.apache.synapse.samples.framework.tests.proxy.*;\n", 
-            " import org.apache.synapse.samples.framework.tests.qos.Sample100;\n", 
-            " import org.apache.synapse.samples.framework.tests.qos.Sample101;\n", 
-            "+import org.apache.synapse.samples.framework.tests.rest.Sample800;\n", 
-            " \n", 
-            " import java.util.ArrayList;\n", 
-            " import java.util.HashMap;\n"
-          ]
-        }, 
-        {
-          "locn": "-138,7 +139,7", 
-          "lines": [
-            "             }\n", 
-            "         } else {\n", 
-            "             suiteName = \"AllSamplesSuite\";\n", 
-            "-            for (int i = 0; i <= 600; i++) {\n", 
-            "+            for (int i = 0; i <= 1000; i++) {\n", 
-            "                 Class testClass = (Class) sampleClassRepo.get(Integer.toString(i));\n", 
-            "                 if (testClass != null) {\n", 
-            "                     suiteClassesList.add(testClass);\n"
-          ]
-        }, 
-        {
-          "locn": "-222,5 +223,7", 
-          "lines": [
-            "         sampleClassRepo.put(\"451\", Sample451.class);\n", 
-            "         sampleClassRepo.put(\"452\", Sample452.class);\n", 
-            "         sampleClassRepo.put(\"460\", Sample460.class);\n", 
-            "+\n", 
-            "+        sampleClassRepo.put(\"800\", Sample800.class);\n", 
-            "     }\n", 
-            " }\n", 
-            "\\ No newline at end of file\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,19", 
-          "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>800</sampleID>\n", 
-            "+    <sampleName>Introduction to REST APIs</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>repository/conf/sample/synapse_sample_800.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <axis2Server id='0'>\n", 
-            "+            <axis2Repo>modules/integration/target/test_repos/axis2Server</axis2Repo>\n", 
-            "+            <axis2Xml>modules/integration/target/test_repos/axis2Server/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        </axis2Server>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/sample800.xml", 
-      "from": "java/modules/integration/src/test/resources/sample800.xml"
     }
   ], 
   "id": "1503079"

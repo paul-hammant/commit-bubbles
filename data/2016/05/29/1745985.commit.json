@@ -1,7 +1,27 @@
 {
   "when": "2016-05-29T07:28:06-04:00", 
+  "message": "Upgrade quickfixj to a version available from Maven central.", 
   "who": "veithen", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-110,7 +110,7", 
+          "lines": [
+            " \n", 
+            "     <dependencies>\n", 
+            "         <dependency>\n", 
+            "-            <groupId>quickfixj</groupId>\n", 
+            "+            <groupId>org.quickfixj</groupId>\n", 
+            "             <artifactId>quickfixj-all</artifactId>\n", 
+            "         </dependency>\n", 
+            "         <dependency>\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/optional/fix/pom.xml", 
+      "from": "java/modules/transports/optional/fix/pom.xml"
+    }, 
     {
       "chunks": [
         {
@@ -33,25 +53,6 @@
       ], 
       "to": "java/pom.xml", 
       "from": "java/pom.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-110,7 +110,7", 
-          "lines": [
-            " \n", 
-            "     <dependencies>\n", 
-            "         <dependency>\n", 
-            "-            <groupId>quickfixj</groupId>\n", 
-            "+            <groupId>org.quickfixj</groupId>\n", 
-            "             <artifactId>quickfixj-all</artifactId>\n", 
-            "         </dependency>\n", 
-            "         <dependency>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/optional/fix/pom.xml", 
-      "from": "java/modules/transports/optional/fix/pom.xml"
     }
   ], 
   "id": "1745985"

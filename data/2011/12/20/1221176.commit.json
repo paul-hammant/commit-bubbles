@@ -1,28 +1,8 @@
 {
   "when": "2011-12-20T05:02:05-05:00", 
+  "message": "", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-25,8 +25,8", 
-          "lines": [
-            "     <body>\n", 
-            "         <section name=\"Apache Synapse Samples Catalog\">\n", 
-            "             <p>\n", 
-            "-                Apache Synapse comes prelaoded with a horde of sample configurations that\n", 
-            "-                demonstrates various features of the service bus. This catalog lists out all\n", 
-            "+                Apache Synapse comes preloaded with a horde of sample configurations that\n", 
-            "+                demonstrate various features of the service bus. This catalog lists out all\n", 
-            "                 these sample configurations and provides detailed information on how to run\n", 
-            "                 them. These samples require an Apache ANT installation for you to be able to\n", 
-            "                 try them out. If you are new to Synapse and have no experience running Synapse,\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml"
-    }, 
     {
       "chunks": [
         {
@@ -522,6 +502,27 @@
       ], 
       "to": "scratch/hiranya/website/src/site/xdoc/userguide/config.xml", 
       "from": "scratch/hiranya/website/src/site/xdoc/userguide/config.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-25,8 +25,8", 
+          "lines": [
+            "     <body>\n", 
+            "         <section name=\"Apache Synapse Samples Catalog\">\n", 
+            "             <p>\n", 
+            "-                Apache Synapse comes prelaoded with a horde of sample configurations that\n", 
+            "-                demonstrates various features of the service bus. This catalog lists out all\n", 
+            "+                Apache Synapse comes preloaded with a horde of sample configurations that\n", 
+            "+                demonstrate various features of the service bus. This catalog lists out all\n", 
+            "                 these sample configurations and provides detailed information on how to run\n", 
+            "                 them. These samples require an Apache ANT installation for you to be able to\n", 
+            "                 try them out. If you are new to Synapse and have no experience running Synapse,\n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples.xml"
     }
   ], 
   "id": "1221176"

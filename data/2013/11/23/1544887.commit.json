@@ -1,5 +1,6 @@
 {
   "when": "2013-11-23T17:46:20-05:00", 
+  "message": "Ensure that we use the same Java version everywhere. This avoids class version incompatibilites when executing the integration tests in an IDE with the AAR files built on the command line with a different JDK.", 
   "who": "veithen", 
   "changes": [
     {

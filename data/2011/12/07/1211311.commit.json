@@ -1,7 +1,46 @@
 {
   "when": "2011-12-07T02:08:33-05:00", 
+  "message": "* Upgrading to caching 3.5\n* Updated the cache mediator\n* Fixed an issue in throttle mediator (Patch from Miyuru)\n* Fixed an issue in script mediator\n\n", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-865,7 +865,7", 
+          "lines": [
+            " \n", 
+            "         <!-- dependencies of Synapse extensions module -->\n", 
+            "         <wso2commons.version>1.2</wso2commons.version>\n", 
+            "-        <wso2caching.version>3.4.0</wso2caching.version>\n", 
+            "+        <wso2caching.version>3.5.0</wso2caching.version>\n", 
+            "         <wso2throttle.version>SNAPSHOT</wso2throttle.version>\n", 
+            "         <wso2eventing-api.version>SNAPSHOT</wso2eventing-api.version>\n", 
+            "         <xbean.version>2.2.0</xbean.version>\n"
+          ]
+        }
+      ], 
+      "to": "java/pom.xml", 
+      "from": "java/pom.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-591,7 +591,7", 
+          "lines": [
+            "      * Returns the map of defined entries in the configuration excluding the\n", 
+            "      * fetched entries from remote registry.\n", 
+            "      *\n", 
+            "-     * @return Map of Entries defined in the local configuraion\n", 
+            "+     * @return Map of Entries defined in the local configuration\n", 
+            "      */\n", 
+            "     public Map<String, Entry> getDefinedEntries() {\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/SynapseConfiguration.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/SynapseConfiguration.java"
+    }, 
     {
       "chunks": [
         {
@@ -418,21 +457,34 @@
     {
       "chunks": [
         {
-          "locn": "-591,7 +591,7", 
+          "locn": "-20,6 +20,8", 
           "lines": [
-            "      * Returns the map of defined entries in the configuration excluding the\n", 
-            "      * fetched entries from remote registry.\n", 
-            "      *\n", 
-            "-     * @return Map of Entries defined in the local configuraion\n", 
-            "+     * @return Map of Entries defined in the local configuration\n", 
-            "      */\n", 
-            "     public Map<String, Entry> getDefinedEntries() {\n", 
-            " \n"
+            " package org.apache.synapse.mediators.bsf;\n", 
+            " \n", 
+            " import com.sun.phobos.script.javascript.RhinoScriptEngineFactory;\n", 
+            "+import com.sun.script.groovy.GroovyScriptEngineFactory;\n", 
+            "+import com.sun.script.jruby.JRubyScriptEngineFactory;\n", 
+            " import org.apache.axiom.om.OMElement;\n", 
+            " import org.apache.axiom.om.OMText;\n", 
+            " import org.apache.bsf.xml.XMLHelper;\n"
+          ]
+        }, 
+        {
+          "locn": "-400,6 +402,8", 
+          "lines": [
+            " \n", 
+            "         ScriptEngineManager manager = new ScriptEngineManager();\n", 
+            "         manager.registerEngineExtension(\"js\", new RhinoScriptEngineFactory());\n", 
+            "+        manager.registerEngineExtension(\"groovy\", new GroovyScriptEngineFactory());\n", 
+            "+        manager.registerEngineExtension(\"rb\", new JRubyScriptEngineFactory());\n", 
+            " \n", 
+            "         this.scriptEngine = manager.getEngineByExtension(language);\n", 
+            "         if (scriptEngine == null) {\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/SynapseConfiguration.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/SynapseConfiguration.java"
+      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java", 
+      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java"
     }, 
     {
       "chunks": [
@@ -468,57 +520,6 @@
       ], 
       "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/throttle/ThrottleMediator.java", 
       "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/throttle/ThrottleMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,6 +20,8", 
-          "lines": [
-            " package org.apache.synapse.mediators.bsf;\n", 
-            " \n", 
-            " import com.sun.phobos.script.javascript.RhinoScriptEngineFactory;\n", 
-            "+import com.sun.script.groovy.GroovyScriptEngineFactory;\n", 
-            "+import com.sun.script.jruby.JRubyScriptEngineFactory;\n", 
-            " import org.apache.axiom.om.OMElement;\n", 
-            " import org.apache.axiom.om.OMText;\n", 
-            " import org.apache.bsf.xml.XMLHelper;\n"
-          ]
-        }, 
-        {
-          "locn": "-400,6 +402,8", 
-          "lines": [
-            " \n", 
-            "         ScriptEngineManager manager = new ScriptEngineManager();\n", 
-            "         manager.registerEngineExtension(\"js\", new RhinoScriptEngineFactory());\n", 
-            "+        manager.registerEngineExtension(\"groovy\", new GroovyScriptEngineFactory());\n", 
-            "+        manager.registerEngineExtension(\"rb\", new JRubyScriptEngineFactory());\n", 
-            " \n", 
-            "         this.scriptEngine = manager.getEngineByExtension(language);\n", 
-            "         if (scriptEngine == null) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java", 
-      "from": "java/modules/extensions/src/main/java/org/apache/synapse/mediators/bsf/ScriptMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-865,7 +865,7", 
-          "lines": [
-            " \n", 
-            "         <!-- dependencies of Synapse extensions module -->\n", 
-            "         <wso2commons.version>1.2</wso2commons.version>\n", 
-            "-        <wso2caching.version>3.4.0</wso2caching.version>\n", 
-            "+        <wso2caching.version>3.5.0</wso2caching.version>\n", 
-            "         <wso2throttle.version>SNAPSHOT</wso2throttle.version>\n", 
-            "         <wso2eventing-api.version>SNAPSHOT</wso2eventing-api.version>\n", 
-            "         <xbean.version>2.2.0</xbean.version>\n"
-          ]
-        }
-      ], 
-      "to": "java/pom.xml", 
-      "from": "java/pom.xml"
     }
   ], 
   "id": "1211311"

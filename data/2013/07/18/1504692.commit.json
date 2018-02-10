@@ -1,5 +1,6 @@
 {
   "when": "2013-07-18T18:23:33-04:00", 
+  "message": "Applying the patch for SYNAPSE-887 with some modifications. Adding a test case to verify the fix.", 
   "who": "hiranya", 
   "changes": [
     {

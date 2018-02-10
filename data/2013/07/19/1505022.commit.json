@@ -1,5 +1,6 @@
 {
   "when": "2013-07-19T17:12:52-04:00", 
+  "message": "Applying the patch for SYNAPSE-892 with a test case. Script mediator doesn't parse and serialize includes properly.", 
   "who": "hiranya", 
   "changes": [
     {

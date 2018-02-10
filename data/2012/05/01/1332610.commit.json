@@ -1,5 +1,6 @@
 {
   "when": "2012-05-01T06:37:18-04:00", 
+  "message": "Removed unnecessary repositories.", 
   "who": "veithen", 
   "changes": [
     {

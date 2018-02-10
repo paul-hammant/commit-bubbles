@@ -1,5 +1,6 @@
 {
   "when": "2013-07-15T17:03:24-04:00", 
+  "message": "SYNAPSE-846 Made the suggested changes to the synapse servlet. Added the MBean unregistration code to the pass through transport. NHTTP transport seems to be already fixed.", 
   "who": "hiranya", 
   "changes": [
     {

@@ -1,25 +1,8 @@
 {
   "when": "2013-07-17T20:59:43-04:00", 
+  "message": "Applying the patch to SYNAPSE-890. Added a test case to verify the fix.", 
   "who": "hiranya", 
   "changes": [
-    {
-      "chunks": [
-        {
-          "locn": "-353,6 +353,7", 
-          "lines": [
-            "                         pattern.toString() + \" with the property value :\" + value;\n", 
-            "                 synLog.traceOrDebug(msg);\n", 
-            "             }\n", 
-            "+            matchedValue = \"\"; //if not matched ideally should return empty string\n", 
-            "         }\n", 
-            "         \n", 
-            "         return matchedValue;\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java"
-    }, 
     {
       "chunks": [
         {
@@ -96,6 +79,24 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/PropertyMediatorTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/mediators/builtin/PropertyMediatorTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-353,6 +353,7", 
+          "lines": [
+            "                         pattern.toString() + \" with the property value :\" + value;\n", 
+            "                 synLog.traceOrDebug(msg);\n", 
+            "             }\n", 
+            "+            matchedValue = \"\"; //if not matched ideally should return empty string\n", 
+            "         }\n", 
+            "         \n", 
+            "         return matchedValue;\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/PropertyMediator.java"
     }
   ], 
   "id": "1504337"

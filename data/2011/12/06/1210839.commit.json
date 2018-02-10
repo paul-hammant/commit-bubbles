@@ -1,5 +1,6 @@
 {
   "when": "2011-12-06T05:04:36-05:00", 
+  "message": "Fixing a startup error", 
   "who": "hiranya", 
   "changes": [
     {

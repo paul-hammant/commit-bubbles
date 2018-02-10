@@ -1,7 +1,26 @@
 {
   "when": "2013-09-07T15:43:04-04:00", 
+  "message": "Fixing a bug in validate mediator. Patch applied from SYNAPSE-976", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-30,7 +30,6", 
+          "lines": [
+            "         super(7);\n", 
+            "     }\n", 
+            " \n", 
+            "-\n", 
+            "     public void testLocalRegEntriesAndSchemaValidation() {\n", 
+            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
+            "         String trpUrl = \"http://localhost:8280\";\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
+    }, 
     {
       "chunks": [
         {
@@ -237,24 +256,6 @@
       ], 
       "to": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/ValidateMediator.java", 
       "from": "java/modules/core/src/main/java/org/apache/synapse/mediators/builtin/ValidateMediator.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-30,7 +30,6", 
-          "lines": [
-            "         super(7);\n", 
-            "     }\n", 
-            " \n", 
-            "-\n", 
-            "     public void testLocalRegEntriesAndSchemaValidation() {\n", 
-            "         String addUrl = \"http://localhost:9000/services/SimpleStockQuoteService\";\n", 
-            "         String trpUrl = \"http://localhost:8280\";\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/tests/message/Sample7.java"
     }
   ], 
   "id": "1520794"

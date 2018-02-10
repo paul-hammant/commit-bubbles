@@ -1,7 +1,60 @@
 {
   "when": "2016-05-28T16:52:04-04:00", 
+  "message": "Fixing the support for FORCE_HTTP_CONTENT_LENGTH and COPY_CONTENT_LENGTH_FROM_INCOMING; Applying the patch from SYNAPSE-923", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-141,6 +141,10", 
+          "lines": [
+            "             headerMap.put(headerEntry.getKey(), headerEntry.getValue());\n", 
+            "         }\n", 
+            "         responseMsgCtx.setProperty(MessageContext.TRANSPORT_HEADERS, headerMap);\n", 
+            "+        if (headerMap.get(HTTP.CONTENT_LEN) != null){\n", 
+            "+            responseMsgCtx.setProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH,\n", 
+            "+                    headerMap.get(HTTP.CONTENT_LEN));\n", 
+            "+        }\n", 
+            " \n", 
+            "         if (response.getStatus() == 202) {\n", 
+            "             responseMsgCtx.setProperty(AddressingConstants.\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-359,6 +359,20", 
+          "lines": [
+            "     }\n", 
+            " \n", 
+            " \tprivate void sendRequestContent(final MessageContext msgContext) throws AxisFault {\n", 
+            "+        // NOTE:this a special case where, when the backend service expects content-length but,\n", 
+            "+        // we don't want the message to be built. If FORCE_HTTP_CONTENT_LENGTH and\n", 
+            "+        // COPY_CONTENT_LENGTH_FROM_INCOMING, we assume that the content coming from the\n", 
+            "+        // client side has not changed.\n", 
+            "+        boolean forceContentLength = msgContext.isPropertyTrue(NhttpConstants.FORCE_HTTP_CONTENT_LENGTH);\n", 
+            "+        boolean copyContentLength = msgContext.isPropertyTrue(PassThroughConstants.COPY_CONTENT_LENGTH_FROM_INCOMING);\n", 
+            "+\n", 
+            "+        if (forceContentLength && copyContentLength &&\n", 
+            "+                msgContext.getProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH) != null) {\n", 
+            "+            long contentLength = Long.parseLong((String) msgContext.getProperty(\n", 
+            "+                    PassThroughConstants.ORIGINAL_CONTENT_LENGTH));\n", 
+            "+            msgContext.setProperty(PassThroughConstants.PASS_THROUGH_MESSAGE_LENGTH, contentLength);\n", 
+            "+        }\n", 
+            "+\n", 
+            " \t\tif (Boolean.TRUE.equals(msgContext.getProperty(PassThroughConstants.MESSAGE_BUILDER_INVOKED))) {\n", 
+            " \t\t\tsynchronized (msgContext) {\n", 
+            " \t\t\t\twhile (!Boolean.TRUE.equals(msgContext.getProperty(\"READY2ROCK\")) &&\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
+    }, 
     {
       "chunks": [
         {
@@ -109,58 +162,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughConstants.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-141,6 +141,10", 
-          "lines": [
-            "             headerMap.put(headerEntry.getKey(), headerEntry.getValue());\n", 
-            "         }\n", 
-            "         responseMsgCtx.setProperty(MessageContext.TRANSPORT_HEADERS, headerMap);\n", 
-            "+        if (headerMap.get(HTTP.CONTENT_LEN) != null){\n", 
-            "+            responseMsgCtx.setProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH,\n", 
-            "+                    headerMap.get(HTTP.CONTENT_LEN));\n", 
-            "+        }\n", 
-            " \n", 
-            "         if (response.getStatus() == 202) {\n", 
-            "             responseMsgCtx.setProperty(AddressingConstants.\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/ClientWorker.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-359,6 +359,20", 
-          "lines": [
-            "     }\n", 
-            " \n", 
-            " \tprivate void sendRequestContent(final MessageContext msgContext) throws AxisFault {\n", 
-            "+        // NOTE:this a special case where, when the backend service expects content-length but,\n", 
-            "+        // we don't want the message to be built. If FORCE_HTTP_CONTENT_LENGTH and\n", 
-            "+        // COPY_CONTENT_LENGTH_FROM_INCOMING, we assume that the content coming from the\n", 
-            "+        // client side has not changed.\n", 
-            "+        boolean forceContentLength = msgContext.isPropertyTrue(NhttpConstants.FORCE_HTTP_CONTENT_LENGTH);\n", 
-            "+        boolean copyContentLength = msgContext.isPropertyTrue(PassThroughConstants.COPY_CONTENT_LENGTH_FROM_INCOMING);\n", 
-            "+\n", 
-            "+        if (forceContentLength && copyContentLength &&\n", 
-            "+                msgContext.getProperty(PassThroughConstants.ORIGINAL_CONTENT_LENGTH) != null) {\n", 
-            "+            long contentLength = Long.parseLong((String) msgContext.getProperty(\n", 
-            "+                    PassThroughConstants.ORIGINAL_CONTENT_LENGTH));\n", 
-            "+            msgContext.setProperty(PassThroughConstants.PASS_THROUGH_MESSAGE_LENGTH, contentLength);\n", 
-            "+        }\n", 
-            "+\n", 
-            " \t\tif (Boolean.TRUE.equals(msgContext.getProperty(PassThroughConstants.MESSAGE_BUILDER_INVOKED))) {\n", 
-            " \t\t\tsynchronized (msgContext) {\n", 
-            " \t\t\t\twhile (!Boolean.TRUE.equals(msgContext.getProperty(\"READY2ROCK\")) &&\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/PassThroughHttpSender.java"
     }
   ], 
   "id": "1745938"

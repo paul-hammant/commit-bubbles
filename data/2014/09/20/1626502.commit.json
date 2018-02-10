@@ -1,5 +1,6 @@
 {
   "when": "2014-09-20T18:09:11-04:00", 
+  "message": "Fixing SYNAPSE-926 OPTIONS support in the PT transport -- Added integration test 10003 to cover the scenario", 
   "who": "hiranya", 
   "changes": [
     {
@@ -68,32 +69,60 @@
     {
       "chunks": [
         {
-          "locn": "-23,6 +23,7", 
+          "locn": "-0,0 +1,18", 
           "lines": [
-            " import org.apache.commons.logging.Log;\n", 
-            " import org.apache.commons.logging.LogFactory;\n", 
-            " import org.apache.synapse.samples.framework.tests.rest.Sample10002;\n", 
-            "+import org.apache.synapse.samples.framework.tests.rest.Sample10003;\n", 
-            " import org.apache.synapse.samples.framework.tests.tasks.*;\n", 
-            " import org.apache.synapse.samples.framework.tests.transport.Sample250;\n", 
-            " import org.apache.synapse.samples.framework.tests.advanced.*;\n"
-          ]
-        }, 
-        {
-          "locn": "-244,5 +245,6", 
-          "lines": [
-            "         sampleClassRepo.put(\"800\", Sample800.class);\n", 
-            "         sampleClassRepo.put(\"10001\", Sample10001.class);\n", 
-            "         sampleClassRepo.put(\"10002\", Sample10002.class);\n", 
-            "+        sampleClassRepo.put(\"10003\", Sample10003.class);\n", 
-            "     }\n", 
-            " }\n", 
+            "+<synapseSample>\n", 
+            "+    <sampleID>10003</sampleID>\n", 
+            "+    <sampleName>Pass Through Transport OPTIONS Method Support</sampleName>\n", 
+            "+    <synapseConfig>\n", 
+            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
+            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
+            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
+            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_10003.xml</synapseXml>\n", 
+            "+    </synapseConfig>\n", 
+            "+    <backEndServerConfig>\n", 
+            "+        <echoServer id=\"0\">\n", 
+            "+            <httpPort>9000</httpPort>\n", 
+            "+        </echoServer>\n", 
+            "+    </backEndServerConfig>\n", 
+            "+    <clientConfig>\n", 
+            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
+            "+    </clientConfig>\n", 
+            "+</synapseSample>\n", 
             "\\ No newline at end of file\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
-      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
+      "to": "java/modules/integration/src/test/resources/sample10003.xml", 
+      "from": "java/modules/integration/src/test/resources/sample10003.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,16", 
+          "lines": [
+            "+<syn:definitions xmlns:syn=\"http://ws.apache.org/ns/synapse\">\n", 
+            "+    <syn:api name=\"TestAPI\" context=\"/test\">\n", 
+            "+        <syn:resource methods=\"OPTIONS\">\n", 
+            "+            <syn:inSequence>\n", 
+            "+                <syn:send>\n", 
+            "+                    <syn:endpoint>\n", 
+            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
+            "+                    </syn:endpoint>\n", 
+            "+                </syn:send>\n", 
+            "+            </syn:inSequence>\n", 
+            "+            <syn:outSequence>\n", 
+            "+                <syn:send/>\n", 
+            "+            </syn:outSequence>\n", 
+            "+        </syn:resource>\n", 
+            "+    </syn:api>\n", 
+            "+</syn:definitions>\n", 
+            "\\ No newline at end of file\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_10003.xml", 
+      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_10003.xml"
     }, 
     {
       "chunks": [
@@ -195,60 +224,32 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,16", 
+          "locn": "-23,6 +23,7", 
           "lines": [
-            "+<syn:definitions xmlns:syn=\"http://ws.apache.org/ns/synapse\">\n", 
-            "+    <syn:api name=\"TestAPI\" context=\"/test\">\n", 
-            "+        <syn:resource methods=\"OPTIONS\">\n", 
-            "+            <syn:inSequence>\n", 
-            "+                <syn:send>\n", 
-            "+                    <syn:endpoint>\n", 
-            "+                        <syn:address uri=\"http://localhost:9000/services/EchoService\"/>\n", 
-            "+                    </syn:endpoint>\n", 
-            "+                </syn:send>\n", 
-            "+            </syn:inSequence>\n", 
-            "+            <syn:outSequence>\n", 
-            "+                <syn:send/>\n", 
-            "+            </syn:outSequence>\n", 
-            "+        </syn:resource>\n", 
-            "+    </syn:api>\n", 
-            "+</syn:definitions>\n", 
-            "\\ No newline at end of file\n"
+            " import org.apache.commons.logging.Log;\n", 
+            " import org.apache.commons.logging.LogFactory;\n", 
+            " import org.apache.synapse.samples.framework.tests.rest.Sample10002;\n", 
+            "+import org.apache.synapse.samples.framework.tests.rest.Sample10003;\n", 
+            " import org.apache.synapse.samples.framework.tests.tasks.*;\n", 
+            " import org.apache.synapse.samples.framework.tests.transport.Sample250;\n", 
+            " import org.apache.synapse.samples.framework.tests.advanced.*;\n"
           ]
-        }
-      ], 
-      "to": "java/modules/integration/src/test/resources/extras/synapse_sample_10003.xml", 
-      "from": "java/modules/integration/src/test/resources/extras/synapse_sample_10003.xml"
-    }, 
-    {
-      "chunks": [
+        }, 
         {
-          "locn": "-0,0 +1,18", 
+          "locn": "-244,5 +245,6", 
           "lines": [
-            "+<synapseSample>\n", 
-            "+    <sampleID>10003</sampleID>\n", 
-            "+    <sampleName>Pass Through Transport OPTIONS Method Support</sampleName>\n", 
-            "+    <synapseConfig>\n", 
-            "+        <!--if we don't specify the optional values, framework will use defaults-->\n", 
-            "+        <axis2Repo>modules/integration/target/test_repos/synapse</axis2Repo>\n", 
-            "+        <axis2Xml>modules/integration/target/test_repos/synapse/conf/axis2_def.xml</axis2Xml>\n", 
-            "+        <synapseXml>modules/integration/src/test/resources/extras/synapse_sample_10003.xml</synapseXml>\n", 
-            "+    </synapseConfig>\n", 
-            "+    <backEndServerConfig>\n", 
-            "+        <echoServer id=\"0\">\n", 
-            "+            <httpPort>9000</httpPort>\n", 
-            "+        </echoServer>\n", 
-            "+    </backEndServerConfig>\n", 
-            "+    <clientConfig>\n", 
-            "+        <clientRepo>modules/integration/target/test_repos/axis2Client</clientRepo>\n", 
-            "+    </clientConfig>\n", 
-            "+</synapseSample>\n", 
+            "         sampleClassRepo.put(\"800\", Sample800.class);\n", 
+            "         sampleClassRepo.put(\"10001\", Sample10001.class);\n", 
+            "         sampleClassRepo.put(\"10002\", Sample10002.class);\n", 
+            "+        sampleClassRepo.put(\"10003\", Sample10003.class);\n", 
+            "     }\n", 
+            " }\n", 
             "\\ No newline at end of file\n"
           ]
         }
       ], 
-      "to": "java/modules/integration/src/test/resources/sample10003.xml", 
-      "from": "java/modules/integration/src/test/resources/sample10003.xml"
+      "to": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java", 
+      "from": "java/modules/integration/src/test/java/org/apache/synapse/samples/framework/TestSamplesHandlerSuite.java"
     }
   ], 
   "id": "1626502"

@@ -1,5 +1,6 @@
 {
   "when": "2012-09-23T03:24:18-04:00", 
+  "message": "Removing extra spaces at line end.", 
   "who": "veithen", 
   "changes": [
     {

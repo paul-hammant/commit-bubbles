@@ -1,7 +1,70 @@
 {
   "when": "2011-12-05T08:29:27-05:00", 
+  "message": "Refactoring, code clean up and a few minor bug fixes. Added commons-vfs as a test dependency to Synapse core.", 
   "who": "hiranya", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-64,7 +64,7", 
+          "lines": [
+            "     public static final QName ON_FAULT_Q = new QName(XMLConfigConstants.NULL_NAMESPACE, \"onError\");\n", 
+            " \n", 
+            "     private static final QName DESCRIPTION_Q\n", 
+            "-            = new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
+            "+            = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
+            " \n", 
+            "     /**\n", 
+            "      * Core method which is exposed for the external use, and this will find the proper\n"
+          ]
+        }, 
+        {
+          "locn": "-83,7 +83,7", 
+          "lines": [
+            "     /**\n", 
+            "      * Core method which is exposed for the external use, and this will find the proper\n", 
+            "      * {@link EndpointFactory} and create the endpoint which is of the format {@link Endpoint}.However\n", 
+            "-     * defintion for this endpoint will be built using a custom Endpoint Defn factory.\n", 
+            "+     * definition for this endpoint will be built using a custom Endpoint Defn factory.\n", 
+            "      *\n", 
+            "      * @param elem        XML from which the endpoint will be built\n", 
+            "      * @param factory    custom definition factory which this endpoint will be used to build\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-46,15 +46,15", 
+          "lines": [
+            " \n", 
+            "         AddressEndpoint addressEndpoint = (AddressEndpoint) endpoint;\n", 
+            " \n", 
+            "+        EndpointDefinition epAddress = addressEndpoint.getDefinition();\n", 
+            "+        OMElement addressElement = serializeEndpointDefinition(epAddress);\n", 
+            "+        endpointElement.addChild(addressElement);\n", 
+            "+\n", 
+            "         // serialize the properties\n", 
+            "         serializeProperties(addressEndpoint, endpointElement);\n", 
+            "         //serialize attributes\n", 
+            "         serializeCommonAttributes(endpoint, endpointElement);\n", 
+            " \n", 
+            "-        EndpointDefinition epAddress = addressEndpoint.getDefinition();\n", 
+            "-        OMElement addressElement = serializeEndpointDefinition(epAddress);\n", 
+            "-        endpointElement.addChild(addressElement);\n", 
+            "-\n", 
+            "         return endpointElement;\n", 
+            "     }\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializer.java"
+    }, 
     {
       "chunks": [
         {
@@ -34,61 +97,120 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,29", 
+          "locn": "-704,7 +704,8", 
           "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
-            "+\n", 
-            "+package org.apache.synapse.config.xml;\n", 
-            "+\n", 
-            "+import org.apache.axiom.om.OMElement;\n", 
-            "+import org.apache.synapse.config.Entry;\n", 
-            "+\n", 
-            "+public interface IEntrySerializer {\n", 
-            "+\n", 
-            "+    public OMElement serializeEntry(Entry entry, OMElement parent);\n", 
-            "+\n", 
-            "+}\n"
+            "                 }\r\n", 
+            "             } catch (SynapseException e) {\r\n", 
+            "                 if (failSafeProxyEnabled) {\r\n", 
+            "-                    log.warn(\"The proxy service \" + proxy.getName() + \" cannot be deployed. Continue in Proxy Service fail-safe mode.\");\r\n", 
+            "+                    log.warn(\"The proxy service \" + proxy.getName() + \" cannot be deployed - \" +\r\n", 
+            "+                            \"Continue in Proxy Service fail-safe mode.\");\r\n", 
+            "                 } else {\r\n", 
+            "                     handleException(\"The proxy service \" + proxy.getName() + \" : Deployment Error\");\r\n", 
+            "                 }\r\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntrySerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntrySerializer.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-90,7 +90,7", 
+          "locn": "-178,7 +178,7", 
           "lines": [
-            "             assert processor != null;\n", 
-            "             processor.setMessageStoreName(storeAtt.getAttributeValue());\n", 
-            "         } else {\n", 
-            "-            handleException(\"Can't create message processor with out a message processor\");\n", 
-            "+            handleException(\"Can't create message processor without a message store\");\n", 
-            "         }\n", 
-            " \n", 
-            "         OMElement descriptionElem = elem.getFirstChildWithName(DESCRIPTION_Q);\n"
+            "                     }\r\n", 
+            "                 }\r\n", 
+            "             } catch (Exception e) {\r\n", 
+            "-                String msg = \"Sequence configuration : \" + name + \" cannot be built\";\r\n", 
+            "+                String msg = \"Sequence configuration: \" + name + \" cannot be built\";\r\n", 
+            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_SEQUENCES, msg, e);\r\n", 
+            "             }\r\n", 
+            "             return mediator;\r\n"
+          ]
+        }, 
+        {
+          "locn": "-201,7 +201,7", 
+          "lines": [
+            "                     config.addSequenceTemplate(name, (TemplateMediator) mediator) ;\r\n", 
+            "                 }\r\n", 
+            "             } catch (Exception e) {\r\n", 
+            "-                String msg = \"Template configuration : \" + name + \" cannot be built\";\r\n", 
+            "+                String msg = \"Template configuration: \" + name + \" cannot be built\";\r\n", 
+            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_TEMPLATES, msg, e);\r\n", 
+            "             }\r\n", 
+            "             return mediator;\r\n"
+          ]
+        }, 
+        {
+          "locn": "-224,7 +224,7", 
+          "lines": [
+            "                     config.addEndpoint(name.trim(), endpoint);\r\n", 
+            "                 }\r\n", 
+            "             } catch (Exception e) {\r\n", 
+            "-                String msg = \"Endpoint configuration : \" + name + \" cannot be built\";\r\n", 
+            "+                String msg = \"Endpoint configuration: \" + name + \" cannot be built\";\r\n", 
+            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_EP, msg, e);\r\n", 
+            "             }\r\n", 
+            "             return endpoint;\r\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageProcessorFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageProcessorFactory.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-75,7 +75,7", 
+          "lines": [
+            "      * Note that the default namespace is explicitly excluded and not added to the\n", 
+            "      * namespace context. This implies that XPath expressions\n", 
+            "      * appearing in Synapse configuration files follow the same rule as in XSL\n", 
+            "-     * stylesheets. Indeed, the XSLT specification defines the namespace context of\n", 
+            "+     * style sheets. Indeed, the XSLT specification defines the namespace context of\n", 
+            "      * an XPath expression as follows:\n", 
+            "      * <blockquote>\n", 
+            "      * the set of namespace declarations are those in scope on the element which has the\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/OMElementUtils.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/OMElementUtils.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-44,9 +44,6", 
+          "lines": [
+            "         OMElement endpointElement\n", 
+            "                 = fac.createOMElement(\"endpoint\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            " \n", 
+            "-        // serialize the parameters\n", 
+            "-        serializeProperties(failoverEndpoint, endpointElement);\n", 
+            "-\n", 
+            "         OMElement failoverElement\n", 
+            "                 = fac.createOMElement(\"failover\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            "         endpointElement.addChild(failoverElement);\n"
+          ]
+        }, 
+        {
+          "locn": "-61,6 +58,9", 
+          "lines": [
+            "             failoverElement.addAttribute(\"dynamic\", \"false\", null);\n", 
+            "         }\n", 
+            " \n", 
+            "+        // serialize the parameters\n", 
+            "+        serializeProperties(failoverEndpoint, endpointElement);\n", 
+            "+\n", 
+            "         return endpointElement;\n", 
+            "     }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/FailoverEndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/FailoverEndpointSerializer.java"
     }, 
     {
       "chunks": [
@@ -237,74 +359,21 @@
     {
       "chunks": [
         {
-          "locn": "-28,12 +28,9", 
+          "locn": "-95,7 +95,7", 
           "lines": [
-            " import org.apache.synapse.endpoints.RecipientListEndpoint;\n", 
+            "     private OMElement getSerializedDescription(Endpoint endpoint) {\n", 
             " \n", 
-            " /**\n", 
-            "- * @author nuwan\n", 
-            "- * \n", 
-            "- * erializes {@link RecipientListEndpoint} to an XML configuration.\n", 
-            "+ * Serializes {@link RecipientListEndpoint} to an XML configuration.\n", 
-            "  *\n", 
-            "  * @see RecipientListEndpointFactory\n", 
-            "- *\n", 
-            "  */\n", 
-            " public class RecipientListEndpointSerializer extends EndpointSerializer {\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-80,9 +77,10", 
-          "lines": [
-            "         }else{\n", 
-            "             OMElement dynamicEpEle = fac.createOMElement(\n", 
-            "                     \"endpoints\", SynapseConstants.SYNAPSE_OMNAMESPACE, recipientListElement);\n", 
-            "-            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(), \"value\", dynamicEpEle);\n", 
-            "-            dynamicEpEle.addAttribute(fac.createOMAttribute(\"cache\", null,\n", 
-            "-                                                            String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n", 
-            "+            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(),\n", 
-            "+                    \"value\", dynamicEpEle);\n", 
-            "+            dynamicEpEle.addAttribute(fac.createOMAttribute(\"max-cache\", null,\n", 
-            "+                    String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n", 
-            "             recipientListElement.addChild(dynamicEpEle);\n", 
-            "         }\n", 
-            " \n"
+            "         OMElement descriptionElem = fac.createOMElement(\n", 
+            "-                new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\"));\n", 
+            "+                \"description\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            " \n", 
+            "         if (endpoint.getDescription() != null) {\n", 
+            "             descriptionElem.setText(endpoint.getDescription());\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-46,15 +46,15", 
-          "lines": [
-            " \n", 
-            "         AddressEndpoint addressEndpoint = (AddressEndpoint) endpoint;\n", 
-            " \n", 
-            "+        EndpointDefinition epAddress = addressEndpoint.getDefinition();\n", 
-            "+        OMElement addressElement = serializeEndpointDefinition(epAddress);\n", 
-            "+        endpointElement.addChild(addressElement);\n", 
-            "+\n", 
-            "         // serialize the properties\n", 
-            "         serializeProperties(addressEndpoint, endpointElement);\n", 
-            "         //serialize attributes\n", 
-            "         serializeCommonAttributes(endpoint, endpointElement);\n", 
-            " \n", 
-            "-        EndpointDefinition epAddress = addressEndpoint.getDefinition();\n", 
-            "-        OMElement addressElement = serializeEndpointDefinition(epAddress);\n", 
-            "-        endpointElement.addChild(addressElement);\n", 
-            "-\n", 
-            "         return endpointElement;\n", 
-            "     }\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/AddressEndpointSerializer.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointSerializer.java"
     }, 
     {
       "chunks": [
@@ -334,146 +403,61 @@
     {
       "chunks": [
         {
-          "locn": "-28,6 +28,7", 
+          "locn": "-148,6 +148,10", 
           "lines": [
-            " import org.apache.synapse.config.Entry;\n", 
-            " import org.apache.synapse.SynapseException;\n", 
-            " import org.apache.synapse.SynapseConstants;\n", 
-            "+import org.apache.synapse.config.SynapsePropertiesLoader;\n", 
             " \n", 
-            " import javax.xml.namespace.QName;\n", 
-            " import javax.xml.stream.XMLStreamConstants;\n"
-          ]
-        }, 
-        {
-          "locn": "-53,6 +54,26", 
-          "lines": [
-            "      */\n", 
-            "     public static OMElement serializeEntry(Entry entry, OMElement parent) {\n", 
-            " \n", 
-            "+        String customFactory = SynapsePropertiesLoader.getPropertyValue(\"synapse.entry.serializer\", \"\");\n", 
-            "+        if (customFactory != null && !\"\".equals(customFactory)) {\n", 
-            "+            try {\n", 
-            "+                Class c = Class.forName(customFactory);\n", 
-            "+                Object o = c.newInstance();\n", 
-            "+                if (o instanceof IEntrySerializer) {\n", 
-            "+                    return ((IEntrySerializer) o).serializeEntry(entry, parent);\n", 
-            "+                }\n", 
-            "+            } catch (ClassNotFoundException e) {\n", 
-            "+                 handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property not found: \" + customFactory, e);\n", 
-            "+            } catch (InstantiationException e) {\n", 
-            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property cannot be instantiated: \" + customFactory, e);\n", 
-            "+            } catch (IllegalAccessException e) {\n", 
-            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property cannot be accessed: \" + customFactory, e);\n", 
+            "     private boolean isWritable(File file) {\n", 
+            "         if (file.isDirectory()) {\n", 
+            "+            if (file.getName().startsWith(\".\") || file.isHidden()) {\n", 
+            "+                return true;\n", 
             "+            }\n", 
-            "+        }\n", 
             "+\n", 
-            "         OMElement entryElement = fac.createOMElement(\"localEntry\", synNS);\n", 
-            "         \n", 
-            "         if (entry.getDescription() != null) {\n"
+            "             File[] children = file.listFiles();\n", 
+            "             for (File child : children) {\n", 
+            "                 if (!isWritable(child)) {\n"
           ]
         }, 
         {
-          "locn": "-100,4 +121,9", 
+          "locn": "-301,8 +305,8", 
           "lines": [
-            "         log.error(msg);\n", 
-            "         throw new SynapseException(msg);\n", 
-            "     }\n", 
-            "+\n", 
-            "+    private static void handleException(String msg, Exception e) {\n", 
-            "+        log.error(msg, e);\n", 
-            "+        throw new SynapseException(msg, e);\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntrySerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntrySerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-21,6 +21,7", 
-          "lines": [
-            " \n", 
-            " import org.apache.synapse.SynapseConstants;\n", 
-            " import org.apache.synapse.config.SynapseConfigUtils;\n", 
-            "+import org.apache.synapse.config.SynapsePropertiesLoader;\n", 
-            " import org.apache.synapse.config.XMLToObjectMapper;\n", 
-            " import org.apache.synapse.config.Entry;\n", 
-            " import org.apache.synapse.SynapseException;\n"
-          ]
-        }, 
-        {
-          "locn": "-47,6 +48,25", 
-          "lines": [
-            "             = new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
-            " \n", 
-            "     public static Entry createEntry(OMElement elem, Properties properties) {\n", 
-            "+        String customFactory = SynapsePropertiesLoader.getPropertyValue(\"synapse.entry.factory\", \"\");\n", 
-            "+        if (customFactory != null && !\"\".equals(customFactory)) {\n", 
-            "+            try {\n", 
-            "+                Class c = Class.forName(customFactory);\n", 
-            "+                Object o = c.newInstance();\n", 
-            "+                if (o instanceof IEntryFactory) {\n", 
-            "+                    return ((IEntryFactory)o).createEntry(elem);\n", 
-            "+                }\n", 
-            "+            } catch (ClassNotFoundException e) {\n", 
-            "+                 handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property not found: \" + customFactory, e);\n", 
-            "+            } catch (InstantiationException e) {\n", 
-            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property cannot be instantiated: \" + customFactory, e);\n", 
-            "+            } catch (IllegalAccessException e) {\n", 
-            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
-            "+                         \"synapse property cannot be accessed: \" + customFactory, e);\n", 
-            "+            }\n", 
-            "+        }\n", 
-            " \n", 
-            "         OMAttribute key = elem.getAttribute(new QName(XMLConfigConstants.NULL_NAMESPACE, \"key\"));\n", 
-            "         if (key == null) {\n"
-          ]
-        }, 
-        {
-          "locn": "-95,6 +115,11", 
-          "lines": [
+            "             }\n", 
             "         }\n", 
-            "     }\n", 
             " \n", 
-            "+    private static void handleException(String msg, Exception e) {\n", 
-            "+        log.error(msg, e);\n", 
-            "+        throw new SynapseException(msg, e);\n", 
-            "+    }\n", 
-            "+\n", 
-            "     private static void handleException(String msg) {\n", 
-            "         log.error(msg);\n", 
-            "         throw new SynapseException(msg);\n"
+            "-        for(MessageProcessor messageProcessor : messageProcessors) {\n", 
+            "-            if(messageProcessor.getFileName() == null) {\n", 
+            "+        for (MessageProcessor messageProcessor : messageProcessors) {\n", 
+            "+            if (messageProcessor.getFileName() == null) {\n", 
+            "                 MessageProcessorSerializer.serializeMessageProcessor(definitions,messageProcessor);\n", 
+            "             }\n", 
+            "         }\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntryFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntryFactory.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationSerializer.java"
     }, 
     {
       "chunks": [
         {
-          "locn": "-144,4 +144,6", 
+          "locn": "-196,6 +196,12", 
           "lines": [
-            "     public static final String FORCE_CONNECTION_CLOSE = \"FORCE_CONNECTION_CLOSE\";\n", 
-            "     public static final String PORT_OFFSET = \"portOffset\";\n", 
-            "     public static final String ENDPOINTS_CONFIGURATION = \"endpointsConfiguration\";\n", 
-            "+\n", 
-            "+    public static final String HEADER_X_FORWARDED_FOR = \"X-Forwarded-For\";\n", 
-            " }\n"
+            "             <scope>test</scope>\n", 
+            "         </dependency>\n", 
+            "         <dependency>\n", 
+            "+            <groupId>org.apache.commons</groupId>\n", 
+            "+            <artifactId>commons-vfs</artifactId>\n", 
+            "+            <version>${commons.vfs.version}</version>\n", 
+            "+            <scope>test</scope>\n", 
+            "+        </dependency>\n", 
+            "+        <dependency>\n", 
+            "             <groupId>org.apache.synapse</groupId>\n", 
+            "             <artifactId>synapse-vfs-transport</artifactId>\n", 
+            "             <scope>test</scope>\n"
           ]
         }
       ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java"
+      "to": "java/modules/core/pom.xml", 
+      "from": "java/modules/core/pom.xml"
     }, 
     {
       "chunks": [
@@ -549,6 +533,631 @@
       ], 
       "to": "java/modules/core/src/test/java/org/apache/synapse/config/xml/LogMediatorSerializationTest.java", 
       "from": "java/modules/core/src/test/java/org/apache/synapse/config/xml/LogMediatorSerializationTest.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-90,8 +90,11", 
+          "lines": [
+            "                 getEndpointTemplate(template);\n", 
+            " \n", 
+            "         if (endpointTemplate == null) {\n", 
+            "-            handleException(\"Template \" + template +\n", 
+            "+            //if template is not already available we will warn the user\n", 
+            "+            //thus template endpoint will get initialized at runtime\n", 
+            "+            log.warn(\"Template \" + template +\n", 
+            "                     \" cannot be found for the endpoint \" + getName());\n", 
+            "+            return;\n", 
+            "         }\n", 
+            " \n", 
+            "         reLoadAndInitEndpoint(synapseEnvironment);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/TemplateEndpoint.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/TemplateEndpoint.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-74,10 +74,17", 
+          "lines": [
+            "             Map headerMap = getTransportHeaderMap(synCtx);\n", 
+            " \n", 
+            "             if (headerMap != null) {\n", 
+            "+                Object hostObj = headerMap.get(\"Host\");\n", 
+            "+                if (log.isDebugEnabled()) {\n", 
+            "+                    log.debug(\"A request received with the Host Name : \" + hostObj);\n", 
+            "+                }\n", 
+            "                 Object cookieObj = headerMap.get(key);\n", 
+            " \n", 
+            "                 if (cookieObj instanceof String) {\n", 
+            "                     String cookie = (String) cookieObj;\n", 
+            "+                    if (log.isDebugEnabled()) {\n", 
+            "+                        log.debug(\"Cookies String : \" + cookie);\n", 
+            "+                    }\n", 
+            "                     \n", 
+            "                     // extract the first name value pair of the Set-Cookie header, which is considered\n", 
+            "                     // as the session id which will be sent back from the client with the Cookie header\n"
+          ]
+        }, 
+        {
+          "locn": "-93,8 +100,11", 
+          "lines": [
+            "                         return null;\n", 
+            "                     }\n", 
+            " \n", 
+            "-                    for(String sessionId : sessionIds){\n", 
+            "-                        if(sessionId != null && sessionId.indexOf(\"JSESSIONID\") != -1){\n", 
+            "+                    for (String sessionId : sessionIds){\n", 
+            "+                        if(sessionId != null && sessionId.indexOf(\"JSESSIONID\") != -1) {\n", 
+            "+                            if (log.isDebugEnabled()) {\n", 
+            "+                                log.debug(\"Extracted SessionID : \" + sessionId);\n", 
+            "+                            }\n", 
+            "                             return sessionId.trim();\n", 
+            "                         }\n", 
+            "                     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/AbstractDispatcher.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/AbstractDispatcher.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-19,9 +19,15", 
+          "lines": [
+            " \n", 
+            " package org.apache.synapse.endpoints.dispatch;\n", 
+            " \n", 
+            "+import org.apache.http.protocol.HTTP;\n", 
+            " import org.apache.synapse.MessageContext;\n", 
+            "+import org.apache.synapse.core.axis2.Axis2MessageContext;\n", 
+            " \n", 
+            "+import java.util.ArrayList;\n", 
+            "+import java.util.List;\n", 
+            "+import java.util.Map;\n", 
+            " \n", 
+            "+\n", 
+            " /**\n", 
+            "  * Dispatches sessions based on HTTP cookies. Session is initiated by the server in the first\n", 
+            "  * response when it sends \"Set-Cookie\" HTTP header with the session ID. For all successive messages\n"
+          ]
+        }, 
+        {
+          "locn": "-33,6 +39,7", 
+          "lines": [
+            "     /*HTTP Headers  */\n", 
+            "     private final static String COOKIE = \"Cookie\";\n", 
+            "     private final static String SET_COOKIE = \"Set-Cookie\";\n", 
+            "+    public static final String HOSTS = \"hosts\";\n", 
+            " \n", 
+            "     /**\n", 
+            "      * Check if \"Cookie\" HTTP header is available. If so, check if that cookie is in the session\n"
+          ]
+        }, 
+        {
+          "locn": "-43,7 +50,52", 
+          "lines": [
+            "      * @return Endpoint Server endpoint for the given HTTP session.\n", 
+            "      */\n", 
+            "     public SessionInformation getSession(MessageContext synCtx) {\n", 
+            "-        return SALSessions.getInstance().getSession(extractSessionID(synCtx, COOKIE));\n", 
+            "+        String hostName = extractHost(synCtx);\n", 
+            "+        if (log.isDebugEnabled()) {\n", 
+            "+            log.debug(\"Extracted Host Name : \" + hostName);\n", 
+            "+        }\n", 
+            "+\n", 
+            "+        // print TO\n", 
+            "+        org.apache.axis2.context.MessageContext axis2MessageContext =\n", 
+            "+                ((Axis2MessageContext) synCtx).getAxis2MessageContext();\n", 
+            "+        if (log.isDebugEnabled()) {\n", 
+            "+            log.debug(\"Endpoint Address : \" + axis2MessageContext.getTo().getAddress());\n", 
+            "+        }\n", 
+            "+\n", 
+            "+        Map headerMap = getTransportHeaderMap(synCtx);\n", 
+            "+        String contentType = (String)headerMap.get(\"Content-Type\");\n", 
+            "+        if (log.isDebugEnabled()) {\n", 
+            "+            log.debug(\"Content Type : \" + contentType);\n", 
+            "+        }\n", 
+            "+\n", 
+            "+        if (hostName == null) {\n", 
+            "+            return SALSessions.getInstance().getSession(extractSessionID(synCtx, COOKIE));\n", 
+            "+        } else {\n", 
+            "+            List<String> sessionList = extractSessionIDs(synCtx, COOKIE);\n", 
+            "+            if (sessionList != null) {\n", 
+            "+                for (String sessionID : sessionList) {\n", 
+            "+                    SessionInformation sessionInfoObj = SALSessions.getInstance().getSession(sessionID);\n", 
+            "+                    if (sessionInfoObj != null) {\n", 
+            "+                        Map<String, String> subDomainNames =\n", 
+            "+                                (Map<String, String>) sessionInfoObj.getMember().getProperties().get(HOSTS);\n", 
+            "+                        if (log.isDebugEnabled()) {\n", 
+            "+                            log.debug(\"Member Domain : \" + (subDomainNames != null ? subDomainNames.get(hostName) : null) +\n", 
+            "+                                      \" : Session ID \" + sessionID);\n", 
+            "+                        }\n", 
+            "+                        if (subDomainNames != null && subDomainNames.get(hostName) != null) {\n", 
+            "+                            if (log.isDebugEnabled()) {\n", 
+            "+                                log.debug(\"Found a matching sessionInfo Object for the \" + hostName);\n", 
+            "+                            }\n", 
+            "+                            return sessionInfoObj;\n", 
+            "+                        }\n", 
+            "+                    }\n", 
+            "+                }\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "+        if (log.isDebugEnabled()) {\n", 
+            "+            log.debug(\"Did not find a session info obj.\");\n", 
+            "+        }\n", 
+            "+        return null;\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }, 
+        {
+          "locn": "-86,4 +138,79", 
+          "lines": [
+            "     public void removeSessionID(MessageContext syCtx) {\n", 
+            "         removeSessionID(syCtx, COOKIE);\n", 
+            "     }\n", 
+            "+\n", 
+            "+    protected List<String> extractSessionIDs(MessageContext synCtx, String key) {\n", 
+            "+        List<String> sessionList = new ArrayList<String>();\n", 
+            "+        if (key != null) {\n", 
+            "+            Map headerMap = getTransportHeaderMap(synCtx);\n", 
+            "+            if (headerMap != null) {\n", 
+            "+                Object hostObj = headerMap.get(\"Host\");\n", 
+            "+                if (log.isDebugEnabled()) {\n", 
+            "+                    log.debug(\"A request received with the Host Name : \" + hostObj);\n", 
+            "+                }\n", 
+            "+                Object cookieObj = headerMap.get(key);\n", 
+            "+                if (cookieObj instanceof String) {\n", 
+            "+                    String cookie = (String) cookieObj;\n", 
+            "+                    if (log.isDebugEnabled()) {\n", 
+            "+                        log.debug(\"Cookies String : \" + cookie);\n", 
+            "+                    }\n", 
+            "+                    // extract the first name value pair of the Set-Cookie header, which is considered\n", 
+            "+                    // as the session id which will be sent back from the client with the Cookie header\n", 
+            "+                    // for example;\n", 
+            "+                    //      Set-Cookie: JSESSIONID=760764CB72E96A7221506823748CF2AE; Path=/\n", 
+            "+                    // will result in the session id \"JSESSIONID=760764CB72E96A7221506823748CF2AE\"\n", 
+            "+                    String[] sessionIds = cookie.split(\";\");\n", 
+            "+                    if (sessionIds == null || sessionIds.length == 0) {\n", 
+            "+                        if (log.isDebugEnabled()) {\n", 
+            "+                            log.debug(\"Cannot find a session id for the cookie : \" + cookie);\n", 
+            "+                        }\n", 
+            "+                        return null;\n", 
+            "+                    }\n", 
+            "+                    for(String sessionId : sessionIds){\n", 
+            "+                        if(sessionId != null && sessionId.contains(\"JSESSIONID\")) {\n", 
+            "+                            if (log.isDebugEnabled()) {\n", 
+            "+                                log.debug(\"Extracted SessionID : \" + sessionId);\n", 
+            "+                            }\n", 
+            "+                            sessionList.add(sessionId.trim());\n", 
+            "+                        }\n", 
+            "+                    }\n", 
+            "+                } else {\n", 
+            "+                    if (log.isDebugEnabled()) {\n", 
+            "+                        log.debug(\"Couldn't find the \" + key + \" header to find the session\");\n", 
+            "+                    }\n", 
+            "+                }\n", 
+            "+            } else {\n", 
+            "+                if (log.isDebugEnabled()) {\n", 
+            "+                    log.debug(\"Couldn't find the TRANSPORT_HEADERS to find the session\");\n", 
+            "+                }\n", 
+            "+\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "+        return sessionList;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    private String extractHost(MessageContext synCtx) {\n", 
+            "+        Map headerMap = getTransportHeaderMap(synCtx);\n", 
+            "+        String hostName = null;\n", 
+            "+        if (headerMap != null) {\n", 
+            "+            Object hostObj = headerMap.get(HTTP.TARGET_HOST);\n", 
+            "+            hostName = (String) hostObj;\n", 
+            "+            if (hostName.contains(\":\")) {\n", 
+            "+                hostName = hostName.substring(0, hostName.indexOf(\":\"));\n", 
+            "+            }\n", 
+            "+        }\n", 
+            "+        return hostName;\n", 
+            "+    }\n", 
+            "+\n", 
+            "+    private Map getTransportHeaderMap(MessageContext synCtx) {\n", 
+            "+\n", 
+            "+        org.apache.axis2.context.MessageContext axis2MessageContext =\n", 
+            "+                ((Axis2MessageContext) synCtx).getAxis2MessageContext();\n", 
+            "+\n", 
+            "+        Object o = axis2MessageContext.getProperty(org.apache.axis2.context.MessageContext.TRANSPORT_HEADERS);\n", 
+            "+        if (o != null && o instanceof Map) {\n", 
+            "+            return (Map) o;\n", 
+            "+        }\n", 
+            "+        return null;\n", 
+            "+    }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/HttpSessionDispatcher.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/HttpSessionDispatcher.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-223,7 +223,7", 
+          "lines": [
+            " \n", 
+            "         if (sessionID == null || \"\".equals(sessionID)) {\n", 
+            "             if (log.isDebugEnabled()) {\n", 
+            "-                log.debug(\"Cannot find session ID .Returing null\");\n", 
+            "+                log.debug(\"Cannot find session ID .Returning null\");\n", 
+            "             }\n", 
+            "             return null;\n", 
+            "         }\n"
+          ]
+        }, 
+        {
+          "locn": "-342,7 +342,9", 
+          "lines": [
+            "                 }\n", 
+            " \n", 
+            "                 if (!toBeRemoved.isEmpty()) {\n", 
+            "-                    log.info(\"Clearing expired sessions\");\n", 
+            "+                    if (log.isDebugEnabled()) {\n", 
+            "+                        log.debug(\"Clearing expired sessions\");\n", 
+            "+                    }\n", 
+            " \n", 
+            "                     for (String key : toBeRemoved) {\n", 
+            "                         Replicator.removeAndReplicateState(key, configCtx);\n"
+          ]
+        }, 
+        {
+          "locn": "-364,7 +366,9", 
+          "lines": [
+            "                 }\n", 
+            " \n", 
+            "                 if (!toBeRemoved.isEmpty()) {\n", 
+            "-                    log.info(\"Clearing expired sessions\");\n", 
+            "+                    if (log.isDebugEnabled()) {\n", 
+            "+                        log.debug(\"Clearing expired sessions\");\n", 
+            "+                    }\n", 
+            "                     establishedSessions.keySet().removeAll(toBeRemoved);\n", 
+            "                 }\n", 
+            "             }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/SALSessions.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/SALSessions.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-61,6 +61,7", 
+          "lines": [
+            " \t/**\n", 
+            " \t * Should this recipient list failover;\n", 
+            " \t */\n", 
+            "+    private boolean failover;\n", 
+            "     private int currentPool;\n", 
+            " \n", 
+            "     private SynapseEnvironment env = null;\n"
+          ]
+        }, 
+        {
+          "locn": "-319,6 +320,14", 
+          "lines": [
+            "         return currentPool;\n", 
+            "     }\n", 
+            " \n", 
+            "+    public boolean isFailover() {\n", 
+            "+\t\treturn failover;\n", 
+            "+\t}\n", 
+            "+\n", 
+            "+\tpublic void setFailover(boolean failover) {\n", 
+            "+\t\tthis.failover = failover;\n", 
+            "+\t}\n", 
+            "+\n", 
+            "     /**\n", 
+            "      * create a simple LRU cached Endpoint pool for dynamic endpoints\n", 
+            "      */\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,37", 
+          "lines": [
+            "+/*\n", 
+            "+*  Copyright (c) 2005-2011, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.\n", 
+            "+*\n", 
+            "+*  WSO2 Inc. licenses this file to you under the Apache License,\n", 
+            "+*  Version 2.0 (the \"License\"); you may not use this file except\n", 
+            "+*  in compliance with the License.\n", 
+            "+*  You may obtain a copy of the License at\n", 
+            "+*\n", 
+            "+*    http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+*\n", 
+            "+* Unless required by applicable law or agreed to in writing,\n", 
+            "+* software distributed under the License is distributed on an\n", 
+            "+* \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+* KIND, either express or implied.  See the License for the\n", 
+            "+* specific language governing permissions and limitations\n", 
+            "+* under the License.\n", 
+            "+*/\n", 
+            "+package org.apache.synapse.endpoints;\n", 
+            "+\n", 
+            "+import org.apache.axis2.addressing.EndpointReference;\n", 
+            "+import org.apache.axis2.clustering.Member;\n", 
+            "+import org.apache.axis2.clustering.management.GroupManagementAgent;\n", 
+            "+import org.apache.synapse.FaultHandler;\n", 
+            "+\n", 
+            "+/**\n", 
+            "+ * This FaultHandler will try to resend the message to another member if an error occurs\n", 
+            "+ * while sending to some member. This is a failover mechanism\n", 
+            "+ */\n", 
+            "+public abstract class DynamicLoadbalanceFaultHandler extends FaultHandler {\n", 
+            "+\n", 
+            "+    public abstract void setCurrentMember(Member currentMember);\n", 
+            "+\n", 
+            "+    public abstract void setCurrentEp(Endpoint currentEp);\n", 
+            "+\n", 
+            "+    public abstract void setTo(EndpointReference to);\n", 
+            "+\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/DynamicLoadbalanceFaultHandler.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/DynamicLoadbalanceFaultHandler.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-94,19 +94,8", 
+          "lines": [
+            "      * @param currentEPR The current position\n", 
+            "      */\n", 
+            "     public void setCurrentEndpointIndex(int currentEPR) {\n", 
+            "-\n", 
+            "-        if (isClusteringEnabled) {\n", 
+            "-\n", 
+            "-            if (log.isDebugEnabled()) {\n", 
+            "-                log.debug(\"Set EPR with key : \" + CURRENT_EPR_PROP_KEY + \" as : \" + currentEPR);\n", 
+            "-            }\n", 
+            "-            Replicator.setAndReplicateState(CURRENT_EPR_PROP_KEY, currentEPR, cfgCtx);\n", 
+            "-        } else {\n", 
+            "-            if (log.isDebugEnabled()) {\n", 
+            "-                log.debug(\"Setting the current EPR as : \" + currentEPR);\n", 
+            "-            }\n", 
+            "-            this.currentEPR = currentEPR;\n", 
+            "-        }\n", 
+            "+        this.currentEPR = currentEPR;\n", 
+            "+        cfgCtx.setNonReplicableProperty(CURRENT_EPR_PROP_KEY, currentEPR);\n", 
+            "     }\n", 
+            " \n", 
+            "     /**\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/AlgorithmContext.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/AlgorithmContext.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-29,7 +29,7", 
+          "lines": [
+            "  * All load balance algorithms must implement this interface. Implementations of this interface can\n", 
+            "  * be registered in LoadbalanceManagers.\n", 
+            "  */\n", 
+            "-public interface LoadbalanceAlgorithm {\n", 
+            "+public interface LoadbalanceAlgorithm extends Cloneable {\n", 
+            " \n", 
+            "     /**\n", 
+            "      * Set the application members\n"
+          ]
+        }, 
+        {
+          "locn": "-84,4 +84,6", 
+          "lines": [
+            "      * @return the name of the algorithm implemented\n", 
+            "      */\n", 
+            "     public String getName();\n", 
+            "+\n", 
+            "+    public LoadbalanceAlgorithm clone();\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/LoadbalanceAlgorithm.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/LoadbalanceAlgorithm.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-30,7 +30,7", 
+          "lines": [
+            "         algorithm.changeWeight(pos, weight);\n", 
+            "     }\n", 
+            " \n", 
+            "-    public int[] getWeights() {\n", 
+            "-        return algorithm.getWeights();\n", 
+            "+    public int[] getCurrentWeights() {\n", 
+            "+        return algorithm.getCurrentWeights();\n", 
+            "     }\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinView.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinView.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-20,7 +20,8", 
+          "lines": [
+            " package org.apache.synapse.endpoints.algorithms;\n", 
+            " \n", 
+            " public interface WeightedRoundRobinViewMBean {\n", 
+            "+\n", 
+            "     void changeWeight(int pos, int weight);\n", 
+            " \n", 
+            "-    int[] getWeights();\n", 
+            "+    int[] getCurrentWeights();\n", 
+            " }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinViewMBean.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinViewMBean.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-26,6 +26,8", 
+          "lines": [
+            " import org.apache.synapse.endpoints.Endpoint;\n", 
+            " \n", 
+            " import java.util.List;\n", 
+            "+import java.util.concurrent.locks.Lock;\n", 
+            "+import java.util.concurrent.locks.ReentrantLock;\n", 
+            " \n", 
+            " /**\n", 
+            "  * This is the implementation of the round robin load balancing algorithm. It simply iterates\n"
+          ]
+        }, 
+        {
+          "locn": "-42,6 +44,8", 
+          "lines": [
+            " \n", 
+            "     private List<Member> members;\n", 
+            " \n", 
+            "+    private final Lock lock = new ReentrantLock();\n", 
+            "+\n", 
+            "     public RoundRobin() {\n", 
+            " \n", 
+            "     }\n"
+          ]
+        }, 
+        {
+          "locn": "-100,27 +104,40", 
+          "lines": [
+            "         if (members.size() == 0) {\n", 
+            "             return null;\n", 
+            "         }\n", 
+            "-        Member current;\n", 
+            "-        synchronized (algorithmContext) {\n", 
+            "+        Member current = null;\n", 
+            "+        lock.lock();\n", 
+            "+        try {\n", 
+            "             int currentMemberIndex = algorithmContext.getCurrentEndpointIndex();\n", 
+            "             if (currentMemberIndex >= members.size()) {\n", 
+            "                 currentMemberIndex = 0;\n", 
+            "             }\n", 
+            "-            current = members.get(currentMemberIndex);\n", 
+            "-            if (currentMemberIndex == members.size() - 1) {\n", 
+            "-                currentMemberIndex = 0;\n", 
+            "-            } else {\n", 
+            "-                currentMemberIndex++;\n", 
+            "-            }\n", 
+            "+            int index = members.size();\n", 
+            "+            do {\n", 
+            "+                current = members.get(currentMemberIndex);\n", 
+            "+                if (currentMemberIndex == members.size() - 1) {\n", 
+            "+                    currentMemberIndex = 0;\n", 
+            "+                } else {\n", 
+            "+                    currentMemberIndex++;\n", 
+            "+                }\n", 
+            "+                index--;\n", 
+            "+            } while (current.isSuspended() && index > 0);\n", 
+            "             algorithmContext.setCurrentEndpointIndex(currentMemberIndex);\n", 
+            "             if (log.isDebugEnabled()) {\n", 
+            "                 log.debug(\"Members       : \" + members.size());\n", 
+            "                 log.debug(\"Current member: \" + current);\n", 
+            "             }\n", 
+            "+\n", 
+            "+        } finally {\n", 
+            "+            lock.unlock();\n", 
+            "         }\n", 
+            "         return current;\n", 
+            "     }\n", 
+            " \n", 
+            "+    @Override\n", 
+            "+    public LoadbalanceAlgorithm clone() {\n", 
+            "+        return new RoundRobin();\n", 
+            "+    }\n", 
+            "+\n", 
+            "     public void reset(AlgorithmContext algorithmContext) {\n", 
+            "         if (log.isDebugEnabled()) {\n", 
+            "             log.debug(\"Resetting the Round Robin loadbalancing algorithm ...\");\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/RoundRobin.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/RoundRobin.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-159,6 +159,10", 
+          "lines": [
+            "         return WeightedRoundRobin.class.getName();\n", 
+            "     }\n", 
+            " \n", 
+            "+    public LoadbalanceAlgorithm clone() {\n", 
+            "+        return null;\n", 
+            "+    }\n", 
+            "+\n", 
+            "     public void init(SynapseEnvironment se) {\n", 
+            "         if (endpoints == null) {\n", 
+            "             String msg = \"Endpoints are not set, cannot initialize the algorithm\";\n"
+          ]
+        }, 
+        {
+          "locn": "-346,7 +350,7", 
+          "lines": [
+            "         }\n", 
+            "     }\n", 
+            " \n", 
+            "-    public int[] getWeights() {\n", 
+            "+    public int[] getCurrentWeights() {\n", 
+            "         int weights[] = new int[endpointStates.length];\n", 
+            " \n", 
+            "         for (int i = 0; i < weights.length; i++) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobin.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobin.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-237,6 +237,10", 
+          "lines": [
+            "         return WeightedRRLCAlgorithm.class.getName();\n", 
+            "     }\n", 
+            " \n", 
+            "+    public LoadbalanceAlgorithm clone() {\n", 
+            "+        return null;\n", 
+            "+    }\n", 
+            "+\n", 
+            "     public int getEndpointCursor() {\n", 
+            "         return endpointCursor;\n", 
+            "     }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRRLCAlgorithm.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRRLCAlgorithm.java"
     }, 
     {
       "chunks": [
@@ -1067,651 +1676,6 @@
     {
       "chunks": [
         {
-          "locn": "-90,8 +90,11", 
-          "lines": [
-            "                 getEndpointTemplate(template);\n", 
-            " \n", 
-            "         if (endpointTemplate == null) {\n", 
-            "-            handleException(\"Template \" + template +\n", 
-            "+            //if template is not already available we will warn the user\n", 
-            "+            //thus template endpoint will get initialized at runtime\n", 
-            "+            log.warn(\"Template \" + template +\n", 
-            "                     \" cannot be found for the endpoint \" + getName());\n", 
-            "+            return;\n", 
-            "         }\n", 
-            " \n", 
-            "         reLoadAndInitEndpoint(synapseEnvironment);\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/TemplateEndpoint.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/TemplateEndpoint.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-223,7 +223,7", 
-          "lines": [
-            " \n", 
-            "         if (sessionID == null || \"\".equals(sessionID)) {\n", 
-            "             if (log.isDebugEnabled()) {\n", 
-            "-                log.debug(\"Cannot find session ID .Returing null\");\n", 
-            "+                log.debug(\"Cannot find session ID .Returning null\");\n", 
-            "             }\n", 
-            "             return null;\n", 
-            "         }\n"
-          ]
-        }, 
-        {
-          "locn": "-342,7 +342,9", 
-          "lines": [
-            "                 }\n", 
-            " \n", 
-            "                 if (!toBeRemoved.isEmpty()) {\n", 
-            "-                    log.info(\"Clearing expired sessions\");\n", 
-            "+                    if (log.isDebugEnabled()) {\n", 
-            "+                        log.debug(\"Clearing expired sessions\");\n", 
-            "+                    }\n", 
-            " \n", 
-            "                     for (String key : toBeRemoved) {\n", 
-            "                         Replicator.removeAndReplicateState(key, configCtx);\n"
-          ]
-        }, 
-        {
-          "locn": "-364,7 +366,9", 
-          "lines": [
-            "                 }\n", 
-            " \n", 
-            "                 if (!toBeRemoved.isEmpty()) {\n", 
-            "-                    log.info(\"Clearing expired sessions\");\n", 
-            "+                    if (log.isDebugEnabled()) {\n", 
-            "+                        log.debug(\"Clearing expired sessions\");\n", 
-            "+                    }\n", 
-            "                     establishedSessions.keySet().removeAll(toBeRemoved);\n", 
-            "                 }\n", 
-            "             }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/SALSessions.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/SALSessions.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-74,10 +74,17", 
-          "lines": [
-            "             Map headerMap = getTransportHeaderMap(synCtx);\n", 
-            " \n", 
-            "             if (headerMap != null) {\n", 
-            "+                Object hostObj = headerMap.get(\"Host\");\n", 
-            "+                if (log.isDebugEnabled()) {\n", 
-            "+                    log.debug(\"A request received with the Host Name : \" + hostObj);\n", 
-            "+                }\n", 
-            "                 Object cookieObj = headerMap.get(key);\n", 
-            " \n", 
-            "                 if (cookieObj instanceof String) {\n", 
-            "                     String cookie = (String) cookieObj;\n", 
-            "+                    if (log.isDebugEnabled()) {\n", 
-            "+                        log.debug(\"Cookies String : \" + cookie);\n", 
-            "+                    }\n", 
-            "                     \n", 
-            "                     // extract the first name value pair of the Set-Cookie header, which is considered\n", 
-            "                     // as the session id which will be sent back from the client with the Cookie header\n"
-          ]
-        }, 
-        {
-          "locn": "-93,8 +100,11", 
-          "lines": [
-            "                         return null;\n", 
-            "                     }\n", 
-            " \n", 
-            "-                    for(String sessionId : sessionIds){\n", 
-            "-                        if(sessionId != null && sessionId.indexOf(\"JSESSIONID\") != -1){\n", 
-            "+                    for (String sessionId : sessionIds){\n", 
-            "+                        if(sessionId != null && sessionId.indexOf(\"JSESSIONID\") != -1) {\n", 
-            "+                            if (log.isDebugEnabled()) {\n", 
-            "+                                log.debug(\"Extracted SessionID : \" + sessionId);\n", 
-            "+                            }\n", 
-            "                             return sessionId.trim();\n", 
-            "                         }\n", 
-            "                     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/AbstractDispatcher.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/AbstractDispatcher.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-19,9 +19,15", 
-          "lines": [
-            " \n", 
-            " package org.apache.synapse.endpoints.dispatch;\n", 
-            " \n", 
-            "+import org.apache.http.protocol.HTTP;\n", 
-            " import org.apache.synapse.MessageContext;\n", 
-            "+import org.apache.synapse.core.axis2.Axis2MessageContext;\n", 
-            " \n", 
-            "+import java.util.ArrayList;\n", 
-            "+import java.util.List;\n", 
-            "+import java.util.Map;\n", 
-            " \n", 
-            "+\n", 
-            " /**\n", 
-            "  * Dispatches sessions based on HTTP cookies. Session is initiated by the server in the first\n", 
-            "  * response when it sends \"Set-Cookie\" HTTP header with the session ID. For all successive messages\n"
-          ]
-        }, 
-        {
-          "locn": "-33,6 +39,7", 
-          "lines": [
-            "     /*HTTP Headers  */\n", 
-            "     private final static String COOKIE = \"Cookie\";\n", 
-            "     private final static String SET_COOKIE = \"Set-Cookie\";\n", 
-            "+    public static final String HOSTS = \"hosts\";\n", 
-            " \n", 
-            "     /**\n", 
-            "      * Check if \"Cookie\" HTTP header is available. If so, check if that cookie is in the session\n"
-          ]
-        }, 
-        {
-          "locn": "-43,7 +50,52", 
-          "lines": [
-            "      * @return Endpoint Server endpoint for the given HTTP session.\n", 
-            "      */\n", 
-            "     public SessionInformation getSession(MessageContext synCtx) {\n", 
-            "-        return SALSessions.getInstance().getSession(extractSessionID(synCtx, COOKIE));\n", 
-            "+        String hostName = extractHost(synCtx);\n", 
-            "+        if (log.isDebugEnabled()) {\n", 
-            "+            log.debug(\"Extracted Host Name : \" + hostName);\n", 
-            "+        }\n", 
-            "+\n", 
-            "+        // print TO\n", 
-            "+        org.apache.axis2.context.MessageContext axis2MessageContext =\n", 
-            "+                ((Axis2MessageContext) synCtx).getAxis2MessageContext();\n", 
-            "+        if (log.isDebugEnabled()) {\n", 
-            "+            log.debug(\"Endpoint Address : \" + axis2MessageContext.getTo().getAddress());\n", 
-            "+        }\n", 
-            "+\n", 
-            "+        Map headerMap = getTransportHeaderMap(synCtx);\n", 
-            "+        String contentType = (String)headerMap.get(\"Content-Type\");\n", 
-            "+        if (log.isDebugEnabled()) {\n", 
-            "+            log.debug(\"Content Type : \" + contentType);\n", 
-            "+        }\n", 
-            "+\n", 
-            "+        if (hostName == null) {\n", 
-            "+            return SALSessions.getInstance().getSession(extractSessionID(synCtx, COOKIE));\n", 
-            "+        } else {\n", 
-            "+            List<String> sessionList = extractSessionIDs(synCtx, COOKIE);\n", 
-            "+            if (sessionList != null) {\n", 
-            "+                for (String sessionID : sessionList) {\n", 
-            "+                    SessionInformation sessionInfoObj = SALSessions.getInstance().getSession(sessionID);\n", 
-            "+                    if (sessionInfoObj != null) {\n", 
-            "+                        Map<String, String> subDomainNames =\n", 
-            "+                                (Map<String, String>) sessionInfoObj.getMember().getProperties().get(HOSTS);\n", 
-            "+                        if (log.isDebugEnabled()) {\n", 
-            "+                            log.debug(\"Member Domain : \" + (subDomainNames != null ? subDomainNames.get(hostName) : null) +\n", 
-            "+                                      \" : Session ID \" + sessionID);\n", 
-            "+                        }\n", 
-            "+                        if (subDomainNames != null && subDomainNames.get(hostName) != null) {\n", 
-            "+                            if (log.isDebugEnabled()) {\n", 
-            "+                                log.debug(\"Found a matching sessionInfo Object for the \" + hostName);\n", 
-            "+                            }\n", 
-            "+                            return sessionInfoObj;\n", 
-            "+                        }\n", 
-            "+                    }\n", 
-            "+                }\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "+        if (log.isDebugEnabled()) {\n", 
-            "+            log.debug(\"Did not find a session info obj.\");\n", 
-            "+        }\n", 
-            "+        return null;\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }, 
-        {
-          "locn": "-86,4 +138,79", 
-          "lines": [
-            "     public void removeSessionID(MessageContext syCtx) {\n", 
-            "         removeSessionID(syCtx, COOKIE);\n", 
-            "     }\n", 
-            "+\n", 
-            "+    protected List<String> extractSessionIDs(MessageContext synCtx, String key) {\n", 
-            "+        List<String> sessionList = new ArrayList<String>();\n", 
-            "+        if (key != null) {\n", 
-            "+            Map headerMap = getTransportHeaderMap(synCtx);\n", 
-            "+            if (headerMap != null) {\n", 
-            "+                Object hostObj = headerMap.get(\"Host\");\n", 
-            "+                if (log.isDebugEnabled()) {\n", 
-            "+                    log.debug(\"A request received with the Host Name : \" + hostObj);\n", 
-            "+                }\n", 
-            "+                Object cookieObj = headerMap.get(key);\n", 
-            "+                if (cookieObj instanceof String) {\n", 
-            "+                    String cookie = (String) cookieObj;\n", 
-            "+                    if (log.isDebugEnabled()) {\n", 
-            "+                        log.debug(\"Cookies String : \" + cookie);\n", 
-            "+                    }\n", 
-            "+                    // extract the first name value pair of the Set-Cookie header, which is considered\n", 
-            "+                    // as the session id which will be sent back from the client with the Cookie header\n", 
-            "+                    // for example;\n", 
-            "+                    //      Set-Cookie: JSESSIONID=760764CB72E96A7221506823748CF2AE; Path=/\n", 
-            "+                    // will result in the session id \"JSESSIONID=760764CB72E96A7221506823748CF2AE\"\n", 
-            "+                    String[] sessionIds = cookie.split(\";\");\n", 
-            "+                    if (sessionIds == null || sessionIds.length == 0) {\n", 
-            "+                        if (log.isDebugEnabled()) {\n", 
-            "+                            log.debug(\"Cannot find a session id for the cookie : \" + cookie);\n", 
-            "+                        }\n", 
-            "+                        return null;\n", 
-            "+                    }\n", 
-            "+                    for(String sessionId : sessionIds){\n", 
-            "+                        if(sessionId != null && sessionId.contains(\"JSESSIONID\")) {\n", 
-            "+                            if (log.isDebugEnabled()) {\n", 
-            "+                                log.debug(\"Extracted SessionID : \" + sessionId);\n", 
-            "+                            }\n", 
-            "+                            sessionList.add(sessionId.trim());\n", 
-            "+                        }\n", 
-            "+                    }\n", 
-            "+                } else {\n", 
-            "+                    if (log.isDebugEnabled()) {\n", 
-            "+                        log.debug(\"Couldn't find the \" + key + \" header to find the session\");\n", 
-            "+                    }\n", 
-            "+                }\n", 
-            "+            } else {\n", 
-            "+                if (log.isDebugEnabled()) {\n", 
-            "+                    log.debug(\"Couldn't find the TRANSPORT_HEADERS to find the session\");\n", 
-            "+                }\n", 
-            "+\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "+        return sessionList;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    private String extractHost(MessageContext synCtx) {\n", 
-            "+        Map headerMap = getTransportHeaderMap(synCtx);\n", 
-            "+        String hostName = null;\n", 
-            "+        if (headerMap != null) {\n", 
-            "+            Object hostObj = headerMap.get(HTTP.TARGET_HOST);\n", 
-            "+            hostName = (String) hostObj;\n", 
-            "+            if (hostName.contains(\":\")) {\n", 
-            "+                hostName = hostName.substring(0, hostName.indexOf(\":\"));\n", 
-            "+            }\n", 
-            "+        }\n", 
-            "+        return hostName;\n", 
-            "+    }\n", 
-            "+\n", 
-            "+    private Map getTransportHeaderMap(MessageContext synCtx) {\n", 
-            "+\n", 
-            "+        org.apache.axis2.context.MessageContext axis2MessageContext =\n", 
-            "+                ((Axis2MessageContext) synCtx).getAxis2MessageContext();\n", 
-            "+\n", 
-            "+        Object o = axis2MessageContext.getProperty(org.apache.axis2.context.MessageContext.TRANSPORT_HEADERS);\n", 
-            "+        if (o != null && o instanceof Map) {\n", 
-            "+            return (Map) o;\n", 
-            "+        }\n", 
-            "+        return null;\n", 
-            "+    }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/HttpSessionDispatcher.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/dispatch/HttpSessionDispatcher.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-61,6 +61,7", 
-          "lines": [
-            " \t/**\n", 
-            " \t * Should this recipient list failover;\n", 
-            " \t */\n", 
-            "+    private boolean failover;\n", 
-            "     private int currentPool;\n", 
-            " \n", 
-            "     private SynapseEnvironment env = null;\n"
-          ]
-        }, 
-        {
-          "locn": "-319,6 +320,14", 
-          "lines": [
-            "         return currentPool;\n", 
-            "     }\n", 
-            " \n", 
-            "+    public boolean isFailover() {\n", 
-            "+\t\treturn failover;\n", 
-            "+\t}\n", 
-            "+\n", 
-            "+\tpublic void setFailover(boolean failover) {\n", 
-            "+\t\tthis.failover = failover;\n", 
-            "+\t}\n", 
-            "+\n", 
-            "     /**\n", 
-            "      * create a simple LRU cached Endpoint pool for dynamic endpoints\n", 
-            "      */\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/RecipientListEndpoint.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-0,0 +1,37", 
-          "lines": [
-            "+/*\n", 
-            "+*  Copyright (c) 2005-2011, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.\n", 
-            "+*\n", 
-            "+*  WSO2 Inc. licenses this file to you under the Apache License,\n", 
-            "+*  Version 2.0 (the \"License\"); you may not use this file except\n", 
-            "+*  in compliance with the License.\n", 
-            "+*  You may obtain a copy of the License at\n", 
-            "+*\n", 
-            "+*    http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+*\n", 
-            "+* Unless required by applicable law or agreed to in writing,\n", 
-            "+* software distributed under the License is distributed on an\n", 
-            "+* \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+* KIND, either express or implied.  See the License for the\n", 
-            "+* specific language governing permissions and limitations\n", 
-            "+* under the License.\n", 
-            "+*/\n", 
-            "+package org.apache.synapse.endpoints;\n", 
-            "+\n", 
-            "+import org.apache.axis2.addressing.EndpointReference;\n", 
-            "+import org.apache.axis2.clustering.Member;\n", 
-            "+import org.apache.axis2.clustering.management.GroupManagementAgent;\n", 
-            "+import org.apache.synapse.FaultHandler;\n", 
-            "+\n", 
-            "+/**\n", 
-            "+ * This FaultHandler will try to resend the message to another member if an error occurs\n", 
-            "+ * while sending to some member. This is a failover mechanism\n", 
-            "+ */\n", 
-            "+public abstract class DynamicLoadbalanceFaultHandler extends FaultHandler {\n", 
-            "+\n", 
-            "+    public abstract void setCurrentMember(Member currentMember);\n", 
-            "+\n", 
-            "+    public abstract void setCurrentEp(Endpoint currentEp);\n", 
-            "+\n", 
-            "+    public abstract void setTo(EndpointReference to);\n", 
-            "+\n", 
-            "+}\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/DynamicLoadbalanceFaultHandler.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/DynamicLoadbalanceFaultHandler.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-237,6 +237,10", 
-          "lines": [
-            "         return WeightedRRLCAlgorithm.class.getName();\n", 
-            "     }\n", 
-            " \n", 
-            "+    public LoadbalanceAlgorithm clone() {\n", 
-            "+        return null;\n", 
-            "+    }\n", 
-            "+\n", 
-            "     public int getEndpointCursor() {\n", 
-            "         return endpointCursor;\n", 
-            "     }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRRLCAlgorithm.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRRLCAlgorithm.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-94,19 +94,8", 
-          "lines": [
-            "      * @param currentEPR The current position\n", 
-            "      */\n", 
-            "     public void setCurrentEndpointIndex(int currentEPR) {\n", 
-            "-\n", 
-            "-        if (isClusteringEnabled) {\n", 
-            "-\n", 
-            "-            if (log.isDebugEnabled()) {\n", 
-            "-                log.debug(\"Set EPR with key : \" + CURRENT_EPR_PROP_KEY + \" as : \" + currentEPR);\n", 
-            "-            }\n", 
-            "-            Replicator.setAndReplicateState(CURRENT_EPR_PROP_KEY, currentEPR, cfgCtx);\n", 
-            "-        } else {\n", 
-            "-            if (log.isDebugEnabled()) {\n", 
-            "-                log.debug(\"Setting the current EPR as : \" + currentEPR);\n", 
-            "-            }\n", 
-            "-            this.currentEPR = currentEPR;\n", 
-            "-        }\n", 
-            "+        this.currentEPR = currentEPR;\n", 
-            "+        cfgCtx.setNonReplicableProperty(CURRENT_EPR_PROP_KEY, currentEPR);\n", 
-            "     }\n", 
-            " \n", 
-            "     /**\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/AlgorithmContext.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/AlgorithmContext.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-29,7 +29,7", 
-          "lines": [
-            "  * All load balance algorithms must implement this interface. Implementations of this interface can\n", 
-            "  * be registered in LoadbalanceManagers.\n", 
-            "  */\n", 
-            "-public interface LoadbalanceAlgorithm {\n", 
-            "+public interface LoadbalanceAlgorithm extends Cloneable {\n", 
-            " \n", 
-            "     /**\n", 
-            "      * Set the application members\n"
-          ]
-        }, 
-        {
-          "locn": "-84,4 +84,6", 
-          "lines": [
-            "      * @return the name of the algorithm implemented\n", 
-            "      */\n", 
-            "     public String getName();\n", 
-            "+\n", 
-            "+    public LoadbalanceAlgorithm clone();\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/LoadbalanceAlgorithm.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/LoadbalanceAlgorithm.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-30,7 +30,7", 
-          "lines": [
-            "         algorithm.changeWeight(pos, weight);\n", 
-            "     }\n", 
-            " \n", 
-            "-    public int[] getWeights() {\n", 
-            "-        return algorithm.getWeights();\n", 
-            "+    public int[] getCurrentWeights() {\n", 
-            "+        return algorithm.getCurrentWeights();\n", 
-            "     }\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinView.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinView.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-20,7 +20,8", 
-          "lines": [
-            " package org.apache.synapse.endpoints.algorithms;\n", 
-            " \n", 
-            " public interface WeightedRoundRobinViewMBean {\n", 
-            "+\n", 
-            "     void changeWeight(int pos, int weight);\n", 
-            " \n", 
-            "-    int[] getWeights();\n", 
-            "+    int[] getCurrentWeights();\n", 
-            " }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinViewMBean.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobinViewMBean.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-26,6 +26,8", 
-          "lines": [
-            " import org.apache.synapse.endpoints.Endpoint;\n", 
-            " \n", 
-            " import java.util.List;\n", 
-            "+import java.util.concurrent.locks.Lock;\n", 
-            "+import java.util.concurrent.locks.ReentrantLock;\n", 
-            " \n", 
-            " /**\n", 
-            "  * This is the implementation of the round robin load balancing algorithm. It simply iterates\n"
-          ]
-        }, 
-        {
-          "locn": "-42,6 +44,8", 
-          "lines": [
-            " \n", 
-            "     private List<Member> members;\n", 
-            " \n", 
-            "+    private final Lock lock = new ReentrantLock();\n", 
-            "+\n", 
-            "     public RoundRobin() {\n", 
-            " \n", 
-            "     }\n"
-          ]
-        }, 
-        {
-          "locn": "-100,27 +104,40", 
-          "lines": [
-            "         if (members.size() == 0) {\n", 
-            "             return null;\n", 
-            "         }\n", 
-            "-        Member current;\n", 
-            "-        synchronized (algorithmContext) {\n", 
-            "+        Member current = null;\n", 
-            "+        lock.lock();\n", 
-            "+        try {\n", 
-            "             int currentMemberIndex = algorithmContext.getCurrentEndpointIndex();\n", 
-            "             if (currentMemberIndex >= members.size()) {\n", 
-            "                 currentMemberIndex = 0;\n", 
-            "             }\n", 
-            "-            current = members.get(currentMemberIndex);\n", 
-            "-            if (currentMemberIndex == members.size() - 1) {\n", 
-            "-                currentMemberIndex = 0;\n", 
-            "-            } else {\n", 
-            "-                currentMemberIndex++;\n", 
-            "-            }\n", 
-            "+            int index = members.size();\n", 
-            "+            do {\n", 
-            "+                current = members.get(currentMemberIndex);\n", 
-            "+                if (currentMemberIndex == members.size() - 1) {\n", 
-            "+                    currentMemberIndex = 0;\n", 
-            "+                } else {\n", 
-            "+                    currentMemberIndex++;\n", 
-            "+                }\n", 
-            "+                index--;\n", 
-            "+            } while (current.isSuspended() && index > 0);\n", 
-            "             algorithmContext.setCurrentEndpointIndex(currentMemberIndex);\n", 
-            "             if (log.isDebugEnabled()) {\n", 
-            "                 log.debug(\"Members       : \" + members.size());\n", 
-            "                 log.debug(\"Current member: \" + current);\n", 
-            "             }\n", 
-            "+\n", 
-            "+        } finally {\n", 
-            "+            lock.unlock();\n", 
-            "         }\n", 
-            "         return current;\n", 
-            "     }\n", 
-            " \n", 
-            "+    @Override\n", 
-            "+    public LoadbalanceAlgorithm clone() {\n", 
-            "+        return new RoundRobin();\n", 
-            "+    }\n", 
-            "+\n", 
-            "     public void reset(AlgorithmContext algorithmContext) {\n", 
-            "         if (log.isDebugEnabled()) {\n", 
-            "             log.debug(\"Resetting the Round Robin loadbalancing algorithm ...\");\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/RoundRobin.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/RoundRobin.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-159,6 +159,10", 
-          "lines": [
-            "         return WeightedRoundRobin.class.getName();\n", 
-            "     }\n", 
-            " \n", 
-            "+    public LoadbalanceAlgorithm clone() {\n", 
-            "+        return null;\n", 
-            "+    }\n", 
-            "+\n", 
-            "     public void init(SynapseEnvironment se) {\n", 
-            "         if (endpoints == null) {\n", 
-            "             String msg = \"Endpoints are not set, cannot initialize the algorithm\";\n"
-          ]
-        }, 
-        {
-          "locn": "-346,7 +350,7", 
-          "lines": [
-            "         }\n", 
-            "     }\n", 
-            " \n", 
-            "-    public int[] getWeights() {\n", 
-            "+    public int[] getCurrentWeights() {\n", 
-            "         int weights[] = new int[endpointStates.length];\n", 
-            " \n", 
-            "         for (int i = 0; i < weights.length; i++) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobin.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/endpoints/algorithms/WeightedRoundRobin.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-704,7 +704,8", 
-          "lines": [
-            "                 }\r\n", 
-            "             } catch (SynapseException e) {\r\n", 
-            "                 if (failSafeProxyEnabled) {\r\n", 
-            "-                    log.warn(\"The proxy service \" + proxy.getName() + \" cannot be deployed. Continue in Proxy Service fail-safe mode.\");\r\n", 
-            "+                    log.warn(\"The proxy service \" + proxy.getName() + \" cannot be deployed - \" +\r\n", 
-            "+                            \"Continue in Proxy Service fail-safe mode.\");\r\n", 
-            "                 } else {\r\n", 
-            "                     handleException(\"The proxy service \" + proxy.getName() + \" : Deployment Error\");\r\n", 
-            "                 }\r\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/Axis2SynapseController.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-842,7 +842,7", 
           "lines": [
             "         String failSafeStr = synapseProps.getProperty(SynapseConstants.FAIL_SAFE_MODE_STATUS);\n", 
@@ -1817,21 +1781,176 @@
     {
       "chunks": [
         {
-          "locn": "-75,7 +75,7", 
+          "locn": "-0,0 +1,29", 
           "lines": [
-            "      * Note that the default namespace is explicitly excluded and not added to the\n", 
-            "      * namespace context. This implies that XPath expressions\n", 
-            "      * appearing in Synapse configuration files follow the same rule as in XSL\n", 
-            "-     * stylesheets. Indeed, the XSLT specification defines the namespace context of\n", 
-            "+     * style sheets. Indeed, the XSLT specification defines the namespace context of\n", 
-            "      * an XPath expression as follows:\n", 
-            "      * <blockquote>\n", 
-            "      * the set of namespace declarations are those in scope on the element which has the\n"
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            "+package org.apache.synapse.config.xml;\n", 
+            "+\n", 
+            "+import org.apache.axiom.om.OMElement;\n", 
+            "+import org.apache.synapse.config.Entry;\n", 
+            "+\n", 
+            "+public interface IEntryFactory {\n", 
+            "+\n", 
+            "+    public Entry createEntry(OMElement elem);\n", 
+            "+\n", 
+            "+}\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/OMElementUtils.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/OMElementUtils.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntryFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntryFactory.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-0,0 +1,29", 
+          "lines": [
+            "+/*\n", 
+            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
+            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
+            "+ *  distributed with this work for additional information\n", 
+            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
+            "+ *  to you under the Apache License, Version 2.0 (the\n", 
+            "+ *  \"License\"); you may not use this file except in compliance\n", 
+            "+ *  with the License.  You may obtain a copy of the License at\n", 
+            "+ *\n", 
+            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
+            "+ *\n", 
+            "+ *  Unless required by applicable law or agreed to in writing,\n", 
+            "+ *  software distributed under the License is distributed on an\n", 
+            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
+            "+ *  KIND, either express or implied.  See the License for the\n", 
+            "+ *  specific language governing permissions and limitations\n", 
+            "+ *  under the License.\n", 
+            "+ */\n", 
+            "+\n", 
+            "+package org.apache.synapse.config.xml;\n", 
+            "+\n", 
+            "+import org.apache.axiom.om.OMElement;\n", 
+            "+import org.apache.synapse.config.Entry;\n", 
+            "+\n", 
+            "+public interface IEntrySerializer {\n", 
+            "+\n", 
+            "+    public OMElement serializeEntry(Entry entry, OMElement parent);\n", 
+            "+\n", 
+            "+}\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntrySerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntrySerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-298,7 +298,6", 
+          "lines": [
+            "                         synapseConfig.getArtifactDeploymentStore().addArtifact(\n", 
+            "                                 file.getAbsolutePath(), mediator.getName());\n", 
+            "                     }\n", 
+            "-                    return;\n", 
+            " \n", 
+            "                 } else {\n", 
+            "                     element = document.getFirstChildWithName(\n"
+          ]
+        }, 
+        {
+          "locn": "-312,7 +311,6", 
+          "lines": [
+            "                             synapseConfig.getArtifactDeploymentStore().addArtifact(\n", 
+            "                                     file.getAbsolutePath(), endpointTemplate.getName());\n", 
+            "                         }\n", 
+            "-                        return;\n", 
+            "                     }\n", 
+            "                 }\n", 
+            "             }\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-21,6 +21,7", 
+          "lines": [
+            " \n", 
+            " import org.apache.synapse.SynapseConstants;\n", 
+            " import org.apache.synapse.config.SynapseConfigUtils;\n", 
+            "+import org.apache.synapse.config.SynapsePropertiesLoader;\n", 
+            " import org.apache.synapse.config.XMLToObjectMapper;\n", 
+            " import org.apache.synapse.config.Entry;\n", 
+            " import org.apache.synapse.SynapseException;\n"
+          ]
+        }, 
+        {
+          "locn": "-47,6 +48,25", 
+          "lines": [
+            "             = new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
+            " \n", 
+            "     public static Entry createEntry(OMElement elem, Properties properties) {\n", 
+            "+        String customFactory = SynapsePropertiesLoader.getPropertyValue(\"synapse.entry.factory\", \"\");\n", 
+            "+        if (customFactory != null && !\"\".equals(customFactory)) {\n", 
+            "+            try {\n", 
+            "+                Class c = Class.forName(customFactory);\n", 
+            "+                Object o = c.newInstance();\n", 
+            "+                if (o instanceof IEntryFactory) {\n", 
+            "+                    return ((IEntryFactory)o).createEntry(elem);\n", 
+            "+                }\n", 
+            "+            } catch (ClassNotFoundException e) {\n", 
+            "+                 handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property not found: \" + customFactory, e);\n", 
+            "+            } catch (InstantiationException e) {\n", 
+            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property cannot be instantiated: \" + customFactory, e);\n", 
+            "+            } catch (IllegalAccessException e) {\n", 
+            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property cannot be accessed: \" + customFactory, e);\n", 
+            "+            }\n", 
+            "+        }\n", 
+            " \n", 
+            "         OMAttribute key = elem.getAttribute(new QName(XMLConfigConstants.NULL_NAMESPACE, \"key\"));\n", 
+            "         if (key == null) {\n"
+          ]
+        }, 
+        {
+          "locn": "-95,6 +115,11", 
+          "lines": [
+            "         }\n", 
+            "     }\n", 
+            " \n", 
+            "+    private static void handleException(String msg, Exception e) {\n", 
+            "+        log.error(msg, e);\n", 
+            "+        throw new SynapseException(msg, e);\n", 
+            "+    }\n", 
+            "+\n", 
+            "     private static void handleException(String msg) {\n", 
+            "         log.error(msg);\n", 
+            "         throw new SynapseException(msg);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntryFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntryFactory.java"
     }, 
     {
       "chunks": [
@@ -1855,36 +1974,128 @@
     {
       "chunks": [
         {
-          "locn": "-44,9 +44,6", 
+          "locn": "-24,8 +24,6", 
           "lines": [
-            "         OMElement endpointElement\n", 
-            "                 = fac.createOMElement(\"endpoint\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
+            " import org.apache.synapse.Mediator;\n", 
+            " import org.apache.synapse.mediators.store.MessageStoreMediator;\n", 
             " \n", 
-            "-        // serialize the parameters\n", 
-            "-        serializeProperties(failoverEndpoint, endpointElement);\n", 
+            "-import javax.xml.namespace.QName;\n", 
             "-\n", 
-            "         OMElement failoverElement\n", 
-            "                 = fac.createOMElement(\"failover\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
-            "         endpointElement.addChild(failoverElement);\n"
+            " /**\n", 
+            "  * Serialize  an instance of a MessageStore mediator to the XML configuration .\n", 
+            "  * <pre>\n"
           ]
         }, 
         {
-          "locn": "-61,6 +58,9", 
+          "locn": "-35,7 +33,6", 
           "lines": [
-            "             failoverElement.addAttribute(\"dynamic\", \"false\", null);\n", 
-            "         }\n", 
+            "  */\n", 
+            " public class MessageStoreMediatorSerializer extends AbstractMediatorSerializer {\n", 
             " \n", 
-            "+        // serialize the parameters\n", 
-            "+        serializeProperties(failoverEndpoint, endpointElement);\n", 
+            "-    private static final QName STORE_Q    = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"store\");\n", 
+            "     private static final String  ATT_MESSAGE_STORE   = \"messageStore\";\n", 
+            "     private static final String  ATT_SEQUENCE   = \"sequence\";\n", 
+            " \n"
+          ]
+        }, 
+        {
+          "locn": "-51,7 +48,7", 
+          "lines": [
+            " \n", 
+            "         String messageStoreName = messageStoreMediator.getMessageStoreName();\n", 
+            " \n", 
+            "-        OMElement storeElem = fac.createOMElement(STORE_Q);\n", 
+            "+        OMElement storeElem = fac.createOMElement(\"store\", synNS);\n", 
+            " \n", 
+            "         String name = messageStoreMediator.getName();\n", 
+            " \n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageStoreMediatorSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageStoreMediatorSerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-28,6 +28,7", 
+          "lines": [
+            " import org.apache.synapse.config.Entry;\n", 
+            " import org.apache.synapse.SynapseException;\n", 
+            " import org.apache.synapse.SynapseConstants;\n", 
+            "+import org.apache.synapse.config.SynapsePropertiesLoader;\n", 
+            " \n", 
+            " import javax.xml.namespace.QName;\n", 
+            " import javax.xml.stream.XMLStreamConstants;\n"
+          ]
+        }, 
+        {
+          "locn": "-53,6 +54,26", 
+          "lines": [
+            "      */\n", 
+            "     public static OMElement serializeEntry(Entry entry, OMElement parent) {\n", 
+            " \n", 
+            "+        String customFactory = SynapsePropertiesLoader.getPropertyValue(\"synapse.entry.serializer\", \"\");\n", 
+            "+        if (customFactory != null && !\"\".equals(customFactory)) {\n", 
+            "+            try {\n", 
+            "+                Class c = Class.forName(customFactory);\n", 
+            "+                Object o = c.newInstance();\n", 
+            "+                if (o instanceof IEntrySerializer) {\n", 
+            "+                    return ((IEntrySerializer) o).serializeEntry(entry, parent);\n", 
+            "+                }\n", 
+            "+            } catch (ClassNotFoundException e) {\n", 
+            "+                 handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property not found: \" + customFactory, e);\n", 
+            "+            } catch (InstantiationException e) {\n", 
+            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property cannot be instantiated: \" + customFactory, e);\n", 
+            "+            } catch (IllegalAccessException e) {\n", 
+            "+                handleException(\"Class specified by the synapse.entry.factory \" +\n", 
+            "+                         \"synapse property cannot be accessed: \" + customFactory, e);\n", 
+            "+            }\n", 
+            "+        }\n", 
             "+\n", 
-            "         return endpointElement;\n", 
+            "         OMElement entryElement = fac.createOMElement(\"localEntry\", synNS);\n", 
+            "         \n", 
+            "         if (entry.getDescription() != null) {\n"
+          ]
+        }, 
+        {
+          "locn": "-100,4 +121,9", 
+          "lines": [
+            "         log.error(msg);\n", 
+            "         throw new SynapseException(msg);\n", 
             "     }\n", 
+            "+\n", 
+            "+    private static void handleException(String msg, Exception e) {\n", 
+            "+        log.error(msg, e);\n", 
+            "+        throw new SynapseException(msg, e);\n", 
+            "+    }\n", 
             " }\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/FailoverEndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/FailoverEndpointSerializer.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntrySerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/EntrySerializer.java"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-90,7 +90,7", 
+          "lines": [
+            "             assert processor != null;\n", 
+            "             processor.setMessageStoreName(storeAtt.getAttributeValue());\n", 
+            "         } else {\n", 
+            "-            handleException(\"Can't create message processor with out a message processor\");\n", 
+            "+            handleException(\"Can't create message processor without a message store\");\n", 
+            "         }\n", 
+            " \n", 
+            "         OMElement descriptionElem = elem.getFirstChildWithName(DESCRIPTION_Q);\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageProcessorFactory.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageProcessorFactory.java"
     }, 
     {
       "chunks": [
@@ -1947,53 +2158,44 @@
     {
       "chunks": [
         {
-          "locn": "-64,7 +64,7", 
+          "locn": "-28,12 +28,9", 
           "lines": [
-            "     public static final QName ON_FAULT_Q = new QName(XMLConfigConstants.NULL_NAMESPACE, \"onError\");\n", 
+            " import org.apache.synapse.endpoints.RecipientListEndpoint;\n", 
             " \n", 
-            "     private static final QName DESCRIPTION_Q\n", 
-            "-            = new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
-            "+            = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"description\");\n", 
-            " \n", 
-            "     /**\n", 
-            "      * Core method which is exposed for the external use, and this will find the proper\n"
+            " /**\n", 
+            "- * @author nuwan\n", 
+            "- * \n", 
+            "- * erializes {@link RecipientListEndpoint} to an XML configuration.\n", 
+            "+ * Serializes {@link RecipientListEndpoint} to an XML configuration.\n", 
+            "  *\n", 
+            "  * @see RecipientListEndpointFactory\n", 
+            "- *\n", 
+            "  */\n", 
+            " public class RecipientListEndpointSerializer extends EndpointSerializer {\n", 
+            " \n"
           ]
         }, 
         {
-          "locn": "-83,7 +83,7", 
+          "locn": "-80,9 +77,10", 
           "lines": [
-            "     /**\n", 
-            "      * Core method which is exposed for the external use, and this will find the proper\n", 
-            "      * {@link EndpointFactory} and create the endpoint which is of the format {@link Endpoint}.However\n", 
-            "-     * defintion for this endpoint will be built using a custom Endpoint Defn factory.\n", 
-            "+     * definition for this endpoint will be built using a custom Endpoint Defn factory.\n", 
-            "      *\n", 
-            "      * @param elem        XML from which the endpoint will be built\n", 
-            "      * @param factory    custom definition factory which this endpoint will be used to build\n"
+            "         }else{\n", 
+            "             OMElement dynamicEpEle = fac.createOMElement(\n", 
+            "                     \"endpoints\", SynapseConstants.SYNAPSE_OMNAMESPACE, recipientListElement);\n", 
+            "-            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(), \"value\", dynamicEpEle);\n", 
+            "-            dynamicEpEle.addAttribute(fac.createOMAttribute(\"cache\", null,\n", 
+            "-                                                            String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n", 
+            "+            new ValueSerializer().serializeValue(recipientListEndpoint.getDynamicEnpointSet(),\n", 
+            "+                    \"value\", dynamicEpEle);\n", 
+            "+            dynamicEpEle.addAttribute(fac.createOMAttribute(\"max-cache\", null,\n", 
+            "+                    String.valueOf(recipientListEndpoint.getCurrentPoolSize())));\n", 
+            "             recipientListElement.addChild(dynamicEpEle);\n", 
+            "         }\n", 
+            " \n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-95,7 +95,7", 
-          "lines": [
-            "     private OMElement getSerializedDescription(Endpoint endpoint) {\n", 
-            " \n", 
-            "         OMElement descriptionElem = fac.createOMElement(\n", 
-            "-                new QName(SynapseConstants.SYNAPSE_NAMESPACE, \"description\"));\n", 
-            "+                \"description\", SynapseConstants.SYNAPSE_OMNAMESPACE);\n", 
-            " \n", 
-            "         if (endpoint.getDescription() != null) {\n", 
-            "             descriptionElem.setText(endpoint.getDescription());\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/EndpointSerializer.java"
+      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java", 
+      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/endpoints/RecipientListEndpointSerializer.java"
     }, 
     {
       "chunks": [
@@ -2052,161 +2254,6 @@
     {
       "chunks": [
         {
-          "locn": "-298,7 +298,6", 
-          "lines": [
-            "                         synapseConfig.getArtifactDeploymentStore().addArtifact(\n", 
-            "                                 file.getAbsolutePath(), mediator.getName());\n", 
-            "                     }\n", 
-            "-                    return;\n", 
-            " \n", 
-            "                 } else {\n", 
-            "                     element = document.getFirstChildWithName(\n"
-          ]
-        }, 
-        {
-          "locn": "-312,7 +311,6", 
-          "lines": [
-            "                             synapseConfig.getArtifactDeploymentStore().addArtifact(\n", 
-            "                                     file.getAbsolutePath(), endpointTemplate.getName());\n", 
-            "                         }\n", 
-            "-                        return;\n", 
-            "                     }\n", 
-            "                 }\n", 
-            "             }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationBuilder.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-148,6 +148,10", 
-          "lines": [
-            " \n", 
-            "     private boolean isWritable(File file) {\n", 
-            "         if (file.isDirectory()) {\n", 
-            "+            if (file.getName().startsWith(\".\") || file.isHidden()) {\n", 
-            "+                return true;\n", 
-            "+            }\n", 
-            "+\n", 
-            "             File[] children = file.listFiles();\n", 
-            "             for (File child : children) {\n", 
-            "                 if (!isWritable(child)) {\n"
-          ]
-        }, 
-        {
-          "locn": "-301,8 +305,8", 
-          "lines": [
-            "             }\n", 
-            "         }\n", 
-            " \n", 
-            "-        for(MessageProcessor messageProcessor : messageProcessors) {\n", 
-            "-            if(messageProcessor.getFileName() == null) {\n", 
-            "+        for (MessageProcessor messageProcessor : messageProcessors) {\n", 
-            "+            if (messageProcessor.getFileName() == null) {\n", 
-            "                 MessageProcessorSerializer.serializeMessageProcessor(definitions,messageProcessor);\n", 
-            "             }\n", 
-            "         }\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MultiXMLConfigurationSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-178,7 +178,7", 
-          "lines": [
-            "                     }\r\n", 
-            "                 }\r\n", 
-            "             } catch (Exception e) {\r\n", 
-            "-                String msg = \"Sequence configuration : \" + name + \" cannot be built\";\r\n", 
-            "+                String msg = \"Sequence configuration: \" + name + \" cannot be built\";\r\n", 
-            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_SEQUENCES, msg, e);\r\n", 
-            "             }\r\n", 
-            "             return mediator;\r\n"
-          ]
-        }, 
-        {
-          "locn": "-201,7 +201,7", 
-          "lines": [
-            "                     config.addSequenceTemplate(name, (TemplateMediator) mediator) ;\r\n", 
-            "                 }\r\n", 
-            "             } catch (Exception e) {\r\n", 
-            "-                String msg = \"Template configuration : \" + name + \" cannot be built\";\r\n", 
-            "+                String msg = \"Template configuration: \" + name + \" cannot be built\";\r\n", 
-            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_TEMPLATES, msg, e);\r\n", 
-            "             }\r\n", 
-            "             return mediator;\r\n"
-          ]
-        }, 
-        {
-          "locn": "-224,7 +224,7", 
-          "lines": [
-            "                     config.addEndpoint(name.trim(), endpoint);\r\n", 
-            "                 }\r\n", 
-            "             } catch (Exception e) {\r\n", 
-            "-                String msg = \"Endpoint configuration : \" + name + \" cannot be built\";\r\n", 
-            "+                String msg = \"Endpoint configuration: \" + name + \" cannot be built\";\r\n", 
-            "                 handleConfigurationError(SynapseConstants.FAIL_SAFE_MODE_EP, msg, e);\r\n", 
-            "             }\r\n", 
-            "             return endpoint;\r\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/SynapseXMLConfigurationFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-24,8 +24,6", 
-          "lines": [
-            " import org.apache.synapse.Mediator;\n", 
-            " import org.apache.synapse.mediators.store.MessageStoreMediator;\n", 
-            " \n", 
-            "-import javax.xml.namespace.QName;\n", 
-            "-\n", 
-            " /**\n", 
-            "  * Serialize  an instance of a MessageStore mediator to the XML configuration .\n", 
-            "  * <pre>\n"
-          ]
-        }, 
-        {
-          "locn": "-35,7 +33,6", 
-          "lines": [
-            "  */\n", 
-            " public class MessageStoreMediatorSerializer extends AbstractMediatorSerializer {\n", 
-            " \n", 
-            "-    private static final QName STORE_Q    = new QName(XMLConfigConstants.SYNAPSE_NAMESPACE, \"store\");\n", 
-            "     private static final String  ATT_MESSAGE_STORE   = \"messageStore\";\n", 
-            "     private static final String  ATT_SEQUENCE   = \"sequence\";\n", 
-            " \n"
-          ]
-        }, 
-        {
-          "locn": "-51,7 +48,7", 
-          "lines": [
-            " \n", 
-            "         String messageStoreName = messageStoreMediator.getMessageStoreName();\n", 
-            " \n", 
-            "-        OMElement storeElem = fac.createOMElement(STORE_Q);\n", 
-            "+        OMElement storeElem = fac.createOMElement(\"store\", synNS);\n", 
-            " \n", 
-            "         String name = messageStoreMediator.getName();\n", 
-            " \n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageStoreMediatorSerializer.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/MessageStoreMediatorSerializer.java"
-    }, 
-    {
-      "chunks": [
-        {
           "locn": "-218,7 +218,7", 
           "lines": [
             "             }\n", 
@@ -2226,65 +2273,19 @@
     {
       "chunks": [
         {
-          "locn": "-0,0 +1,29", 
+          "locn": "-144,4 +144,6", 
           "lines": [
-            "+/*\n", 
-            "+ *  Licensed to the Apache Software Foundation (ASF) under one\n", 
-            "+ *  or more contributor license agreements.  See the NOTICE file\n", 
-            "+ *  distributed with this work for additional information\n", 
-            "+ *  regarding copyright ownership.  The ASF licenses this file\n", 
-            "+ *  to you under the Apache License, Version 2.0 (the\n", 
-            "+ *  \"License\"); you may not use this file except in compliance\n", 
-            "+ *  with the License.  You may obtain a copy of the License at\n", 
-            "+ *\n", 
-            "+ *   http://www.apache.org/licenses/LICENSE-2.0\n", 
-            "+ *\n", 
-            "+ *  Unless required by applicable law or agreed to in writing,\n", 
-            "+ *  software distributed under the License is distributed on an\n", 
-            "+ *   * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n", 
-            "+ *  KIND, either express or implied.  See the License for the\n", 
-            "+ *  specific language governing permissions and limitations\n", 
-            "+ *  under the License.\n", 
-            "+ */\n", 
+            "     public static final String FORCE_CONNECTION_CLOSE = \"FORCE_CONNECTION_CLOSE\";\n", 
+            "     public static final String PORT_OFFSET = \"portOffset\";\n", 
+            "     public static final String ENDPOINTS_CONFIGURATION = \"endpointsConfiguration\";\n", 
             "+\n", 
-            "+package org.apache.synapse.config.xml;\n", 
-            "+\n", 
-            "+import org.apache.axiom.om.OMElement;\n", 
-            "+import org.apache.synapse.config.Entry;\n", 
-            "+\n", 
-            "+public interface IEntryFactory {\n", 
-            "+\n", 
-            "+    public Entry createEntry(OMElement elem);\n", 
-            "+\n", 
-            "+}\n"
+            "+    public static final String HEADER_X_FORWARDED_FOR = \"X-Forwarded-For\";\n", 
+            " }\n"
           ]
         }
       ], 
-      "to": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntryFactory.java", 
-      "from": "java/modules/core/src/main/java/org/apache/synapse/config/xml/IEntryFactory.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-196,6 +196,12", 
-          "lines": [
-            "             <scope>test</scope>\n", 
-            "         </dependency>\n", 
-            "         <dependency>\n", 
-            "+            <groupId>org.apache.commons</groupId>\n", 
-            "+            <artifactId>commons-vfs</artifactId>\n", 
-            "+            <version>${commons.vfs.version}</version>\n", 
-            "+            <scope>test</scope>\n", 
-            "+        </dependency>\n", 
-            "+        <dependency>\n", 
-            "             <groupId>org.apache.synapse</groupId>\n", 
-            "             <artifactId>synapse-vfs-transport</artifactId>\n", 
-            "             <scope>test</scope>\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/core/pom.xml", 
-      "from": "java/modules/core/pom.xml"
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/nhttp/NhttpConstants.java"
     }
   ], 
   "id": "1210456"

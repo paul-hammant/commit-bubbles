@@ -1,5 +1,6 @@
 {
   "when": "2011-12-16T04:43:06-05:00", 
+  "message": "Updating new documentation - Thanks Dushan for helping me out with these edits", 
   "who": "hiranya", 
   "changes": [
     {
@@ -97,132 +98,99 @@
     {
       "chunks": [
         {
-          "locn": "-83,6 +83,11", 
+          "locn": "-79,8 +79,7", 
           "lines": [
-            "             <subsection name=\"Pre-requisites\">\n", 
-            "                 <p>\n", 
-            "                     <ul>\n", 
-            "+                         <li>\n", 
-            "+                           This sample uses Ruby so first setup support for this in Synapse as described at\n", 
-            "+\t\t\t\t\t\t\t<a href=\"setup/script.html#ruby\">Configuring JRuby</a>\n", 
-            "+\t\t\t\t\t\t\t<br />\n", 
-            "+                        </li>\n", 
+            "                             more details).\n", 
+            "                         </li>\n", 
             "                         <li>\n", 
-            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
-            "                         </li>\n"
+            "-                            Enable the mail transport sender for Synapse (refer Mail transport setup\n", 
+            "-                            guide for more details).\n", 
+            "+                            Enable the mail transport sender for Synapse (refer <a href=\"setup/mail.html#mailTransportSender\"> Mail transport setup</a> guide for more details).\n", 
+            "                         </li>\n", 
+            "                         <li>\n", 
+            "                             Create a new test directory in the FTP site.\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample353.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample353.xml"
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample255.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample255.xml"
     }, 
     {
       "chunks": [
         {
-          "locn": "-71,6 +71,11", 
+          "locn": "-85,7 +85,7", 
           "lines": [
-            "             <subsection name=\"Pre-requisites\">\n", 
-            "                 <p>\n", 
-            "                     <ul>\n", 
-            "+                     \t<li>\n", 
-            "+                           This sample uses Ruby so first setup support for this in Synapse as described at\n", 
-            "+\t\t\t\t\t\t\t<a href=\"setup/script.html#ruby\">Configuring JRuby</a>\n", 
-            "+\t\t\t\t\t\t\t<br />\n", 
-            "+                        </li>\n", 
+            "                         </li>\n", 
             "                         <li>\n", 
-            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
-            "                         </li>\n"
+            "                             Enable the mail transport listener and mail transport sender for Synapse\n", 
+            "-                            (refer mail transport setup guide for more details)\n", 
+            "+                            (refer  <a href=\"setup/mail.html#mailTransportSender\"> Mail transport setup</a> guide for more details)\n", 
+            "                         </li>\n", 
+            "                         <li>\n", 
+            "                             Start Synapse using the configuration numbered 256 (repository/conf/sample/synapse_sample_256.xml)\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample354.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample354.xml"
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample256.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample256.xml"
     }, 
     {
       "chunks": [
         {
           "locn": "-23,7 +23,7", 
           "lines": [
-            "         <title>Apache Synapse - Sample 440</title>\n", 
+            "         <title>Apache Synapse - Sample 652</title>\n", 
             "     </properties>\n", 
             "     <body>\n", 
-            "-        <section name=\"Sample 440: \">\n", 
-            "+        <section name=\"Sample 440: Exposing a SOAP service over JSON\">\n", 
+            "-        <section name=\"Sample 652: \">\n", 
+            "+        <section name=\"Sample 652: Distributed transaction management\">\n", 
             "             <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
             " \n", 
-            "     &lt;proxy name=\"JSONProxy\" transports=\"http https\"&gt;\n"
+            " &lt;sequence name=\"myFaultHandler\"&gt;\n"
           ]
         }, 
         {
-          "locn": "-73,7 +73,7", 
+          "locn": "-91,7 +91,7", 
           "lines": [
             " &lt;/definitions&gt;</div>\n", 
             "             <subsection name=\"Objective\">\n", 
             "                 <p>\n", 
             "-\n", 
-            "+ \t\t\t\t\tDemonstrate the ability to switch between JSON and XML/SOAP content interchange formats\n", 
+            "+\t\t\t\t\tDemonstrate the use of the transaction mediator in a distributed transaction\n", 
             "                 </p>\n", 
             "             </subsection>\n", 
             "             <subsection name=\"Pre-requisites\">\n"
           ]
         }, 
         {
-          "locn": "-80,6 +80,9", 
+          "locn": "-98,7 +98,20", 
           "lines": [
             "                 <p>\n", 
             "                     <ul>\n", 
             "                         <li>\n", 
-            "+                            Setup Synapse and the sample Axis2 client for JSON  (Refer  Synapse <a href=\"setup/script.html#json\">Samples Setup Guide</a> for details) \n", 
-            "+                        </li>\n", 
-            "+                        <li>\n", 
-            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "-                            Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "+                              Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "+                              <p>To run this sample it is required to deploy synpase on JBoss application server(This is only tested with JBoss application sever), you \n", 
+            "+                              can use the war distribution to deploy synapse on JBoss application server. Use the synpase_sample_652.xml as the synapse confiuration \n", 
+            "+                              file and start JBoss with that synpase configuration file. Also you need to define two XA datasources for above two datasources. \n", 
+            "+                              You'll need to refer JBoss documentation to see how to do this.</p>\n", 
+            "+                              <p>\n", 
+            "+                                It also required to have two database instances, this will be used by the two XA datasources. \n", 
+            "+                                Refer the <a href=\"setup/db.html#derby\">Sample Setup Guide </a> to see how you can set up the derby database server.\n", 
+            "+                              </p>\n", 
+            "+                              <p>\n", 
+            "+                                In this sample a record is delete from one database and it is added into the second database. \n", 
+            "+                                If either of the operations(deleting from the 1st database and adding into the second database)\n", 
+            "+                                fails everything will be roll backed. The records will be untoched.\n", 
+            "+                              </p>\n", 
             "                         </li>\n", 
-            "                         <li>\n"
-          ]
-        }, 
-        {
-          "locn": "-86,7 +89,7", 
-          "lines": [
-            "                             Start Synapse using the configuration numbered 440 (repository/conf/sample/synapse_sample_440.xml)\n", 
-            "                             <div class=\"command\">\n", 
-            "                                 Unix/Linux: sh synapse.sh -sample 440<br/>\n", 
-            "-                                Windows: synapse.bat -sample 440\n", 
-            "+                                Windows: synapse.bat -sample 710\n", 
-            "                             </div>\n", 
-            "                         </li>\n", 
-            "                     </ul>\n"
-          ]
-        }, 
-        {
-          "locn": "-93,11 +96,18", 
-          "lines": [
-            "                 </p>\n", 
-            "             </subsection>\n", 
-            "             <subsection name=\"Executing the Client\">\n", 
-            "-                <div class=\"command\">ant stockquote -Daddurl=http://localhost:9000/services/SimpleStockQuoteService -Dtrpurl=http://localhost:8280/</div>\n", 
-            "+                <div class=\"command\">ant jsonclient -Daddurl=http://localhost:9000/services/SimpleStockQuoteService -Dtrpurl=http://localhost:8280/services/JSONProxy</div>\n", 
-            "+ \t\t\t\t<p>JSON client will send a stockquote request to Synapse using the\n", 
-            "+\t\t\t\t\tJSON content interchange format. Synapse will trnasform it into a SOAP\n", 
-            "+\t\t\t\t\trequest and forward to the Axis2 server. The SOAP response from the\n", 
-            "+\t\t\t\t\tAxis2 server will be converted into a JSON message and sent back to the\n", 
-            "+\t\t\t\t\tJSON client.</p>\n", 
-            "+\t\t\t\t<p>You may use a tool like TCPMon to monitor the JSON requests sent\n", 
-            "+\t\t\t\t\t\tover the wire. A sample JSON request and response is shown below:</p>\n", 
-            "+\t\t\t\t\n", 
-            "+                <div class=\"consoleOutput\">{\"getQuote\":{\"request\":{\"symbol\":\"IBM\"}}}</div>\n", 
-            " \n", 
-            "-                <div class=\"consoleOutput\">Sat Nov 18 21:01:23 IST 2006 SimpleStockQuoteService :: Generating quote for : IBM</div>\n", 
-            "-\n", 
-            "-                <div class=\"consoleOutput\">Standard :: Stock price = $95.26454380258552</div>\n", 
-            "+                <div class=\"consoleOutput\">{\"getQuoteResponse\":{\"return\":{\"change\":3.853593376681722,\"earnings\":12.802850763714854,\"high\":67.92488310190126,\"last\":66.14619264746406,\"lastTradeTimestamp\":\"Mon Aug 23 16:48:40 IST 2010\",\"low\":-66.04000424423522,\"marketCap\":-9334516.42324327,\"name\":\"IBM Company\",\"open\":-64.61950137150009,\"peRatio\":-19.78600441437058,\"percentageChange\":5.411779328273005,\"prevClose\":71.2075112994578,\"symbol\":\"IBM\",\"volume\":16842}}}</div>\n", 
-            "             </subsection>\n", 
-            "         </section>\n", 
-            "         <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n"
+            "                         <li>\n", 
+            "                             Start Synapse using the configuration numbered 652 (repository/conf/sample/synapse_sample_652.xml)\n"
           ]
         }
       ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample440.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample440.xml"
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample652.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample652.xml"
     }, 
     {
       "chunks": [
@@ -324,103 +292,6 @@
       ], 
       "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample14.xml", 
       "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample14.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-79,8 +79,7", 
-          "lines": [
-            "                             more details).\n", 
-            "                         </li>\n", 
-            "                         <li>\n", 
-            "-                            Enable the mail transport sender for Synapse (refer Mail transport setup\n", 
-            "-                            guide for more details).\n", 
-            "+                            Enable the mail transport sender for Synapse (refer <a href=\"setup/mail.html#mailTransportSender\"> Mail transport setup</a> guide for more details).\n", 
-            "                         </li>\n", 
-            "                         <li>\n", 
-            "                             Create a new test directory in the FTP site.\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample255.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample255.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-85,7 +85,7", 
-          "lines": [
-            "                         </li>\n", 
-            "                         <li>\n", 
-            "                             Enable the mail transport listener and mail transport sender for Synapse\n", 
-            "-                            (refer mail transport setup guide for more details)\n", 
-            "+                            (refer  <a href=\"setup/mail.html#mailTransportSender\"> Mail transport setup</a> guide for more details)\n", 
-            "                         </li>\n", 
-            "                         <li>\n", 
-            "                             Start Synapse using the configuration numbered 256 (repository/conf/sample/synapse_sample_256.xml)\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample256.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample256.xml"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-23,7 +23,7", 
-          "lines": [
-            "         <title>Apache Synapse - Sample 652</title>\n", 
-            "     </properties>\n", 
-            "     <body>\n", 
-            "-        <section name=\"Sample 652: \">\n", 
-            "+        <section name=\"Sample 652: Distributed transaction management\">\n", 
-            "             <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
-            " \n", 
-            " &lt;sequence name=\"myFaultHandler\"&gt;\n"
-          ]
-        }, 
-        {
-          "locn": "-91,7 +91,7", 
-          "lines": [
-            " &lt;/definitions&gt;</div>\n", 
-            "             <subsection name=\"Objective\">\n", 
-            "                 <p>\n", 
-            "-\n", 
-            "+\t\t\t\t\tDemonstrate the use of the transaction mediator in a distributed transaction\n", 
-            "                 </p>\n", 
-            "             </subsection>\n", 
-            "             <subsection name=\"Pre-requisites\">\n"
-          ]
-        }, 
-        {
-          "locn": "-98,7 +98,20", 
-          "lines": [
-            "                 <p>\n", 
-            "                     <ul>\n", 
-            "                         <li>\n", 
-            "-                            Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
-            "+                              Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
-            "+                              <p>To run this sample it is required to deploy synpase on JBoss application server(This is only tested with JBoss application sever), you \n", 
-            "+                              can use the war distribution to deploy synapse on JBoss application server. Use the synpase_sample_652.xml as the synapse confiuration \n", 
-            "+                              file and start JBoss with that synpase configuration file. Also you need to define two XA datasources for above two datasources. \n", 
-            "+                              You'll need to refer JBoss documentation to see how to do this.</p>\n", 
-            "+                              <p>\n", 
-            "+                                It also required to have two database instances, this will be used by the two XA datasources. \n", 
-            "+                                Refer the <a href=\"setup/db.html#derby\">Sample Setup Guide </a> to see how you can set up the derby database server.\n", 
-            "+                              </p>\n", 
-            "+                              <p>\n", 
-            "+                                In this sample a record is delete from one database and it is added into the second database. \n", 
-            "+                                If either of the operations(deleting from the 1st database and adding into the second database)\n", 
-            "+                                fails everything will be roll backed. The records will be untoched.\n", 
-            "+                              </p>\n", 
-            "                         </li>\n", 
-            "                         <li>\n", 
-            "                             Start Synapse using the configuration numbered 652 (repository/conf/sample/synapse_sample_652.xml)\n"
-          ]
-        }
-      ], 
-      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample652.xml", 
-      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample652.xml"
     }, 
     {
       "chunks": [
@@ -1101,6 +972,136 @@
       ], 
       "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample381.xml", 
       "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample381.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-83,6 +83,11", 
+          "lines": [
+            "             <subsection name=\"Pre-requisites\">\n", 
+            "                 <p>\n", 
+            "                     <ul>\n", 
+            "+                         <li>\n", 
+            "+                           This sample uses Ruby so first setup support for this in Synapse as described at\n", 
+            "+\t\t\t\t\t\t\t<a href=\"setup/script.html#ruby\">Configuring JRuby</a>\n", 
+            "+\t\t\t\t\t\t\t<br />\n", 
+            "+                        </li>\n", 
+            "                         <li>\n", 
+            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "                         </li>\n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample353.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample353.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-71,6 +71,11", 
+          "lines": [
+            "             <subsection name=\"Pre-requisites\">\n", 
+            "                 <p>\n", 
+            "                     <ul>\n", 
+            "+                     \t<li>\n", 
+            "+                           This sample uses Ruby so first setup support for this in Synapse as described at\n", 
+            "+\t\t\t\t\t\t\t<a href=\"setup/script.html#ruby\">Configuring JRuby</a>\n", 
+            "+\t\t\t\t\t\t\t<br />\n", 
+            "+                        </li>\n", 
+            "                         <li>\n", 
+            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "                         </li>\n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample354.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample354.xml"
+    }, 
+    {
+      "chunks": [
+        {
+          "locn": "-23,7 +23,7", 
+          "lines": [
+            "         <title>Apache Synapse - Sample 440</title>\n", 
+            "     </properties>\n", 
+            "     <body>\n", 
+            "-        <section name=\"Sample 440: \">\n", 
+            "+        <section name=\"Sample 440: Exposing a SOAP service over JSON\">\n", 
+            "             <div class=\"xmlConf\">&lt;definitions xmlns=\"http://ws.apache.org/ns/synapse\"&gt;\n", 
+            " \n", 
+            "     &lt;proxy name=\"JSONProxy\" transports=\"http https\"&gt;\n"
+          ]
+        }, 
+        {
+          "locn": "-73,7 +73,7", 
+          "lines": [
+            " &lt;/definitions&gt;</div>\n", 
+            "             <subsection name=\"Objective\">\n", 
+            "                 <p>\n", 
+            "-\n", 
+            "+ \t\t\t\t\tDemonstrate the ability to switch between JSON and XML/SOAP content interchange formats\n", 
+            "                 </p>\n", 
+            "             </subsection>\n", 
+            "             <subsection name=\"Pre-requisites\">\n"
+          ]
+        }, 
+        {
+          "locn": "-80,6 +80,9", 
+          "lines": [
+            "                 <p>\n", 
+            "                     <ul>\n", 
+            "                         <li>\n", 
+            "+                            Setup Synapse and the sample Axis2 client for JSON  (Refer  Synapse <a href=\"setup/script.html#json\">Samples Setup Guide</a> for details) \n", 
+            "+                        </li>\n", 
+            "+                        <li>\n", 
+            "                             Deploy the SimpleStockQuoteService in the sample Axis2 server and start Axis2\n", 
+            "                         </li>\n", 
+            "                         <li>\n"
+          ]
+        }, 
+        {
+          "locn": "-86,7 +89,7", 
+          "lines": [
+            "                             Start Synapse using the configuration numbered 440 (repository/conf/sample/synapse_sample_440.xml)\n", 
+            "                             <div class=\"command\">\n", 
+            "                                 Unix/Linux: sh synapse.sh -sample 440<br/>\n", 
+            "-                                Windows: synapse.bat -sample 440\n", 
+            "+                                Windows: synapse.bat -sample 710\n", 
+            "                             </div>\n", 
+            "                         </li>\n", 
+            "                     </ul>\n"
+          ]
+        }, 
+        {
+          "locn": "-93,11 +96,18", 
+          "lines": [
+            "                 </p>\n", 
+            "             </subsection>\n", 
+            "             <subsection name=\"Executing the Client\">\n", 
+            "-                <div class=\"command\">ant stockquote -Daddurl=http://localhost:9000/services/SimpleStockQuoteService -Dtrpurl=http://localhost:8280/</div>\n", 
+            "+                <div class=\"command\">ant jsonclient -Daddurl=http://localhost:9000/services/SimpleStockQuoteService -Dtrpurl=http://localhost:8280/services/JSONProxy</div>\n", 
+            "+ \t\t\t\t<p>JSON client will send a stockquote request to Synapse using the\n", 
+            "+\t\t\t\t\tJSON content interchange format. Synapse will trnasform it into a SOAP\n", 
+            "+\t\t\t\t\trequest and forward to the Axis2 server. The SOAP response from the\n", 
+            "+\t\t\t\t\tAxis2 server will be converted into a JSON message and sent back to the\n", 
+            "+\t\t\t\t\tJSON client.</p>\n", 
+            "+\t\t\t\t<p>You may use a tool like TCPMon to monitor the JSON requests sent\n", 
+            "+\t\t\t\t\t\tover the wire. A sample JSON request and response is shown below:</p>\n", 
+            "+\t\t\t\t\n", 
+            "+                <div class=\"consoleOutput\">{\"getQuote\":{\"request\":{\"symbol\":\"IBM\"}}}</div>\n", 
+            " \n", 
+            "-                <div class=\"consoleOutput\">Sat Nov 18 21:01:23 IST 2006 SimpleStockQuoteService :: Generating quote for : IBM</div>\n", 
+            "-\n", 
+            "-                <div class=\"consoleOutput\">Standard :: Stock price = $95.26454380258552</div>\n", 
+            "+                <div class=\"consoleOutput\">{\"getQuoteResponse\":{\"return\":{\"change\":3.853593376681722,\"earnings\":12.802850763714854,\"high\":67.92488310190126,\"last\":66.14619264746406,\"lastTradeTimestamp\":\"Mon Aug 23 16:48:40 IST 2010\",\"low\":-66.04000424423522,\"marketCap\":-9334516.42324327,\"name\":\"IBM Company\",\"open\":-64.61950137150009,\"peRatio\":-19.78600441437058,\"percentageChange\":5.411779328273005,\"prevClose\":71.2075112994578,\"symbol\":\"IBM\",\"volume\":16842}}}</div>\n", 
+            "             </subsection>\n", 
+            "         </section>\n", 
+            "         <p><a href=\"../samples.html\">Back to Catalog</a></p>        \n"
+          ]
+        }
+      ], 
+      "to": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample440.xml", 
+      "from": "scratch/hiranya/website/src/site/xdoc/userguide/samples/sample440.xml"
     }
   ], 
   "id": "1215074"

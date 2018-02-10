@@ -1,5 +1,6 @@
 {
   "when": "2013-08-14T01:54:31-04:00", 
+  "message": "Slightly changed the timing of the SimpleURLRegistryTest to avoid failure due to clock issues. Improved the file write method in the test case to flush the stream before closing.", 
   "who": "hiranya", 
   "changes": [
     {

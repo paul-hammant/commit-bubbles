@@ -1,5 +1,6 @@
 {
   "when": "2013-07-30T15:24:26-04:00", 
+  "message": "fixed connection close.", 
   "who": "rajikak", 
   "changes": [
     {

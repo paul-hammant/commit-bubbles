@@ -1,7 +1,32 @@
 {
   "when": "2013-08-08T16:36:28-04:00", 
+  "message": "fixed SYNAPSE-806 in pass-through transport.", 
   "who": "rajikak", 
   "changes": [
+    {
+      "chunks": [
+        {
+          "locn": "-142,8 +142,11", 
+          "lines": [
+            "             setBooleanParameter(NIOReactorPNames.INTEREST_OPS_QUEUEING,\n", 
+            "                     conf.getBooleanProperty(NIOReactorParams.INTEREST_OPS_QUEUEING, false)).\n", 
+            "             setParameter(HttpProtocolParams.ORIGIN_SERVER,\n", 
+            "-                    conf.getStringProperty(HttpProtocolParams.ORIGIN_SERVER, \"Synapse-PassThrough-HTTP\"));\n", 
+            "-\n", 
+            "+                    conf.getStringProperty(HttpProtocolParams.ORIGIN_SERVER, \"Synapse-PassThrough-HTTP\")).\n", 
+            "+            setParameter(HttpProtocolParams.HTTP_MALFORMED_INPUT_ACTION,\n", 
+            "+                    conf.getMalformedInputActionValue()).\n", 
+            "+            setParameter(HttpProtocolParams.HTTP_UNMAPPABLE_INPUT_ACTION,\n", 
+            "+                    conf.getUnMappableInputActionValue());\n", 
+            "         /* Set advanced tuning params only if they are explicitly set so that we are not loosing\n", 
+            "            internal defaults of HttpCore-NIO */\n", 
+            "         if (conf.getIntProperty(HttpConnectionParams.SO_LINGER) != null) {\n"
+          ]
+        }
+      ], 
+      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/BaseConfiguration.java", 
+      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/BaseConfiguration.java"
+    }, 
     {
       "chunks": [
         {
@@ -53,30 +78,6 @@
       ], 
       "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/PassThroughConfiguration.java", 
       "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/PassThroughConfiguration.java"
-    }, 
-    {
-      "chunks": [
-        {
-          "locn": "-142,8 +142,11", 
-          "lines": [
-            "             setBooleanParameter(NIOReactorPNames.INTEREST_OPS_QUEUEING,\n", 
-            "                     conf.getBooleanProperty(NIOReactorParams.INTEREST_OPS_QUEUEING, false)).\n", 
-            "             setParameter(HttpProtocolParams.ORIGIN_SERVER,\n", 
-            "-                    conf.getStringProperty(HttpProtocolParams.ORIGIN_SERVER, \"Synapse-PassThrough-HTTP\"));\n", 
-            "-\n", 
-            "+                    conf.getStringProperty(HttpProtocolParams.ORIGIN_SERVER, \"Synapse-PassThrough-HTTP\")).\n", 
-            "+            setParameter(HttpProtocolParams.HTTP_MALFORMED_INPUT_ACTION,\n", 
-            "+                    conf.getMalformedInputActionValue()).\n", 
-            "+            setParameter(HttpProtocolParams.HTTP_UNMAPPABLE_INPUT_ACTION,\n", 
-            "+                    conf.getUnMappableInputActionValue());\n", 
-            "         /* Set advanced tuning params only if they are explicitly set so that we are not loosing\n", 
-            "            internal defaults of HttpCore-NIO */\n", 
-            "         if (conf.getIntProperty(HttpConnectionParams.SO_LINGER) != null) {\n"
-          ]
-        }
-      ], 
-      "to": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/BaseConfiguration.java", 
-      "from": "java/modules/transports/core/nhttp/src/main/java/org/apache/synapse/transport/passthru/config/BaseConfiguration.java"
     }
   ], 
   "id": "1512022"
