@@ -127,78 +127,84 @@
 </head>
 <body>
 <div id="app">
-<div class="container" >
-    <div class="page-header">
-        <h1>Commit {{pageState.rev}}</h1>
-    </div>
-    <div class="row">
-        <div class="col-xs-1">
-            <div style="text-align: right">Who:</div>
+    <div class="container">
+        <div class="page-header">
+            <h1>Commit {{pageState.rev}}</h1>
         </div>
-        <div class="col-xs-15">
-            <div class="bg-alt">{{commit.who}}</div>
+        <div class="row">
+            <div class="col-xs-1">
+                <div style="text-align: right">Who:</div>
+            </div>
+            <div class="col-xs-15">
+                <div class="bg-alt">{{commit.who}}</div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-1">
-            <div style="text-align: right">When:</div>
+        <div class="row">
+            <div class="col-xs-1">
+                <div style="text-align: right">When:</div>
+            </div>
+            <div class="col-xs-15">
+                <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
+            </div>
         </div>
-        <div class="col-xs-15">
-            <div class="bg-alt" v-tooltip.bottom-start="commit.when">{{commit.whenLocal}}</div>
+        <div class="row">
+            <div class="col-xs-1">
+                <div style="text-align: right">Message:</div>
+            </div>
+            <div class="col-xs-15">
+                <div class="bg-alt" v-html="commit.message"></div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-1">
-            <div style="text-align: right">Message:</div>
-        </div>
-        <div class="col-xs-15">
-            <div class="bg-alt" v-html="commit.message"></div>
-        </div>
-    </div>
-    <div style="padding-left: 30px" v-for="(change, changeNum) in commit.changes">
-        <h2 @click="change.open = !change.open">
-            Change number {{changeNum+1}}
-            <span style="color: gray">{{ change.open? "[-]" : "[+]" }}</span>
-        </h2>
-        <table class="table">
-            <tr><td style="text-align: right">From:</td><td>{{change.from}}</td></tr>
-            <tr><td style="text-align: right">to:</td><td>{{change.to}}</td></tr>
-        </table>
-        <div v-if="change.open" style="padding-left: 30px" v-for="(chunk, chunkNum) in change.chunks">
-            <h3 @click="chunk.open = !chunk.open">
-                Chunk {{chunkNum+1}}
-                <span style="color: gray">{{ chunk.open? "[-]" : "[+]" }}</span>
-            </h3>
-            <table v-if="chunk.open" class="table" style="font-family:'Lucida Console', monospace">
-                <thead>
-                <tr style="padding-left: 30px; width: 100%; background-color: gainsboro">
-                    <td style="text-align: right">From</td>
-                    <td style="text-align: right">To</td>
-                    <td>Line</td>
+        <div style="padding-left: 30px" v-for="(change, changeNum) in commit.changes">
+            <h2 @click="change.open = !change.open">
+                Change number {{changeNum+1}}
+                <span style="color: gray">{{ change.open? "[-]" : "[+]" }}</span>
+            </h2>
+            <table class="table">
+                <tr>
+                    <td style="text-align: right">From:</td>
+                    <td>{{change.from}}</td>
                 </tr>
-                </thead>
-                <tbody>
-                <tr :style="{'background-color': line.col}"
-                    v-for="line in chunk.lines" track-by="$ix">
-                    <td style="text-align: right">
-                        {{line.fr}}
-                    </td>
-                    <td style="text-align: right">
-                        {{line.to}}
-                    </td>
-                    <td>
-                        {{line.txt}}
-                    </td>
+                <tr>
+                    <td style="text-align: right">to:</td>
+                    <td>{{change.to}}</td>
                 </tr>
-                </tbody>
             </table>
+            <div v-if="change.open" style="padding-left: 30px" v-for="(chunk, chunkNum) in change.chunks">
+                <h3 @click="chunk.open = !chunk.open">
+                    Chunk {{chunkNum+1}}
+                    <span style="color: gray">{{ chunk.open? "[-]" : "[+]" }}</span>
+                </h3>
+                <table v-if="chunk.open" class="table" style="font-family:'Lucida Console', monospace">
+                    <thead>
+                    <tr style="padding-left: 30px; width: 100%; background-color: gainsboro">
+                        <td style="text-align: right">From</td>
+                        <td style="text-align: right">To</td>
+                        <td>Line</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr :style="{'background-color': line.col}"
+                        v-for="line in chunk.lines" track-by="$ix">
+                        <td style="text-align: right">
+                            {{line.fr}}
+                        </td>
+                        <td style="text-align: right">
+                            {{line.to}}
+                        </td>
+                        <td>
+                            {{line.txt}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <!--<h1>Debugging::::::</h1>-->
+        <!--<pre>{{commit}}</pre>-->
+
     </div>
-
-    <!--<h1>Debugging::::::</h1>-->
-    <!--<pre>{{commit}}</pre>-->
-
-</div>
 </div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
@@ -208,7 +214,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 
-//    Vue.component('nl2br', Nl2br);
+    //    Vue.component('nl2br', Nl2br);
 
     v = new Vue({
         el: '#app',
@@ -224,6 +230,7 @@
     });
 
     const lineRegex = /-(\d+),\d+ \+(\d+),\d+/;
+
     //const regex = new RegExp(lineRegex);
 
     function loadMainDoc() {
@@ -241,11 +248,11 @@
                     for (let line of chunk.lines) {
                         let lin = {};
                         if (line.startsWith("+")) {
-                            lin = { col: "darkseagreen", to: toLine++, fr: ""}
-                        } else if(line.startsWith("-")) {
-                            lin = { col: "lightcoral", to: "", fr: fromLine++}
+                            lin = {col: "darkseagreen", to: toLine++, fr: ""}
+                        } else if (line.startsWith("-")) {
+                            lin = {col: "lightcoral", to: "", fr: fromLine++}
                         } else {
-                            lin = { col: "white", to: toLine++, fr: fromLine++}
+                            lin = {col: "white", to: toLine++, fr: fromLine++}
                         }
                         lin.txt = line.substring(1);
                         linez.push(lin)
