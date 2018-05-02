@@ -47,7 +47,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" width="1220"
              :height="c.chartHeight + c.topMargin + 5">
             <rect fill="#FEFCFF" x="100" :y="c.topMargin" width="1100" :height="c.chartHeight"
-                  @click="show = false"/>
+                  @click="hideCommit"/>
             <g font-family="Verdana" font-size="16">
                 <text x="0" :y="c.topMargin + 8">All Test</text>
                 <text x="0" :y="c.chartHeight/2 + 5 + c.topMargin">Equal</text>
@@ -93,7 +93,7 @@
                 </body>
             </foreignObject>
             <template v-if="show">
-                <g font-family="Verdana" font-size="16" @click="show = false">
+                <g font-family="Verdana" font-size="16" @click="hideCommit">
                     <rect style="stroke:rgb(0,0,0);stroke-width:2px" x="300" y="300" height="300" width="400" fill="white"
                           opacity="0.7"/>
                     <text x="320" y="330">Selected Commit</text>
@@ -208,6 +208,7 @@
                     } else {
                         this.selected.authors.push(author);
                     }
+
                 },
                 nextPressed: function() {
 
@@ -217,7 +218,9 @@
                     } else {
                         this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) + 1];
                         location.hash = this.selectedYear+'/'+this.selectedMonth
+                        this.monthChanged()
                     }
+
 
                 },
                 prevPressed: function() {
@@ -227,18 +230,24 @@
                     } else {
                         this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) - 1];
                         location.hash = this.selectedYear+'/'+this.selectedMonth
+                        this.monthChanged()
                     }
 
+
+                },
+                hideCommit() {
+                  this.show = false;
+                  location.hash = this.selectedYear+'/'+this.selectedMonth;
                 },
                 showSelected: function(commit) {
                     this.show = false;
                     this.selected.commit = commit;
+                    location.hash = this.selectedYear+'/'+this.selectedMonth+'/'+this.selected.commit.id;
                     this.show = true;
                 },
                 yearChanged: function (chooseLast) {
                     console.log("data/" + this.selectedYear + "/months.json");
                     this.$http.get("data/" + this.selectedYear + "/months.json").then(function(response) {
-                        console.log(response);
                         this.monthList = response.body.sort(function(a, b) {
                             return parseInt(a) - parseInt(b);
                         });
@@ -247,6 +256,7 @@
                         } else {
                             this.selectedMonth = this.monthList[0];
                         }
+                        this.monthChanged();
                         location.hash = this.selectedYear+'/'+this.selectedMonth
                     }, function(response) {
 
@@ -256,7 +266,14 @@
                 },
                 monthChanged: function () {
                     /* getting commits here*/
-                    location.hash = this.selectedYear+'/'+this.selectedMonth
+                    this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
+                        this.commits2 = response.body.commits;
+                        location.hash = this.selectedYear+'/'+this.selectedMonth;
+                        this.selected.authors = this.authors;
+                    }, response => {
+                        console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                    });
+
                 },
                 splitUpUrl: function() {
                     const hashString = location.hash.substr(1);
