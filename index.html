@@ -211,7 +211,7 @@
 
                 },
                 nextPressed: function() {
-
+                    this.hideCommit();
                     if (this.selectedMonth == this.monthList[this.monthList.length - 1]) {
                         this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
                         this.yearChanged();
@@ -224,6 +224,7 @@
 
                 },
                 prevPressed: function() {
+                    this.hideCommit();
                     if (this.selectedMonth == this.monthList[0]) {
                         this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
                         this.yearChanged(true);
@@ -247,6 +248,7 @@
                 },
                 yearChanged: function (chooseLast) {
                     console.log("data/" + this.selectedYear + "/months.json");
+                    this.hideCommit();
                     this.$http.get("data/" + this.selectedYear + "/months.json").then(function(response) {
                         this.monthList = response.body.sort(function(a, b) {
                             return parseInt(a) - parseInt(b);
@@ -266,10 +268,11 @@
                 },
                 monthChanged: function () {
                     /* getting commits here*/
+                    this.hideCommit();
                     this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
                         this.commits2 = response.body.commits;
                         location.hash = this.selectedYear+'/'+this.selectedMonth;
-                        this.selected.authors = this.authors;
+                        this.checkAllAuthors();
                     }, response => {
                         console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
                     });
@@ -318,7 +321,8 @@
                     authors: _.uniq(_.pluck(this.commits2, 'who'))
                 };
 
-                var self = this;
+                let self = this;
+
                 self.$http.get('data/years.json').then(function(response) {
                     console.log(response);
                     self.yearList = response.body.sort(function(a, b) {
@@ -337,7 +341,8 @@
                         if (self.monthList.indexOf(self.selectedMonth) < 0) {
                             self.selectedMonth = self.monthList[0];
                         }
-                        location.hash = this.selectedYear+'/'+this.selectedMonth
+                        location.hash = this.selectedYear+'/'+this.selectedMonth;
+                        this.monthChanged()
                     }, function(response) {
                         // error callback
                     })
