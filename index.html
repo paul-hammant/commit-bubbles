@@ -27,23 +27,39 @@
 </head>
 <body>
     <div id="app">
+        <div class="date-select">
+            <button v-if="!(yearList[0]==selectedYear && monthList[0]==selectedMonth)"
+                  @click="prevPressed">< prev</button>
+            <select v-model="selectedYear" @change="yearChanged">
+                <option v-for="year in yearList" :value="year">
+                    {{ year }}
+                </option>
+            </select>
+            <select v-model="selectedMonth" @change="monthChanged">
+                <option v-for="month in monthList" :value="month">
+                    {{month}}
+                </option>
+            </select>
+            <button v-if="!(yearList[yearList.length-1]==selectedYear && monthList[monthList.length-1]==selectedMonth)"
+                  @click="nextPressed">next ></button>
+        </div>
+
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" width="1220"
-             :height="c.chartHeight + c.topMargin + 5"
-             xmlns:dc="http://purl.org/dc/elements/1.1/">
+             :height="c.chartHeight + c.topMargin + 5">
             <rect fill="#FEFCFF" x="100" :y="c.topMargin" width="1100" :height="c.chartHeight"
-                  @click="show = false"/>
+                  @click="hideCommit"/>
             <g font-family="Verdana" font-size="16">
                 <text x="0" :y="c.topMargin + 8">All Test</text>
                 <text x="0" :y="c.chartHeight/2 + 5 + c.topMargin">Equal</text>
                 <text x="0" :y="c.chartHeight + c.topMargin">All Prod</text>
                 <text x="1140" :y="c.chartHeight/2 + 17 + c.topMargin">Time &#10148;</text>
             </g>
-            <g style="stroke:rgb(0,0,0);stroke-width:2">
+            <g style="stroke:rgb(0,0,0);stroke-width:1px">
                 <line x1="100" :y1="c.chartHeight/2 + c.topMargin" x2="1200" :y2="c.chartHeight/2 + c.topMargin"/>
-                <line x1="100" :y1="c.topMargin +2" x2="100" :y2="c.chartHeight + c.topMargin+2"/>
+                <line x1="100" :y1="c.topMargin +2" x2="100" :y2="c.chartHeight + c.topMargin+2" />
             </g>
             <g font-family="Verdana" font-size="8" v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-               style="stroke:rgb(0,0,0);stroke-width:0.5">
+               style="stroke:rgb(0,0,0);stroke-width:1px">
                 <line v-if="i != 5" x1="100" stroke-dasharray="10,35"
                       :y1="c.chartHeight + 2 - (c.chartHeight/10 * i) + c.topMargin" x2="1200"
                       :y2="c.chartHeight - (c.chartHeight/10 * i) + c.topMargin"/>
@@ -52,12 +68,12 @@
                 </text>
             </g>
             <g stroke="black">
-                <circle v-for="commit in commits" v-if="selected.authors.indexOf(commit.author) > -1"
-                        :cx="100 + (commit.ts - from) * 1100 / (to - from)"
-                        :cy="c.chartHeight - (commit.testPercentage * c.chartHeight/100) + c.topMargin"
-                        :r="commit.size * (c.chartHeight/600)"
+                <circle v-for="commit in commits2" v-if="selected.authors.indexOf(commit.who) > -1"
+                        :cx="100 + (moment(commit.when) - from) * 1100 / (to - from)"
+                        :cy="c.chartHeight - (commit.test * c.chartHeight/100) + c.topMargin"
+                        :r="commit.all * (c.chartHeight/600)"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
-                        :fill="c.colors[authors.indexOf(commit.author)]" fill-opacity="0.5"
+                        :fill="c.colors[authors.indexOf(commit.who)]" fill-opacity="0.5"
                         @click="showSelected(commit)"/>
             </g>
             <foreignObject class="node" x="0" y="0" width="1200" :height="c.topMargin">
@@ -77,15 +93,15 @@
                 </body>
             </foreignObject>
             <template v-if="show">
-                <g font-family="Verdana" font-size="16" @click="show = false">
-                    <rect style="stroke:rgb(0,0,0);stroke-width:2" x="300" y="300" height="300" width="400" fill="white"
+                <g font-family="Verdana" font-size="16" @click="hideCommit">
+                    <rect style="stroke:rgb(0,0,0);stroke-width:2px" x="300" y="300" height="300" width="400" fill="white"
                           opacity="0.7"/>
                     <text x="320" y="330">Selected Commit</text>
-                    <text x="320" y="380">Hash: {{selected.commit.hash}}</text>
-                    <text x="320" y="430">Author: {{selected.commit.author}}</text>
-                    <text x="320" y="480">Date/Time: {{selected.commit.ts | date2}}</text>
-                    <text x="320" y="530">Size: {{selected.commit.size}}</text>
-                    <text x="320" y="580">Test Percentage: {{selected.commit.testPercentage}}</text>
+                    <text x="320" y="380">ID: {{selected.commit.id}}</text>
+                    <text x="320" y="430">Author: {{selected.commit.who}}</text>
+                    <text x="320" y="480">Date/Time: {{selected.commit.when | date2}}</text>
+                    <text x="320" y="530">Size: {{selected.commit.all}}</text>
+                    <text x="320" y="580">Test Percentage: {{selected.commit.test}}</text>
                 </g>
             </template>
 
@@ -97,10 +113,14 @@
             el: '#app',
 
             data: {
+                yearList: [],
+                monthList: [],
+                selectedYear: '',
+                selectedMonth: '',
                 selected: {},
                 show: false,
                 pageState: {
-                    year: 0,
+                    year: '',
                     month: 0
                 },
                 c: {
@@ -108,61 +128,79 @@
                     topMargin: 100,
                     colors: ["#FFA07A", "#20B2AA", "#778899", "#B0C4DE", "#F5F5DC", "#00FF00", "#000000", "#32CD32", "#FAF0E6", "#0000FF", "#FF00FF", "#8A2BE2", "#800000", "#A52A2A", "#66CDAA", "#DEB887", "#0000CD", "#5F9EA0", "#7FFF00", "#9370DB", "#D2691E", "#FF7F50", "#7B68EE", "#6495ED", "#48D1CC", "#DC143C", "#C71585", "#00FFFF", "#191970", "#00008B", "#F5FFFA", "#008B8B", "#FFE4E1", "#B8860B", "#A9A9A9", "#006400", "#000080", "#BDB76B", "#8B008B", "#808000", "#6B8E23", "#FF8C00", "#FFA500", "#9932CC", "#FF4500", "#8B0000", "#DA70D6", "#E9967A", "#EEE8AA", "#8FBC8F", "#98FB98", "#483D8B", "#AFEEEE", "#2F4F4F", "#DB7093", "#00CED1", "#9400D3", "#FFDAB9", "#FF1493", "#CD853F", "#00BFFF", "#FFC0CB", "#696969", "#DDA0DD", "#1E90FF", "#B0E0E6", "#B22222", "#800080", "#FFFAF0", "#FF0000", "#228B22", "#BC8F8F", "#FF00FF", "#4169E1", "#DCDCDC", "#FA8072", "#FFD700", "#FAA460", "#DAA520", "#2E8B57", "#808080", "#008000", "#A0522D", "#ADFF2F", "#C0C0C0", "#87CEEB", "#FF69B4", "#6A5ACD", "#CD5C5C", "#708090", "#4B0082", "#00FF7F", "#F0E68C", "#4682B4", "#E6E6FA", "#D2B48C", "#008080", "#7CFC00", "#D8BFD8", "#FFFACD", "#FF6347", "#ADD8E6", "#40E0D0", "#F08080", "#EE82EE", "#F5DEB3", "#FAFAD2", "#90EE90", "#D3D3D3", "#FFFF00", "#FFB6C1"]
                 },
-                commits: [
+                commits2: [
                     {
-                        ts: 1288202623006,
-                        hash: "1234567890",
-                        testPercentage: 100,
-                        size: 55,
-                        author: "John Doe"
+                        "test": 0,
+                        "all": 12,
+                        "who": "veithen",
+                        "when": "2016-02-20T07:13:40-05:00",
+                        "id": "1731386"
                     },
                     {
-                        ts: 1288121623006,
-                        hash: "13432435645",
-                        testPercentage: 30,
-                        size: 81,
-                        author: "John Doe"
+                        "test": 51,
+                        "all": 59,
+                        "who": "veithen",
+                        "when": "2016-02-20T07:52:50-05:00",
+                        "id": "1731395"
                     },
                     {
-                        ts: 1288128023006,
-                        hash: "12232435645",
-                        testPercentage: 50,
-                        size: 50,
-                        author: "Hector"
+                        "test": 0,
+                        "all": 8,
+                        "who": "isudana",
+                        "when": "2016-02-20T09:28:20-05:00",
+                        "id": "1731408"
                     },
                     {
-                        ts: 1288202823006,
-                        hash: "12332343455",
-                        testPercentage: 55,
-                        size: 50,
-                        author: "Hector"
+                        "test": 51,
+                        "all": 51,
+                        "who": "veithen",
+                        "when": "2016-02-20T10:41:12-05:00",
+                        "id": "1731416"
                     },
                     {
-                        ts: 1288323623006,
-                        hash: "2342342344",
-                        testPercentage: 15,
-                        size: 22,
-                        author: "Mildred"
+                        "test": 60,
+                        "all": 169,
+                        "who": "isudana",
+                        "when": "2016-02-20T11:17:57-05:00",
+                        "id": "1731418"
+                    },
+                    {
+                        "test": 0,
+                        "all": 16,
+                        "who": "isudana",
+                        "when": "2016-02-20T12:15:55-05:00",
+                        "id": "1731428"
+                    },
+                    {
+                        "test": 144,
+                        "all": 144,
+                        "who": "isudana",
+                        "when": "2016-02-20T12:28:45-05:00",
+                        "id": "1731429"
                     }
-                ]
+                ],
             },
             computed: {
                 authors: function() {
-                    return _.uniq(_.pluck(this.commits, 'author'));
+                    return _.uniq(_.pluck(this.commits2, 'who'));
                 },
                 from: function() {
-                    return _.min(this.commits, "ts").ts;
+                    return _.min(_.map(this.commits2, function (commit) {
+                        return moment(commit.when).format('X');
+                    }))
                 },
                 to: function() {
-                    return _.max(this.commits, "ts").ts;
+                    return _.max(_.map(this.commits2, function (commit) {
+                        return moment(commit.when).format('X');
+                    }))
                 },
                 timeSpan: function() {
-                    return moment.duration(moment(this.from).diff(moment(this.to))).humanize();
+                    return moment.duration(moment.unix(this.from).diff(moment.unix(this.to))).humanize();
                 }
             },
             methods: {
                 checkAllAuthors: function () {
-                    this.selected.authors = _.uniq(_.pluck(this.commits, 'author'))
+                    this.selected.authors = _.uniq(_.pluck(this.commits2, 'who'))
                 },
                 addOrRemoveAuthor: function (author) {
                     if (this.selected.authors.indexOf(author) > -1) {
@@ -172,66 +210,153 @@
                     }
                 },
                 nextPressed: function() {
-                    location.hash = v.$data.pageState.year + "/" + v.$data.pageState.month + 1;
-                    // needs to be smarter in month==13 scenario
+                    this.hideCommit();
+                    if (this.selectedMonth == this.monthList[this.monthList.length - 1]) {
+                        this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
+                        this.yearChanged();
+                    } else {
+                        this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) + 1];
+                        location.hash = this.selectedYear+'/'+this.selectedMonth
+                        this.monthChanged()
+                    }
+
+
                 },
                 prevPressed: function() {
-                    location.hash = v.$data.pageState.year + "/" + v.$data.pageState.month - 1;
-                    // needs to be smarter in month==0 scenario
+                    this.hideCommit();
+                    if (this.selectedMonth == this.monthList[0]) {
+                        this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
+                        this.yearChanged(true);
+                    } else {
+                        this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) - 1];
+                        location.hash = this.selectedYear+'/'+this.selectedMonth
+                        this.monthChanged()
+                    }
+
+
+                },
+                hideCommit() {
+                  this.show = false;
+                  location.hash = this.selectedYear+'/'+this.selectedMonth;
                 },
                 showSelected: function(commit) {
                     this.show = false;
                     this.selected.commit = commit;
+                    location.hash = this.selectedYear+'/'+this.selectedMonth+'/'+this.selected.commit.id;
                     this.show = true;
+                },
+                yearChanged: function (chooseLast) {
+                    console.log("data/" + this.selectedYear + "/months.json");
+                    this.hideCommit();
+                    this.$http.get("data/" + this.selectedYear + "/months.json").then(function(response) {
+                        this.monthList = response.body.sort(function(a, b) {
+                            return parseInt(a) - parseInt(b);
+                        });
+                        if (chooseLast) {
+                            this.selectedMonth = this.monthList[this.monthList.length - 1];
+                        } else {
+                            this.selectedMonth = this.monthList[0];
+                        }
+                        this.monthChanged();
+                        location.hash = this.selectedYear+'/'+this.selectedMonth
+                    }, function(response) {
+
+                        // error callback
+                    });
+
+                },
+                monthChanged: function () {
+                    /* getting commits here*/
+                    this.hideCommit();
+                    this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
+                        this.commits2 = response.body.commits;
+                        location.hash = this.selectedYear+'/'+this.selectedMonth;
+                        this.checkAllAuthors();
+                    }, response => {
+                        console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                    });
+
+                },
+                splitUpUrl: function() {
+                    const hashString = location.hash.substr(1);
+                    const splits = hashString.split("/");
+                    console.log("lll:" + splits.length);
+                    if (splits.length < 2) {
+                        console.log("no y/m, assume 'now' Need to check if such date exists");
+                        this.selectedYear = new Date().getFullYear().toString();
+                        this.selectedMonth = new Date().toISOString().substring(5, 7);
+                    } else {
+                        console.log("pull y/m from URL. Need to check if such date exists");
+                        this.selectedYear = splits[0];
+                        this.selectedMonth = splits[1];
+                    }
+                },
+                moment: function(date) {
+                    return moment(date).format('X');
+                },
+                loadMainDoc: function() {
+                    this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
+                        console.log("Got list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                    }, response => {
+                        console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                    });
                 }
             },
             filters: {
                 date: function (val) {
-                    date = moment(val);
+                    date = moment.unix(val);
                     return date.format('MM/DD/YY HH:mm')
                 },
                 date2: function (val) {
-                    date = moment(val);
+                    date = moment.unix(val);
                     return date.format('YYYY-MM-DD HH:mm:ss Z')
                 }
             },
             created: function() {
+                this.splitUpUrl();
+                this.loadMainDoc();
+
                 this.selected =  {
-                    authors: _.uniq(_.pluck(this.commits, 'author'))
-                }
+                    authors: _.uniq(_.pluck(this.commits2, 'who'))
+                };
+
+                let self = this;
+
+                self.$http.get('data/years.json').then(function(response) {
+                    console.log(response);
+                    self.yearList = response.body.sort(function(a, b) {
+                        return a - b;
+                    });
+                    console.log('now: ' + self.selectedYear);
+                    console.log('ind: ' + self.yearList.indexOf(self.selectedYear));
+                    if (self.yearList.indexOf(self.selectedYear) < 0) {
+                        self.selectedYear = self.yearList[0];
+                    }
+                    self.$http.get("data/" + self.selectedYear + "/months.json").then(function(response) {
+                        console.log(response);
+                        self.monthList = response.body.sort(function(a, b) {
+                            return parseInt(a) - parseInt(b);
+                        });
+                        if (self.monthList.indexOf(self.selectedMonth) < 0) {
+                            self.selectedMonth = self.monthList[0];
+                        }
+                        location.hash = this.selectedYear+'/'+this.selectedMonth;
+                        this.monthChanged()
+                    }, function(response) {
+                        // error callback
+                    })
+
+                }, function(response) {
+                    // error callback
+                });
+
             }
         });
-
-        function loadMainDoc() {
-            v.$http.get("/data/" + v.$data.pageState.year + "/" + v.$data.pageState.month + "/index.json").then(response => {
-                console.log("Got list of commits document for " + v.$data.pageState.year + "/" + v.$data.pageState.month);
-        }, response => {
-                console.log("No list of commits document for " + v.$data.pageState.year + "/" + v.$data.pageState.month);
-            });
-        }
-
-        function splitUpUrl() {
-            const hashString = location.hash.substr(1);
-            const splits = hashString.split("/");
-            console.log("lll:" + splits.length);
-            if (splits.length < 2) {
-                console.log("no y/m, assume 'now'");
-                v.$data.pageState.year = new Date().getFullYear();
-                v.$data.pageState.month = new Date().toISOString().substring(5, 7);
-            } else {
-                console.log("pull y/m from URL");
-                v.$data.pageState.year = splits[0];
-                v.$data.pageState.month = splits[1];
-            }
-        }
 
         window.addEventListener('hashchange', function () {
-            splitUpUrl();
-            loadMainDoc();
+            v.splitUpUrl();
+            v.loadMainDoc();
         });
-
-        splitUpUrl();
-        loadMainDoc();
 
     </script>
 </body>
