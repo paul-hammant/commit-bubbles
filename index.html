@@ -69,7 +69,7 @@
             </g>
             <g stroke="black">
                 <circle v-for="commit in commits2" v-if="selected.authors.indexOf(commit.who) > -1"
-                        :cx="100 + (moment(commit.when) - from) * 1100 / (to - from)"
+                        :cx="100 + (moment(commit.when) - from) * 1100 / ((to - from) + 0.00000000000000001)"
                         :cy="c.chartHeight - (commit.test * c.chartHeight/100) + c.topMargin"
                         :r="commit.all * (c.chartHeight/600)"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
