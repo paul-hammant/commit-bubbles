@@ -128,57 +128,7 @@
                     topMargin: 100,
                     colors: ["#FFA07A", "#20B2AA", "#778899", "#B0C4DE", "#F5F5DC", "#00FF00", "#000000", "#32CD32", "#FAF0E6", "#0000FF", "#FF00FF", "#8A2BE2", "#800000", "#A52A2A", "#66CDAA", "#DEB887", "#0000CD", "#5F9EA0", "#7FFF00", "#9370DB", "#D2691E", "#FF7F50", "#7B68EE", "#6495ED", "#48D1CC", "#DC143C", "#C71585", "#00FFFF", "#191970", "#00008B", "#F5FFFA", "#008B8B", "#FFE4E1", "#B8860B", "#A9A9A9", "#006400", "#000080", "#BDB76B", "#8B008B", "#808000", "#6B8E23", "#FF8C00", "#FFA500", "#9932CC", "#FF4500", "#8B0000", "#DA70D6", "#E9967A", "#EEE8AA", "#8FBC8F", "#98FB98", "#483D8B", "#AFEEEE", "#2F4F4F", "#DB7093", "#00CED1", "#9400D3", "#FFDAB9", "#FF1493", "#CD853F", "#00BFFF", "#FFC0CB", "#696969", "#DDA0DD", "#1E90FF", "#B0E0E6", "#B22222", "#800080", "#FFFAF0", "#FF0000", "#228B22", "#BC8F8F", "#FF00FF", "#4169E1", "#DCDCDC", "#FA8072", "#FFD700", "#FAA460", "#DAA520", "#2E8B57", "#808080", "#008000", "#A0522D", "#ADFF2F", "#C0C0C0", "#87CEEB", "#FF69B4", "#6A5ACD", "#CD5C5C", "#708090", "#4B0082", "#00FF7F", "#F0E68C", "#4682B4", "#E6E6FA", "#D2B48C", "#008080", "#7CFC00", "#D8BFD8", "#FFFACD", "#FF6347", "#ADD8E6", "#40E0D0", "#F08080", "#EE82EE", "#F5DEB3", "#FAFAD2", "#90EE90", "#D3D3D3", "#FFFF00", "#FFB6C1"]
                 },
-                commits2: [
-                    {
-                        "test": 0,
-                        "all": 12,
-                        "who": "veithen",
-                        "when": "2016-02-20T07:13:40-05:00",
-                        "id": "1731386"
-                    },
-                    {
-                        "test": 51,
-                        "all": 59,
-                        "who": "veithen",
-                        "when": "2016-02-20T07:52:50-05:00",
-                        "id": "1731395"
-                    },
-                    {
-                        "test": 0,
-                        "all": 8,
-                        "who": "isudana",
-                        "when": "2016-02-20T09:28:20-05:00",
-                        "id": "1731408"
-                    },
-                    {
-                        "test": 51,
-                        "all": 51,
-                        "who": "veithen",
-                        "when": "2016-02-20T10:41:12-05:00",
-                        "id": "1731416"
-                    },
-                    {
-                        "test": 60,
-                        "all": 169,
-                        "who": "isudana",
-                        "when": "2016-02-20T11:17:57-05:00",
-                        "id": "1731418"
-                    },
-                    {
-                        "test": 0,
-                        "all": 16,
-                        "who": "isudana",
-                        "when": "2016-02-20T12:15:55-05:00",
-                        "id": "1731428"
-                    },
-                    {
-                        "test": 144,
-                        "all": 144,
-                        "who": "isudana",
-                        "when": "2016-02-20T12:28:45-05:00",
-                        "id": "1731429"
-                    }
-                ],
+                commits2: [],
             },
             computed: {
                 authors: function() {
@@ -308,7 +258,7 @@
                     return date.format('MM/DD/YY HH:mm')
                 },
                 date2: function (val) {
-                    date = moment.unix(val);
+                    date = moment(val);
                     return date.format('YYYY-MM-DD HH:mm:ss Z')
                 }
             },
