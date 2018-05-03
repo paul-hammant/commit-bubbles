@@ -231,11 +231,11 @@
                     const hashString = location.hash.substr(1);
                     const splits = hashString.split("/");
                     if (splits.length < 2) {
-                        console.log("no y/m, assume 'now' Need to check if such date exists");
+                        console.log("no y/m, assume the current year/month");
                         this.selectedYear = new Date().getFullYear().toString();
                         this.selectedMonth = new Date().toISOString().substring(5, 7);
                     } else {
-                        console.log("pull y/m from URL. Need to check if such date exists");
+                        console.log("pull ccyyy/mm from URL");
                         this.selectedYear = splits[0];
                         this.selectedMonth = splits[1];
                     }
