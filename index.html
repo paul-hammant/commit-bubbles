@@ -83,7 +83,7 @@
                     <label v-for="author, index in authors" :style="'color: ' + c.colors[index] ">
                         <input type="checkbox" :value="author"
                                                :checked="(selected.authors).indexOf(author) > -1"
-                                               @change="addOrRemoveAuthor(author)"
+                                               @change="showOrHideAuthor(author)"
                                name="authors"> {{author}}
                     </label>
                     <button @click="checkAllAuthors()" style="margin: 0 0 5px 5px">All authors</button>
@@ -152,7 +152,7 @@
                 checkAllAuthors: function () {
                     this.selected.authors = _.uniq(_.pluck(this.commits2, 'who'))
                 },
-                addOrRemoveAuthor: function (author) {
+                showOrHideAuthor: function (author) {
                     if (this.selected.authors.indexOf(author) > -1) {
                         this.selected.authors.splice(this.selected.authors.indexOf(author), 1);
                     } else {
