@@ -29,7 +29,7 @@
     <div id="app">
         <div class="date-select">
             <button v-if="!(yearList[0]==selectedYear && monthList[0]==selectedMonth)"
-                  @click="prevPressed">< prev</button>
+                  @click="prevMonthPressed">< prev</button>
             <select v-model="selectedYear" @change="yearChanged">
                 <option v-for="year in yearList" :value="year">
                     {{ year }}
@@ -41,13 +41,13 @@
                 </option>
             </select>
             <button v-if="!(yearList[yearList.length-1]==selectedYear && monthList[monthList.length-1]==selectedMonth)"
-                  @click="nextPressed">next ></button>
+                  @click="nextMonthPressed">next ></button>
         </div>
 
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" width="1220"
              :height="c.chartHeight + c.topMargin + 5">
             <rect fill="#FEFCFF" x="100" :y="c.topMargin" width="1100" :height="c.chartHeight"
-                  @click="hideCommit"/>
+                  @click="hideCommitSummary"/>
             <g font-family="Verdana" font-size="16">
                 <text x="0" :y="c.topMargin + 8">All Test</text>
                 <text x="0" :y="c.chartHeight/2 + 5 + c.topMargin">Equal</text>
@@ -74,7 +74,7 @@
                         :r="commit.all * (c.chartHeight/600)"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
                         :fill="c.colors[authors.indexOf(commit.who)]" fill-opacity="0.5"
-                        @click="showSelected(commit)"/>
+                        @click="showCommitSummary(commit)"/>
             </g>
             <foreignObject class="node" x="0" y="0" width="1200" :height="c.topMargin">
                 <body xmlns="http://www.w3.org/1999/xhtml">
@@ -93,7 +93,7 @@
                 </body>
             </foreignObject>
             <template v-if="show">
-                <g font-family="Verdana" font-size="16" @click="hideCommit">
+                <g font-family="Verdana" font-size="16" @click="hideCommitSummary">
                     <rect style="stroke:rgb(0,0,0);stroke-width:2px" x="300" y="300" height="300" width="400" fill="white"
                           opacity="0.7"/>
                     <text x="320" y="330">Selected Commit</text>
@@ -159,8 +159,8 @@
                         this.selected.authors.push(author);
                     }
                 },
-                nextPressed: function() {
-                    this.hideCommit();
+                nextMonthPressed: function() {
+                    this.hideCommitSummary();
                     if (this.selectedMonth == this.monthList[this.monthList.length - 1]) {
                         this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
                         this.yearChanged();
@@ -172,8 +172,8 @@
 
 
                 },
-                prevPressed: function() {
-                    this.hideCommit();
+                prevMonthPressed: function() {
+                    this.hideCommitSummary();
                     if (this.selectedMonth == this.monthList[0]) {
                         this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
                         this.yearChanged(true);
@@ -185,11 +185,11 @@
 
 
                 },
-                hideCommit() {
+                hideCommitSummary() {
                   this.show = false;
                   location.hash = this.selectedYear+'/'+this.selectedMonth;
                 },
-                showSelected: function(commit) {
+                showCommitSummary: function(commit) {
                     this.show = false;
                     this.selected.commit = commit;
                     location.hash = this.selectedYear+'/'+this.selectedMonth+'/'+this.selected.commit.id;
@@ -197,7 +197,7 @@
                 },
                 yearChanged: function (chooseLast) {
                     console.log("data/" + this.selectedYear + "/months.json");
-                    this.hideCommit();
+                    this.hideCommitSummary();
                     this.$http.get("data/" + this.selectedYear + "/months.json").then(function(response) {
                         this.monthList = response.body.sort(function(a, b) {
                             return parseInt(a) - parseInt(b);
@@ -217,7 +217,7 @@
                 },
                 monthChanged: function () {
                     /* getting commits here*/
-                    this.hideCommit();
+                    this.hideCommitSummary();
                     this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
                         this.commits2 = response.body.commits;
                         location.hash = this.selectedYear+'/'+this.selectedMonth;
