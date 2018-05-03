@@ -230,7 +230,6 @@
                 splitUpUrl: function() {
                     const hashString = location.hash.substr(1);
                     const splits = hashString.split("/");
-                    console.log("lll:" + splits.length);
                     if (splits.length < 2) {
                         console.log("no y/m, assume 'now' Need to check if such date exists");
                         this.selectedYear = new Date().getFullYear().toString();
@@ -255,7 +254,7 @@
             filters: {
                 date: function (val) {
                     date = moment.unix(val);
-                    return date.format('MM/DD/YY HH:mm')
+                    return date.format('YYYY-MM-DD HH:mm')
                 },
                 date2: function (val) {
                     date = moment(val);
@@ -273,17 +272,13 @@
                 let self = this;
 
                 self.$http.get('data/years.json').then(function(response) {
-                    console.log(response);
                     self.yearList = response.body.sort(function(a, b) {
                         return a - b;
                     });
-                    console.log('now: ' + self.selectedYear);
-                    console.log('ind: ' + self.yearList.indexOf(self.selectedYear));
                     if (self.yearList.indexOf(self.selectedYear) < 0) {
                         self.selectedYear = self.yearList[0];
                     }
                     self.$http.get("data/" + self.selectedYear + "/months.json").then(function(response) {
-                        console.log(response);
                         self.monthList = response.body.sort(function(a, b) {
                             return parseInt(a) - parseInt(b);
                         });
