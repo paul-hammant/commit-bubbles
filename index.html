@@ -28,20 +28,27 @@
 <body>
     <div id="app">
         <div class="date-select">
-            <button v-if="!(yearList[0]==selectedYear && monthList[0]==selectedMonth)"
-                  @click="prevMonthPressed">< prev</button>
+            <button v-if="showPrev"
+                  @click="prevPressed">< prev</button>
+            <button @click="zoomOut" v-if="zoomType == 'month' || zoomType == 'day'">-</button>
             <select v-model="selectedYear" @change="yearChanged">
                 <option v-for="year in yearList" :value="year">
                     {{ year }}
                 </option>
             </select>
-            <select v-model="selectedMonth" @change="monthChanged">
+            <select v-if="zoomType == 'month' || zoomType == 'day'" v-model="selectedMonth" @change="monthChanged">
                 <option v-for="month in monthList" :value="month">
                     {{month}}
                 </option>
             </select>
-            <button v-if="!(yearList[yearList.length-1]==selectedYear && monthList[monthList.length-1]==selectedMonth)"
-                  @click="nextMonthPressed">next ></button>
+            <select v-if="zoomType == 'day'" v-model="selectedDay" @change="dateSelectChanged">
+                <option v-for="day in daysList" :value="day">
+                    {{day}}
+                </option>
+            </select>
+            <button @click="zoomIn" v-if="zoomType == 'month' || zoomType == 'year'">+</button>
+            <button v-if="showNext"
+                  @click="nextPressed">next ></button>
         </div>
 
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" width="1220"
@@ -71,7 +78,7 @@
                 <circle v-for="commit in commits2" v-if="selected.authors.indexOf(commit.who) > -1"
                         :cx="100 + (moment(commit.when) - from) * 1100 / ((to - from) + 0.00000000000000001)"
                         :cy="c.chartHeight - (commit.test * c.chartHeight/100) + c.topMargin"
-                        :r="commit.all * (c.chartHeight/600)"
+                        :r="Math.log2(commit.all * (c.chartHeight/600))"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
                         :fill="c.colors[authors.indexOf(commit.who)]" fill-opacity="0.5"
                         @click="showCommitSummary(commit)"/>
@@ -115,13 +122,17 @@
             data: {
                 yearList: [],
                 monthList: [],
+                daysList: [],
                 selectedYear: '',
                 selectedMonth: '',
+                selectedDay: '',
                 selected: {},
+                zoomType: 'month',
                 show: false,
                 pageState: {
                     year: '',
-                    month: 0
+                    month: 0,
+                    day: 0,
                 },
                 c: {
                     chartHeight: 680,
@@ -146,6 +157,38 @@
                 },
                 timeSpan: function() {
                     return moment.duration(moment.unix(this.from).diff(moment.unix(this.to))).humanize();
+                },
+                showPrev() {
+                    if (this.zoomType === 'day') {
+                        return !( this.yearList[0]===this.selectedYear &&
+                                  this.monthList[0]===this.selectedMonth &&
+                                  this.daysList[0] === this.selectedDay);
+                    }
+
+                    if (this.zoomType === 'month') {
+                        return !( this.yearList[0]===this.selectedYear &&
+                            this.monthList[0]===this.selectedMonth);
+                    }
+
+                    if (this.zoomType === 'year') {
+                        return !( this.yearList[0]===this.selectedYear);
+                    }
+                },
+                showNext() {
+                    if (this.zoomType === 'day') {
+                        return !(this.daysList[this.daysList.length - 1] === this.selectedDay &&
+                            this.yearList[this.yearList.length - 1] === this.selectedYear &&
+                            this.monthList[this.monthList.length - 1] === this.selectedMonth);
+                    }
+
+                    if (this.zoomType === 'month') {
+                        return !( this.yearList[this.yearList.length - 1] === this.selectedYear &&
+                                  this.monthList[this.monthList.length - 1] === this.selectedMonth);
+                    }
+
+                    if (this.zoomType === 'year') {
+                        return !( this.yearList[this.yearList.length - 1] === this.selectedYear);
+                    }
                 }
             },
             methods: {
@@ -159,45 +202,146 @@
                         this.selected.authors.push(author);
                     }
                 },
-                nextMonthPressed: function() {
+                nextPressed: function() {
                     this.hideCommitSummary();
-                    if (this.selectedMonth == this.monthList[this.monthList.length - 1]) {
+
+                    if (this.zoomType==='day') {
+                        if (this.selectedDay === this.daysList[this.daysList.length-1]) {
+
+                            if (this.selectedMonth === this.monthList[this.monthList.length - 1]) {
+                                this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
+                                this.yearChanged();
+                            } else {
+                                this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) + 1];
+                                this.monthChanged()
+                            }
+                        } else {
+                            this.selectedDay = this.daysList[this.daysList.indexOf(this.selectedDay) + 1];
+                            location.hash = this.selectedYear + '/' + this.selectedMonth + '/' + this.selectedDay;
+                            this.dateSelectChanged()
+                        }
+                    }
+
+                    if (this.zoomType === 'month') {
+                        if (this.selectedMonth === this.monthList[this.monthList.length - 1]) {
+                            this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
+                            this.yearChanged();
+                        } else {
+                            this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) + 1];
+                            location.hash = this.selectedYear + '/' + this.selectedMonth
+                            this.monthChanged()
+                        }
+                    }
+
+                    if (this.zoomType === 'year') {
                         this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) + 1];
+                        location.hash = this.selectedYear;
                         this.yearChanged();
-                    } else {
-                        this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) + 1];
-                        location.hash = this.selectedYear+'/'+this.selectedMonth
-                        this.monthChanged()
                     }
 
 
                 },
-                prevMonthPressed: function() {
+                prevPressed: function() {
                     this.hideCommitSummary();
-                    if (this.selectedMonth == this.monthList[0]) {
-                        this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
-                        this.yearChanged(true);
-                    } else {
-                        this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) - 1];
-                        location.hash = this.selectedYear+'/'+this.selectedMonth
-                        this.monthChanged()
+
+                    if (this.zoomType === 'day') {
+                        if (this.selectedDay === this.daysList[0]) {
+                            if (this.selectedMonth === this.monthList[0]) {
+                                this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
+                                this.yearChanged(true);
+                            } else {
+                                this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) - 1];
+
+                                this.monthChanged()
+                            }
+                        } else {
+                            this.selectedDay = this.daysList[this.daysList.indexOf(this.selectedDay) - 1];
+                            location.hash = this.selectedYear + '/' + this.selectedMonth + '/' + this.selectedDay;
+                            this.dateSelectChanged()
+                        }
                     }
 
+                    if (this.zoomType === 'month') {
+                        if (this.selectedMonth === this.monthList[0]) {
+                            this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
+                            this.yearChanged(true);
+                        } else {
+                            this.selectedMonth = this.monthList[this.monthList.indexOf(this.selectedMonth) - 1];
+                            location.hash = this.selectedYear + '/' + this.selectedMonth;
+                            this.monthChanged()
+                        }
+                    }
 
+                    if (this.zoomType === 'year') {
+                        this.selectedYear = this.yearList[this.yearList.indexOf(this.selectedYear) - 1];
+                        this.yearChanged(true);
+                    }
+
+                },
+                zoomIn() {
+                    if (this.zoomType == 'month') {
+                        this.zoomType = 'day'
+                    }
+                    if (this.zoomType == 'year') {
+                        this.zoomType = 'month'
+                    }
+                    this.dateSelectChanged()
+                },
+                zoomOut() {
+                    if (this.zoomType == 'month') {
+                        this.zoomType = 'year'
+                    }
+                    if (this.zoomType == 'day') {
+                        this.zoomType = 'month'
+                    }
+                    this.dateSelectChanged()
                 },
                 hideCommitSummary() {
                   this.show = false;
-                  location.hash = this.selectedYear+'/'+this.selectedMonth;
+                  if (this.zoomType === 'day') {
+                      location.hash = this.selectedYear + '/' + this.selectedMonth + '/' + this.selectedDay;
+                  }
+                  if (this.zoomType === 'month') {
+                      location.hash = this.selectedYear + '/' + this.selectedMonth;
+                  }
+                  if (this.zoomType === 'year') {
+                      location.hash = this.selectedYear
+                  }
                 },
                 showCommitSummary: function(commit) {
                     this.show = false;
                     this.selected.commit = commit;
-                    location.hash = this.selectedYear+'/'+this.selectedMonth+'/'+this.selected.commit.id;
+                    if (this.zoomType === 'day') {
+                        location.hash = this.selectedYear + '/' + this.selectedMonth + '/' + this.selectedDay + '/' + this.selected.commit.id;
+                    }
+                    if (this.zoomType === 'month') {
+                        location.hash = this.selectedYear + '/' + this.selectedMonth + '/' + this.selected.commit.id;
+                    }
+                    if (this.zoomType === 'year') {
+                        location.hash = this.selectedYear + '/' + this.selected.commit.id;
+                    }
                     this.show = true;
                 },
-                yearChanged: function (chooseLast) {
-                    console.log("data/" + this.selectedYear + "/months.json");
+                monthChanged: function() {
                     this.hideCommitSummary();
+                    var self = this;
+                    self.$http.get("data/" + self.selectedYear + "/" + self.selectedMonth+ "/days.json").then(function(response) {
+                        self.daysList = response.body.sort(function(a, b) {
+                            return parseInt(a) - parseInt(b);
+                        });
+                        if (self.daysList.indexOf(self.selectedDay) < 0) {
+                            self.selectedDay = self.daysList[0];
+                        }
+
+                        this.dateSelectChanged()
+
+                    }, function(response) {
+                        // error callback
+                    })
+                },
+                yearChanged: function (chooseLast) {
+                    this.hideCommitSummary();
+                    var self = this;
                     this.$http.get("data/" + this.selectedYear + "/months.json").then(function(response) {
                         this.monthList = response.body.sort(function(a, b) {
                             return parseInt(a) - parseInt(b);
@@ -207,37 +351,80 @@
                         } else {
                             this.selectedMonth = this.monthList[0];
                         }
-                        this.monthChanged();
-                        location.hash = this.selectedYear+'/'+this.selectedMonth
+
+                        self.$http.get("data/" + self.selectedYear + "/" + self.selectedMonth+ "/days.json").then(function(response) {
+                            self.daysList = response.body.sort(function(a, b) {
+                                return parseInt(a) - parseInt(b);
+                            });
+                            if (self.daysList.indexOf(self.selectedDay) < 0) {
+                                self.selectedDay = self.daysList[0];
+                            }
+
+                            this.dateSelectChanged()
+
+                        }, function(response) {
+                            // error callback
+                        })
+
                     }, function(response) {
 
                         // error callback
                     });
 
                 },
-                monthChanged: function () {
+                dateSelectChanged: function () {
                     /* getting commits here*/
                     this.hideCommitSummary();
-                    this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
-                        this.commits2 = response.body.commits;
-                        location.hash = this.selectedYear+'/'+this.selectedMonth;
-                        this.checkAllAuthors();
-                    }, response => {
-                        console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
-                    });
+                    if (this.zoomType==='day') {
+                        this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/" + this.selectedDay + "/index.json").then(response => {
+                            this.commits2 = response.body.commits;
+                            location.hash = this.selectedYear+'/'+this.selectedMonth + '/' + this.selectedDay;
+                            this.checkAllAuthors();
+                        }, response => {
+                            console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                        });
+                    }
+
+                    if (this.zoomType==='month') {
+                        this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/index.json").then(response => {
+                            this.commits2 = response.body.commits;
+                            location.hash = this.selectedYear+'/'+this.selectedMonth;
+                            this.checkAllAuthors();
+                        }, response => {
+                            console.log("No list of commits document for " + this.selectedYear + "/" + this.selectedMonth);
+                        });
+                    }
+
+                    if (this.zoomType==='year') {
+                        console.log('Selected Year: ' + this.selectedYear);
+                        this.$http.get("data/" + this.selectedYear + "/index.json").then(response => {
+                            this.commits2 = response.body.commits;
+                            location.hash = this.selectedYear;
+                            this.checkAllAuthors();
+                        }, response => {
+                            console.log("No list of commits document for " + this.selectedYear);
+                        });
+                    }
+
 
                 },
                 splitUpUrl: function() {
                     const hashString = location.hash.substr(1);
                     const splits = hashString.split("/");
-                    if (splits.length < 2) {
-                        console.log("no y/m, assume the current year/month");
-                        this.selectedYear = new Date().getFullYear().toString();
-                        this.selectedMonth = new Date().toISOString().substring(5, 7);
-                    } else {
-                        console.log("pull ccyyy/mm from URL");
+                    if (splits.length === 1) {
+                        console.log("Year is here");
+                        this.selectedYear = splits[0]
+                    }
+                    if (splits.length === 2) {
+                        console.log("Year and month are here");
                         this.selectedYear = splits[0];
                         this.selectedMonth = splits[1];
+                    }
+                    if (splits.length === 3) {
+                        console.log("Year, month and day are here");
+                        this.selectedYear = splits[0];
+                        this.selectedMonth = splits[1];
+                        this.selectedDay = splits[2];
                     }
                 },
                 moment: function(date) {
@@ -286,7 +473,20 @@
                             self.selectedMonth = self.monthList[0];
                         }
                         location.hash = this.selectedYear+'/'+this.selectedMonth;
-                        this.monthChanged()
+
+                        self.$http.get("data/" + self.selectedYear + "/" + self.selectedMonth+ "/days.json").then(function(response) {
+                            self.daysList = response.body.sort(function(a, b) {
+                                return parseInt(a) - parseInt(b);
+                            });
+                            if (self.daysList.indexOf(self.selectedDay) < 0) {
+                                self.selectedDay = self.daysList[0];
+                            }
+
+                            this.dateSelectChanged()
+
+                        }, function(response) {
+                            // error callback
+                        })
                     }, function(response) {
                         // error callback
                     })
@@ -298,10 +498,10 @@
             }
         });
 
-        window.addEventListener('hashchange', function () {
-            v.splitUpUrl();
-            v.loadMainDoc();
-        });
+        // window.addEventListener('hashchange', function () {
+        //     v.splitUpUrl();
+        //     v.loadMainDoc();
+        // });
 
     </script>
 </body>
