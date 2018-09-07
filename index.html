@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html
 <html>
 <head>
     <!--
@@ -20,6 +20,7 @@
     <meta content="utf-8" http-equiv="encoding">
     <title>Commit Bubbles</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
@@ -27,7 +28,8 @@
 </head>
 <body>
     <div id="app">
-        <div class="date-select">
+     <router-view></router-view>
+        <!--<div class="date-select">
             <button v-if="showPrev"
                   @click="prevPressed">< prev</button>
             <button @click="zoomOut" v-if="zoomType == 'month' || zoomType == 'day'">-</button>
@@ -113,10 +115,40 @@
             </template>
 
         </svg>
+-->
+    </div> 
+    <script type="text/x-template" id="commit-bubbles">
+      <div>
+         <h1 v-if="$route.params.year">year: {{ $route.params.year }}</h1>
+         <h1 v-if="$route.params.month">month: {{ $route.params.month }}</h1>
+         <h1 v-if="$route.params.day">day: {{ $route.params.day }}</h1>
+         <h1 v-if="$route.params.commit">commit: {{ $route.params.commit }}</h1>
+      </div>     
+    </script>
+<script>
+        var CommitBubbles = Vue.extend({
+          template: "#commit-bubbles"
+        });
 
-    </div>
-    <script>
-        v = new Vue({
+        var router = new VueRouter({
+          routes: [
+            //https://router.vuejs.org/guide/essentials/dynamic-matching.html#matching-priority 
+            { path: '/:year(\\d\\d\\d\\d)', component: CommitBubbles, props:true },
+            { path: '/:year(\\d\\d\\d\\d)/:month(\\d\\d?)', component: CommitBubbles, props:true },
+            { path: '/:year(\\d\\d\\d\\d\)/:month(\\d\\d?)/:day(\\d\\d?)', component: CommitBubbles, props:true },
+            { path: '/:year(\\d\\d\\d\\d)/:commit', component: CommitBubbles, props:true },
+            { path: '/:year(\\d\\d\\d\\d)/:month(\\d\\d?)/:commit', component: CommitBubbles, props:true },
+            { path: '/:year(\\d\\d\\d\\d\)/:month(\\d\\d?)/:day(\\d\\d?)/:commit', component: CommitBubbles, props:true },
+            { path: '/:commit', component: CommitBubbles, props:true }
+          ]
+        })
+
+        
+        new Vue({
+          router
+        }).$mount('#app')
+        
+        /**v = new Vue({
             el: '#app',
 
             data: {
@@ -373,7 +405,7 @@
 
                 },
                 dateSelectChanged: function () {
-                    /* getting commits here*/
+                    
                     this.hideCommitSummary();
                     if (this.zoomType==='day') {
                         this.$http.get("data/" + this.selectedYear + "/" + this.selectedMonth + "/" + this.selectedDay + "/index.json").then(response => {
@@ -502,7 +534,7 @@
         //     v.splitUpUrl();
         //     v.loadMainDoc();
         // });
-
+*/
     </script>
 </body>
 </html>
