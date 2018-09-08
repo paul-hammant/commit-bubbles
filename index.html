@@ -29,7 +29,8 @@
 <body>
     <div id="app">
      <router-view></router-view>
-        <!--<div class="date-select">
+        <!--
+         <div class="date-select">
             <button v-if="showPrev"
                   @click="prevPressed">< prev</button>
             <button @click="zoomOut" v-if="zoomType == 'month' || zoomType == 'day'">-</button>
@@ -123,23 +124,56 @@
          <h1 v-if="$route.params.month">month: {{ $route.params.month }}</h1>
          <h1 v-if="$route.params.day">day: {{ $route.params.day }}</h1>
          <h1 v-if="$route.params.commit">commit: {{ $route.params.commit }}</h1>
+         <h1 >{{ zoomLevel() }}</h1>
+         <button @click="zoomIn()" v-if="!$route.params.commit">+</button>
+         <button @click="zoomOut()" v-if="$route.params.month || $route.params.day">-</button>
+  
       </div>     
     </script>
 <script>
         var CommitBubbles = Vue.extend({
-          template: "#commit-bubbles"
+          template: "#commit-bubbles",
+          
+          methods: {
+            _nav: function(toPathFun){
+              this.$router.push({path: toPathFun(this.$route.path)})
+            },
+            _in:function(currentPath){
+              return currentPath            
+            },
+            _out:function(currentPath){
+              return currentPath.substr(0, currentPath.lastIndexOf('/')) 
+            },
+            zoomIn: function(){return this._nav(this._in)}, 
+            zoomOut: function(){return this._nav(this._out)},
+            zoomLevel: function(){
+              var ps = this.$route.params
+              return ps.day && 'DAY' || ps.month && 'MONTH' || ps.year && 'YEAR' 
+            },
+            zoomCoords: function(){
+              return this.$route.path.replace(/\/d{4}d+/);
+            },
+            changeCoords: function(path){
+              this.$router.push({path:path});
+              this.checkAllAuthors();            
+            },
+            getData: function(){
+              return this.$http.get("data" + this.$route.path + "/index.json").then(
+              response => {
+                this.commits2 = response.body.commits;
+    
+              }, 
+              errResponse => {
+                console.log("No list of commits documents for " + this.selectedYear + "/" + this.selectedMonth);
+              });
+            }
+          }
+
         });
 
         var router = new VueRouter({
           routes: [
-            //https://router.vuejs.org/guide/essentials/dynamic-matching.html#matching-priority 
-            { path: '/:year(\\d\\d\\d\\d)', component: CommitBubbles, props:true },
-            { path: '/:year(\\d\\d\\d\\d)/:month(\\d\\d?)', component: CommitBubbles, props:true },
-            { path: '/:year(\\d\\d\\d\\d\)/:month(\\d\\d?)/:day(\\d\\d?)', component: CommitBubbles, props:true },
-            { path: '/:year(\\d\\d\\d\\d)/:commit', component: CommitBubbles, props:true },
-            { path: '/:year(\\d\\d\\d\\d)/:month(\\d\\d?)/:commit', component: CommitBubbles, props:true },
-            { path: '/:year(\\d\\d\\d\\d\)/:month(\\d\\d?)/:day(\\d\\d?)/:commit', component: CommitBubbles, props:true },
-            { path: '/:commit', component: CommitBubbles, props:true }
+            { path: '/:year(\\d{4})?/:month(\\d\\d?)?/:day(\\d\\d?)?/:commit?', component: CommitBubbles, props:true }
           ]
         })
 
