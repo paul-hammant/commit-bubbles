@@ -18,7 +18,7 @@
     -->
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
-    <title>Commit Bubbles</title>
+    <title id="title">Commit Bubbles</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
@@ -296,6 +296,7 @@
                 var url = this.$route.path.replace(/\d{4}\d+/,'');
                 this.$http.get("data/" + url + "/index.json").then(response => {
                     this.commits = response.body.commits;
+							 document.getElementById("title").textContent = url.substring(1) + " Commit Bubbles"					
                 }, response => {
                     console.log("No list of commits document for " + this.selectedYear);
                 });
