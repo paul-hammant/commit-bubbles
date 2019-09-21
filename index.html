@@ -98,8 +98,8 @@
                 <circle v-for="commit in commits" 
                 v-if="selected.authors.indexOf(commit.who) > -1"
                         :cx="100 + (moment(commit.when) - from) * 1100 / ((to - from) + 0.00000000000000001)"
-                        :cy="chartHeight - (commit.test * chartHeight/100) + topMargin"
-                        :r="Math.log2(commit.all * (chartHeight/600))"
+                        :cy="chartHeight - ((commit.test/commit.all) * chartHeight) + topMargin"
+                        :r="Math.sqrt(commit.all)"
                         :stroke-opacity="(selected.commit === commit) ? 1 : 0"
                         :fill="colors[authors.indexOf(commit.who)]" fill-opacity="0.5"
                         @click="selectCommit(commit.id)"/>
